@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "xdn": "xdn",
+    "xdn:start": "xdn run",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy",
+    "xdn:update": "npm i --save @xdn/core@latest @xdn/next@latest @xdn/cli@latest @xdn/prefetch@latest @xdn/react@latest",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "name": "xdn-next-example",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@xdn/react": "^2.24.1",
+    "next": "9.5.5",
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
+  },
+  "devDependencies": {
+    "@xdn/cli": "^2.24.1",
+    "@xdn/core": "^2.24.1",
+    "@xdn/devtools": "^2.24.1",
+    "@xdn/next": "^2.24.1",
+    "@xdn/prefetch": "^2.24.1"
+  }
+}
