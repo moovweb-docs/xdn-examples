@@ -39,13 +39,13 @@ export default function ProductListingPage({ products }) {
         <GridList cols={3} className={classes.gridList}>
           {products.map((product) => (
             <div key={product.id} className={classes.itemWrapper}>
-              <GridListTile
-                className={classes.gridListItem}
-                style={{ backgroundColor: product.img }}
-              >
-                <Link href={product.href}>
-                  <Prefetch>
-                    <a className={classes.link}>
+              <Link as={product.href} href="/product/[id]" passHref>
+                <Prefetch>
+                  <a className={classes.link}>
+                    <GridListTile
+                      className={classes.gridListItem}
+                      style={{ backgroundColor: product.img }}
+                    >
                       <GridListTileBar
                         title={product.name}
                         actionIcon={
@@ -57,10 +57,10 @@ export default function ProductListingPage({ products }) {
                           </IconButton>
                         }
                       />
-                    </a>
-                  </Prefetch>
-                </Link>
-              </GridListTile>
+                    </GridListTile>
+                  </a>
+                </Prefetch>
+              </Link>
             </div>
           ))}
         </GridList>
@@ -69,13 +69,7 @@ export default function ProductListingPage({ products }) {
   );
 }
 
-export async function getStaticPaths() {
-  // fetch mock paths for categories
-  const paths = getCategories().map(({ id }) => ({ params: { id } }));
-  return { paths, fallback: false };
-}
-
-export function getStaticProps({ params }) {
+export function getServerSideProps({ params }) {
   // fetch mock products for category
   const { products } = getCategory(params.id);
 

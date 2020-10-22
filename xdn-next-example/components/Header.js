@@ -9,7 +9,7 @@ export default function Header() {
       <ul>
         {getCategories().map(({ name, href }) => (
           <li key={name}>
-            <Link href={href}>
+            <Link as={href} href="/category/[id]" passHref>
               <Prefetch>
                 <a>{name}</a>
               </Prefetch>

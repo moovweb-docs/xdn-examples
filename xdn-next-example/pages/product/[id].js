@@ -115,18 +115,7 @@ export default function ProductPage({ product }) {
     </div>
   );
 }
-
-export async function getStaticPaths() {
-  // fetch mock paths for all products
-  const paths = [];
-  getCategories().forEach(({ products }) =>
-    products.forEach(({ id }) => paths.push({ params: { id } }))
-  );
-
-  return { paths, fallback: false };
-}
-
-export function getStaticProps({ params }) {
+export function getServerSideProps({ params }) {
   // fetch mock product by id
   const product = getProductById(params.id);
 
