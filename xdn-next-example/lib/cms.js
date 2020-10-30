@@ -1,12 +1,17 @@
-import data from './data.json';
+import fetch from 'isomorphic-fetch';
+
+const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
 
 /**
  * Gets all categories
  *
  * @return {Array}
  */
-export function getCategories() {
-  return data;
+export async function getCategories() {
+  const ret = { categories: [] }
+  return await fetch(`${apiUrl}/category`)
+    .then(async (res) => ret.categories = await res.json())
+    .catch((e) => ({ error: e.message }));
 }
 
 /**
@@ -15,8 +20,13 @@ export function getCategories() {
  *
  * @return {Object}
  */
-export function getCategory(categoryId) {
-  return data.find(({ id }) => categoryId === id);
+export async function getCategory(categoryName) {
+  const ret = { products: [] };
+  await fetch(`${apiUrl}/category/${categoryName}`)
+    .then(async (res) => ret.products = await res.json())
+    .catch((e) => (ret.error = e.message));
+
+  return ret;
 }
 
 /**
@@ -25,13 +35,11 @@ export function getCategory(categoryId) {
  *
  * @return {Object}
  */
-export function getProductById(productId) {
-  let product;
+export async function getProductById(categoryName, productId) {
+  const ret = { product: {} };
+  await fetch(`${apiUrl}/category/${categoryName}/${productId}`)
+    .then(async (res) => ret.product = await res.json())
+    .catch((e) => (ret.error = e.message));
 
-  getCategories().some(
-    ({ products }) =>
-      (product = products.find(({ id }) => String(productId) === String(id)))
-  );
-
-  return product;
+  return ret;
 }

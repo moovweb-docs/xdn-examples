@@ -13,22 +13,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.56",
-    "@xdn/react": "^2.24.1",
+    "@xdn/react": "^2.26.3",
     "next": "9.5.5",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
   "devDependencies": {
-    "@xdn/cli": "^2.24.1",
-    "@xdn/core": "^2.24.1",
+    "@xdn/cli": "^2.26.3",
+    "@xdn/core": "^2.26.3",
     "@xdn/devtools": "^2.24.1",
-    "@xdn/next": "^2.24.1",
-    "@xdn/prefetch": "^2.24.1",
+    "@xdn/next": "^2.26.3",
+    "@xdn/prefetch": "^2.26.3",
+    "isomorphic-fetch": "^3.0.0",
     "serverless": "^1.83.0",
     "serverless-dotenv-plugin": "^2.4.2",
-    "serverless-offline": "^5.12.1"
+    "serverless-offline": "^5.12.1",
+    "tailwindcss": "^1.9.6"
   }
 }
