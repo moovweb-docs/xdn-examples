@@ -18,7 +18,8 @@ function MyApp({ Component, pageProps }) {
 MyApp.getInitialProps = async (appContext) => {
   const pageProps = await App.getInitialProps(appContext)
   
-  pageProps.categories = await getCategories()
+  const { categories, error } = await getCategories()
+  pageProps.categories = categories
 
   return { pageProps }
 }

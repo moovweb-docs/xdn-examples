@@ -9,9 +9,11 @@ const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
  */
 export async function getCategories() {
   const ret = { categories: [] }
-  return await fetch(`${apiUrl}/category`)
-    .then(async (res) => ret.categories = await res.json())
+  ret.categories = await fetch(`${apiUrl}/category`)
+    .then((res) => res.json())
     .catch((e) => ({ error: e.message }));
+
+  return ret
 }
 
 /**
@@ -22,9 +24,11 @@ export async function getCategories() {
  */
 export async function getCategory(categoryName) {
   const ret = { products: [] };
-  await fetch(`${apiUrl}/category/${categoryName}`)
-    .then(async (res) => ret.products = await res.json())
+  ret.products = await fetch(`${apiUrl}/category/${categoryName}`)
+    .then((res) => res.json())
     .catch((e) => (ret.error = e.message));
+
+  ret.products.forEach(item => item.picture = `https://${process.env.EXAMPLES_API_HOST}${item.picture}`)
 
   return ret;
 }
@@ -37,9 +41,12 @@ export async function getCategory(categoryName) {
  */
 export async function getProductById(categoryName, productId) {
   const ret = { product: {} };
-  await fetch(`${apiUrl}/category/${categoryName}/${productId}`)
-    .then(async (res) => ret.product = await res.json())
+  
+  ret.product = await fetch(`${apiUrl}/category/${categoryName}/${productId}`)
+    .then((res) => res.json())
     .catch((e) => (ret.error = e.message));
+
+  ret.product.picture = `https://${process.env.EXAMPLES_API_HOST}${ret.product.picture}`
 
   return ret;
 }
