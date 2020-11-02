@@ -2,6 +2,10 @@ import fetch from 'isomorphic-fetch';
 
 const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
 
+export function getOptimizedImageUrl(path) {
+  return `https://opt.moovweb.net?quality=50&height=250&img=${encodeURIComponent(apiUrl + path)}`
+}
+
 /**
  * Gets all categories
  *
@@ -28,7 +32,7 @@ export async function getCategory(categoryName) {
     .then((res) => res.json())
     .catch((e) => (ret.error = e.message));
 
-  ret.products.forEach(item => item.picture = `https://${process.env.EXAMPLES_API_HOST}${item.picture}`)
+  ret.products.forEach(item => item.picture = getOptimizedImageUrl(item.picture))
 
   return ret;
 }
@@ -46,7 +50,7 @@ export async function getProductById(categoryName, productId) {
     .then((res) => res.json())
     .catch((e) => (ret.error = e.message));
 
-  ret.product.picture = `https://${process.env.EXAMPLES_API_HOST}${ret.product.picture}`
+  ret.product.picture = getOptimizedImageUrl(ret.product.picture)
 
   return ret;
 }
