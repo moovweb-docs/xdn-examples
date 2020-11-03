@@ -12,7 +12,12 @@ export default function ProductListingPage({ products }) {
               <Prefetch>
                 <a>
                   <div className="relative">
-                    <img src={product.picture} />
+                    <div className="pb-2/3">
+                      <img
+                        className="object-contain h-48 w-full"
+                        src={product.picture}
+                      />
+                    </div>
                     <div className="absolute w-full bottom-0 text-center bg-gray-500 bg-opacity-50">
                       {product.name}
                     </div>

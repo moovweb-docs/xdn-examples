@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
 
 export function getOptimizedImageUrl(path) {
-  return `https://opt.moovweb.net?quality=50&height=250&img=${encodeURIComponent(apiUrl + path)}`
+  return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(apiUrl + path)}`
 }
 
 /**
