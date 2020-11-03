@@ -34,7 +34,6 @@ export default function ProductPage({ product }) {
   );
 }
 export async function getServerSideProps({ params }) {
-  // fetch mock product by id
   const { product, error } = await getProductById(params.name, params.id);
 
   return {

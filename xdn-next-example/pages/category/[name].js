@@ -33,7 +33,6 @@ export default function ProductListingPage({ products }) {
 }
 
 export async function getServerSideProps({ params }) {
-  // fetch mock products for category
   const { products, error } = await getCategory(params.name);
 
   return {

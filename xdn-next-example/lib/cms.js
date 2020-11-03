@@ -3,7 +3,9 @@ import fetch from 'isomorphic-fetch';
 const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
 
 export function getOptimizedImageUrl(path) {
-  return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(apiUrl + path)}`
+  return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
+    apiUrl + path
+  )}`;
 }
 
 /**
@@ -12,12 +14,14 @@ export function getOptimizedImageUrl(path) {
  * @return {Array}
  */
 export async function getCategories() {
-  const ret = { categories: [] }
-  ret.categories = await fetch(`${apiUrl}/category`)
-    .then((res) => res.json())
-    .catch((e) => ({ error: e.message }));
+  const ret = { categories: [] };
 
-  return ret
+  const res = await fetch(`${apiUrl}/category`).catch((e) => ({
+    error: e.message,
+  }));
+  ret.categories = await res.json();
+
+  return ret;
 }
 
 /**
@@ -28,11 +32,15 @@ export async function getCategories() {
  */
 export async function getCategory(categoryName) {
   const ret = { products: [] };
-  ret.products = await fetch(`${apiUrl}/category/${categoryName}`)
-    .then((res) => res.json())
-    .catch((e) => (ret.error = e.message));
 
-  ret.products.forEach(item => item.picture = getOptimizedImageUrl(item.picture))
+  const res = await fetch(`${apiUrl}/category/${categoryName}`).catch(
+    (e) => (ret.error = e.message)
+  );
+
+  ret.products = await res.json();
+  ret.products.forEach(
+    (item) => (item.picture = getOptimizedImageUrl(item.picture))
+  );
 
   return ret;
 }
@@ -45,12 +53,13 @@ export async function getCategory(categoryName) {
  */
 export async function getProductById(categoryName, productId) {
   const ret = { product: {} };
-  
-  ret.product = await fetch(`${apiUrl}/category/${categoryName}/${productId}`)
-    .then((res) => res.json())
-    .catch((e) => (ret.error = e.message));
 
-  ret.product.picture = getOptimizedImageUrl(ret.product.picture)
+  const res = await fetch(
+    `${apiUrl}/category/${categoryName}/${productId}`
+  ).catch((e) => (ret.error = e.message));
+
+  ret.product = await res.json();
+  ret.product.picture = getOptimizedImageUrl(ret.product.picture);
 
   return ret;
 }
