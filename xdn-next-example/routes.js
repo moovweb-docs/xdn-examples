@@ -2,6 +2,7 @@
 // You should commit this file to source control.
 const { Router } = require('@xdn/core/router');
 const { nextRoutes } = require('@xdn/next');
+import getPrerenderRequests from './getPrerenderRequests'
 
 const SSR_CACHE_CONFIG = {
   browser: {
@@ -25,6 +26,7 @@ const API_CACHE_CONFIG = {
 };
 
 module.exports = new Router()
+  .prerender(getPrerenderRequests)
   .get('/category/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/product/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/_next/data/:build/category/:id.json', ({ cache }) => cache(API_CACHE_CONFIG))

@@ -8,6 +8,14 @@ export function getOptimizedImageUrl(path) {
   )}`;
 }
 
+export function getCategoryURLs() {
+  return ['/category/hats', '/category/shoes', '/category/watches']
+}
+
+export function getProductURLs() {
+  return ['/products/shoes/1', '/products/shoes/2']
+}
+
 /**
  * Gets all categories
  *
