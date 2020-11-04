@@ -1,8 +1,6 @@
-// This file was automatically added by xdn deploy.
-// You should commit this file to source control.
-const { Router } = require('@xdn/core/router');
-const { nextRoutes } = require('@xdn/next');
-import getPrerenderRequests from './getPrerenderRequests'
+import { Router } from '@xdn/core/router';
+import { nextRoutes } from '@xdn/next';
+import getPrerenderRequests from './xdn/getPrerenderRequests'
 
 const SSR_CACHE_CONFIG = {
   browser: {
