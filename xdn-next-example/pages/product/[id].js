@@ -1,4 +1,5 @@
 import { getProductById } from '../../lib/cms';
+import { useRouter } from 'next/router';
 
 function Rating({ value }) {
   const yellowStar = (
@@ -30,6 +31,8 @@ function Rating({ value }) {
 }
 
 export default function ProductPage({ product }) {
+  const router = useRouter()
+  
   return (
     <>
       <div className="container">
