@@ -1,5 +1,5 @@
 import { Router } from '@xdn/core/router'
-import { getCategories, getCategory } from './lib/cms'
+import { getCategories, getCategory } from '../lib/cms'
 
 export default async function getPrerenderRequests() {
   const categories = await getCategories()
