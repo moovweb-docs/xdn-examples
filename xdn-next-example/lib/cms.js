@@ -59,11 +59,11 @@ export async function getCategory(categoryName) {
  *
  * @return {Object}
  */
-export async function getProductById(categoryName, productId) {
+export async function getProductById(productId) {
   const ret = { product: {} };
 
   const res = await fetch(
-    `${apiUrl}/category/${categoryName}/${productId}`
+    `${apiUrl}/product/${productId}`
   ).catch((e) => (ret.error = e.message));
 
   ret.product = await res.json();

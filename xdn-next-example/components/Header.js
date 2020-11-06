@@ -3,8 +3,8 @@ import { Prefetch } from '@xdn/react';
 import styles from '../styles/Header.module.css';
 
 export default function Header({ categories }) {
-  if (!categories) return null
-  
+  if (!categories) return null;
+
   return (
     <div className={styles.container}>
       <ul>

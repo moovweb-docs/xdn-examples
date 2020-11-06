@@ -1,12 +1,13 @@
+import { Router } from '@xdn/core/router'
 import { getCategories, getCategory } from './lib/cms'
 
 export default async function getPrerenderRequests() {
   const categories = await getCategories()
-  const requests = categories.map(c => ({ url: c.href }))
+  const requests = categories.map(c => ({ path: c.href }))
 
-  categories.forEach(c => {
+  categories.forEach(async c => {
     const category = await getCategory(c.name)
-    requests.push(...category.products.map(p => ({ url: p.href })))
+    requests.push(...category.products.map(p => ({ path: p.href })))
   })
 
   return requests
