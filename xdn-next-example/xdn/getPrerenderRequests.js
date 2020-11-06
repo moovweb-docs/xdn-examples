@@ -7,7 +7,7 @@ export default async function getPrerenderRequests() {
 
   categories.forEach(async c => {
     const category = await getCategory(c.name)
-    requests.push(...category.products.map(p => ({ path: p.href })))
+    requests.push(...category.items.map(p => ({ path: p.href })))
   })
 
   return requests
