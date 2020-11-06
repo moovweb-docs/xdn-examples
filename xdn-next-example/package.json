@@ -3,8 +3,7 @@
     "xdn": "xdn",
     "xdn:start": "xdn run",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
-    "xdn:update": "npm i --save @xdn/core@latest @xdn/next@latest @xdn/cli@latest @xdn/prefetch@latest @xdn/react@latest",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -13,17 +12,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@xdn/react": "^2.27.0",
+    "@xdn/react": "^2.28.0",
     "next": "9.5.5",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
   "devDependencies": {
-    "@xdn/cli": "^2.27.0",
-    "@xdn/core": "^2.27.0",
-    "@xdn/devtools": "^2.27.0",
-    "@xdn/next": "^2.27.0",
-    "@xdn/prefetch": "^2.27.0",
+    "@xdn/cli": "^2.28.0",
+    "@xdn/core": "^2.28.0",
+    "@xdn/devtools": "^2.28.0",
+    "@xdn/next": "^2.28.0",
+    "@xdn/prefetch": "^2.28.0",
     "isomorphic-fetch": "^3.0.0",
     "serverless": "^1.83.0",
     "serverless-dotenv-plugin": "^2.4.2",
