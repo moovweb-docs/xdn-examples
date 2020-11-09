@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const apiUrl = `https://${process.env.EXAMPLES_API_HOST}`;
+const apiUrl = `https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io`;
 
 export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
