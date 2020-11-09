@@ -1,0 +1,34 @@
+{
+  "scripts": {
+    "xdn": "xdn",
+    "xdn:start": "xdn run",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy",
+    "dev": "sapper dev",
+    "build": "sapper build",
+    "export": "sapper export",
+    "start": "node __sapper__/build"
+  },
+  "name": "TODO",
+  "description": "TODO",
+  "version": "0.0.1",
+  "dependencies": {
+    "compression": "^1.7.1",
+    "polka": "next",
+    "sirv": "^1.0.0"
+  },
+  "devDependencies": {
+    "@xdn/cli": "^2.28.0",
+    "@xdn/core": "^2.28.0",
+    "@xdn/devtools": "^2.28.0",
+    "@xdn/prefetch": "^2.28.0",
+    "@xdn/sapper": "^2.28.0",
+    "@xdn/svelte": "^2.28.0",
+    "file-loader": "^6.0.0",
+    "sapper": "^0.28.0",
+    "svelte": "^3.17.3",
+    "svelte-loader": "^2.9.0",
+    "webpack": "^4.7.0",
+    "webpack-modules": "^1.0.0"
+  }
+}
