@@ -1,6 +1,6 @@
 import { Router } from '@xdn/core/router';
 import { nextRoutes } from '@xdn/next';
-import getPrerenderRequests from './xdn/getPrerenderRequests';
+// import getPrerenderRequests from './xdn/getPrerenderRequests';
 
 const SSR_CACHE_CONFIG = {
   browser: {
@@ -8,7 +8,7 @@ const SSR_CACHE_CONFIG = {
   },
   edge: {
     maxAgeSeconds: 60 * 60 * 24,
-    staleWhileRevalidateSeconds: 60 * 60,
+    staleWhileRevalidateSeconds: 60 * 60 * 24,
   },
 };
 
@@ -19,15 +19,15 @@ const API_CACHE_CONFIG = {
   },
   edge: {
     maxAgeSeconds: 60 * 60 * 24,
-    staleWhileRevalidateSeconds: 60 * 60,
+    staleWhileRevalidateSeconds: 60 * 60 * 24,
   },
 };
 
 export default new Router()
-  .prerender(getPrerenderRequests)
-  .get('/category/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
+  // .prerender(getPrerenderRequests)
+  .get('/category/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/product/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
-  .get('/_next/data/:build/category/:id.json', ({ cache }) =>
+  .get('/_next/data/:build/category/:name.json', ({ cache }) =>
     cache(API_CACHE_CONFIG)
   )
   .get('/_next/data/:build/product/:id.json', ({ cache }) =>
