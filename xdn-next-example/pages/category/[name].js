@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Prefetch } from '@xdn/react';
 import { getCategory } from '../../lib/cms';
+import Rating from '../../components/Rating';
 
 export default function ProductListingPage({ products }) {
   const router = useRouter()
@@ -25,8 +26,14 @@ export default function ProductListingPage({ products }) {
                         className="pb-2/3 bg-contain bg-center bg-no-repeat h-48"
                         style={{ backgroundImage: `url(${product.picture})` }}
                       ></div>
-                      <div className="w-full text-center bg-gray-500 bg-opacity-50 lowercase">
+                      <div className="w-full text-left lowercase font-bold">
                         {product.name}
+                      </div>
+                      <div className="w-full text-left">
+                        <Rating value={product.rating} />
+                      </div>
+                      <div className="w-full text-left">
+                        ${product.price}
                       </div>
                     </div>
                   </a>
