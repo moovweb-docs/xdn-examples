@@ -19,10 +19,6 @@
   list-style-type: none;
 }
 
-.container li.active {
+.container li.active, .container li:hover {
   border-bottom: 3px solid #ff0000
-}
-
-.container li:hover {
-  background-color: lightgray;
 }
