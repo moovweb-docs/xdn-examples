@@ -1,6 +1,6 @@
 import { Router } from '@xdn/core/router';
 import { nextRoutes } from '@xdn/next';
-// import getPrerenderRequests from './xdn/getPrerenderRequests';
+import getPrerenderRequests from './xdn/getPrerenderRequests';
 
 const SSR_CACHE_CONFIG = {
   browser: {
@@ -24,7 +24,8 @@ const API_CACHE_CONFIG = {
 };
 
 export default new Router()
-  // .prerender(getPrerenderRequests)
+  /* @ts-ignore */
+  .prerender(getPrerenderRequests)
   .get('/category/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/product/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/_next/data/:build/category/:name.json', ({ cache }) =>
