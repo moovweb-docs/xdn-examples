@@ -10,8 +10,8 @@ export default function ProductListingPage({ products }) {
   return (
     <>
       <div className="container">
-        <a onClick={() => router.push('/')}>
-          <i className="arrow arrow-left"></i>back home
+        <a onClick={() => router.back()}>
+          <i className="arrow arrow-left"></i>back
         </a>
       </div>
       <div className="container center">
