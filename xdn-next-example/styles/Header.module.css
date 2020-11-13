@@ -17,6 +17,7 @@
 .container li {
   flex: 0 1 auto;
   list-style-type: none;
+  border-bottom: 3px solid transparent
 }
 
 .container li.active, .container li:hover {
