@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     router.events.on('routeChangeStart', () => setLoading(true));
@@ -16,10 +16,8 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      { loading && <LoadingIndicator /> }
-      <header className="md:flex bg-white rounded-lg p-2 justify-center">
-        <Header />
-      </header>
+      {loading && <LoadingIndicator />}
+      <Header />
       <Component {...pageProps} />
     </>
   );

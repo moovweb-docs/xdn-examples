@@ -22,3 +22,7 @@
 .container li.active, .container li:hover {
   border-bottom: 3px solid #ff0000
 }
+
+.logoContainer {
+  width: 200px
+}
