@@ -27,7 +27,7 @@ export default function ProductPage({ product }) {
   );
 }
 export async function getServerSideProps({ params }) {
-  const { product, error } = await getProductById(params.id);
+  const { product, error } = await getProductById(params.name);
 
   return {
     props: { product },

@@ -16,9 +16,19 @@ export default async function getPrerenderRequests() {
 
   if (existsSync(buildIdPath)) {
     const buildId = readFileSync(buildIdPath, 'utf8');
-    const apiPaths = requests.map((req) => ({
-      path: `/_next/data/${buildId}/${req.path.replace(/^\/|\/$/, '')}.json`,
-    }));
+    const apiPaths = requests
+      .map((req) => {
+        let path = req.path.replace(/^\/|\/$/, '');
+        const [, name] = path.split('/'); // value of the `name` query param
+
+        path = `/_next/data/${buildId}/${path}.json`;
+
+        return [
+          { path, },
+          { path: `${path}?name=${name}`, },
+        ];
+      })
+      .flat();
     requests.push(...apiPaths);
   }
 
