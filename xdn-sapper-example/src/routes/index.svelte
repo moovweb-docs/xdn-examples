@@ -1,44 +1,47 @@
-<script>
-	import successkid from 'images/successkid.jpg';
-</script>
-
 <style lang="postcss">
-	h1, figure, p {
-		@apply text-center my-0 mx-auto;
-	}
+  h1,
+  p {
+    @apply text-center my-0 mx-auto;
+  }
 
-	h1 {
-		@apply text-3xl uppercase font-bold m-0 mb-4 text-orange-500 font-sans;
-	}
-	
-	figure {
-		@apply m-0 mb-4;
-	}
-	
-	img {
-		@apply w-full max-w-5xl m-0 mb-4;
-	}
-	
-	p {
-		@apply my-0 mx-auto;
-	}
+  h1 {
+    @apply text-3xl uppercase font-bold m-0 mb-4 text-orange-500 font-sans;
+  }
 
-	@screen md {
-		h1 {
-			@apply text-5xl;
-		}
-	}
+  p {
+    @apply my-0 mx-auto;
+  }
+
+  @screen md {
+    h1 {
+      @apply text-4xl;
+    }
+  }
+
+  .main {
+    padding: 5rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .description {
+    line-height: 1.5;
+    font-size: 1.5rem;
+  }
 </style>
 
 <svelte:head>
-	<title>Sapper project template</title>
+  <title>XDN Sapper Example</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<main class="main">
+  <h1>Welcome to Sapper!</h1>
 
-<figure>
-	<img alt="Success Kid" src="{successkid}">
-	<figcaption>Have fun with Sapper!</figcaption>
-</figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+  <p class="description">
+    This is an example Sapper app powered by Moovweb XDN. Click a category above
+    to get started.
+  </p>
+</main>

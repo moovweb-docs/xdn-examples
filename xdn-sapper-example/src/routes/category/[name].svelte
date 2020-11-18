@@ -1,7 +1,7 @@
 <script context="module">
   import { getCategory } from '../../../lib/cms';
 
-  export async function preload({ params, query }) {
+  export async function preload({ params }) {
     const { products } = await getCategory(params.name);
 
     return { products };

@@ -1,68 +1,75 @@
-<!-- <script context="module">
-  import { getCategories } from '../../lib/cms'
+<script>
+  import { onMount } from 'svelte';
+  import { Prefetch } from '@xdn/svelte';
+  import { getCategories, getCategory } from '../../lib/cms';
 
-  export async function preload({ params, query }) {
-    const { categories } = await getCategories()
+  export let categories = [];
+  export let segment;
 
-    console.log(categories)
-    return { categories }
-  }
+  onMount(async () => {
+    const data = await getCategories();
+    categories = data.categories;
+  });
+
+  console.log('segment', segment)
 </script>
 
-<script>
-	export let categories;
-</script> -->
-
 <style>
-	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
-		font-weight: 300;
-		padding: 0 1em;
-	}
+  nav {
+    border-bottom: 1px solid rgba(255, 62, 0, 0.1);
+    font-weight: 300;
+    padding: 0 1em;
+  }
 
-	ul {
-		margin: 0;
-		padding: 0;
-	}
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 
-	/* clearfix */
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+  /* clearfix */
+  ul::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
 
-	li {
-		display: block;
-		float: left;
-	}
+  li {
+    display: block;
+    float: left;
+  }
 
-	[aria-current] {
-		position: relative;
-		display: inline-block;
-	}
+  a {
+    text-decoration: none;
+    padding: 1em 0.5em;
+    display: block;
+  }
 
-	[aria-current]::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(255,62,0);
-		display: block;
-		bottom: -1px;
-	}
-
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
+  .logoContainer {
+    width: 200px;
+  }
 </style>
 
 <nav>
-	<ul>
-    <!-- {#each categories as category }
-      <li>{category.name}</li>
-    {/each} -->
-	</ul>
+  <header class="bg-white rounded-lg p-2 justify-center">
+    <div class="container md:flex logoContainer">
+      <Prefetch url="/" immediately>
+        <a href="/">
+          <img src="/moovweb.svg" alt="Moovweb Logo" />
+          <div class="text-center text-gray-700">Sapper Example</div>
+        </a>
+      </Prefetch>
+    </div>
+    <div class="md:flex">
+      <ul>
+        {#each categories as category, i}
+          <li>
+            <Prefetch url={category.href} immediately>
+              <a href={category.href}>{category.categoryName}</a>
+            </Prefetch>
+          </li>
+        {/each}
+      </ul>
+    </div>
+  </header>
+  <!-- <div class="container">{displayBackButton && <BackButton />}</div> -->
 </nav>
