@@ -1,17 +1,14 @@
 <script>
   import { onMount } from 'svelte';
   import { Prefetch } from '@xdn/svelte';
-  import { getCategories, getCategory } from '../../lib/cms';
+  import { getCategories } from '../../lib/cms';
 
   export let categories = [];
-  export let segment;
 
   onMount(async () => {
     const data = await getCategories();
     categories = data.categories;
   });
-
-  console.log('segment', segment)
 </script>
 
 <style>

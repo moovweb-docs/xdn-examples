@@ -11,7 +11,15 @@ self.addEventListener('install', event => {
 	event.waitUntil(
 		caches
 			.open(ASSETS)
-			.then(cache => cache.addAll(to_cache))
+      .then(cache => //cache.addAll(to_cache))
+      Promise.all(
+        to_cache.map((path) =>
+          cache
+            .add(path)
+            .catch((err) => console.log(`error for ${path}`, err))
+        )
+      )
+      )
 			.then(() => {
 				self.skipWaiting();
 			})

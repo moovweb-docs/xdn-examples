@@ -7,8 +7,8 @@ import svelte from 'rollup-plugin-svelte';
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
-import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
+import json from '@rollup/plugin-json';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -78,6 +78,7 @@ export default {
 		input: config.server.input(),
 		output: config.server.output(),
 		plugins: [
+      json(),
 			replace({
 				'process.browser': false,
 				'process.env.NODE_ENV': JSON.stringify(mode)
@@ -98,7 +99,7 @@ export default {
 			}),
 			commonjs()
 		],
-		external: Object.keys(pkg.dependencies).concat(require('module').builtinModules),
+		external: require('module').builtinModules,
 
 		preserveEntrySignatures: 'strict',
 		onwarn,

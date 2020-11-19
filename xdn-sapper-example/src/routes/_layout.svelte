@@ -1,3 +1,9 @@
+<script context="module">
+  export async function prerender() {
+    console.log('prerender')
+  }
+</script>
+
 <script>
 	import Nav from '../components/Nav.svelte';
 	import GlobalStyle from "../components/GlobalStyle.svelte";
