@@ -4,12 +4,10 @@ import styles from '../styles/Header.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getCategories } from '../lib/cms';
-import BackButton from './BackButton';
 
 export default function Header() {
   const [categories, setCategories] = useState();
   const [activeTab, setActiveTab] = useState();
-  const [displayBackButton, setDisplayBackButton] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,8 +21,6 @@ export default function Header() {
 
   useEffect(() => {
     router.events.on('routeChangeComplete', (url) => {
-      setDisplayBackButton(url !== '/');
-
       if (categories) {
         setActiveTab(categories.findIndex(({ href }) => href === url));
       }
@@ -61,7 +57,6 @@ export default function Header() {
           </ul>
         </div>
       </header>
-      <div className="container">{displayBackButton && <BackButton />}</div>
     </>
   );
 }
