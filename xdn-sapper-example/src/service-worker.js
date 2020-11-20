@@ -1,4 +1,9 @@
 import { timestamp, files, shell } from '@sapper/service-worker';
+import { precacheAndRoute } from 'workbox-precaching'
+import { Prefetcher } from '@xdn/prefetch/sw'
+
+precacheAndRoute([])
+new Prefetcher().route()
 
 const ASSETS = `cache${timestamp}`;
 

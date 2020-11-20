@@ -1,9 +1,13 @@
 <script>
   import { onMount } from 'svelte';
+  import { stores } from '@sapper/app';
   import { Prefetch } from '@xdn/svelte';
   import { getCategories } from '../../lib/cms';
 
   export let categories = [];
+  export let segment;
+
+  const { page } = stores();
 
   onMount(async () => {
     const data = await getCategories();
@@ -11,23 +15,11 @@
   });
 </script>
 
-<style>
+<style lang="postcss">
   nav {
     border-bottom: 1px solid rgba(255, 62, 0, 0.1);
     font-weight: 300;
     padding: 0 1em;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* clearfix */
-  ul::after {
-    content: '';
-    display: block;
-    clear: both;
   }
 
   li {
@@ -37,8 +29,42 @@
 
   a {
     text-decoration: none;
-    padding: 1em 0.5em;
     display: block;
+    padding: 0.5em;
+  }
+
+  [aria-current] {
+    position: relative;
+    display: inline-block;
+  }
+
+  [aria-current]::after {
+    position: absolute;
+    content: '';
+    width: calc(100% - 1em);
+    height: 2px;
+    background-color: rgb(255, 62, 0);
+    display: block;
+    bottom: -1px;
+  }
+
+  .flex-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-container ul {
+    width: 50%;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  .flex-container li {
+    flex: 0 1 auto;
+    list-style-type: none;
   }
 
   .logoContainer {
@@ -48,7 +74,7 @@
 
 <nav>
   <header class="bg-white rounded-lg p-2 justify-center">
-    <div class="container md:flex logoContainer">
+    <div class="container mx-auto logoContainer">
       <Prefetch url="/" immediately>
         <a href="/">
           <img src="/moovweb.svg" alt="Moovweb Logo" />
@@ -56,12 +82,14 @@
         </a>
       </Prefetch>
     </div>
-    <div class="md:flex">
+    <div class="flex-container mx-auto">
       <ul>
         {#each categories as category, i}
           <li>
             <Prefetch url={category.href} immediately>
-              <a href={category.href}>{category.categoryName}</a>
+              <a
+                aria-current={$page.path === category.href ? 'page' : undefined}
+                href={category.href}>{category.categoryName}</a>
             </Prefetch>
           </li>
         {/each}
