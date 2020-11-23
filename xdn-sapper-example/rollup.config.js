@@ -72,7 +72,6 @@ export default {
             ],
           ],
         }),
-
       !dev &&
         terser({
           module: true,
@@ -122,6 +121,9 @@ export default {
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.XDN_PREFETCH_CACHE_NAME': '"prefetch"',
+        'process.env.BACKEND_REQUESTS_RESPONSE_HEADER_NAME': '"x-xdn-upstream-requests"',
+        'process.env.XDN_PREFETCH_HEADER_VALUE': '"1"'
       }),
       commonjs(),
       !dev && terser(),

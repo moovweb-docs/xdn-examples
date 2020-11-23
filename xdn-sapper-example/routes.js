@@ -19,7 +19,8 @@ const cacheHandler = ({ removeUpstreamResponseHeader, cache }) => {
 }
 
 module.exports = new Router()
-  .prerender(getPrerenderRequests)
+  // .prerender(getPrerenderRequests)
+  .match('/categpry', cacheHandler)
   .match('/category/:name', cacheHandler)
   .match('/product/:name', cacheHandler)
   .use(sapperRoutes) // automatically adds routes for all files under /src/routes

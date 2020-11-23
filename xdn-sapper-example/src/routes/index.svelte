@@ -38,8 +38,6 @@
 </svelte:head>
 
 <main class="main">
-  <h1>Welcome to Sapper!</h1>
-
   <p class="description">
     This is an example Sapper app powered by Moovweb XDN. Click a category above
     to get started.
