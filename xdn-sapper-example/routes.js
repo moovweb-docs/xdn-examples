@@ -1,8 +1,8 @@
 // This file was automatically added by xdn deploy.
 // You should commit this file to source control.
-const { Router } = require('@xdn/core/router')
-const { sapperRoutes } = require('@xdn/sapper')
-const getPrerenderRequests = require('./xdn/getPrerenderRequests')
+import { Router } from '@xdn/core/router'
+import { sapperRoutes } from '@xdn/sapper'
+import getPrerenderRequests from './xdn/getPrerenderRequests'
 
 const cacheHandler = ({ removeUpstreamResponseHeader, cache }) => {
   removeUpstreamResponseHeader('cache-control')
@@ -18,9 +18,9 @@ const cacheHandler = ({ removeUpstreamResponseHeader, cache }) => {
   })
 }
 
-module.exports = new Router()
-  // .prerender(getPrerenderRequests)
-  .match('/categpry', cacheHandler)
+export default new Router()
+  .prerender(getPrerenderRequests)
+  .match('/', cacheHandler)
   .match('/category/:name', cacheHandler)
   .match('/product/:name', cacheHandler)
   .use(sapperRoutes) // automatically adds routes for all files under /src/routes
