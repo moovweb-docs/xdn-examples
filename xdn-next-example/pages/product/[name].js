@@ -1,9 +1,13 @@
-import { getProductById } from '../../lib/cms';
+import { getCategory, getProductById } from '../../lib/cms';
 import { useRouter } from 'next/router';
 import Rating from '../../components/Rating';
 
 export default function ProductPage({ product }) {
   const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="container center flex flex-row">
@@ -26,10 +30,27 @@ export default function ProductPage({ product }) {
     </div>
   );
 }
-export async function getServerSideProps({ params }) {
+
+export async function getStaticPaths() {
+  const { products } = await getCategory('shoes')
+
+  return {
+    paths: products.map((p, i) => ({ params: { name: `shoes-${i+1}` }})),
+    fallback: true
+  }
+}
+
+export async function getStaticProps({ params }) {
+  await sleep(1000)
   const { product, error } = await getProductById(params.name);
 
   return {
     props: { product },
   };
+}
+
+function sleep(millis) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, millis)
+  })
 }

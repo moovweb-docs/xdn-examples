@@ -32,5 +32,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+.yalc
+yalc.lock
+
 # XDN generated build directory
 .xdn
+

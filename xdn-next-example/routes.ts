@@ -25,7 +25,7 @@ const API_CACHE_CONFIG = {
 
 export default new Router()
   /* @ts-ignore */
-  .prerender(getPrerenderRequests)
+  // .prerender(getPrerenderRequests)
   .get('/category/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/product/:id', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .get('/_next/data/:build/category/:name.json', ({ cache }) =>
