@@ -7,7 +7,7 @@ const SSR_CACHE_CONFIG = {
     maxAgeSeconds: 0,
   },
   edge: {
-    maxAgeSeconds: 60 * 60 * 24,
+    maxAgeSeconds: 60 * 60 * 24 * 365 * 10,
     staleWhileRevalidateSeconds: 60 * 60 * 24,
   },
 };
@@ -15,10 +15,10 @@ const SSR_CACHE_CONFIG = {
 const API_CACHE_CONFIG = {
   browser: {
     maxAgeSeconds: 0,
-    serviceWorkerSeconds: 60 * 60 * 24,
+    serviceWorkerSeconds: 60 * 60 * 24 * 365,
   },
   edge: {
-    maxAgeSeconds: 60 * 60 * 24,
+    maxAgeSeconds: 60 * 60 * 24 * 365 * 10,
     staleWhileRevalidateSeconds: 60 * 60 * 24,
   },
 };
