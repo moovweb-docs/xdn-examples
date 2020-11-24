@@ -7,12 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for XDN deploy token secret
-        if: env.xdn_deploy_token == ''
+        # do I need a different deploy token for each site?
+        if: env.xdn_next_deploy_token == ''
         run: |
-          echo You must define the "xdn_deploy_token" secret in GitHub project settings
+          echo You must define the "xdn_next_deploy_token" secret in GitHub project settings
           exit 1
         env:
-          xdn_deploy_token: ${{secrets.xdn_deploy_token}}
+          xdn_deploy_token: ${{secrets.xdn_next_deploy_token}}
       - name: Extract branch name
         shell: bash
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')" >> $GITHUB_ENV
