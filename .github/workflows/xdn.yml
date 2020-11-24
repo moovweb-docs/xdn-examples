@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for XDN deploy token secret
+        run: |
+          echo -e "$(env|sort)\n"
+        shell: bash
         # do I need a different deploy token for each site?
         # if: env.XDN_NEXT_DEPLOY_TOKEN == ''
         # run: |
