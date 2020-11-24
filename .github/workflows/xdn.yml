@@ -8,10 +8,10 @@ jobs:
     steps:
       - name: Check for XDN deploy token secret
         # do I need a different deploy token for each site?
-        if: env.XDN_NEXT_DEPLOY_TOKEN == ''
-        run: |
-          echo You must define the "xdn_next_deploy_token" secret in GitHub project settings
-          exit 1
+        # if: env.XDN_NEXT_DEPLOY_TOKEN == ''
+        # run: |
+        #   echo You must define the "xdn_next_deploy_token" secret in GitHub project settings
+        #   exit 1
         env:
           xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
       - name: Extract branch name
