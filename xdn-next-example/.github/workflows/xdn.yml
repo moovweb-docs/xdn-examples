@@ -1,14 +1,9 @@
 name: Deploy branch to XDN
 
-on:
-  push:
-  release:
-    types: [published]
+on: push
 
 jobs:
   deploy-to-xdn:
-    # cancels the deployment for the automatic merge push created when tagging a release
-    if: contains(github.ref, 'refs/tags') == false || github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Check for XDN deploy token secret
