@@ -32,7 +32,11 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - run: npm ci
-      - name: Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
+      - name: Deploy Next.js example to XDN
+        run: cd xdn-next-example && npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
           xdn_deploy_token: ${{secrets.xdn_deploy_token}}
+      # - name: Deploy Sapper example to XDN
+      #   run: cd xdn-sapper-example && npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
+      #   env:
+      #     xdn_deploy_token: ${{secrets.xdn_deploy_token}}
