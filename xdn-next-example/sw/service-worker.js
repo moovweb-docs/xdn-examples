@@ -10,7 +10,8 @@ precacheAndRoute(self.__WB_MANIFEST || []);
 new Prefetcher({
   plugins: [
     new DeepFetchPlugin([
-      // deep fetches the "category" API call to get PLP images:
+      // query the PLP API response for images to prefetch
+      // prefetch logic is handled in _app.js
       {
         jsonQuery: 'pageProps.products.picture',
         maxMatches: 10,

@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import LoadingIndicator from '../components/LoadingIndicator';
+import { prefetch } from '@xdn/prefetch/window/prefetch'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -12,6 +13,16 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     router.events.on('routeChangeStart', () => setLoading(true));
     router.events.on('routeChangeComplete', () => setLoading(false));
+
+    // register a listener for SW messages to prefetch images from the PLP API responses
+    const { serviceWorker } = navigator
+    if (serviceWorker) {
+      serviceWorker.addEventListener('message', event => {
+        if (event.data.action === 'prefetch') {
+          prefetch(event.data.url, event.data.as, event.data.options)
+        }
+      })
+    }
   }, []);
 
   return (
