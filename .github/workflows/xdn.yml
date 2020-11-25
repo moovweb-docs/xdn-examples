@@ -3,20 +3,20 @@ name: Deploy branch to XDN
 on: push
 
 jobs:
-  deploy-to-xdn:
+  deploy-next-example:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./xdn-next-example
+      xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
     steps:
-      - name: Check for XDN deploy token secret
-        run: |
-          echo -e "$(env|sort)\n"
-        shell: bash
-        # do I need a different deploy token for each site?
-        # if: env.XDN_NEXT_DEPLOY_TOKEN == ''
-        # run: |
-        #   echo You must define the "xdn_next_deploy_token" secret in GitHub project settings
-        #   exit 1
-        env:
-          xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
+      # - name: Check for XDN deploy token secret
+      #   # do I need a different deploy token for each site?
+      #   # if: env.XDN_NEXT_DEPLOY_TOKEN == ''
+      #   # run: |
+      #   #   echo You must define the "xdn_next_deploy_token" secret in GitHub project settings
+      #   #   exit 1
+      #   env:
+      #     xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
       - name: Extract branch name
         shell: bash
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')" >> $GITHUB_ENV
@@ -35,12 +35,12 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - run: npm ci
+        working-directory: ${{env.working-directory}}
+      - name: Install modules
+        run: npm ci
+        working-directory: ${{env.working-directory}}
       - name: Deploy Next.js example to XDN
-        run: cd xdn-next-example && npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
+        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
           xdn_deploy_token: ${{secrets.xdn_deploy_token}}
-      # - name: Deploy Sapper example to XDN
-      #   run: cd xdn-sapper-example && npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
-      #   env:
-      #     xdn_deploy_token: ${{secrets.xdn_deploy_token}}
+        working-directory: ${{env.working-directory}}
