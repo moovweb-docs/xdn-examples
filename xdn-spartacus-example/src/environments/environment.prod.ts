@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  occBaseUrl: 'https://moovweb-demos-spartacus-demo-default.moovweb-edge.io'
+  occBaseUrl: 'https://moovweb-docs-xdn-spartacus-example-default.moovweb-edge.io'
 };

@@ -3,7 +3,7 @@
     "xdn:start": "npx xdn run",
     "xdn:start:prod": "npx xdn run --production",
     "xdn:build": "npx xdn build",
-    "xdn:deploy": "npx xdn deploy --team=moovweb-demos --skip-build",
+    "xdn:deploy": "npx xdn deploy --team=moovweb-docs --skip-build",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -17,7 +17,7 @@
     "build:pwa:web": "rimraf ./dist/xdn-spartacus/service-worker.js && webpack --config ./src/sw/webpack.prod.config.js --progress --colors && node ./src/sw/workbox-build-inject.js",
     "postbuild:ssr": "npm run build:pwa:web"
   },
-  "name": "spartacus-demo",
+  "name": "xdn-spartacus-example",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
