@@ -29,9 +29,9 @@ Read more information about XDN [here](https://developer.moovweb.com/guides/star
 
 ## Links
 
-Project: https://moovweb.app/moovweb-demos/aws-rds
+Project: https://moovweb.app/moovweb-docs/xdn-aws-store-example
 
-Preview: https://moovweb-demos-aws-rds-default.moovweb-edge.io
+Preview: https://moovweb-docs-xdn-aws-store-example-default.moovweb-edge.io
 
 Carts AWS service proxied on XDN: https://github.com/moovweb-demos/aws-rds-carts-service/
 
