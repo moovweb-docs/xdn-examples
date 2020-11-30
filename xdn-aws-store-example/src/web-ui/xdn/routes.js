@@ -28,7 +28,7 @@ router.get('/products-service/:path*', ({ proxy, cache }) => {
   proxy('services-proxy', { path: '/products-service/:path*' }); // external proxy
 });
 router.match('/recommendations-service/:path*', ({ proxy }) => {
-  proxy('recommendations-service', { path: '/:path*' });
+  proxy('services-proxy', { path: '/recommendations-service/:path*' }); // external proxy
 });
 router.match('/carts-service/:path*', ({ proxy }) => {
   proxy('carts-service', { path: '/:path*' });
