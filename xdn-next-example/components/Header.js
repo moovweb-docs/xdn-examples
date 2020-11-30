@@ -4,12 +4,10 @@ import styles from '../styles/Header.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getCategories } from '../lib/cms';
-import BackButton from './BackButton';
 
 export default function Header() {
   const [categories, setCategories] = useState();
   const [activeTab, setActiveTab] = useState();
-  const [displayBackButton, setDisplayBackButton] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,8 +21,6 @@ export default function Header() {
 
   useEffect(() => {
     router.events.on('routeChangeComplete', (url) => {
-      setDisplayBackButton(url !== '/');
-
       if (categories) {
         setActiveTab(categories.findIndex(({ href }) => href === url));
       }
@@ -46,22 +42,30 @@ export default function Header() {
         </div>
         <div className={`md:flex ${styles.container}`}>
           <ul>
-            {categories.map(({ category, categoryName, href }, i) => (
-              <li
-                key={categoryName}
-                className={activeTab === i ? styles.active : null}
-              >
-                <Link href={href} passHref>
-                  <Prefetch>
-                    <a>{categoryName}</a>
-                  </Prefetch>
-                </Link>
-              </li>
-            ))}
+            {categories.map(({ category, categoryName, href }, i) => {
+              const prefetchProps = {};
+
+              if (process.browser) {
+                // prefetch URL needs to include the `name` param otherwise it will be a browser miss
+                prefetchProps.url = `/_next/data/${__NEXT_DATA__.buildId}${href}.json?name=${href.split('/').reverse()[0]}`;
+              }
+
+              return (
+                <li
+                  key={categoryName}
+                  className={activeTab === i ? styles.active : null}
+                >
+                  <Link href={href} passHref>
+                    <Prefetch {...prefetchProps}>
+                      <a>{categoryName}</a>
+                    </Prefetch>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </header>
-      <div className="container">{displayBackButton && <BackButton />}</div>
     </>
   );
 }
