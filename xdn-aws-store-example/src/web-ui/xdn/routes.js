@@ -25,7 +25,7 @@ router.get('/main.js', ({ serveStatic, cache }) => {
 // aws services
 router.get('/products-service/:path*', ({ proxy, cache }) => {
   cache(CACHE_PAGES);
-  proxy('products-service', { path: '/:path*' });
+  proxy('services-proxy', { path: '/products-service/:path*' }); // external proxy
 });
 router.match('/recommendations-service/:path*', ({ proxy }) => {
   proxy('recommendations-service', { path: '/:path*' });

@@ -5,6 +5,11 @@ module.exports = {
       domainOrIp: 'example.com',
       hostHeader: 'example.com',
     },
+    'services-proxy': {
+      domainOrIp: 'calm-forest-13889.herokuapp.com',
+      hostHeader: 'calm-forest-13889.herokuapp.com',
+      disableCheckCert: true,
+    },
     'products-service': {
       domainOrIp: 'retai-loadb-xcztiko1xp2z-524701947.eu-west-1.elb.amazonaws.com',
       hostHeader: 'retai-loadb-xcztiko1xp2z-524701947.eu-west-1.elb.amazonaws.com',
