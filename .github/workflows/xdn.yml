@@ -3,7 +3,7 @@ name: Deploy branch to XDN
 on: push
 
 jobs:
-  deploy-next-example:
+  deploy-examples:
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -28,7 +28,7 @@ jobs:
         run: npm ci
         working-directory: ./xdn-next-example
       - name: Next.js Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}}
+        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-next-example
@@ -36,7 +36,7 @@ jobs:
         run: npm ci
         working-directory: ./xdn-sapper-example
       - name: Sapper Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}}
+        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_SAPPER_DEPLOY_TOKEN}}
         working-directory: ./xdn-sapper-example
