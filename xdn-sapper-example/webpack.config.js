@@ -5,14 +5,10 @@ const config = require('sapper/config/webpack.js');
 const pkg = require('./package.json');
 const sveltePreprocess = require('svelte-preprocess');
 
-const preprocess = sveltePreprocess({
-	postcss: true,
-});
-
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 
-const alias = { svelte: path.resolve('node_modules', 'svelte'), 'node-fetch$': "node-fetch/lib/index.js" };
+const alias = { svelte: path.resolve('node_modules', 'svelte') };
 const extensions = ['.mjs', '.js', '.json', '.svelte', '.html'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
 const fileLoaderRule = {
@@ -21,6 +17,10 @@ const fileLoaderRule = {
 		'file-loader',
 	]
 };
+
+const preprocess = sveltePreprocess({
+  postcss: true,
+});
 
 module.exports = {
 	client: {
@@ -37,7 +37,6 @@ module.exports = {
 							dev,
 							hydratable: true,
               hotReload: false, // pending https://github.com/sveltejs/svelte/issues/2377
-              // emitCss: true,
               preprocess: [preprocess],
 						}
 					}
@@ -45,14 +44,14 @@ module.exports = {
 				fileLoaderRule
 			]
 		},
-		mode,
+    mode,
 		plugins: [
 			// pending https://github.com/sveltejs/svelte/issues/2377
 			// dev && new webpack.HotModuleReplacementPlugin(),
 			new webpack.DefinePlugin({
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
-			}),
+      })
 		].filter(Boolean),
 		devtool: dev && 'inline-source-map'
 	},

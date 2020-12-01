@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'axios';
 
 const apiUrl = `https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io`;
 
@@ -19,7 +19,7 @@ export async function getCategories() {
   const res = await fetch(`${apiUrl}/category`).catch((e) => ({
     error: e.message,
   }));
-  ret.categories = await res.json();
+  ret.categories = res.data;
 
   return ret;
 }
@@ -37,7 +37,7 @@ export async function getCategory(categoryName) {
     (e) => (ret.error = e.message)
   );
 
-  ret.products = await res.json();
+  ret.products = res.data;
   ret.products.forEach(
     (item) => (item.picture = getOptimizedImageUrl(item.picture))
   );
@@ -59,7 +59,7 @@ export async function getProductById(productId) {
   );
 
   if (res.status === 200) {
-    ret.product = await res.json();
+    ret.product = res.data;
     ret.product.picture = getOptimizedImageUrl(ret.product.picture);
   }
 

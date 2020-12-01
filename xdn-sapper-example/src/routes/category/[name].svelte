@@ -24,6 +24,7 @@
           <a href={product.href}>
             <div class="relative">
               <div
+                data-image-src="{product.picture}"
                 class="pb-2/3 bg-contain bg-center bg-no-repeat h-48"
                 style="background-image: url({product.picture})" />
               <div class="w-full text-left lowercase font-bold">

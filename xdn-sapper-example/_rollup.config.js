@@ -128,7 +128,6 @@ export default {
       commonjs(),
       !dev && terser(),
     ],
-
     preserveEntrySignatures: false,
     onwarn,
   },
