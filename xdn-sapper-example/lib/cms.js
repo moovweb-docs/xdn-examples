@@ -1,10 +1,17 @@
 import fetch from 'axios';
 
-const apiUrl = `https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io`;
+const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
+let apiUrl
+
+if (typeof window !== 'undefined') {
+  apiUrl = location.protocol + '//' + location.host + '/api'
+} else {
+  apiUrl = origin;
+}
 
 export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
-    apiUrl + path
+    origin + path
   )}`;
 }
 

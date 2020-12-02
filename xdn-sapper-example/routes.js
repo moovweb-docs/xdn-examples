@@ -14,9 +14,24 @@ const SSR_CACHE_CONFIG = {
   },
 };
 
+const API_CACHE_CONFIG = {
+  browser: {
+    maxAgeSeconds: 0,
+    serviceWorkerSeconds: 60 * 60 * 24,
+  },
+  edge: {
+    maxAgeSeconds: 60 * 60 * 24 * 365 * 10,
+    staleWhileRevalidateSeconds: 60 * 60 * 24,
+  },
+};
+
 export default new Router()
   .prerender(getPrerenderRequests)
   .match('/', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .match('/category/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
   .match('/product/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
+  .match('/api/:path*', ({ proxy, cache }) => {
+    cache(API_CACHE_CONFIG)
+    proxy('api', { path: '/:path*' })
+  })
   .use(sapperRoutes) // automatically adds routes for all files under /src/routes
