@@ -75,18 +75,16 @@
 <nav>
   <header class="bg-white rounded-lg p-2 justify-center">
     <div class="container mx-auto logoContainer">
-      <Prefetch url="/" immediately>
-        <a href="/">
-          <img src="/moovweb.svg" alt="Moovweb Logo" />
-          <div class="text-center text-gray-700">Sapper Example</div>
-        </a>
-      </Prefetch>
+      <a href="/">
+        <img src="/moovweb.svg" alt="Moovweb Logo" />
+        <div class="text-center text-gray-700">Sapper Example</div>
+      </a>
     </div>
     <div class="flex-container mx-auto">
       <ul>
         {#each categories as category, i}
           <li>
-            <Prefetch url={category.href} immediately>
+            <Prefetch url={`/api${category.href}`} immediately>
               <a
                 aria-current={$page.path === category.href ? 'page' : undefined}
                 href={category.href}>{category.categoryName}</a>
