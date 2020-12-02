@@ -35,8 +35,7 @@ const API_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache, proxy }) => {
 export default new Router()
   .prerender(getPrerenderRequests)
   .match('/api/:path*', API_CACHE_HANDLER)
-  .use(sapperRoutes) // automatically adds routes for all files under /src/routes
-
   .match('/', SSR_CACHE_HANDLER)
   .match('/category/:name', SSR_CACHE_HANDLER)
   .match('/product/:name', SSR_CACHE_HANDLER)
+  .use(sapperRoutes) // automatically adds routes for all files under /src/routes
