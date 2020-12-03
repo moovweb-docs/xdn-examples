@@ -1,6 +1,7 @@
 import { precacheAndRoute } from 'workbox-precaching';
 import { Prefetcher } from '@xdn/prefetch/sw';
 import DeepFetchPlugin from '@xdn/prefetch/sw/DeepFetchPlugin';
+import { getOptimizedImageUrl } from '../lib/cms';
 
 precacheAndRoute([]);
 
@@ -10,9 +11,13 @@ new Prefetcher({
       // query the PLP API response for images to prefetch
       // prefetch logic is handled in client.js
       {
-        selector: 'div[data-image-src]',
+        jsonQuery: 'picture:picture',
+        jsonQueryOptions: {
+          locals: {
+            picture: input => input.map(getOptimizedImageUrl),
+          },
+        },
         maxMatches: 10,
-        attribute: 'data-image-src',
         as: 'image',
       },
     ]),
