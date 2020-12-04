@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'axios';
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 let apiUrl
@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
 
 export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
-    apiUrl + path
+    origin + path
   )}`;
 }
 
@@ -26,7 +26,7 @@ export async function getCategories() {
   const res = await fetch(`${apiUrl}/category`).catch((e) => ({
     error: e.message,
   }));
-  ret.categories = await res.json();
+  ret.categories = res.data;
 
   return ret;
 }
@@ -44,7 +44,7 @@ export async function getCategory(categoryName) {
     (e) => (ret.error = e.message)
   );
 
-  ret.products = await res.json();
+  ret.products = res.data;
   ret.products.forEach(
     (item) => (item.picture = getOptimizedImageUrl(item.picture))
   );
@@ -61,12 +61,14 @@ export async function getCategory(categoryName) {
 export async function getProductById(productId) {
   const ret = { product: {} };
 
-  const res = await fetch(
-    `${apiUrl}/product/${productId}`
-  ).catch((e) => (ret.error = e.message));
+  const res = await fetch(`${apiUrl}/product/${productId}`).catch(
+    (e) => (ret.error = e.message)
+  );
 
-  ret.product = await res.json();
-  ret.product.picture = getOptimizedImageUrl(ret.product.picture);
+  if (res.status === 200) {
+    ret.product = res.data;
+    ret.product.picture = getOptimizedImageUrl(ret.product.picture);
+  }
 
   return ret;
 }

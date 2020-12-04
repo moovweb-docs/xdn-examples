@@ -1,0 +1,49 @@
+{
+  "scripts": {
+    "xdn": "xdn",
+    "xdn:start": "xdn run",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy moovweb-docs",
+    "dev": "sapper dev",
+    "build": "sapper build --legacy",
+    "export": "sapper export --legacy",
+    "start": "node __sapper__/build"
+  },
+  "version": "0.0.1",
+  "name": "xdn-sapper-example",
+  "dependencies": {
+    "compression": "^1.7.1",
+    "polka": "next",
+    "sirv": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "@xdn/cli": "^2.30.2",
+    "@xdn/core": "^2.30.2",
+    "@xdn/devtools": "^2.30.2",
+    "@xdn/prefetch": "^2.30.2",
+    "@xdn/sapper": "^2.30.2",
+    "@xdn/svelte": "^2.30.2",
+    "autoprefixer": "^10.0.2",
+    "axios": "^0.21.0",
+    "cssnano": "^4.1.10",
+    "encoding": "^0.1.13",
+    "file-loader": "^6.0.0",
+    "postcss": "^8.1.7",
+    "postcss-import": "^13.0.0",
+    "postcss-load-config": "^3.0.0",
+    "postcss-nested": "^5.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "sapper": "^0.28.0",
+    "svelte": "^3.17.3",
+    "svelte-loader": "^2.9.0",
+    "svelte-preprocess": "^4.5.2",
+    "tailwindcss": "^1.9.6",
+    "webpack": "^4.7.0",
+    "webpack-modules": "^1.0.0"
+  }
+}
