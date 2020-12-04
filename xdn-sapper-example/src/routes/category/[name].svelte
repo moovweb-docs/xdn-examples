@@ -20,7 +20,7 @@
     class="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     {#each products as product}
       <div>
-        <Prefetch url={product.href}>
+        <Prefetch url={`/api${product.href}`}>
           <a href={product.href}>
             <div class="relative">
               <div
