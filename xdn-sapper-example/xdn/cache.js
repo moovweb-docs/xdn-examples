@@ -23,6 +23,6 @@ export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHea
       staleWhileRevalidateSeconds: 60 * 60 * 24,
     },
   })
-  proxy('api', { path: '/:path*' })
+  proxy('api')
   setResponseHeader('content-type', 'application/json')
 }
