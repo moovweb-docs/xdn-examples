@@ -1,23 +1,7 @@
 <style lang="postcss">
-  h1,
   p {
     @apply text-center my-0 mx-auto;
   }
-
-  h1 {
-    @apply text-3xl uppercase font-bold m-0 mb-4 text-orange-500 font-sans;
-  }
-
-  p {
-    @apply my-0 mx-auto;
-  }
-
-  @screen md {
-    h1 {
-      @apply text-4xl;
-    }
-  }
-
   .main {
     padding: 5rem 0;
     flex: 1;

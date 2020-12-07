@@ -5,7 +5,6 @@
   import { getCategories, getApiPath } from '../../lib/cms'
 
   export let categories = []
-  export let segment
 
   const { page } = stores()
 
