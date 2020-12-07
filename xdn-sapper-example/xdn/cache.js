@@ -23,5 +23,5 @@ export const API_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache, proxy }
       staleWhileRevalidateSeconds: 60 * 60 * 24,
     },
   })
-  proxy('api')
+  proxy('api', { path: '/api/:path*' })
 }

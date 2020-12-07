@@ -7,7 +7,7 @@ import { API_CACHE_HANDLER, SSR_CACHE_HANDLER } from './xdn/cache'
 
 export default new Router()
   .prerender(getPrerenderRequests)
-  .match('/api/:path*', API_CACHE_HANDLER)
+  .match('/api/:build_id/:path*', API_CACHE_HANDLER)
   .match('/', SSR_CACHE_HANDLER)
   .match('/category/:name', SSR_CACHE_HANDLER)
   .match('/product/:name', SSR_CACHE_HANDLER)

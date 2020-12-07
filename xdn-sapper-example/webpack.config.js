@@ -19,6 +19,8 @@ const preprocess = sveltePreprocess({
   postcss: true,
 })
 
+const BUILD_ID = new Date().getTime()
+
 module.exports = {
   client: {
     entry: config.client.entry(),
@@ -48,6 +50,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.BUILD_ID': JSON.stringify(BUILD_ID),
       }),
     ].filter(Boolean),
     devtool: dev && 'inline-source-map',
