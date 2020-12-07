@@ -9,7 +9,7 @@ export const SSR_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
   })
 }
 
-export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHeader, cache, proxy }) => {
+export const API_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache, proxy }) => {
   removeUpstreamResponseHeader('cache-control')
   cache({
     browser: {
@@ -24,7 +24,7 @@ export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHea
   proxy('api')
 }
 
-export const NEXT_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHeader, cache }) => {
+export const NEXT_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
   removeUpstreamResponseHeader('cache-control')
   cache({
     browser: {

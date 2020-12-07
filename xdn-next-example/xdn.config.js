@@ -11,7 +11,7 @@ module.exports = {
   backends: {
     api: {
       domainOrIp: 'moovweb-docs-xdn-examples-api-default.moovweb-edge.io',
-      hostHeader: 'moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
-    }
-  }
+      hostHeader: 'moovweb-docs-xdn-examples-api-default.moovweb-edge.io',
+    },
+  },
 }

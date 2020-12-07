@@ -7,7 +7,12 @@ module.exports = {
   },
   parser: 'babel-eslint',
   // 'prettier' avoids conflicts with prettier formatting
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react/display-name': 'off',
+  },
   overrides: [
     {
       files: ['*.ts'],
@@ -20,12 +25,7 @@ module.exports = {
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': [
           'error',
-          {
-            vars: 'all',
-            varsIgnorePattern: '^_',
-            args: 'none',
-            ignoreRestSiblings: true,
-          },
+          { vars: 'all', varsIgnorePattern: '^_', args: 'none', ignoreRestSiblings: true },
         ],
         'no-redeclare': 'off',
         '@typescript-eslint/no-redeclare': ['error'],
@@ -38,10 +38,12 @@ module.exports = {
     metrics: 'readonly',
     factory: 'readonly',
     jasmine: 'readonly',
+    __NEXT_DATA__: 'readonly',
   },
   settings: {
     react: {
       version: 'detect',
     },
   },
+  ignorePatterns: ['**/mocks/**/*'],
 }
