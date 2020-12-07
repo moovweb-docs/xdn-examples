@@ -2,21 +2,28 @@ import fetch from 'axios'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
+function cleanPath(path) {
+  return path.replace(/^\//, '')
+}
+
+function getApiUrl(path) {
+  if (typeof window === 'undefined') {
+    return `${origin}/${cleanPath(path)}`
+  }
+
+  return location.protocol + '//' + location.host + getApiPath(path)
+}
+
 export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
     origin + path
   )}`
 }
 
-function getApiUrl(path) {
-  path = path.replace(/^\//, '')
-
-  if (typeof window === 'undefined') {
-    return `${origin}/${path}`
-  }
-
+export function getApiPath(path) {
   const CACHE_PARAM = process.env.BUILD_ID
-  return location.protocol + '//' + location.host + `/api/${CACHE_PARAM}/${path}`
+
+  return `/api/${CACHE_PARAM}/${cleanPath(path)}`
 }
 
 /**
