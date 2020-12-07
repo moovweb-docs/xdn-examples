@@ -24,7 +24,6 @@ export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHea
     },
   })
   proxy('api')
-  setResponseHeader('content-type', 'application/json')
 }
 
 export const NEXT_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHeader, cache }) => {
@@ -39,5 +38,4 @@ export const NEXT_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHe
       staleWhileRevalidateSeconds: 60 * 60 * 24,
     },
   })
-  setResponseHeader('content-type', 'application/json')
 }

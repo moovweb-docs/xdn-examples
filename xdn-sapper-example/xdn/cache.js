@@ -11,12 +11,7 @@ export const SSR_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
   })
 }
 
-export const API_CACHE_HANDLER = ({
-  setResponseHeader,
-  removeUpstreamResponseHeader,
-  cache,
-  proxy,
-}) => {
+export const API_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache, proxy }) => {
   removeUpstreamResponseHeader('cache-control')
   cache({
     browser: {
@@ -29,5 +24,4 @@ export const API_CACHE_HANDLER = ({
     },
   })
   proxy('api')
-  setResponseHeader('content-type', 'application/json')
 }
