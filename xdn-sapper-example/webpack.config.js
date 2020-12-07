@@ -1,3 +1,5 @@
+const fs = require('fs')
+const { join } = require('path')
 const webpack = require('webpack')
 const WebpackModules = require('webpack-modules')
 const path = require('path')
@@ -20,6 +22,7 @@ const preprocess = sveltePreprocess({
 })
 
 const BUILD_ID = new Date().getTime()
+fs.writeFileSync(join('__sapper__', 'build', 'BUILD_ID'), BUILD_ID)
 
 module.exports = {
   client: {
@@ -50,7 +53,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
-        'process.env.BUILD_ID': JSON.stringify(BUILD_ID),
+        '__BUILD_ID__': JSON.stringify(BUILD_ID),
       }),
     ].filter(Boolean),
     devtool: dev && 'inline-source-map',

@@ -1,4 +1,5 @@
 import fetch from 'axios'
+import BUILD_ID from 'raw-loader!../__sapper__/build/BUILD_ID'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
@@ -21,9 +22,7 @@ export function getOptimizedImageUrl(path) {
 }
 
 export function getApiPath(path) {
-  const CACHE_PARAM = process.env.BUILD_ID
-
-  return `/api/${CACHE_PARAM}/${cleanPath(path)}`
+  return `/api/${BUILD_ID}/${cleanPath(path)}`
 }
 
 /**
