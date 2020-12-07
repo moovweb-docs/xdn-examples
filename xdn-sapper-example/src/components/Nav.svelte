@@ -1,18 +1,18 @@
 <script>
-  import { onMount } from 'svelte';
-  import { stores } from '@sapper/app';
-  import { Prefetch } from '@xdn/svelte';
-  import { getCategories } from '../../lib/cms';
+  import { onMount } from 'svelte'
+  import { stores } from '@sapper/app'
+  import { Prefetch } from '@xdn/svelte'
+  import { getCategories } from '../../lib/cms'
 
-  export let categories = [];
-  export let segment;
+  export let categories = []
+  export let segment
 
-  const { page } = stores();
+  const { page } = stores()
 
   onMount(async () => {
-    const data = await getCategories();
-    categories = data.categories;
-  });
+    const data = await getCategories()
+    categories = data.categories
+  })
 </script>
 
 <style lang="postcss">

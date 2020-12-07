@@ -39,7 +39,6 @@
 
 <main class="main">
   <p class="description">
-    This is an example Sapper app powered by Moovweb XDN. Click a category above
-    to get started.
+    This is an example Sapper app powered by Moovweb XDN. Click a category above to get started.
   </p>
 </main>
