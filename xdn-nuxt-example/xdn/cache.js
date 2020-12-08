@@ -1,9 +1,7 @@
 export const SSR_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
   removeUpstreamResponseHeader('cache-control')
   cache({
-    browser: {
-      maxAgeSeconds: 0,
-    },
+    browser: false,
     edge: {
       maxAgeSeconds: 60 * 60 * 24 * 365 * 10,
       staleWhileRevalidateSeconds: 60 * 60 * 24,
@@ -11,7 +9,11 @@ export const SSR_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
   })
 }
 
-export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHeader, cache, proxy }) => {
+export const API_CACHE_HANDLER = ({
+  removeUpstreamResponseHeader,
+  cache,
+  proxy,
+}) => {
   removeUpstreamResponseHeader('cache-control')
   cache({
     browser: {
@@ -23,6 +25,5 @@ export const API_CACHE_HANDLER = ({ setResponseHeader, removeUpstreamResponseHea
       staleWhileRevalidateSeconds: 60 * 60 * 24,
     },
   })
-  proxy('api')
-  setResponseHeader('content-type', 'application/json')
+  proxy('api', { path: '/api/:path*' })
 }

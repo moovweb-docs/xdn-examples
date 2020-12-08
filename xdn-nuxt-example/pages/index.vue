@@ -1,13 +1,8 @@
 <template>
   <div class="container">
-    <Head>
-      <title>XDN Next App Example</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-
-    <main className="{styles.main}">
-      <p className="{styles.description}">
-        This is an example Next.js app powered by Moovweb XDN. Click a category
+    <main class="main">
+      <p class="description">
+        This is an example NuxtJS app powered by Moovweb XDN. Click a category
         above to get started.
       </p>
     </main>
@@ -21,39 +16,24 @@ export default Vue.extend({})
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
+p {
+  @apply text-center my-0 mx-auto;
 }
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+.main {
+  padding: 5rem 0;
+  flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.container {
+  @apply container mx-auto;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.description {
+  line-height: 1.5;
+  font-size: 1.5rem;
 }
 </style>

@@ -1,12 +1,19 @@
 import fetch from 'axios'
+// import BUILD_ID from 'raw-loader!../__sapper__/build/BUILD_ID'
+const BUILD_ID = 'dev'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
-let apiUrl
 
-if (typeof window !== 'undefined') {
-  apiUrl = location.protocol + '//' + location.host + '/api'
-} else {
-  apiUrl = origin
+function cleanPath(path) {
+  return path.replace(/^\//, '')
+}
+
+function getApiUrl(path) {
+  if (typeof window === 'undefined') {
+    return `${origin}/${cleanPath(path)}`
+  }
+
+  return location.protocol + '//' + location.host + getApiPath(path)
 }
 
 export function getOptimizedImageUrl(path) {
@@ -15,15 +22,18 @@ export function getOptimizedImageUrl(path) {
   )}`
 }
 
+export function getApiPath(path) {
+  return `/api/${BUILD_ID}/${cleanPath(path)}`
+}
+
 /**
  * Gets all categories
  *
- * @return {Array}
+ * @return {Object}
  */
 export async function getCategories() {
   const ret = { categories: [] }
-
-  const res = await fetch(`${apiUrl}/category`).catch((e) => ({
+  const res = await fetch(getApiUrl('/category')).catch((e) => ({
     error: e.message,
   }))
   ret.categories = res.data
@@ -39,8 +49,7 @@ export async function getCategories() {
  */
 export async function getCategory(categoryName) {
   const ret = { products: [] }
-
-  const res = await fetch(`${apiUrl}/category/${categoryName}`).catch(
+  const res = await fetch(getApiUrl(`/category/${categoryName}`)).catch(
     (e) => (ret.error = e.message)
   )
 
@@ -60,8 +69,7 @@ export async function getCategory(categoryName) {
  */
 export async function getProductById(productId) {
   const ret = { product: {} }
-
-  const res = await fetch(`${apiUrl}/product/${productId}`).catch(
+  const res = await fetch(getApiUrl(`/product/${productId}`)).catch(
     (e) => (ret.error = e.message)
   )
 

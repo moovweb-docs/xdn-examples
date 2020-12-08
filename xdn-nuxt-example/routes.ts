@@ -3,20 +3,12 @@
 
 import { Router } from '@xdn/core/router'
 import { nuxtRoutes } from '@xdn/nuxt'
-
-const SSR_CACHE_CONFIG = {
-  browser: {
-    maxAgeSeconds: 0,
-  },
-  edge: {
-    maxAgeSeconds: 60 * 60 * 24 * 365 * 10,
-    staleWhileRevalidateSeconds: 60 * 60 * 24,
-  },
-}
+import { API_CACHE_HANDLER, SSR_CACHE_HANDLER } from './xdn/cache'
 
 export default new Router()
-  .get('/category/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
-  .get('/product/:name', ({ cache }) => cache(SSR_CACHE_CONFIG))
+  .match('/api/:build_id/:path*', API_CACHE_HANDLER)
+  .match('/category/:name', SSR_CACHE_HANDLER)
+  .match('/product/:name', SSR_CACHE_HANDLER)
   .match('/service-worker.js', ({ serviceWorker }) => {
     serviceWorker('.nuxt/dist/client/service-worker.js')
   })
