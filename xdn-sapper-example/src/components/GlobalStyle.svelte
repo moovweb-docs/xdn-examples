@@ -1,3 +1,3 @@
 <style global lang="postcss">
-  @import "../global.pcss";
-</style> 
+  @import '../global.pcss';
+</style>

@@ -1,9 +1,9 @@
-import { precacheAndRoute } from 'workbox-precaching';
-import { Prefetcher } from '@xdn/prefetch/sw';
-import DeepFetchPlugin from '@xdn/prefetch/sw/DeepFetchPlugin';
-import { getOptimizedImageUrl } from '../lib/cms';
+import { precacheAndRoute } from 'workbox-precaching'
+import { Prefetcher } from '@xdn/prefetch/sw'
+import DeepFetchPlugin from '@xdn/prefetch/sw/DeepFetchPlugin'
+import { getOptimizedImageUrl } from '../lib/cms'
 
-precacheAndRoute([]);
+precacheAndRoute([])
 
 new Prefetcher({
   plugins: [
@@ -28,4 +28,4 @@ new Prefetcher({
       },
     ]),
   ],
-}).route();
+}).route()

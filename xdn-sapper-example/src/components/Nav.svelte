@@ -1,18 +1,17 @@
 <script>
-  import { onMount } from 'svelte';
-  import { stores } from '@sapper/app';
-  import { Prefetch } from '@xdn/svelte';
-  import { getCategories } from '../../lib/cms';
+  import { onMount } from 'svelte'
+  import { stores } from '@sapper/app'
+  import { Prefetch } from '@xdn/svelte'
+  import { getCategories, getApiPath } from '../../lib/cms'
 
-  export let categories = [];
-  export let segment;
+  export let categories = []
 
-  const { page } = stores();
+  const { page } = stores()
 
   onMount(async () => {
-    const data = await getCategories();
-    categories = data.categories;
-  });
+    const data = await getCategories()
+    categories = data.categories
+  })
 </script>
 
 <style lang="postcss">
@@ -84,7 +83,7 @@
       <ul>
         {#each categories as category, i}
           <li>
-            <Prefetch url={`/api${category.href}`} immediately>
+            <Prefetch url={getApiPath(category.href)} immediately>
               <a
                 aria-current={$page.path === category.href ? 'page' : undefined}
                 href={category.href}>{category.categoryName}</a>
@@ -94,5 +93,4 @@
       </ul>
     </div>
   </header>
-  <!-- <div class="container">{displayBackButton && <BackButton />}</div> -->
 </nav>

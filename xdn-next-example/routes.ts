@@ -1,11 +1,7 @@
-import { Router } from '@xdn/core/router';
-import { nextRoutes } from '@xdn/next';
-import getPrerenderRequests from './xdn/getPrerenderRequests';
-import {
-  SSR_CACHE_HANDLER,
-  API_CACHE_HANDLER,
-  NEXT_CACHE_HANDLER,
-} from './xdn/cache';
+import { Router } from '@xdn/core/router'
+import { nextRoutes } from '@xdn/next'
+import getPrerenderRequests from './xdn/getPrerenderRequests'
+import { SSR_CACHE_HANDLER, API_CACHE_HANDLER, NEXT_CACHE_HANDLER } from './xdn/cache'
 
 export default new Router()
   /* @ts-ignore */
@@ -16,6 +12,6 @@ export default new Router()
   .match('/_next/data/:build/category/:name.json', NEXT_CACHE_HANDLER)
   .match('/_next/data/:build/product/:id.json', NEXT_CACHE_HANDLER)
   .match('/service-worker.js', ({ serviceWorker }) => {
-    return serviceWorker('.next/static/service-worker.js');
+    return serviceWorker('.next/static/service-worker.js')
   })
-  .use(nextRoutes); // automatically adds routes for all files under /pages
+  .use(nextRoutes) // automatically adds routes for all files under /pages

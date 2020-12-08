@@ -1,10 +1,7 @@
-import { getProductById } from '../../lib/cms';
-import { useRouter } from 'next/router';
-import Rating from '../../components/Rating';
+import { getProductById } from '../../lib/cms'
+import Rating from '../../components/Rating'
 
 export default function ProductPage({ product }) {
-  const router = useRouter();
-
   return (
     <div className="container center flex flex-row">
       <div className="container px-4">
@@ -24,12 +21,12 @@ export default function ProductPage({ product }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 export async function getServerSideProps({ params }) {
-  const { product, error } = await getProductById(params.name);
+  const { product } = await getProductById(params.name)
 
   return {
     props: { product },
-  };
+  }
 }
