@@ -40,3 +40,11 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_SAPPER_DEPLOY_TOKEN}}
         working-directory: ./xdn-sapper-example
+      - name: NuxtJS Example - Install modules
+        run: npm ci
+        working-directory: ./xdn-nuxt-example
+      - name: NuxtJS Example - Deploy to XDN
+        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
+        working-directory: ./xdn-nuxt-example
