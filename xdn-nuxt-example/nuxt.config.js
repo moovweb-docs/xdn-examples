@@ -1,3 +1,6 @@
+import fs from 'fs'
+import { join } from 'path'
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -32,5 +35,10 @@ export default {
   modules: [],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    extend() {
+      const BUILD_ID = new Date().getTime()
+      fs.writeFileSync(join('.xdn', 'BUILD_ID'), BUILD_ID)
+    },
+  },
 }
