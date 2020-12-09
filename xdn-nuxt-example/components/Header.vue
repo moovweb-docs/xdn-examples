@@ -23,16 +23,16 @@
 </template>
 
 <script lang="ts">
-import { Prefetch } from '@xdn/vue'
 import { getCategories, getApiPath } from '../lib/cms'
+const { Prefetch } = require('@xdn/vue')
 
 export default {
   components: {
     Prefetch,
   },
   async fetch() {
-    const result = await getCategories()
-    this.categories = result.categories
+    // @ts-ignore
+    this.categories = await getCategories()
   },
   data() {
     return {

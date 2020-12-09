@@ -1,15 +1,15 @@
 <script lang="ts">
-import { Prefetch } from '@xdn/vue'
-import { getCategory, getApiPath } from '../../lib/cms'
+import { getProductsByCategory, getApiPath } from '../../lib/cms'
 import Rating from '../../components/Rating.vue'
+const { Prefetch } = require('@xdn/vue')
 
 export default {
   components: {
     Rating,
     Prefetch,
   },
-  async asyncData({ params }) {
-    const { products } = await getCategory(params.name)
+  async asyncData({ params }: { params: any }) {
+    const products = await getProductsByCategory(params.name)
 
     return { products }
   },

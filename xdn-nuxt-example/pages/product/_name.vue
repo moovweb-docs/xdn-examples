@@ -6,8 +6,8 @@ export default {
   components: {
     Rating,
   },
-  async asyncData({ params }) {
-    const { product } = await getProductById(params.name)
+  async asyncData({ params }: { params: any }) {
+    const product = await getProductById(params.name)
 
     return { product }
   },
