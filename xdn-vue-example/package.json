@@ -1,0 +1,54 @@
+{
+  "scripts": {
+    "xdn": "xdn",
+    "xdn:start": "xdn run",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "name": "xdn-vue-example",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@xdn/cli": "^2.30.3",
+    "@xdn/core": "^2.30.3",
+    "@xdn/devtools": "^2.30.3",
+    "@xdn/prefetch": "^2.30.3",
+    "@xdn/vue": "^2.30.3",
+    "autoprefixer": "^9.8.6",
+    "axios": "^0.21.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.15.0",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
