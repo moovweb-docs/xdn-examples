@@ -12,7 +12,6 @@ new Prefetcher({
   plugins: [
     new DeepFetchPlugin([
       // query the PLP API response for images to prefetch
-      // prefetch logic is handled in client.js
       {
         jsonQuery: 'picture:picture',
         jsonQueryOptions: {
