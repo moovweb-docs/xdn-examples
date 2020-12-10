@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
     // register a listener for SW messages to prefetch images from the PLP API responses
     const { serviceWorker } = navigator
     if (serviceWorker) {
-      serviceWorker.addEventListener('message', (event) => {
+      serviceWorker.addEventListener('message', event => {
         if (event.data.action === 'prefetch') {
           prefetch(event.data.url, event.data.as, event.data.options)
         }

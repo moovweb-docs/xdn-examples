@@ -23,7 +23,7 @@ export function getOptimizedImageUrl(path) {
 export async function getCategories() {
   const ret = { categories: [] }
 
-  const res = await fetch(`${apiUrl}/category`).catch((e) => ({
+  const res = await fetch(`${apiUrl}/category`).catch(e => ({
     error: e.message,
   }))
   ret.categories = await res.json()
@@ -40,12 +40,10 @@ export async function getCategories() {
 export async function getCategory(categoryName) {
   const ret = { products: [] }
 
-  const res = await fetch(`${apiUrl}/category/${categoryName}`).catch(
-    (e) => (ret.error = e.message)
-  )
+  const res = await fetch(`${apiUrl}/category/${categoryName}`).catch(e => (ret.error = e.message))
 
   ret.products = await res.json()
-  ret.products.forEach((item) => (item.picture = getOptimizedImageUrl(item.picture)))
+  ret.products.forEach(item => (item.picture = getOptimizedImageUrl(item.picture)))
 
   return ret
 }
@@ -59,7 +57,7 @@ export async function getCategory(categoryName) {
 export async function getProductById(productId) {
   const ret = { product: {} }
 
-  const res = await fetch(`${apiUrl}/product/${productId}`).catch((e) => (ret.error = e.message))
+  const res = await fetch(`${apiUrl}/product/${productId}`).catch(e => (ret.error = e.message))
 
   ret.product = await res.json()
   ret.product.picture = getOptimizedImageUrl(ret.product.picture)

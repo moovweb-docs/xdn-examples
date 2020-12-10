@@ -1,6 +1,5 @@
 import fetch from 'axios'
 // @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import BUILD_ID from '!raw-loader!../.xdn/BUILD_ID'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
@@ -47,9 +46,7 @@ export async function getProductsByCategory(categoryName: any) {
   const res = await fetch(getApiUrl(`/category/${categoryName}`))
 
   const products = res.data
-  products.forEach(
-    (item: any) => (item.picture = getOptimizedImageUrl(item.picture))
-  )
+  products.forEach((item: any) => (item.picture = getOptimizedImageUrl(item.picture)))
 
   return products
 }
