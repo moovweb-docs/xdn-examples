@@ -13,7 +13,7 @@ new Prefetcher({
         jsonQuery: 'picture:picture',
         jsonQueryOptions: {
           locals: {
-            picture: input => {
+            picture: (input) => {
               if (input.map) {
                 return input.map(getOptimizedImageUrl)
               }

@@ -20,7 +20,7 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', url => {
+    router.events.on('routeChangeComplete', (url) => {
       if (categories) {
         setActiveTab(categories.findIndex(({ href }) => href === url))
       }

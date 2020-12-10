@@ -8,16 +8,16 @@ const buildIdPath = join(process.cwd(), '.next', 'BUILD_ID')
 
 export default async function getPrerenderRequests() {
   const { categories } = await getCategories()
-  const requests = categories.map(c => ({ path: c.href }))
+  const requests = categories.map((c) => ({ path: c.href }))
 
-  categories.forEach(c => {
-    requests.push(...c.items.map(p => ({ path: p.href })))
+  categories.forEach((c) => {
+    requests.push(...c.items.map((p) => ({ path: p.href })))
   })
 
   if (existsSync(buildIdPath)) {
     const buildId = readFileSync(buildIdPath, 'utf8')
     const apiPaths = requests
-      .map(req => {
+      .map((req) => {
         let path = req.path.replace(/^\/|\/$/, '')
         const [, name] = path.split('/') // value of the `name` query param
 
