@@ -24,6 +24,8 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      
+      # Next.js
       - name: Next.js Example - Install modules
         run: npm ci
         working-directory: ./xdn-next-example
@@ -32,6 +34,8 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-next-example
+      
+      # Sapper
       - name: Sapper Example - Install modules
         run: npm ci
         working-directory: ./xdn-sapper-example
@@ -40,6 +44,8 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_SAPPER_DEPLOY_TOKEN}}
         working-directory: ./xdn-sapper-example
+      
+      # NuxtJS
       - name: NuxtJS Example - Install modules
         run: npm ci
         working-directory: ./xdn-nuxt-example
@@ -48,3 +54,13 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-nuxt-example
+      
+      # Vue.js
+      - name: Vue.js Example - Install modules
+        run: npm ci
+        working-directory: ./xdn-vue-example
+      - name: Vue.js Example - Deploy to XDN
+        run: npm run build && npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_VUE_DEPLOY_TOKEN}}
+        working-directory: ./xdn-vue-example

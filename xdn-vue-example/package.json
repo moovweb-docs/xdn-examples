@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "xdn": "xdn",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "xdn:start": "xdn run"
   },
   "dependencies": {
