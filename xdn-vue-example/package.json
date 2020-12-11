@@ -1,23 +1,25 @@
 {
-  "scripts": {
-    "xdn": "xdn",
-    "xdn:start": "xdn run",
-    "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
   "name": "xdn-vue-example",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "xdn": "xdn",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy",
+    "xdn:start": "xdn run"
+  },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "^4.5.9",
     "@vue/cli-service": "~4.5.0",
     "@xdn/cli": "^2.30.3",
     "@xdn/core": "^2.30.3",

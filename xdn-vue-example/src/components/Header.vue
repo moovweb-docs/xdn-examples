@@ -1,25 +1,3 @@
-<template>
-  <nav>
-    <header class="bg-white rounded-lg p-2 justify-center">
-      <div class="container mx-auto logoContainer">
-        <a href="/">
-          <img src="/moovweb.svg" alt="Moovweb Logo" />
-          <div class="text-center text-gray-700">NuxtJS Example</div>
-        </a>
-      </div>
-      <div class="flex-container mx-auto">
-        <ul>
-          <li v-for="category in categories" :key="category.name">
-            <Prefetch :url="getApiPath(category.href)">
-              <NuxtLink :to="category.href">{{ category.categoryName }}</NuxtLink>
-            </Prefetch>
-          </li>
-        </ul>
-      </div>
-    </header>
-  </nav>
-</template>
-
 <script>
 import { getCategories, getApiPath } from '../../lib/cms'
 const { Prefetch } = require('@xdn/vue')
@@ -31,7 +9,9 @@ export default {
   async mounted() {
     try {
       this.categories = await getCategories()
-    } catch (e) {}
+    } catch (e) {
+      /* ignore */
+    }
   },
   data() {
     return {
@@ -49,6 +29,7 @@ nav {
   border-bottom: 1px solid rgba(255, 62, 0, 0.1);
   font-weight: 300;
   padding: 0 1em;
+  margin-bottom: 1em;
 }
 
 li {
@@ -85,3 +66,25 @@ a {
   width: 200px !important;
 }
 </style>
+
+<template>
+  <nav>
+    <header class="bg-white rounded-lg p-2 justify-center">
+      <div class="container mx-auto logoContainer">
+        <a href="/">
+          <img src="/moovweb.svg" alt="Moovweb Logo" />
+          <div class="text-center text-gray-700">Vue.js Example</div>
+        </a>
+      </div>
+      <div class="flex-container mx-auto">
+        <ul>
+          <li v-for="category in categories" :key="category.name">
+            <Prefetch :url="getApiPath(category.href)">
+              <router-link :to="category.href">{{ category.categoryName }}</router-link>
+            </Prefetch>
+          </li>
+        </ul>
+      </div>
+    </header>
+  </nav>
+</template>
