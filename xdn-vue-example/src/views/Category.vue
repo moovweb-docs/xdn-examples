@@ -3,23 +3,27 @@ import { getProductsByCategory, getApiPath } from '@/../lib/cms'
 import Rating from '@/components/Rating.vue'
 const { Prefetch } = require('@xdn/vue')
 
+async function onRouteChange() {
+  const { params } = this.$route
+
+  try {
+    this.products = await getProductsByCategory(params.name)
+
+    if (!this.products.length) {
+      throw '404'
+    }
+  } catch (e) {
+    this.$router.push({ name: '404' })
+  }
+}
+
 export default {
   components: {
     Rating,
     Prefetch,
   },
   async mounted() {
-    const { params } = this.$route
-
-    try {
-      this.products = await getProductsByCategory(params.name)
-
-      if (!this.products.length) {
-        throw '404'
-      }
-    } catch (e) {
-      this.$router.push({ name: '404' })
-    }
+    onRouteChange.call(this)
   },
   data() {
     return {
@@ -28,6 +32,11 @@ export default {
   },
   methods: {
     getApiPath,
+  },
+  watch: {
+    $route() {
+      onRouteChange.call(this)
+    },
   },
 }
 </script>
