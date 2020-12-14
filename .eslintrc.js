@@ -7,7 +7,11 @@ module.exports = {
   },
   parser: 'babel-eslint',
   // 'prettier' avoids conflicts with prettier formatting
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:vue/essential', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    /*'plugin:vue/essential',*/ 'prettier',
+  ],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',

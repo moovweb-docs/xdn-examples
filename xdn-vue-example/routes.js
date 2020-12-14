@@ -11,6 +11,10 @@ export default new Router()
   // Send requests to static assets in the build output folder `dist`
   .static('dist')
 
+  .match('/service-worker.js', ({ serviceWorker }) => {
+    serviceWorker('src/service-worker.js')
+  })
+
   // Send everything else to the App Shell
   .fallback(({ appShell }) => {
     appShell('dist/index.html')
