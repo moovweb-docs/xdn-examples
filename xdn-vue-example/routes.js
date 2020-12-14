@@ -16,6 +16,9 @@ export default new Router()
   .static('dist')
 
   // Send everything else to the App Shell
-  .fallback(({ appShell }) => {
-    appShell('dist/index.html')
+  .match('/', ({ serveStatic }) => {
+    serveStatic('dist/index.html')
   })
+// .fallback(({ appShell }) => {
+//   appShell('dist/index.html')
+// })
