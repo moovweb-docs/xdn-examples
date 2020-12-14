@@ -3,7 +3,7 @@ import { Prefetcher } from '@xdn/prefetch/sw'
 import DeepFetchPlugin from '@xdn/prefetch/sw/DeepFetchPlugin'
 import { getOptimizedImageUrl } from '../lib/cms'
 
-precacheAndRoute([])
+precacheAndRoute(self.__precacheManifest || [])
 
 new Prefetcher({
   plugins: [

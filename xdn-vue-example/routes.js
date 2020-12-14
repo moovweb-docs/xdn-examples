@@ -12,7 +12,7 @@ export default new Router()
   .static('dist')
 
   .match('/service-worker.js', ({ serviceWorker }) => {
-    serviceWorker('src/service-worker.js')
+    serviceWorker('dist/service-worker.js')
   })
 
   // Send everything else to the App Shell
