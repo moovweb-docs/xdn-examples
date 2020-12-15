@@ -1,24 +1,17 @@
-# xdn-vue-example
+## Getting Started
 
-## Project setup
-```
-npm install
-```
+To run this XDN-powered Vue.js example:
 
-### Compiles and hot-reloads for development
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
+npm i
 npm run build
+npm run xdn:start
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+and navigate to [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+To view this example live, visit https://moovweb-docs-xdn-vue-example-default.moovweb-edge.io/.
+
+## Deploy on XDN
+
+For more information on deploying to the XDN, visit https://developer.moovweb.com/guides/deploying
