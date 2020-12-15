@@ -19,7 +19,7 @@ function getApiUrl(path: string) {
 export function getOptimizedImageUrl(path: string) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
     origin + path
-  )}`
+  )}&nuxt`
 }
 
 export function getApiPath(path: string) {

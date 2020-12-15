@@ -18,7 +18,7 @@ function getApiUrl(path) {
 export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
     origin + path
-  )}`
+  )}&sapper`
 }
 
 export function getApiPath(path) {
