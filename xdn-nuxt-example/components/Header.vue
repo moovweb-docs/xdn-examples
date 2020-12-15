@@ -11,9 +11,7 @@
         <ul>
           <li v-for="category in categories" :key="category.name">
             <Prefetch :url="getApiPath(category.href)">
-              <NuxtLink :to="category.href">{{
-                category.categoryName
-              }}</NuxtLink>
+              <NuxtLink :to="category.href">{{ category.categoryName }}</NuxtLink>
             </Prefetch>
           </li>
         </ul>
@@ -61,6 +59,21 @@ a {
   text-decoration: none;
   display: block;
   padding: 0.5em;
+}
+
+[aria-current] {
+  position: relative;
+  display: inline-block;
+}
+
+[aria-current]::after {
+  position: absolute;
+  content: '';
+  width: calc(100% - 1em);
+  height: 2px;
+  background-color: rgb(255, 62, 0);
+  display: block;
+  bottom: -1px;
 }
 
 .flex-container {
