@@ -16,6 +16,10 @@ export default new Router()
   .static('dist')
 
   // Send everything else to the App Shell
-  .fallback(({ appShell }) => {
-    appShell('dist/index.html')
+  // .fallback(({ appShell }) => {
+  //   appShell('dist/index.html')
+  // })
+  .match('/', ({ removeUpstreamResponseHeader, cache, serveStatic }) => {
+    SSR_CACHE_HANDLER({ removeUpstreamResponseHeader, cache })
+    serveStatic('dist/index.html')
   })
