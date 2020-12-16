@@ -53,7 +53,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
-        '__BUILD_ID__': JSON.stringify(BUILD_ID),
+        __BUILD_ID__: JSON.stringify(BUILD_ID),
       }),
     ].filter(Boolean),
     devtool: dev && 'inline-source-map',
