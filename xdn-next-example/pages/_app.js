@@ -1,18 +1,18 @@
-import '../styles/globals.css';
-import '../styles/tailwind.css';
-import Header from '../components/Header';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import LoadingIndicator from '../components/LoadingIndicator';
+import '../styles/globals.css'
+import '../styles/tailwind.css'
+import Header from '../components/Header'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import LoadingIndicator from '../components/LoadingIndicator'
 import { prefetch } from '@xdn/prefetch/window/prefetch'
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    router.events.on('routeChangeStart', () => setLoading(true));
-    router.events.on('routeChangeComplete', () => setLoading(false));
+    router.events.on('routeChangeStart', () => setLoading(true))
+    router.events.on('routeChangeComplete', () => setLoading(false))
 
     // register a listener for SW messages to prefetch images from the PLP API responses
     const { serviceWorker } = navigator
@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }) {
         }
       })
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
       <Header />
       <Component {...pageProps} />
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

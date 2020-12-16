@@ -1,0 +1,44 @@
+{
+  "name": "xdn-examples",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts --config .eslintrc.js .",
+    "prettier:all": "cat .gitignore ._prettierignore > .prettierignore; prettier --plugin-search-dir=. --write --ignore-path .prettierignore \"**/*.{js,ts,svelte,json,css,yml}\"",
+    "lint-staged": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moovweb-docs/xdn-examples.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "eslint --fix --config .eslintrc.js",
+      "git add"
+    ],
+    "*.{vue,svelte,json,css,yml}": [
+      "prettier --plugin-search-dir=. --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-react": "^7.21.5",
+    "husky": "^4.3.5",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^1.4.2",
+    "svelte": "^3.31.0",
+    "typescript": "^4.1.2"
+  }
+}
