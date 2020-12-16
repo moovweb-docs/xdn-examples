@@ -1432,10 +1432,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xdn/cli@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/cli/-/cli-2.32.2.tgz#8e8ba8ed22d47f0c6b2bbaa00a9bcb6a88e1397d"
-  integrity sha512-yEsmsuXWF8ZIKF+nf4RzOB3ha4ZFKGrJCLE+27xwXkpcXGArvMTd4X+8/2Y0+wcZcT+Zfc+nUbo9C9unTO48gw==
+"@xdn/cli@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/cli/-/cli-2.33.1.tgz#028f9731da87b11d530e8a43a134c076a90d17bd"
+  integrity sha512-KeKcqnK8N96VYqhWGHCzTfntsYjH27mJrF5fute4JmL4gRkWA7I4dB5DrhL1MJCrAYemKmfvw4K1RWN0I276Kw==
   dependencies:
     axios "^0.19.0"
     chalk "^2.4.2"
@@ -1465,10 +1465,10 @@
     yauzl "^2.10.0"
     yazl "^2.5.1"
 
-"@xdn/core@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/core/-/core-2.32.2.tgz#035f483a905019903850f5ffd0fe6ffe762097ae"
-  integrity sha512-lU8EBztJKDtCXPPn3vxvGCCARgZQ78iaL4i6XgocU0v65kzj/OO/95omyNefb+EZVYDLzKYWeCipwSx3KTyoag==
+"@xdn/core@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/core/-/core-2.33.1.tgz#d99c759c431b6e0dbf6e905c87a0f2cab9d25376"
+  integrity sha512-lZSdU5+TVHfOPw1Ocorx0bnB61o+6SDihd/ckf9gbzZhEA3qgB5y3Z6Z9cNwEEkHDBfum92uDZ9C0+EciOZPtw==
   dependencies:
     ajv "^6.12.3"
     babel-loader "^8.1.0"
@@ -1497,19 +1497,19 @@
     webpack-bundle-analyzer "^3.9.0"
     webpack-dev-middleware "^4.0.0"
 
-"@xdn/devtools@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/devtools/-/devtools-2.32.2.tgz#da25866fce64a9d8c0e81fb10e329496daf002c1"
-  integrity sha512-niMF4AdT5cIZV7Sm2TLJUmb5HMSJZFBsvCuTXcgUUz7WrXGUYkDiFWukYG6J87KpoV+kGCwKkYgHuucEH1SZIg==
+"@xdn/devtools@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/devtools/-/devtools-2.33.1.tgz#e83b04413d7838ba66deb5c409317aeadf3edaa8"
+  integrity sha512-nmzL7VSDBqWS6jXbYV7PIfXoe0JBpO1NlOX4LJEaHmsK31hjRZgxVsbuPbwNtD9IJvwAWxnOgR+a2jxXVp9vyw==
   dependencies:
     clsx "^1.1.1"
     lodash "^4.17.20"
     sirv-cli "^1.0.0"
 
-"@xdn/next@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/next/-/next-2.32.2.tgz#332620065b0c54051a4e20f29f25a99f973dda95"
-  integrity sha512-YWuPi0oUSSOae7Q1FVo2ywcTIm49nC2TZpwAXvwKh55mzf07OO7XgTQhPLvDoWiGCrgBHHH4J2+BPikAFNCsnA==
+"@xdn/next@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/next/-/next-2.33.1.tgz#c49ee581cfe5fa2bf00467bcb3c3730a60e40c63"
+  integrity sha512-WN29/EVoBO9RVt2i90K/sKDeWTJBk3DvRrQIIblHnFQ1CsKhBIgT/zgqNlRWMlD8JgCKr9jvq5n+aEkdyOsiVw==
   dependencies:
     chalk "^3.0.0"
     cross-spawn "^7.0.3"
@@ -1520,10 +1520,10 @@
     slash "^3.0.0"
     webpack-sources "^2.2.0"
 
-"@xdn/prefetch@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/prefetch/-/prefetch-2.32.2.tgz#4473309eb79ad01a293569c52395358332214b4c"
-  integrity sha512-MDULUdGP01f+FFnA5ZAd34rJ+mQfQ+S1NC9acVbExuOoKzNcxaWXKtP2ID0uG9r8RzXAw15QVGpsIOs5uk1PYA==
+"@xdn/prefetch@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/prefetch/-/prefetch-2.33.1.tgz#85e806a0912d541d6b927c35ed4b1dace974f012"
+  integrity sha512-LuOJMvc+mpWVYpphxT+XWLtzLwaPNM27klT5FC2ODRvK+TVpZ9sq3rj3CYTxJ1azw9h3L3nDjRDjP9orYEscbQ==
   dependencies:
     "@types/cheerio" "^0.22.18"
     cheerio "^1.0.0-rc.3"
@@ -1535,10 +1535,10 @@
     workbox-routing "^5.1.2"
     workbox-strategies "^5.1.2"
 
-"@xdn/react@^2.32.2":
-  version "2.32.2"
-  resolved "https://registry.yarnpkg.com/@xdn/react/-/react-2.32.2.tgz#76f81b598c5ed700e305f8c700dc8c926c00c281"
-  integrity sha512-REKPZ+HyXPUaSvm8NYUzR604PjKDhWXl7W+DO8Of7OIOpQ6hZPLSQJ2eY3X666Fw4aiuWWhgX4rT+VTu0BnRHA==
+"@xdn/react@^2.33.1":
+  version "2.33.1"
+  resolved "https://registry.yarnpkg.com/@xdn/react/-/react-2.33.1.tgz#51a9eadf54e9a81e60a217614698e06eb965ada3"
+  integrity sha512-0CIpbm7j6UN5LtTthSxdMU3m4FFkxXZq/lWnI5yt12bYkrFIhKBjg3m+0wpvgSfn0l77QdhR5tykYKT8D1K8Bg==
   dependencies:
     react-merge-refs "^1.0.0"
 
