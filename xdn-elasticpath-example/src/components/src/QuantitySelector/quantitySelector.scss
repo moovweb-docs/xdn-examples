@@ -1,0 +1,100 @@
+@import './../../../theme/common.scss';
+
+.form-group {
+    margin-bottom: 15px;
+
+    .control-label {
+      margin: 10px 0;
+      color: $mainTextColor;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .quantity-selector-container {
+        width: 138px;
+        height: 34px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 4px;
+
+        .form-control-quantity {
+          display: block;
+          width: 82px;
+          height: 32px;
+          font-size: 14px;
+          border: 1px solid $fifthComplimentTextColor;
+          border-radius: 4px;
+          text-align: center;
+          margin: 0 auto;
+        }
+
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        input[type=number] {
+          -moz-appearance:textfield;
+        }
+      }
+
+      .quantity-right-plus,
+      .quantity-left-minus {
+        padding: 0;
+        border-radius: 50%;
+        height: 18px;
+        width: 18px;
+        background-color: white;
+        position: relative;
+        border: 1px solid $firstBorderColor;
+        vertical-align: -webkit-baseline-middle;
+
+        svg {
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          fill: $firstComplimentColor;
+        }
+
+        &:hover {
+          border-color: $firstComplimentColor;
+          background-color: $firstComplimentColor;
+
+          svg {
+            fill: $mainBackgroundColor;
+          }
+
+          &:before {
+            svg {
+              fill: $mainBackgroundColor;
+            }
+          }
+        }
+      }
+
+    .form-content {
+      float: right;
+
+      .form-control {
+        border: solid 1px #8a8a8a;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: normal;
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        width: 180px;
+        height: 30px;
+        background: url('#{$imgComponentUrl}/header-icons/down-arrow.png') no-repeat 96% 0;
+        background-position: 152px;
+        background-size: 16px 9px;
+      }
+
+      .form-control-text {
+        background: $mainBackgroundColor;
+      }
+    }
+  }

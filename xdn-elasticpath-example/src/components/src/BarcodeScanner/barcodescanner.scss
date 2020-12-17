@@ -1,0 +1,16 @@
+.viewport-container {
+  padding: 10px;
+  .viewport {
+    position: relative;
+
+    video, .drawingBuffer {
+      width: 100%;
+    }
+  }
+}
+
+canvas.drawing, canvas.drawingBuffer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
