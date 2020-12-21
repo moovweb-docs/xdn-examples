@@ -1,0 +1,6 @@
+# Minified build assets
+dist/
+# Generated coverage pages
+coverage
+# Links scrapper code snippets
+xdn/scrapper.js
