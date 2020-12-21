@@ -1,37 +1,33 @@
-import Link from 'next/link';
-import { Prefetch } from '@xdn/react';
-import styles from '../styles/Header.module.css';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { getCategories } from '../lib/cms';
-import BackButton from './BackButton';
+import Link from 'next/link'
+import { Prefetch } from '@xdn/react'
+import styles from '../styles/Header.module.css'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { getCategories } from '../lib/cms'
 
 export default function Header() {
-  const [categories, setCategories] = useState();
-  const [activeTab, setActiveTab] = useState();
-  const [displayBackButton, setDisplayBackButton] = useState(false);
-  const router = useRouter();
+  const [categories, setCategories] = useState()
+  const [activeTab, setActiveTab] = useState()
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchCategories() {
-      const { categories: results, error } = await getCategories();
+      const { categories: results } = await getCategories()
 
-      setCategories(results);
+      setCategories(results)
     }
-    fetchCategories();
-  }, []);
+    fetchCategories()
+  }, [])
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', (url) => {
-      setDisplayBackButton(url !== '/');
-
+    router.events.on('routeChangeComplete', url => {
       if (categories) {
-        setActiveTab(categories.findIndex(({ href }) => href === url));
+        setActiveTab(categories.findIndex(({ href }) => href === url))
       }
-    });
-  }, [categories]);
+    })
+  }, [categories])
 
-  if (!categories) return null;
+  if (!categories) return null
 
   return (
     <>
@@ -46,22 +42,29 @@ export default function Header() {
         </div>
         <div className={`md:flex ${styles.container}`}>
           <ul>
-            {categories.map(({ category, categoryName, href }, i) => (
-              <li
-                key={categoryName}
-                className={activeTab === i ? styles.active : null}
-              >
-                <Link href={href} passHref>
-                  <Prefetch>
-                    <a>{categoryName}</a>
-                  </Prefetch>
-                </Link>
-              </li>
-            ))}
+            {categories.map(({ categoryName, href }, i) => {
+              const prefetchProps = {}
+
+              if (process.browser) {
+                // prefetch URL needs to include the `name` param otherwise it will be a browser miss
+                prefetchProps.url = `/_next/data/${__NEXT_DATA__.buildId}${href}.json?name=${
+                  href.split('/').reverse()[0]
+                }`
+              }
+
+              return (
+                <li key={categoryName} className={activeTab === i ? styles.active : null}>
+                  <Link href={href} passHref>
+                    <Prefetch {...prefetchProps}>
+                      <a>{categoryName}</a>
+                    </Prefetch>
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </header>
-      <div className="container">{displayBackButton && <BackButton />}</div>
     </>
-  );
+  )
 }
