@@ -1,14 +1,12 @@
 import fetch from 'axios'
-// @ts-ignore
-import BUILD_ID from '!raw-loader!../.xdn/BUILD_ID'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
-function cleanPath(path: string) {
+function cleanPath(path) {
   return path.replace(/^\//, '')
 }
 
-function getApiUrl(path: string) {
+function getApiUrl(path) {
   if (typeof window === 'undefined') {
     return `${origin}/${cleanPath(path)}`
   }
@@ -16,14 +14,14 @@ function getApiUrl(path: string) {
   return location.protocol + '//' + location.host + getApiPath(path)
 }
 
-export function getOptimizedImageUrl(path: string) {
+export function getOptimizedImageUrl(path) {
   return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
     origin + path
-  )}&nuxt`
+  )}&vue`
 }
 
-export function getApiPath(path: string) {
-  return `/api/${BUILD_ID}/${cleanPath(path)}`
+export function getApiPath(path) {
+  return `/api/${cleanPath(path)}`
 }
 
 /**
@@ -42,11 +40,11 @@ export async function getCategories() {
  *
  * @return {Object}
  */
-export async function getProductsByCategory(categoryName: any) {
+export async function getProductsByCategory(categoryName) {
   const res = await fetch(getApiUrl(`/category/${categoryName}`))
 
   const products = res.data
-  products.forEach((item: any) => (item.picture = getOptimizedImageUrl(item.picture)))
+  products.forEach(item => (item.picture = getOptimizedImageUrl(item.picture)))
 
   return products
 }
@@ -57,7 +55,7 @@ export async function getProductsByCategory(categoryName: any) {
  *
  * @return {Object}
  */
-export async function getProductById(productId: any) {
+export async function getProductById(productId) {
   const res = await fetch(getApiUrl(`/product/${productId}`))
   const product = res.data
   product.picture = getOptimizedImageUrl(product.picture)

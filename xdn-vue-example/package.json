@@ -1,0 +1,60 @@
+{
+  "name": "xdn-vue-example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "xdn": "xdn",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy moovweb-docs",
+    "xdn:start": "xdn run"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "register-service-worker": "^1.7.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.9",
+    "@vue/cli-plugin-router": "^4.5.9",
+    "@vue/cli-service": "~4.5.0",
+    "@xdn/cli": "^2.32.2",
+    "@xdn/core": "^2.32.2",
+    "@xdn/devtools": "^2.32.2",
+    "@xdn/prefetch": "^2.32.2",
+    "@xdn/vue": "^2.32.2",
+    "autoprefixer": "^9.8.6",
+    "axios": "^0.21.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.15.0",
+    "eslint-plugin-vue": "^7.2.0",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
+    "vue-cli-plugin-bundle-service-worker": "~0.1.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
