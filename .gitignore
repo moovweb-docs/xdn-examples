@@ -94,3 +94,7 @@ sw.*
 .xdn
 
 .prettierignore
+
+# yalc
+.yalc
+yalc.lock
