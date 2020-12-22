@@ -1432,10 +1432,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xdn/cli@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/cli/-/cli-2.33.4.tgz#1572b592aa6bc4e71ca5146fa504ca58f38eb2f5"
-  integrity sha512-9e1y4thBgk76asGuwSFpF8zf/z1FJUtOMzSGK+Py19svbZKaatdjhiPXXnLG3BK2lhNOwbsryIbErcr0UlVb1A==
+"@xdn/cli@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/cli/-/cli-2.35.0.tgz#62372ba24fcb29a4db5fbe14f158d56c5a992ed7"
+  integrity sha512-tiooQx1BLXVH5QysOFFHbcBaollosmw2w6wQOnZl04VpE30P3pOhDv3/KtwY2y2wpLSUfB+dOqV2nbcnyj5oeQ==
   dependencies:
     axios "^0.19.0"
     chalk "^2.4.2"
@@ -1465,10 +1465,10 @@
     yauzl "^2.10.0"
     yazl "^2.5.1"
 
-"@xdn/core@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/core/-/core-2.33.4.tgz#962500c5f73617469502a70324bdaeb310515f0e"
-  integrity sha512-S/nf5hPo4Jqc1MP33ZGRTHMtJt1PwyNTfYAtoyeqbtHfWKvE67xqtakPFgw8SoUBT7FzRD/2W3KGfE3dCJtQEg==
+"@xdn/core@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/core/-/core-2.35.0.tgz#4f6703ca030a6c9d07c1e733e89246dd5b5740dd"
+  integrity sha512-inEMqiIJcgjH+7loztyvV4TS7T/B0WLeLjOAPY4s0E15fQkTkQIpQdiaT5JEEXSknSH6XD7VUBT6srwplpC18Q==
   dependencies:
     ajv "^6.12.3"
     babel-loader "^8.1.0"
@@ -1489,6 +1489,7 @@
     path-to-regexp "^6.1.0"
     pino "^6.5.1"
     resolve-package-path "^2.0.0"
+    shelljs "^0.8.4"
     slash "^3.0.0"
     tcp-port-used "^1.0.1"
     ts-loader "^6.2.2"
@@ -1497,19 +1498,19 @@
     webpack-bundle-analyzer "^3.9.0"
     webpack-dev-middleware "^4.0.0"
 
-"@xdn/devtools@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/devtools/-/devtools-2.33.4.tgz#bdad1003d62fc87d567c32f548221520ead11aaa"
-  integrity sha512-ubyWLyAnEGu1WPCPBxLGybHPhelrv7y53zgFoeCKCEyi6OhKnTZOWNdcLw4VRt2InxMolXCCilLsduYESUgK5w==
+"@xdn/devtools@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/devtools/-/devtools-2.35.0.tgz#9c800f150120ee8142fd1679b8b60937941b4c87"
+  integrity sha512-ZwWAhVL1TG7RpDHxxln32FnQsEizskWr7C0f1qfcizjnXn6LvxM2W/9UckUcTYvM1wB7ussQOcl+0TSX3Cw5sA==
   dependencies:
     clsx "^1.1.1"
     lodash "^4.17.20"
     sirv-cli "^1.0.0"
 
-"@xdn/next@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/next/-/next-2.33.4.tgz#07ee8944fa8ba90ee7c7976bb504e16a4d4e6b46"
-  integrity sha512-3G5zXayNmfttuNkunrvs0wHUsqkblGOXnT9tRWTeNFVz95TLz/fW1hZTatWI+BPrqZvwZwWzjKUhvuFKwo2/Sg==
+"@xdn/next@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/next/-/next-2.35.0.tgz#8e551d95d81cf1679eb893c4956a2c4b044e7530"
+  integrity sha512-TwxW2H7ZACKZGkYStfD8KNKQ8AJ6csLG+h5KN8bBOuXuE3yLx7c/mmeI3E+veADflD0WmBZTcYpxGFldZIRzmQ==
   dependencies:
     chalk "^3.0.0"
     cross-spawn "^7.0.3"
@@ -1520,10 +1521,10 @@
     slash "^3.0.0"
     webpack-sources "^2.2.0"
 
-"@xdn/prefetch@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/prefetch/-/prefetch-2.33.4.tgz#50782983ad70321112cd6b0090695f1f724d68ba"
-  integrity sha512-KwEwHBTuLRxY3WMbxkshJEt0wupmp1Uq1OK9fkozcy2ot9vo8ZDbB81lvpKeivyGVV1r10+zrzEBAvmzedUCJw==
+"@xdn/prefetch@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/prefetch/-/prefetch-2.35.0.tgz#4af030557506fe44612e2fa268bb15273c272faa"
+  integrity sha512-iNSxae6urrNWYhvfsqW/krAiQ5DPjhTNOmlEreIE43j3PBS/0kG8szfgO4Whjv4dqEO42mDOjIhXqWG7Wbeuog==
   dependencies:
     "@types/cheerio" "^0.22.18"
     cheerio "^1.0.0-rc.3"
@@ -1535,10 +1536,10 @@
     workbox-routing "^5.1.2"
     workbox-strategies "^5.1.2"
 
-"@xdn/react@^2.33.4":
-  version "2.33.4"
-  resolved "https://registry.yarnpkg.com/@xdn/react/-/react-2.33.4.tgz#9183e4cf9dc456d8be75dd903aa04632797a0000"
-  integrity sha512-ByEoFyII55Ayutv0xQy/qWjdu/FMqAdbnjvoWll4Ua5NleOm2m7PjmYbc9oJIBHbEZA7nx8nCZhN8668QK/fMg==
+"@xdn/react@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@xdn/react/-/react-2.35.0.tgz#322275ba4faff334f60135cf73e68d1cd339ca0d"
+  integrity sha512-Yt95wlWhE+HavfOwR1ZYkjqcoD/Hv/Vl3zzrs8n55dyUlrO52X1fG+WNuhJiv5bEYz7O4mFuYmI5WZZj57zfEQ==
   dependencies:
     react-merge-refs "^1.0.0"
 

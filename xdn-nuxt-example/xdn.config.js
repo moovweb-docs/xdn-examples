@@ -4,6 +4,7 @@
 // You should commit this file to source control.
 
 module.exports = {
+  connector: '@xdn/nuxt',
   backends: {
     api: {
       domainOrIp: 'moovweb-docs-xdn-examples-api-default.moovweb-edge.io',
