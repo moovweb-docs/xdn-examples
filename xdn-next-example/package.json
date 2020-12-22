@@ -1,7 +1,7 @@
 {
   "scripts": {
     "xdn": "xdn",
-    "xdn:start": "xdn run",
+    "xdn:dev": "xdn dev",
     "xdn:build": "xdn build",
     "xdn:deploy": "xdn deploy moovweb-docs",
     "dev": "next dev",
@@ -12,7 +12,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@xdn/react": "^2.30.2-next-1605621812-3186ddbb.0",
+    "@xdn/react": "^2.35.0",
     "next": "9.5.5",
     "react": "16.14.0",
     "react-dom": "16.14.0"
@@ -21,11 +21,11 @@
     "@types/node": "^14.14.6",
     "@types/react": "^16.9.56",
     "@types/webpack-env": "^1.15.3",
-    "@xdn/cli": "^2.30.2-next-1605621812-3186ddbb.0",
-    "@xdn/core": "^2.30.2-next-1605621812-3186ddbb.0",
-    "@xdn/devtools": "^2.30.2-next-1605621812-3186ddbb.0",
-    "@xdn/next": "^2.30.2-next-1605621812-3186ddbb.0",
-    "@xdn/prefetch": "^2.30.2-next-1605621812-3186ddbb.0",
+    "@xdn/cli": "^2.35.0",
+    "@xdn/core": "^2.35.0",
+    "@xdn/devtools": "^2.35.0",
+    "@xdn/next": "^2.35.0",
+    "@xdn/prefetch": "^2.35.0",
     "node-fetch": "^2.6.1",
     "serverless": "^1.83.0",
     "serverless-dotenv-plugin": "^2.4.2",

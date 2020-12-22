@@ -11,8 +11,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <p className={styles.description}>
-          This is an example Next.js app powered by Moovweb XDN.
-          Click a category above to get started.
+          This is an example Next.js app powered by Moovweb XDN. Click a category above to get
+          started.
         </p>
       </main>
     </div>

@@ -89,5 +89,12 @@ sw.*
 
 # Vim swap files
 *.swp
+
 # XDN generated build directory
 .xdn
+
+.prettierignore
+
+# yalc
+.yalc
+yalc.lock

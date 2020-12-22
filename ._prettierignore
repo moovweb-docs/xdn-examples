@@ -1,0 +1,5 @@
+# Patterns in addition to .gitignore to be excluded from prettier
+.github/**
+package-lock.json
+**/node_modules/*
+**/__sapper__/**
