@@ -14,14 +14,14 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : 'http://localhost:3000',
-          prefix: '/rest/v2/'
+          baseUrl: 'https://moovweb-docs-xdn-spartacus-example-default.moovweb-edge.io',
         }
       },
       context: {
         currency: ['USD'],
         language: ['en'],
         baseSite: ['electronics-spa'],
+        urlParameters: ['baseSite'],
       },
       i18n: {
         resources: translations,
@@ -29,7 +29,7 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
         fallbackLang: 'en'
       },
       features: {
-        level: '2.1'
+        level: '3.0'
       }
     }),
     BrowserTransferStateModule

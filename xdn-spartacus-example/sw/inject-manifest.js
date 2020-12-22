@@ -1,6 +1,7 @@
 // Script that modifies the service-worker.js configuration using workbox-build
 // Reference: https://developers.google.com/web/tools/workbox/modules/workbox-build
 
+const { getBuildPath } = require('@xdn/angular/utils/getBuildPath')
 const { injectManifest } = require('workbox-build')
 const { join } = require('path')
 const swSrc = join(__dirname, '..', 'dist', '__xdn__', 'service-worker.js')
@@ -8,7 +9,7 @@ const swSrc = join(__dirname, '..', 'dist', '__xdn__', 'service-worker.js')
 injectManifest({
   swSrc,
   swDest: swSrc,
-  globDirectory: 'dist/xdn-spartacus-example/browser/',
+  globDirectory: getBuildPath(),
   globPatterns: ['*.{css,js}'],
   globFollow: true, // follow symlinks
   globStrict: true, // fail the build if anything goes wrong while reading the files

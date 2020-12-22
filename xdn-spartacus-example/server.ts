@@ -5,7 +5,7 @@ import '@angular/localize/init';
 import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
-import { NgExpressEngineDecorator } from '@spartacus/core';
+import { NgExpressEngineDecorator } from '@spartacus/setup/ssr';
 import * as express from 'express';
 import { join } from 'path';
 

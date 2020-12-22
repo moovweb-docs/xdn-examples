@@ -20,6 +20,9 @@ const CACHE_API = {
 }
 
 const CACHE_ASSETS = {
+  browser: {
+    maxAgeSeconds: PAGE_TTL,
+  },
   edge: {
     maxAgeSeconds: FAR_FUTURE_TTL,
     staleWhileRevalidateSeconds: PAGE_TTL,
@@ -27,11 +30,8 @@ const CACHE_ASSETS = {
   },
 }
 
-const CACHE_PAGE = {
-  browser: {
-    maxAgeSeconds: PAGE_TTL * 365,
-    serviceWorkerSeconds: PAGE_TTL * 365,
-  },
+const CACHE_SSR_PAGE = {
+  prefetchUpstreamRequests: true,
   edge: {
     maxAgeSeconds: PAGE_TTL * 365,
     staleWhileRevalidateSeconds: PAGE_TTL * 365,
@@ -40,7 +40,7 @@ const CACHE_PAGE = {
 }
 
 export default new Router()
-  .match('/rest/v2/:path*', ({ cache, proxy, removeRequestHeader }) => {
+  .match('/occ/v2/:path*', ({ cache, proxy, removeRequestHeader }) => {
     removeRequestHeader('origin')
     cache(CACHE_API)
     proxy('commerce')
@@ -53,10 +53,8 @@ export default new Router()
   .post('/authorizationserver/oauth/:path*', ({ proxy }) => {
     proxy('commerce')
   })
-  .get('/Open-Catalogue/:path*', ({ cache }) => {
-    cache(CACHE_PAGE)
-  })
-  .get('/products/:path*', ({ cache }) => {
-    cache(CACHE_PAGE)
+  // Example route that forces prefetching of requests listed in an x-xdn-upstream-requests header
+  .get('/electronics-spa/:path*', ({ cache }) => {
+    cache(CACHE_SSR_PAGE)
   })
   .use(angularRoutes)
