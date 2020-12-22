@@ -95,3 +95,7 @@ sw.*
 BUILD_ID
 
 .prettierignore
+
+# yalc
+.yalc
+yalc.lock
