@@ -48,3 +48,11 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-nuxt-example
+      - name: Spartacus Example - Install modules
+        run: npm ci
+        working-directory: ./xdn-spartacus-example
+      - name: Spartacus Example - Deploy to XDN
+        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_SPARTACUS_DEPLOY_TOKEN}}
+        working-directory: ./xdn-spartacus-example
