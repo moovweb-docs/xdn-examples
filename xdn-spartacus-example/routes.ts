@@ -39,7 +39,15 @@ const CACHE_SSR_PAGE = {
   },
 }
 
+const ssrPageCacheHandler = ({ cache }) => {
+  cache(CACHE_SSR_PAGE)
+}
+
 export default new Router()
+  .match('/occ/v2/electronics-spa/users/:user/:path*', ({ proxy, removeRequestHeader }) => {
+    removeRequestHeader('origin')
+    proxy('commerce')
+  })
   .match('/occ/v2/:path*', ({ cache, proxy, removeRequestHeader }) => {
     removeRequestHeader('origin')
     cache(CACHE_API)
@@ -53,8 +61,8 @@ export default new Router()
   .post('/authorizationserver/oauth/:path*', ({ proxy }) => {
     proxy('commerce')
   })
-  // Example route that forces prefetching of requests listed in an x-xdn-upstream-requests header
-  .get('/electronics-spa/:path*', ({ cache }) => {
-    cache(CACHE_SSR_PAGE)
-  })
+  // Main app pages:
+  .get('/electronics-spa/open-Catalogue/:path*', ssrPageCacheHandler)
+  .get('/electronics-spa/product/:path*', ssrPageCacheHandler)
+  .get('/electronics-spa/Brands/:path*', ssrPageCacheHandler)
   .use(angularRoutes)
