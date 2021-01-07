@@ -24,7 +24,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-       - name: Next.js Example - Deploy to XDN
+      - name: Next.js Example - Deploy to XDN
         run: |
           npm ci
           npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
@@ -45,7 +45,7 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-nuxt-example
-     - name: Spartacus Example - Deploy to XDN
+      - name: Spartacus Example - Deploy to XDN
         run: |
           npm ci
           npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
