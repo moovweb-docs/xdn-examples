@@ -1,4 +1,4 @@
 export interface NewsletterState {
-  isSubscribed: boolean | null,
+  isSubscribed: boolean | null
   email: string | null
 }

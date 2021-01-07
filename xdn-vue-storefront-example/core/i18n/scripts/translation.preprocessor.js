@@ -7,7 +7,7 @@ const { currentBuildLocales } = require('../helpers')
 /**
  *  Converts an Array to an Object
  */
-function convertToObject (array) {
+function convertToObject(array) {
   const obj = []
   array.forEach((element, index, array) => {
     obj[element[0]] = element[1]
@@ -35,7 +35,10 @@ module.exports = function (csvDirectories, config = null) {
             languages.push(baseName)
           }
           console.debug(`Processing translation file: ${fullFileName}`)
-          messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
+          messages[baseName] = Object.assign(
+            messages[baseName] ? messages[baseName] : {},
+            convertToObject(dsv.parseRows(fileContent))
+          )
         }
       }
     })
@@ -43,25 +46,34 @@ module.exports = function (csvDirectories, config = null) {
 
   // create fallback
   console.debug(`Writing JSON file fallback: ${fallbackLocale}.json`)
-  fs.writeFileSync(path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`), JSON.stringify(messages[fallbackLocale] || {}))
+  fs.writeFileSync(
+    path.join(__dirname, '../resource/i18n', `${fallbackLocale}.json`),
+    JSON.stringify(messages[fallbackLocale] || {})
+  )
 
   // bundle all messages in one file
   if (config && config.i18n.bundleAllStoreviewLanguages) {
     const bundledLanguages = { [fallbackLocale]: messages[fallbackLocale] } // fallback locale
     bundledLanguages[config.i18n.defaultLocale] = messages[config.i18n.defaultLocale] // default locale
-    currentLocales.forEach((locale) => {
+    currentLocales.forEach(locale => {
       bundledLanguages[locale] = messages[locale]
     })
 
     console.debug(`Writing JSON file multistoreLanguages`)
-    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
+    fs.writeFileSync(
+      path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`),
+      JSON.stringify(bundledLanguages)
+    )
   } else {
-    currentLocales.forEach((language) => {
+    currentLocales.forEach(language => {
       if (language === fallbackLocale) return // it's already loaded
       const filePath = path.join(__dirname, '../resource/i18n', `${language}.json`)
       console.debug(`Writing JSON file: ${language}.json`)
       fs.writeFileSync(filePath, JSON.stringify(messages[language]))
     })
-    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify({})) // fix for webpack compilation error in case of `bundleAllStoreviewLanguages` = `false` (#3188)
+    fs.writeFileSync(
+      path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`),
+      JSON.stringify({})
+    ) // fix for webpack compilation error in case of `bundleAllStoreviewLanguages` = `false` (#3188)
   }
 }

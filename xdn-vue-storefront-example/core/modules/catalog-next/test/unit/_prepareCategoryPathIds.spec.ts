@@ -1,25 +1,25 @@
-import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
-import { Category } from '../../types/Category';
+import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
+import { Category } from '../../types/Category'
 
-jest.mock('@vue-storefront/core/modules/breadcrumbs/helpers', () => jest.fn());
+jest.mock('@vue-storefront/core/modules/breadcrumbs/helpers', () => jest.fn())
 
 describe('_prepareCategoryPathIds method', () => {
   let parentCategory: Category
 
   beforeEach(() => {
     parentCategory = {
-      'path': '1/2',
-      'is_active': true,
-      'level': 1,
-      'product_count': 1181,
-      'children_count': '38',
-      'parent_id': 1,
-      'name': 'All',
-      'id': 2,
-      'url_key': 'all-2',
-      'children_data': [],
-      'url_path': 'all-2',
-      'slug': 'all-2'
+      path: '1/2',
+      is_active: true,
+      level: 1,
+      product_count: 1181,
+      children_count: '38',
+      parent_id: 1,
+      name: 'All',
+      id: 2,
+      url_key: 'all-2',
+      children_data: [],
+      url_path: 'all-2',
+      slug: 'all-2',
     }
   })
 
@@ -27,13 +27,13 @@ describe('_prepareCategoryPathIds method', () => {
     const result = _prepareCategoryPathIds(null)
     expect(result).toBeDefined()
     expect(result.length).toEqual(0)
-  });
+  })
 
   it('should return an array from category path', () => {
     const result = _prepareCategoryPathIds(parentCategory)
     expect(result).toBeDefined()
     expect(result).toEqual(['1', '2'])
-  });
+  })
 
   it('should return array with single value', () => {
     parentCategory.path = '2'

@@ -1,278 +1,293 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
-import { Payment } from '../../../components/Payment';
+import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils'
+import { Payment } from '../../../components/Payment'
 
 describe('Payment', () => {
-  let mockStore;
-  let mockMountingOptions;
-  let mockMethods;
-  let mockHooks;
+  let mockStore
+  let mockMountingOptions
+  let mockMethods
+  let mockHooks
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.clearAllMocks()
 
     mockStore = {
       modules: {
         cart: {
           getters: {
-            isVirtualCart: jest.fn(() => true)
+            isVirtualCart: jest.fn(() => true),
           },
-          namespaced: true
+          namespaced: true,
         },
         checkout: {
           state: {
-            shippingDetails: {}
+            shippingDetails: {},
           },
           getters: {
-            getPaymentMethods: jest.fn(() => ([])),
+            getPaymentMethods: jest.fn(() => []),
             getPaymentDetails: jest.fn(() => ({
               paymentMethod: '',
               firstName: '',
               company: '',
-              country: ''
-            }))
+              country: '',
+            })),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           state: {
-            current: {}
+            current: {},
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
     mockMountingOptions = {
       propsData: {
-        isActive: true
+        isActive: true,
       },
       mocks: {
         $bus: {
-          $emit: jest.fn()
-        }
+          $emit: jest.fn(),
+        },
+      },
+    }
+
+    mockMethods = Object.entries(Payment.methods).reduce((result, [methodName]) => {
+      result[methodName] = jest
+        .spyOn(Payment.methods, methodName as keyof typeof Payment.methods)
+        .mockImplementation(jest.fn())
+
+      return result
+    }, {})
+
+    mockHooks = [
+      'beforeCreate',
+      'created',
+      'beforeMount',
+      'mounted',
+      'beforeUpdate',
+      'updated',
+      'beforeDestroy',
+      'destroyed',
+    ].reduce((result, hookName) => {
+      if (Payment[hookName]) {
+        result[hookName] = jest.spyOn(Payment, hookName as any).mockImplementation(jest.fn())
       }
-    };
 
-    mockMethods = Object.entries(Payment.methods)
-      .reduce((result, [methodName]) => {
-        result[methodName] = jest.spyOn(Payment.methods, methodName as keyof typeof Payment.methods)
-          .mockImplementation(jest.fn());
-
-        return result;
-      }, {});
-
-    mockHooks = ['beforeCreate', 'created', 'beforeMount', 'mounted', 'beforeUpdate', 'updated', 'beforeDestroy', 'destroyed']
-      .reduce((result, hookName) => {
-        if (Payment[hookName]) {
-          result[hookName] = jest.spyOn(Payment, hookName as any)
-            .mockImplementation(jest.fn());
-        }
-
-        return result;
-      }, {});
-  });
+      return result
+    }, {})
+  })
 
   it('can be initialized', () => {
-    const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+    const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-    expect(wrapper.exists()).toBe(true);
-    expect(wrapper.isVueInstance()).toBe(true);
-  });
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.isVueInstance()).toBe(true)
+  })
 
   it('exposes computed properties', () => {
-    const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+    const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-    expect((wrapper.vm as any).currentUser).toBeDefined();
-    expect((wrapper.vm as any).shippingDetails).toBeDefined();
-    expect((wrapper.vm as any).paymentMethods).toBeDefined();
-    expect((wrapper.vm as any).paymentDetails).toBeDefined();
-    expect((wrapper.vm as any).isVirtualCart).toBeDefined();
-  });
+    expect((wrapper.vm as any).currentUser).toBeDefined()
+    expect((wrapper.vm as any).shippingDetails).toBeDefined()
+    expect((wrapper.vm as any).paymentMethods).toBeDefined()
+    expect((wrapper.vm as any).paymentDetails).toBeDefined()
+    expect((wrapper.vm as any).isVirtualCart).toBeDefined()
+  })
 
   describe('hooks', () => {
     describe('created hook', () => {
       beforeEach(() => {
-        mockHooks['created'].mockRestore();
-      });
+        mockHooks['created'].mockRestore()
+      })
 
       it('should initialize payment method as "cashondelivery" if payment method is not configured', () => {
-        mockMethods['notInMethods'].mockReturnValue(false);
-        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([]));
+        mockMethods['notInMethods'].mockReturnValue(false)
+        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [])
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-          paymentMethod: ''
-        }));
+          paymentMethod: '',
+        }))
 
-        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-        expect((wrapper.vm as any).payment.paymentMethod).toBe('cashondelivery');
-      });
+        expect((wrapper.vm as any).payment.paymentMethod).toBe('cashondelivery')
+      })
 
       it('should initialize payment method as "cashondelivery" if payment method is not supported', () => {
-        mockMethods['notInMethods'].mockReturnValue(true);
-        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([]));
+        mockMethods['notInMethods'].mockReturnValue(true)
+        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [])
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-          paymentMethod: 'not supported payment method'
-        }));
+          paymentMethod: 'not supported payment method',
+        }))
 
-        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-        expect((wrapper.vm as any).payment.paymentMethod).toBe('cashondelivery');
-      });
+        expect((wrapper.vm as any).payment.paymentMethod).toBe('cashondelivery')
+      })
 
       it('should initialize payment method as first one from all payment methods if it is not configured', () => {
-        mockMethods['notInMethods'].mockReturnValue(true);
-        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([
-          { code: 'first payment method' }, { code: 'second payment method' }
-        ]));
+        mockMethods['notInMethods'].mockReturnValue(true)
+        mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [
+          { code: 'first payment method' },
+          { code: 'second payment method' },
+        ])
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-          paymentMethod: 'not supported payment method'
-        }));
+          paymentMethod: 'not supported payment method',
+        }))
 
-        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-        expect((wrapper.vm as any).payment.paymentMethod).toBe('first payment method');
-      });
-    });
+        expect((wrapper.vm as any).payment.paymentMethod).toBe('first payment method')
+      })
+    })
 
     describe('mounted hook', () => {
       beforeEach(() => {
-        mockHooks['mounted'].mockRestore();
-      });
+        mockHooks['mounted'].mockRestore()
+      })
 
       it('should initialize billing address if payment is from individual customer and then change payment method', () => {
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
           firstName: 'example first name',
-          company: ''
-        }));
+          company: '',
+        }))
 
-        mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+        mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-        expect(mockMethods['initializeBillingAddress']).toHaveBeenCalled();
-        expect(mockMethods['changePaymentMethod']).toHaveBeenCalled();
-      });
+        expect(mockMethods['initializeBillingAddress']).toHaveBeenCalled()
+        expect(mockMethods['changePaymentMethod']).toHaveBeenCalled()
+      })
 
       it('should mark invoice generation and do not initialize billing address if payment is from company and then change payment method', () => {
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
           firstName: '',
-          company: 'example company'
-        }));
+          company: 'example company',
+        }))
 
-        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+        const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-        expect(mockMethods['initializeBillingAddress']).not.toHaveBeenCalled();
-        expect(mockMethods['changePaymentMethod']).toHaveBeenCalled();
-        expect((wrapper.vm as any).generateInvoice).toBeTruthy();
-      });
-    });
-  });
+        expect(mockMethods['initializeBillingAddress']).not.toHaveBeenCalled()
+        expect(mockMethods['changePaymentMethod']).toHaveBeenCalled()
+        expect((wrapper.vm as any).generateInvoice).toBeTruthy()
+      })
+    })
+  })
 
   describe('watchers', () => {
     it('should call copyShippingToBillingAddress method if "send to shipping address" flag is configured', () => {
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToShippingAddress: true });
-      (wrapper.vm as any).$options.watch.shippingDetails.handler.call(wrapper.vm);
+      wrapper.setData({ sendToShippingAddress: true })
+      ;(wrapper.vm as any).$options.watch.shippingDetails.handler.call(wrapper.vm)
 
-      expect(mockMethods['copyShippingToBillingAddress']).toHaveBeenCalled();
-    });
+      expect(mockMethods['copyShippingToBillingAddress']).toHaveBeenCalled()
+    })
 
     it('should not call copyShippingToBillingAddress method if "send to shipping address" flag is not configured', () => {
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToShippingAddress: false });
-      (wrapper.vm as any).$options.watch.shippingDetails.handler.call(wrapper.vm);
+      wrapper.setData({ sendToShippingAddress: false })
+      ;(wrapper.vm as any).$options.watch.shippingDetails.handler.call(wrapper.vm)
 
-      expect(mockMethods['copyShippingToBillingAddress']).not.toHaveBeenCalled();
-    });
+      expect(mockMethods['copyShippingToBillingAddress']).not.toHaveBeenCalled()
+    })
 
     it('should call useShippingAddress method if "send to shipping address" flag is changed', () => {
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      (wrapper.vm as any).$options.watch.sendToShippingAddress.handler.call(wrapper.vm);
+      ;(wrapper.vm as any).$options.watch.sendToShippingAddress.handler.call(wrapper.vm)
 
-      expect(mockMethods['useShippingAddress']).toHaveBeenCalled();
-    });
+      expect(mockMethods['useShippingAddress']).toHaveBeenCalled()
+    })
 
     it('should call useBillingAddress method if "send to billing address" flag is changed', () => {
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      (wrapper.vm as any).$options.watch.sendToBillingAddress.handler.call(wrapper.vm);
+      ;(wrapper.vm as any).$options.watch.sendToBillingAddress.handler.call(wrapper.vm)
 
-      expect(mockMethods['useBillingAddress']).toHaveBeenCalled();
-    });
+      expect(mockMethods['useBillingAddress']).toHaveBeenCalled()
+    })
 
     it('should call useGenerateInvoice method if "generate invoice" flag is changed', () => {
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      (wrapper.vm as any).$options.watch.generateInvoice.handler.call(wrapper.vm);
+      ;(wrapper.vm as any).$options.watch.generateInvoice.handler.call(wrapper.vm)
 
-      expect(mockMethods['useGenerateInvoice']).toHaveBeenCalled();
-    });
-  });
+      expect(mockMethods['useGenerateInvoice']).toHaveBeenCalled()
+    })
+  })
 
   describe('methods', () => {
     it('sendDataToCheckout method should emit an event and set flag', () => {
-      mockMethods['sendDataToCheckout'].mockRestore();
+      mockMethods['sendDataToCheckout'].mockRestore()
 
       const paymentDetails = {
         firstName: 'example first name',
         company: 'example company',
-        country: 'example country'
-      };
+        country: 'example country',
+      }
 
-      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails);
+      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails)
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      (wrapper.vm as any).sendDataToCheckout();
+      ;(wrapper.vm as any).sendDataToCheckout()
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-paymentDetails', paymentDetails, undefined);
-      expect((wrapper.vm as any).isFilled).toBe(true);
-    });
+      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith(
+        'checkout-after-paymentDetails',
+        paymentDetails,
+        undefined
+      )
+      expect((wrapper.vm as any).isFilled).toBe(true)
+    })
 
     it('edit method should emit event if flag is set', () => {
-      mockMethods['edit'].mockRestore();
+      mockMethods['edit'].mockRestore()
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ isFilled: true });
-      (wrapper.vm as any).edit();
+      wrapper.setData({ isFilled: true })
+      ;(wrapper.vm as any).edit()
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'payment');
-    });
+      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith(
+        'checkout-before-edit',
+        'payment'
+      )
+    })
 
     it('edit method should not emit event if flag is not set', () => {
-      mockMethods['edit'].mockRestore();
+      mockMethods['edit'].mockRestore()
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ isFilled: false });
-      (wrapper.vm as any).edit();
+      wrapper.setData({ isFilled: false })
+      ;(wrapper.vm as any).edit()
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
-    });
+      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled()
+    })
 
     it('hasBillingData method should inform if current user has default_billing own property', () => {
-      mockMethods['hasBillingData'].mockRestore();
+      mockMethods['hasBillingData'].mockRestore()
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      mockStore.modules.user.state.current = { default_billing: true };
-      expect((wrapper.vm as any).hasBillingData()).toBe(true);
+      mockStore.modules.user.state.current = { default_billing: true }
+      expect((wrapper.vm as any).hasBillingData()).toBe(true)
 
-      mockStore.modules.user.state.current = {};
-      expect((wrapper.vm as any).hasBillingData()).toBe(false);
-    });
+      mockStore.modules.user.state.current = {}
+      expect((wrapper.vm as any).hasBillingData()).toBe(false)
+    })
 
     it('initializeBillingAddress method should init payment properties with empty strings if current user and payment details are not set', () => {
-      mockMethods['initializeBillingAddress'].mockRestore();
+      mockMethods['initializeBillingAddress'].mockRestore()
       mockMountingOptions.computed = {
         currentUser: jest.fn(),
-        paymentDetails: jest.fn()
-      };
+        paymentDetails: jest.fn(),
+      }
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).initializeBillingAddress();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      ;(wrapper.vm as any).initializeBillingAddress()
 
       expect((wrapper.vm as any).payment).toEqual({
         firstName: '',
@@ -287,12 +302,12 @@ describe('Payment', () => {
         zipCode: '',
         phoneNumber: '',
         taxId: '',
-        paymentMethod: ''
-      });
-    });
+        paymentMethod: '',
+      })
+    })
 
     it('initializeBillingAddress method should copy billing address from address id from current user', () => {
-      mockMethods['initializeBillingAddress'].mockRestore();
+      mockMethods['initializeBillingAddress'].mockRestore()
       mockMountingOptions.computed = {
         currentUser: jest.fn(() => ({
           default_billing: 123,
@@ -308,16 +323,16 @@ describe('Payment', () => {
               street: ['example street', 'example apartment number'],
               postcode: 'example post code',
               vat_id: 'example vat id',
-              telephone: 'example telephone'
-            }
-          ]
+              telephone: 'example telephone',
+            },
+          ],
         })),
-        paymentMethods: jest.fn(() => ([{ code: 'example payment method' }])),
-        paymentDetails: jest.fn()
-      };
+        paymentMethods: jest.fn(() => [{ code: 'example payment method' }]),
+        paymentDetails: jest.fn(),
+      }
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).initializeBillingAddress();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      ;(wrapper.vm as any).initializeBillingAddress()
 
       expect((wrapper.vm as any).payment).toEqual({
         firstName: 'example first name',
@@ -331,29 +346,29 @@ describe('Payment', () => {
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
         taxId: 'example vat id',
-        paymentMethod: 'example payment method'
-      });
-      expect((wrapper.vm as any).generateInvoice).toBe(true);
-      expect((wrapper.vm as any).sendToBillingAddress).toBe(true);
-    });
+        paymentMethod: 'example payment method',
+      })
+      expect((wrapper.vm as any).generateInvoice).toBe(true)
+      expect((wrapper.vm as any).sendToBillingAddress).toBe(true)
+    })
 
     it('useShippingAddress method should call copyShippingToBillingAddress if shipping address is set', () => {
-      mockMethods['useShippingAddress'].mockRestore();
+      mockMethods['useShippingAddress'].mockRestore()
       mockMountingOptions.methods = {
-        copyShippingToBillingAddress: jest.fn()
-      };
+        copyShippingToBillingAddress: jest.fn(),
+      }
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToShippingAddress: true });
-      (wrapper.vm as any).useShippingAddress();
+      wrapper.setData({ sendToShippingAddress: true })
+      ;(wrapper.vm as any).useShippingAddress()
 
-      expect(mockMountingOptions.methods.copyShippingToBillingAddress).toHaveBeenCalled();
-      expect((wrapper.vm as any).sendToBillingAddress).toBe(false);
-    });
+      expect(mockMountingOptions.methods.copyShippingToBillingAddress).toHaveBeenCalled()
+      expect((wrapper.vm as any).sendToBillingAddress).toBe(false)
+    })
 
     it('useShippingAddress method should not call copyShippingToBillingAddress if shipping address is not set', () => {
-      mockMethods['useShippingAddress'].mockRestore();
+      mockMethods['useShippingAddress'].mockRestore()
 
       const paymentDetails = {
         firstName: 'example first name',
@@ -367,25 +382,25 @@ describe('Payment', () => {
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
         taxId: 'example vat id',
-        paymentMethod: 'example payment method'
-      };
+        paymentMethod: 'example payment method',
+      }
 
-      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails);
+      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails)
       mockMountingOptions.methods = {
-        copyShippingToBillingAddress: jest.fn()
-      };
+        copyShippingToBillingAddress: jest.fn(),
+      }
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToBillingAddress: false, sendToShippingAddress: false });
-      (wrapper.vm as any).useShippingAddress();
+      wrapper.setData({ sendToBillingAddress: false, sendToShippingAddress: false })
+      ;(wrapper.vm as any).useShippingAddress()
 
-      expect(mockMountingOptions.methods.copyShippingToBillingAddress).not.toHaveBeenCalled();
-      expect((wrapper.vm as any).payment).toEqual(paymentDetails);
-    });
+      expect(mockMountingOptions.methods.copyShippingToBillingAddress).not.toHaveBeenCalled()
+      expect((wrapper.vm as any).payment).toEqual(paymentDetails)
+    })
 
     it('copyShippingToBillingAddress method should copy data from shipping address', () => {
-      mockMethods['copyShippingToBillingAddress'].mockRestore();
+      mockMethods['copyShippingToBillingAddress'].mockRestore()
 
       const paymentDetails = {
         firstName: 'example first name',
@@ -396,25 +411,26 @@ describe('Payment', () => {
         streetAddress: 'example street',
         apartmentNumber: 'example apartment number',
         zipCode: 'example post code',
-        phoneNumber: 'example telephone'
-      };
+        phoneNumber: 'example telephone',
+      }
 
-      mockStore.modules.checkout.state.shippingDetails = paymentDetails;
-      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([
-        { code: 'first payment method' }, { code: 'second payment method' }
-      ]));
+      mockStore.modules.checkout.state.shippingDetails = paymentDetails
+      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [
+        { code: 'first payment method' },
+        { code: 'second payment method' },
+      ])
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).copyShippingToBillingAddress();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      ;(wrapper.vm as any).copyShippingToBillingAddress()
 
       expect((wrapper.vm as any).payment).toEqual({
         ...paymentDetails,
-        paymentMethod: 'first payment method'
-      });
-    });
+        paymentMethod: 'first payment method',
+      })
+    })
 
     it('useBillingAddress method should copy billing address from address id from current user', () => {
-      mockMethods['useBillingAddress'].mockRestore();
+      mockMethods['useBillingAddress'].mockRestore()
       mockMountingOptions.computed = {
         currentUser: jest.fn(() => ({
           default_billing: 123,
@@ -430,17 +446,17 @@ describe('Payment', () => {
               street: ['example street', 'example apartment number'],
               postcode: 'example post code',
               vat_id: 'example vat id',
-              telephone: 'example telephone'
-            }
-          ]
+              telephone: 'example telephone',
+            },
+          ],
         })),
-        paymentMethods: jest.fn(() => ([{ code: 'example payment method' }]))
-      };
+        paymentMethods: jest.fn(() => [{ code: 'example payment method' }]),
+      }
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToBillingAddress: true });
-      (wrapper.vm as any).useBillingAddress();
+      wrapper.setData({ sendToBillingAddress: true })
+      ;(wrapper.vm as any).useBillingAddress()
 
       expect((wrapper.vm as any).payment).toEqual({
         firstName: 'example first name',
@@ -454,14 +470,14 @@ describe('Payment', () => {
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
         taxId: 'example vat id',
-        paymentMethod: 'example payment method'
-      });
-      expect((wrapper.vm as any).generateInvoice).toBe(true);
-      expect((wrapper.vm as any).sendToShippingAddress).toBe(false);
-    });
+        paymentMethod: 'example payment method',
+      })
+      expect((wrapper.vm as any).generateInvoice).toBe(true)
+      expect((wrapper.vm as any).sendToShippingAddress).toBe(false)
+    })
 
     it('useBillingAddress method should copy billing address from payment details if address is not set', () => {
-      mockMethods['useBillingAddress'].mockRestore();
+      mockMethods['useBillingAddress'].mockRestore()
 
       const paymentDetails = {
         firstName: 'example first name',
@@ -475,128 +491,134 @@ describe('Payment', () => {
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
         taxId: 'example vat id',
-        paymentMethod: 'example payment method'
-      };
+        paymentMethod: 'example payment method',
+      }
 
-      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails);
+      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => paymentDetails)
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ sendToBillingAddress: false, sendToShippingAddress: false });
-      (wrapper.vm as any).useBillingAddress();
+      wrapper.setData({ sendToBillingAddress: false, sendToShippingAddress: false })
+      ;(wrapper.vm as any).useBillingAddress()
 
-      expect((wrapper.vm as any).payment).toEqual(paymentDetails);
-      expect((wrapper.vm as any).generateInvoice).toBe(false);
-    });
+      expect((wrapper.vm as any).payment).toEqual(paymentDetails)
+      expect((wrapper.vm as any).generateInvoice).toBe(false)
+    })
 
     it('useGenerateInvoice method should clear company and taxId fields if generateInvoice is not set', () => {
-      mockMethods['useGenerateInvoice'].mockRestore();
+      mockMethods['useGenerateInvoice'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
         company: 'example company',
-        taxId: 'example taxId'
-      }));
+        taxId: 'example taxId',
+      }))
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ generateInvoice: false });
-      (wrapper.vm as any).useGenerateInvoice();
+      wrapper.setData({ generateInvoice: false })
+      ;(wrapper.vm as any).useGenerateInvoice()
 
-      expect((wrapper.vm as any).payment.company).toBe('');
-      expect((wrapper.vm as any).payment.taxId).toBe('');
-    });
+      expect((wrapper.vm as any).payment.company).toBe('')
+      expect((wrapper.vm as any).payment.taxId).toBe('')
+    })
 
     it('useGenerateInvoice method should not clear company and taxId fields if generateInvoice is set', () => {
-      mockMethods['useGenerateInvoice'].mockRestore();
+      mockMethods['useGenerateInvoice'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
         company: 'example company',
-        taxId: 'example taxId'
-      }));
+        taxId: 'example taxId',
+      }))
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      wrapper.setData({ generateInvoice: true });
-      (wrapper.vm as any).useGenerateInvoice();
+      wrapper.setData({ generateInvoice: true })
+      ;(wrapper.vm as any).useGenerateInvoice()
 
-      expect((wrapper.vm as any).payment.company).toBe('example company');
-      expect((wrapper.vm as any).payment.taxId).toBe('example taxId');
-    });
+      expect((wrapper.vm as any).payment.company).toBe('example company')
+      expect((wrapper.vm as any).payment.taxId).toBe('example taxId')
+    })
 
     it('getCountryName method should return country name from payment', () => {
-      mockMethods['getCountryName'].mockRestore();
+      mockMethods['getCountryName'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-        country: 'PL'
-      }));
+        country: 'PL',
+      }))
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      const countryName = (wrapper.vm as any).getCountryName();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      const countryName = (wrapper.vm as any).getCountryName()
 
-      expect(countryName).toBe('Poland');
-    });
+      expect(countryName).toBe('Poland')
+    })
 
     it('getCountryName method should return empty string if country has not been found', () => {
-      mockMethods['getCountryName'].mockRestore();
+      mockMethods['getCountryName'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-        country: 'invalid country code'
-      }));
+        country: 'invalid country code',
+      }))
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      const countryName = (wrapper.vm as any).getCountryName();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      const countryName = (wrapper.vm as any).getCountryName()
 
-      expect(countryName).toBe('');
-    });
+      expect(countryName).toBe('')
+    })
 
     it('getPaymentMethod method should return payment name', () => {
-      mockMethods['getPaymentMethod'].mockRestore();
+      mockMethods['getPaymentMethod'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-        paymentMethod: 'second payment method'
-      }));
-      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([
-        { code: 'first payment method', name: 'payment 1' }, { code: 'second payment method', name: 'payment 2' }
-      ]));
+        paymentMethod: 'second payment method',
+      }))
+      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [
+        { code: 'first payment method', name: 'payment 1' },
+        { code: 'second payment method', name: 'payment 2' },
+      ])
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      const paymentMethod = (wrapper.vm as any).getPaymentMethod();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      const paymentMethod = (wrapper.vm as any).getPaymentMethod()
 
-      expect(paymentMethod).toEqual({ title: 'payment 2' });
-    });
+      expect(paymentMethod).toEqual({ title: 'payment 2' })
+    })
 
     it('getPaymentMethod method should return empty name if it is not found', () => {
-      mockMethods['getPaymentMethod'].mockRestore();
+      mockMethods['getPaymentMethod'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-        paymentMethod: 'invalid payment method'
-      }));
-      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([
-        { code: 'first payment method', name: 'payment 1' }, { code: 'second payment method', name: 'payment 2' }
-      ]));
+        paymentMethod: 'invalid payment method',
+      }))
+      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [
+        { code: 'first payment method', name: 'payment 1' },
+        { code: 'second payment method', name: 'payment 2' },
+      ])
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      const paymentMethod = (wrapper.vm as any).getPaymentMethod();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      const paymentMethod = (wrapper.vm as any).getPaymentMethod()
 
-      expect(paymentMethod).toEqual({ name: '' });
-    });
+      expect(paymentMethod).toEqual({ name: '' })
+    })
 
     it('notInMethods method should inform if given payment method is not supported', () => {
-      mockMethods['notInMethods'].mockRestore();
-      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => ([
-        { code: 'first payment method', name: 'payment 1' }, { code: 'second payment method', name: 'payment 2' }
-      ]));
+      mockMethods['notInMethods'].mockRestore()
+      mockStore.modules.checkout.getters.getPaymentMethods.mockImplementation(() => [
+        { code: 'first payment method', name: 'payment 1' },
+        { code: 'second payment method', name: 'payment 2' },
+      ])
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
 
-      expect((wrapper.vm as any).notInMethods('second payment method')).toBe(false);
-      expect((wrapper.vm as any).notInMethods('invalid payment method')).toBe(true);
-    });
+      expect((wrapper.vm as any).notInMethods('second payment method')).toBe(false)
+      expect((wrapper.vm as any).notInMethods('invalid payment method')).toBe(true)
+    })
 
     it('changePaymentMethod method should emit an event when there is paymentMethod', () => {
-      mockMethods['changePaymentMethod'].mockRestore();
+      mockMethods['changePaymentMethod'].mockRestore()
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
-        paymentMethod: 'payment method'
-      }));
+        paymentMethod: 'payment method',
+      }))
 
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).changePaymentMethod();
+      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions)
+      ;(wrapper.vm as any).changePaymentMethod()
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-payment-method-changed', expect.anything());
-    });
-  });
-});
+      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith(
+        'checkout-payment-method-changed',
+        expect.anything()
+      )
+    })
+  })
+})

@@ -10,10 +10,16 @@ import { catalogHooksExecutors } from './../../hooks'
  * This function prepare all product_links for grouped products.
  * It fetches products by sku.
  */
-export default async function setGroupedProduct (product: Product, { includeFields = null, excludeFields = null } = {}) {
+export default async function setGroupedProduct(
+  product: Product,
+  { includeFields = null, excludeFields = null } = {}
+) {
   if (isGroupedProduct(product) && product.product_links) {
-    const productLinks = product.product_links.filter((productLink) => productLink.link_type === 'associated' && productLink.linked_product_type === 'simple')
-    const skus = productLinks.map((productLink) => productLink.linked_product_sku)
+    const productLinks = product.product_links.filter(
+      productLink =>
+        productLink.link_type === 'associated' && productLink.linked_product_type === 'simple'
+    )
+    const skus = productLinks.map(productLink => productLink.linked_product_sku)
 
     const query = buildQuery(skus)
     const { items } = await ProductService.getProducts({
@@ -26,14 +32,16 @@ export default async function setGroupedProduct (product: Product, { includeFiel
         setProductErrors: false,
         setConfigurableProductOptions: false,
         assignProductConfiguration: false,
-        separateSelectedVariant: false
-      }
+        separateSelectedVariant: false,
+      },
     })
 
     catalogHooksExecutors.afterSetGroupedProduct(items)
 
     for (const productLink of productLinks) {
-      const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.linked_product_sku)
+      const associatedProduct = items.find(
+        associatedProduct => associatedProduct.sku === productLink.linked_product_sku
+      )
       setProductLink(productLink, associatedProduct)
     }
 

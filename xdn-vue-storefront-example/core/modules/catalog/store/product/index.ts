@@ -11,12 +11,12 @@ export const productModule: Module<ProductState, RootState> = {
     // TODO use breadcrumbs from category-next, leave here for backward compatibility
     breadcrumbs: {
       routes: [],
-      name: ''
+      name: '',
     },
     current: null, // shown product
     current_options: {
       color: [],
-      size: []
+      size: [],
     },
     current_configuration: {},
     parent: null,
@@ -24,7 +24,7 @@ export const productModule: Module<ProductState, RootState> = {
       start: 0,
       perPage: 50,
       total: 0,
-      items: []
+      items: [],
     },
     original: null, // default, not configured product
     related: {},
@@ -34,13 +34,13 @@ export const productModule: Module<ProductState, RootState> = {
     custom_options_validators: {},
     productLoadStart: 0,
     productLoadPromise: null,
-    productGallery: []
+    productGallery: [],
   },
   getters,
   actions,
-  mutations
+  mutations,
 }
 
 export const nonReactiveState = {
-  list: []
+  list: [],
 }

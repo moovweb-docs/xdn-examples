@@ -17,11 +17,14 @@ export const GoogleTagManagerModule: StorefrontModule = function ({ store, route
         enabled: true,
         id: appConfig.googleTagManager.id,
         debug: appConfig.googleTagManager.debug,
-        vueRouter: router
+        vueRouter: router,
       })
     })
   } else {
-    Logger.warn('Google Tag Manager extensions is not working. Ensure Google Tag Manager container ID is defined in config', 'GTM')()
+    Logger.warn(
+      'Google Tag Manager extensions is not working. Ensure Google Tag Manager container ID is defined in config',
+      'GTM'
+    )()
   }
 
   store.registerModule(KEY, googleTagManagerModule)

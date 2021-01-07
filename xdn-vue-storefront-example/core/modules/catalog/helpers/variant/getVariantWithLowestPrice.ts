@@ -1,7 +1,7 @@
 /**
  * Makes product variants comparission and returns variant with lowest price
  */
-export default function getVariantWithLowestPrice (prevVariant, nextVariant) {
+export default function getVariantWithLowestPrice(prevVariant, nextVariant) {
   if (!prevVariant || !prevVariant.original_price_incl_tax) {
     return nextVariant
   }

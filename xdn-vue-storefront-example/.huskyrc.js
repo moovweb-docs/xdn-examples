@@ -1,7 +1,7 @@
 const tasks = arr => arr.join(' && ')
 
 module.exports = {
-  'hooks': {
+  hooks: {
     // 'pre-commit': tasks([
     //   'lint-staged'
     // ]),
@@ -10,5 +10,5 @@ module.exports = {
     //   'yarn test:unit'
     // ])
     'pre-push': 'echo "pre-push hook skipped"',
-  }
+  },
 }

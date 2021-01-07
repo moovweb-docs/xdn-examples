@@ -13,11 +13,7 @@
     "sourceMap": true,
     "downlevelIteration": true,
     "baseUrl": ".",
-    "types": [
-      "reflect-metadata",
-      "node",
-      "jest"
-    ],
+    "types": ["reflect-metadata", "node", "jest"],
     "paths": {
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
@@ -36,8 +32,5 @@
     "module/**/*.ts",
     "packages/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

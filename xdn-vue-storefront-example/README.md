@@ -3,11 +3,13 @@
 ## Initial project setup
 
 - Make sure you're using Node v12. To switch that, run:
+
 ```
-nvm use
+nvm use 12
 ```
 
 - Install packages:
+
 ```
 yarn
 ```
@@ -37,20 +39,20 @@ yarn xdn:deploy
 
 ## Info
 
-- If you need to change the HTML template file, go to `/src/themes/default/templates` and modify these files. 
-For example, you can see how the scripts required for XDN have been added there, like this:
+- If you need to change the HTML template file, go to `/src/themes/default/templates` and modify these files.
+  For example, you can see how the scripts required for XDN have been added there, like this:
+
 ```html
-  <!-- XDN -->
-  <script src="/service-worker.js" defer></script>
-  <script src="/__xdn__/cache-manifest.js" defer></script>
-  <script src="/main.js" defer></script>
-  <script src="/__xdn__/devtools/install.js" defer></script>
+<!-- XDN -->
+<script src="/service-worker.js" defer></script>
+<script src="/__xdn__/cache-manifest.js" defer></script>
+<script src="/main.js" defer></script>
+<script src="/__xdn__/devtools/install.js" defer></script>
 ```
 
 - If you need to modify the VSF app config file, modify `config/local.json` file since it has the highest priority during the build process. For more info, check: https://docs.vuestorefront.io/guide/basics/configuration.html#configuration-file-explained
 
 <hr>
-
 
 <img src="https://d9hhrg4mnvzow.cloudfront.net/www.vuestorefront.io/280b19d0-logo-vs_0by02c0by02c000000.jpg"></img>
 
@@ -63,51 +65,51 @@ For example, you can see how the scripts required for XDN have been added there,
 <a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backends, for example:
-- <a href="https://www.vuestorefront.io/pwa-for-magento?utm_source=github.com&utm_medium=referral&utm_campaign=readme">Magento</a>  
+
+- <a href="https://www.vuestorefront.io/pwa-for-magento?utm_source=github.com&utm_medium=referral&utm_campaign=readme">Magento</a>
 - <a href="https://www.vuestorefront.io/shopware?utm_source=github.com&utm_medium=referral&utm_campaign=readme">Shopware</a>
 - <a href="https://www.vuestorefront.io/commercetools?utm_source=github.com&utm_medium=referral&utm_campaign=readme">commercetools</a>
 - <a href="https://www.vuestorefront.io/about-you-cloud?utm_source=github.com&utm_medium=referral&utm_campaign=readme">About You Cloud</a>
 - <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>
--  [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront) 
-
+- [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
 
 Vue Storefront is and always will be **open source** (MIT Licence). Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
 ## Links
 
--   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io)
--   👥  Slack Community:  [slack.vuestorefront.io](https://slack.vuestorefront.io/)
--   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
--   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
--   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+- 📘 Documentation: [docs.vuestorefront.io](https://docs.vuestorefront.io)
+- 👥 Slack Community: [slack.vuestorefront.io](https://slack.vuestorefront.io/)
+- 🐦 Twitter: [@VueStorefront](https://twitter.com/VueStorefront)
+- 💬 Forum: [forum.vuestorefront.io](https://forum.vuestorefront.io/)
+- 🌟 [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## How to start?
 
-Which Vue Storefront should I choose for my next project?  
+Which Vue Storefront should I choose for my next project?
 
- - If you’re on **Magento 1 or Magento 2** choose Vue Storefront 1.x
-   with vsf-capybara theme,  [Install it using CLI](https://docs.vuestorefront.io/guide/cookbook/setup.html)
-   
-  -  If you’re on **commercetools / About You Cloud** choose Vue Storefront Next clone it from [`next`](https://github.com/DivanteLtd/vue-storefront/tree/next) 
-   
-  -  If you’re on **Shopware 6** go to  [`shopware-pwa`](https://github.com/DivanteLtd/shopware-pwa)   sub-project and use the Shopware PWA powered by Vue Storefront
+- If you’re on **Magento 1 or Magento 2** choose Vue Storefront 1.x
+  with vsf-capybara theme, [Install it using CLI](https://docs.vuestorefront.io/guide/cookbook/setup.html)
+- If you’re on **commercetools / About You Cloud** choose Vue Storefront Next clone it from [`next`](https://github.com/DivanteLtd/vue-storefront/tree/next)
 
-Check our Rodmap -> link do  [https://github.com/DivanteLtd/vue-storefront#roadmap](https://github.com/DivanteLtd/vue-storefront#roadmap)
+- If you’re on **Shopware 6** go to [`shopware-pwa`](https://github.com/DivanteLtd/shopware-pwa) sub-project and use the Shopware PWA powered by Vue Storefront
+
+Check our Rodmap -> link do [https://github.com/DivanteLtd/vue-storefront#roadmap](https://github.com/DivanteLtd/vue-storefront#roadmap)
 
 ## About Vue Storefront Next
 
-We're developing a next version of Vue Storefront on the  [`next`  branch](https://github.com/DivanteLtd/vue-storefront/tree/next).
+We're developing a next version of Vue Storefront on the [`next` branch](https://github.com/DivanteLtd/vue-storefront/tree/next).
 
 We're building the following integrations within Next architecture:
 
--   Shopware 6 (developer preview)
--   Commercetools (developer preview)
--   AboutYou Cloud
--   Shopify
--   Salesforce Commerce Cloud
+- Shopware 6 (developer preview)
+- Commercetools (developer preview)
+- AboutYou Cloud
+- Shopify
+- Salesforce Commerce Cloud
 
-You can learn more about Vue Storefront Next from the README on the  `next`  branch and  [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s)  video
+You can learn more about Vue Storefront Next from the README on the `next` branch and [this](https://www.youtube.com/watch?v=0e2wyhR0ZyQ&t=3s) video
+
 <table>
   <tbody>
     <tr>
@@ -117,7 +119,7 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
     </tr>
   </tbody>
   </table>
-  
+
 ## About Vue Storefront 1.x
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
@@ -132,8 +134,6 @@ You can learn more about Vue Storefront Next from the README on the  `next`  bra
   </tbody>
   </table>
 
-
-
 Want to invest some time in building the future of eCommerce? we are looking for agencies and developers willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
@@ -141,7 +141,6 @@ Want to invest some time in building the future of eCommerce? we are looking for
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
 
 PS: Check [Storefront UI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
-
 
 ## See it in action
 
@@ -166,13 +165,12 @@ PS: Check [Storefront UI](https://github.com/DivanteLtd/storefront-ui/) - our UI
 
 Starting new project on Vue Storefront? Try out the new <a href="https://github.com/DivanteLtd/vsf-capybara">Capybara Theme</a>. Based on <a href="https://storefrontui.io">StorefrontUI Design System</a>
 
-
 <table>
   <tbody>
     <tr>
       <td align="center" valign="middle">
         <a href="https://capybara.storefrontcloud.io/">
-          <img width="290" 
+          <img width="290"
             src="http://i3.ytimg.com/vi/x2_w-ZBOfqE/maxresdefault.jpg"
             alt="B2C Theme demo" />
         </a>
@@ -205,10 +203,10 @@ Yes! There are more than **140 implementations** happening right now and many li
 
 ## Browser Compatibility
 
-* last 2 Chrome versions
-* last 2 Firefox versions
-* last 2 Edge versions
-* modern browsers
+- last 2 Chrome versions
+- last 2 Firefox versions
+- last 2 Edge versions
+- modern browsers
 
 For an up-to-date list of supported browsers please see "browserslist" in package.json
 
@@ -221,9 +219,11 @@ If you have any questions or ideas feel free to join our slack via invitation li
 [Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
 
 #### Roadmap planning
+
 [Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to the next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
 
 The process of adding new features to the roadmap looks like this:
+
 1. You create an issue and label it as `feature request`.
 2. One of VS Core team verifies the feature request and if the explanation is clear, it is added to the `Roadmap` project so it's visible in the board.
 3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
@@ -232,8 +232,6 @@ The process of adding new features to the roadmap looks like this:
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 
 Please note that bugfixes are treated separately and in most cases added to the milestones immediately.
-
-
 
 [Check the feature list of 1.0](https://docs.vuestorefront.io/guide/basics/feature-list.html).
 
@@ -270,8 +268,6 @@ Check [**Vue Storefront Live Projects**](https://www.vuestorefront.io/live-proje
 
 ![Vue Storefront Live Projects](https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eff4e5149334a10bb672790_GitHub_Live%20Projects.png)
 
-
-
 ## The business challenges
 
 Vue Storefront was created to solve a set of key business challenges from the world of the shopping experience. Our goal for the application is to provide the solution with:
@@ -297,11 +293,11 @@ Besides a big improvement for the shopping experience, we also want to create a 
 ## Design
 
 Vue Storefront supports by default **two different themes:**
+
 1. **[Capybara Theme based on Storefront UI](https://github.com/DivanteLtd/vsf-capybara)**
 
 <img alt="Vue Storefront - Capybara Theme" src="https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eff49534dba189aafa21e55_Github_Capybara_Theme.jpg">
 
- 
 2. **[Classic/Default ](https://github.com/DivanteLtd/vsf-default)**
 
 The application is prepared to be fully customized in design through the theming system.
@@ -314,13 +310,15 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Concerns when hosting
+
 When hosting NodeJS applications there are some differences compared to, for example, hosting PHP or Java applications.
 Server Side Rendering via NodeJS can have memory leaks because of suboptimal code. Although core code is optimized, project specific features or misaligned hosting configuration can introduce this. More on how to avoid these for VueJS can be ready in [this article](https://vuejs.org/v2/cookbook/avoiding-memory-leaks.html). We also recommend reading about [VueJS best practices](https://blog.usejournal.com/vue-js-best-practices-c5da8d7af48d).
 
- On the server we advice to run [PM2](http://pm2.keymetrics.io/) which offers features to keep your NodeJS application stable. When hosting on Kubernetes the checks and memory limits can be leveraged to kill unhealthy containers.
+On the server we advice to run [PM2](http://pm2.keymetrics.io/) which offers features to keep your NodeJS application stable. When hosting on Kubernetes the checks and memory limits can be leveraged to kill unhealthy containers.
 More on hosting can be found in [the documentation](https://docs.vuestorefront.io/guide/installation/production-setup.html#production-setup-bare-vps).
 
 ## Other platforms
+
 Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## Contributing
@@ -331,7 +329,7 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 
 ## Workshops
 
-If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more]([https://divante.com/products/vue-storefront](https://divante.com/products/vue-storefront))
+If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](<[https://divante.com/products/vue-storefront](https://divante.com/products/vue-storefront)>)
 
 ## Support us!
 
@@ -355,12 +353,11 @@ This is how we will use the donations:
 
 ## Partners
 
-Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies. 
+Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
 
 [**See Vue Storefront partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ![enter image description here](https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eff4e56262af66301c950e4_github_partner_agencies.png)
-
 
 Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
@@ -369,8 +366,6 @@ If you like to become our Partner just let us know via contributors@vuestorefron
 ## The screenshots
 
 <img width="880" alt="Vue Storefront - Annimations in the sidebar cart" src="https://user-images.githubusercontent.com/18116406/33559769-2840fb70-d90e-11e7-8f2b-298f35d1b412.gif">
-
-
 
 ## The license
 

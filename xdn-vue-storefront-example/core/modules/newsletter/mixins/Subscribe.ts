@@ -12,28 +12,30 @@ import { required, email } from 'vuelidate/lib/validators'
  */
 export default {
   name: 'NewsletterSubscribe',
-  data () {
+  data() {
     return {
-      email: ''
+      email: '',
     }
   },
   validations: {
     email: {
       required,
-      email
-    }
+      email,
+    },
   },
   methods: {
-    subscribe (success?: Function, failure?: Function) {
+    subscribe(success?: Function, failure?: Function) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
-        return this.$store.dispatch('newsletter/subscribe', this.email).then(res => {
-          if (success) success(res)
-        }).catch(err => {
-          if (failure) failure(err)
-        }
-        )
+        return this.$store
+          .dispatch('newsletter/subscribe', this.email)
+          .then(res => {
+            if (success) success(res)
+          })
+          .catch(err => {
+            if (failure) failure(err)
+          })
       }
-    }
-  }
+    },
+  },
 }

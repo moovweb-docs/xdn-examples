@@ -5,18 +5,22 @@ import {
   productsEquals,
   validateProduct,
   createDiffLog,
-  notifications
+  notifications,
 } from '@vue-storefront/core/modules/cart/helpers'
 import { cartHooksExecutors } from './../../hooks'
 import config from 'config'
 
 const itemActions = {
-  async configureItem (context, { product, configuration }) {
+  async configureItem(context, { product, configuration }) {
     const { commit, dispatch, getters } = context
-    const variant = await dispatch('product/getProductVariant', {
-      product,
-      configuration
-    }, { root: true })
+    const variant = await dispatch(
+      'product/getProductVariant',
+      {
+        product,
+        configuration,
+      },
+      { root: true }
+    )
 
     const itemWithSameSku = getters.getCartItems.find(item => item.sku === variant.sku)
 
@@ -32,32 +36,37 @@ const itemActions = {
       await dispatch('sync', { forceClientState: true })
     }
   },
-  updateItem ({ commit }, { product }) {
+  updateItem({ commit }, { product }) {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
-  getItem ({ getters }, { product }) {
+  getItem({ getters }, { product }) {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
-  async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
+  async addItem({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     commit(types.CART_ADDING_ITEM, { isAdding: true })
-    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
+    const result = await dispatch('addItems', {
+      productsToAdd: prepareProductsToAdd(cartItem),
+      forceServerSilence,
+    })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
     cartHooksExecutors.afterAddToCart(result)
     return result
   },
-  async checkProductStatus ({ dispatch, getters }, { product }) {
+  async checkProductStatus({ dispatch, getters }, { product }) {
     const record = getters.getCartItems.find(p => productsEquals(p, product))
-    const qty = record ? record.qty + 1 : (product.qty ? product.qty : 1)
+    const qty = record ? record.qty + 1 : product.qty ? product.qty : 1
 
     return dispatch('stock/queueCheck', { product, qty }, { root: true })
   },
-  async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
+  async addItems({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
       const errors = validateProduct(product)
-      diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
+      diffLog.pushNotifications(
+        notifications.createNotifications({ type: 'error', messages: errors })
+      )
 
       if (errors.length === 0) {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
@@ -71,10 +80,13 @@ const itemActions = {
 
         if (status === 'ok' || status === 'volatile') {
           commit(types.CART_ADD_ITEM, {
-            product: { ...product, onlineStockCheckid: onlineCheckTaskId }
+            product: { ...product, onlineStockCheckid: onlineCheckTaskId },
           })
         }
-        if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
+        if (
+          productIndex === productsToAdd.length - 1 &&
+          (!getters.isCartSyncEnabled || forceServerSilence)
+        ) {
           diffLog.pushNotification(notifications.productAddedToCart())
         }
         productIndex++
@@ -96,8 +108,10 @@ const itemActions = {
 
     return diffLog
   },
-  async removeItem ({ commit, dispatch, getters }, payload) {
-    const removeByParentSku = payload.product ? !!payload.removeByParentSku && payload.product.type_id !== 'bundle' : true
+  async removeItem({ commit, dispatch, getters }, payload) {
+    const removeByParentSku = payload.product
+      ? !!payload.removeByParentSku && payload.product.type_id !== 'bundle'
+      : true
     const product = payload.product || payload
     const { cartItem } = cartHooksExecutors.beforeRemoveFromCart({ cartItem: product })
 
@@ -109,11 +123,10 @@ const itemActions = {
       return diffLog
     }
 
-    const diffLog = createDiffLog()
-      .pushClientParty({ status: 'no-item', sku: product.sku })
+    const diffLog = createDiffLog().pushClientParty({ status: 'no-item', sku: product.sku })
     cartHooksExecutors.afterRemoveFromCart(diffLog)
     return diffLog
-  }
+  },
 }
 
 export default itemActions

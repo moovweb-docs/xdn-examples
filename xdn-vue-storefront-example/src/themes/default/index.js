@@ -18,7 +18,7 @@ once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
 })
 
 const themeEntry = App
-function initTheme (app, router, store, config, ssrContext) {
+function initTheme(app, router, store, config, ssrContext) {
   store.registerModule('themeCart', cartModule)
   // Register theme routes for the current store. In a single store setup this will add routes exactly as they are in the router definition file '[theme]/router/index.js'
   // In a multistore setup, it depends on the config setting 'appendStoreCode' for the current store
@@ -30,14 +30,11 @@ function initTheme (app, router, store, config, ssrContext) {
   // The 4th parameter is the route priority - a higher number will ensure the theme routes override any module routes. The default is 0.
   setupMultistoreRoutes(config, router, routes, 10)
 
-  StorageManager.init('claims');
-  store.registerModule('claims', claimsStore);
-  store.registerModule('homepage', homepageStore);
-  store.registerModule('ui', uiStore);
-  store.registerModule('promoted', promotedStore);
+  StorageManager.init('claims')
+  store.registerModule('claims', claimsStore)
+  store.registerModule('homepage', homepageStore)
+  store.registerModule('ui', uiStore)
+  store.registerModule('promoted', promotedStore)
 }
 
-export {
-  themeEntry,
-  initTheme
-}
+export { themeEntry, initTheme }

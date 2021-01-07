@@ -6,38 +6,42 @@ import {
   localizedDispatcherRoute,
   setupMultistoreRoutes,
   localizedRoutePath,
-  localizedRouteConfig
+  localizedRouteConfig,
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
-import rootStore from '@vue-storefront/core/store';
-import { router } from '@vue-storefront/core/app';
+import rootStore from '@vue-storefront/core/store'
+import { router } from '@vue-storefront/core/app'
 import { RouteConfig } from 'vue-router'
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
   router: {
-    addRoutes: jest.fn()
-  }
+    addRoutes: jest.fn(),
+  },
 }))
 jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({ loadLanguageAsync: jest.fn() }))
 jest.mock('../../sync/task', () => ({ initializeSyncTaskStorage: jest.fn() }))
-jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
-  beforeStoreViewChanged: jest.fn(args => args),
-  afterStoreViewChanged: jest.fn(args => args)
-} }))
+jest.mock('@vue-storefront/core/hooks', () => ({
+  coreHooksExecutors: {
+    beforeStoreViewChanged: jest.fn(args => args),
+    afterStoreViewChanged: jest.fn(args => args),
+  },
+}))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
-  Logger: {}
+  Logger: {},
 }))
 jest.mock('config', () => ({}))
 
 describe('Multistore', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    (rootStore as any).state = {};
-    Object.keys(config).forEach((key) => { delete config[key]; });
+    jest.clearAllMocks()
+    ;(rootStore as any).state = {}
+    Object.keys(config).forEach(key => {
+      delete config[key]
+    })
     rootStore.state.storeView = {
-      appendStoreCode: true
+      appendStoreCode: true,
     }
   })
 
@@ -46,9 +50,9 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us'],
         us: {
-          url: '/us'
-        }
-      };
+          url: '/us',
+        },
+      }
 
       expect(storeCodeFromRoute('/us')).toBe('us')
     })
@@ -57,9 +61,9 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us'],
         us: {
-          url: '/us'
-        }
-      };
+          url: '/us',
+        },
+      }
 
       const route = { path: 'us' }
 
@@ -70,12 +74,12 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us', 'gb'],
         us: {
-          url: '/us'
+          url: '/us',
         },
         gb: {
-          url: 'domain.co.uk'
-        }
-      };
+          url: 'domain.co.uk',
+        },
+      }
 
       const route = 'domain.co.uk'
 
@@ -86,12 +90,12 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us', 'gb'],
         us: {
-          url: '/us'
+          url: '/us',
         },
         gb: {
-          url: 'domain.co.uk/gb'
-        }
-      };
+          url: 'domain.co.uk/gb',
+        },
+      }
 
       const route = 'domain.co.uk/gb/foo'
 
@@ -102,31 +106,31 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us', 'gb'],
         us: {
-          url: '/us'
+          url: '/us',
         },
         gb: {
-          url: 'domain.co.uk/gb'
-        }
-      };
+          url: 'domain.co.uk/gb',
+        },
+      }
 
       const route = {
         host: 'domain.co.uk',
-        path: 'gb/foo'
+        path: 'gb/foo',
       }
 
       expect(storeCodeFromRoute(route)).toBe('gb')
     })
 
-    it('returns empty string if given a route which doesn\'t have url and is not matched by path', () => {
+    it("returns empty string if given a route which doesn't have url and is not matched by path", () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us', 'gb'],
         us: {
-          url: '/us'
+          url: '/us',
         },
         gb: {
-          url: 'domain.co.uk'
-        }
-      };
+          url: 'domain.co.uk',
+        },
+      }
 
       const route = { path: 'gb' }
 
@@ -137,9 +141,9 @@ describe('Multistore', () => {
       config.storeViews = {
         mapStoreUrlsFor: ['us'],
         us: {
-          url: 'us.domain.tld'
-        }
-      };
+          url: 'us.domain.tld',
+        },
+      }
 
       expect(storeCodeFromRoute('unknown-domain.tld')).toBe('')
     })
@@ -155,45 +159,45 @@ describe('Multistore', () => {
       rootStore.state.user = {}
 
       config.storeViews = {
-        multistore: false
+        multistore: false,
       }
 
       config.tax = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
       }
 
       config.i18n = {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
-        fullLanguageName: 'English'
+        fullLanguageName: 'English',
       }
 
       config.elasticsearch = {
-        index: 'vue_storefront_catalog'
+        index: 'vue_storefront_catalog',
       }
       config.defaultStoreCode = ''
 
       config.seo = {
-        defaultTitle: 'Vue Storefront'
+        defaultTitle: 'Vue Storefront',
       }
 
       expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'US'
+          defaultCountry: 'US',
         },
         i18n: {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
-          fullLanguageName: 'English'
+          fullLanguageName: 'English',
         },
         seo: {
-          defaultTitle: 'Vue Storefront'
+          defaultTitle: 'Vue Storefront',
         },
         elasticsearch: {
-          index: 'vue_storefront_catalog'
+          index: 'vue_storefront_catalog',
         },
         storeId: 1,
-        storeCode: ''
+        storeCode: '',
       })
     })
 
@@ -204,46 +208,46 @@ describe('Multistore', () => {
       config.storeViews = {
         multistore: false,
         de: {
-          storeId: 4
-        }
+          storeId: 4,
+        },
       }
 
       config.tax = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
       }
 
       config.i18n = {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
-        fullLanguageName: 'English'
+        fullLanguageName: 'English',
       }
 
       config.elasticsearch = {
-        index: 'vue_storefront_catalog'
+        index: 'vue_storefront_catalog',
       }
       config.defaultStoreCode = 'de'
 
       config.seo = {
-        defaultTitle: 'Vue Storefront'
+        defaultTitle: 'Vue Storefront',
       }
 
       expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'US'
+          defaultCountry: 'US',
         },
         i18n: {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
-          fullLanguageName: 'English'
+          fullLanguageName: 'English',
         },
         seo: {
-          defaultTitle: 'Vue Storefront'
+          defaultTitle: 'Vue Storefront',
         },
         elasticsearch: {
-          index: 'vue_storefront_catalog'
+          index: 'vue_storefront_catalog',
         },
         storeId: 4,
-        storeCode: ''
+        storeCode: '',
       })
     })
 
@@ -254,46 +258,46 @@ describe('Multistore', () => {
       config.storeViews = {
         multistore: true,
         de: {
-          storeId: 4
-        }
+          storeId: 4,
+        },
       }
 
       config.tax = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
       }
 
       config.i18n = {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
-        fullLanguageName: 'English'
+        fullLanguageName: 'English',
       }
 
       config.seo = {
-        defaultTitle: 'Vue Storefront'
+        defaultTitle: 'Vue Storefront',
       }
 
       config.elasticsearch = {
-        index: 'vue_storefront_catalog'
+        index: 'vue_storefront_catalog',
       }
       config.defaultStoreCode = 'de'
 
       expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'US'
+          defaultCountry: 'US',
         },
         i18n: {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
-          fullLanguageName: 'English'
+          fullLanguageName: 'English',
         },
         seo: {
-          defaultTitle: 'Vue Storefront'
+          defaultTitle: 'Vue Storefront',
         },
         elasticsearch: {
-          index: 'vue_storefront_catalog'
+          index: 'vue_storefront_catalog',
         },
         storeId: 4,
-        storeCode: 'de'
+        storeCode: 'de',
       })
     })
 
@@ -308,59 +312,59 @@ describe('Multistore', () => {
           storeId: 3,
           name: 'German Store',
           elasticsearch: {
-            index: 'vue_storefront_catalog_de'
+            index: 'vue_storefront_catalog_de',
           },
           tax: {
-            defaultCountry: 'DE'
+            defaultCountry: 'DE',
           },
           i18n: {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
-            defaultLocale: 'de-DE'
+            defaultLocale: 'de-DE',
           },
           seo: {
-            defaultTitle: 'Vue Storefront'
-          }
-        }
+            defaultTitle: 'Vue Storefront',
+          },
+        },
       }
 
       config.tax = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
       }
 
       config.i18n = {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
-        fullLanguageName: 'English'
+        fullLanguageName: 'English',
       }
 
       config.seo = {
-        defaultTitle: 'Vue Storefront'
+        defaultTitle: 'Vue Storefront',
       }
 
       config.elasticsearch = {
-        index: 'vue_storefront_catalog'
+        index: 'vue_storefront_catalog',
       }
       config.defaultStoreCode = 'de'
 
       expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'DE'
+          defaultCountry: 'DE',
         },
         i18n: {
           fullCountryName: 'Germany',
           fullLanguageName: 'German',
-          defaultLocale: 'de-DE'
+          defaultLocale: 'de-DE',
         },
         seo: {
-          defaultTitle: 'Vue Storefront'
+          defaultTitle: 'Vue Storefront',
         },
         elasticsearch: {
-          index: 'vue_storefront_catalog_de'
+          index: 'vue_storefront_catalog_de',
         },
         storeId: 3,
         name: 'German Store',
-        storeCode: 'de'
+        storeCode: 'de',
       })
     })
 
@@ -375,19 +379,19 @@ describe('Multistore', () => {
           storeId: 3,
           name: 'German Store',
           elasticsearch: {
-            index: 'vue_storefront_catalog_de'
+            index: 'vue_storefront_catalog_de',
           },
           tax: {
-            defaultCountry: 'DE'
+            defaultCountry: 'DE',
           },
           i18n: {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
-            defaultLocale: 'de-DE'
+            defaultLocale: 'de-DE',
           },
           seo: {
-            defaultTitle: 'Vue Storefront'
-          }
+            defaultTitle: 'Vue Storefront',
+          },
         },
         it: {
           extend: 'de',
@@ -395,60 +399,60 @@ describe('Multistore', () => {
           storeId: 4,
           name: 'Italian Store',
           elasticsearch: {
-            index: 'vue_storefront_catalog_it'
+            index: 'vue_storefront_catalog_it',
           },
           tax: {
-            defaultCountry: 'IT'
+            defaultCountry: 'IT',
           },
           i18n: {
             fullCountryName: 'Italy',
             fullLanguageName: 'Italian',
-            defaultLocale: 'it-IT'
+            defaultLocale: 'it-IT',
           },
           seo: {
-            defaultTitle: 'Vue Storefront'
-          }
-        }
+            defaultTitle: 'Vue Storefront',
+          },
+        },
       }
 
       config.tax = {
-        defaultCountry: 'US'
+        defaultCountry: 'US',
       }
 
       config.i18n = {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
-        fullLanguageName: 'English'
+        fullLanguageName: 'English',
       }
 
       config.seo = {
-        defaultTitle: 'Vue Storefront'
+        defaultTitle: 'Vue Storefront',
       }
 
       config.elasticsearch = {
-        index: 'vue_storefront_catalog'
+        index: 'vue_storefront_catalog',
       }
       config.defaultStoreCode = 'it'
 
       expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'IT'
+          defaultCountry: 'IT',
         },
         i18n: {
           fullCountryName: 'Italy',
           fullLanguageName: 'Italian',
-          defaultLocale: 'it-IT'
+          defaultLocale: 'it-IT',
         },
         seo: {
-          defaultTitle: 'Vue Storefront'
+          defaultTitle: 'Vue Storefront',
         },
         elasticsearch: {
-          index: 'vue_storefront_catalog_it'
+          index: 'vue_storefront_catalog_it',
         },
         storeId: 4,
         extend: 'de',
         name: 'Italian Store',
-        storeCode: 'it'
+        storeCode: 'it',
       })
     })
   })
@@ -456,7 +460,7 @@ describe('Multistore', () => {
   describe('adjustMultistoreApiUrl', () => {
     it('returns URL /test without storeCode as parameter', () => {
       rootStore.state.storeView = {
-        storeCode: null
+        storeCode: null,
       }
 
       expect(adjustMultistoreApiUrl('/test')).toStrictEqual('/test')
@@ -464,7 +468,7 @@ describe('Multistore', () => {
 
     it('returns URL /test with storeCode de as parameter', () => {
       rootStore.state.storeView = {
-        storeCode: 'de'
+        storeCode: 'de',
       }
 
       expect(adjustMultistoreApiUrl('/test')).toStrictEqual('/test?storeCode=de')
@@ -472,7 +476,7 @@ describe('Multistore', () => {
 
     it('returns URL /test?a=b with storeCode de as parameter and current parameters from the URL', () => {
       rootStore.state.storeView = {
-        storeCode: 'de'
+        storeCode: 'de',
       }
 
       expect(adjustMultistoreApiUrl('/test?a=b')).toStrictEqual('/test?a=b&storeCode=de')
@@ -480,15 +484,17 @@ describe('Multistore', () => {
 
     it('returns URL /test?a=b&storeCode=de with added storeCode at as parameter and removes previous storeCode parameter', () => {
       rootStore.state.storeView = {
-        storeCode: 'at'
+        storeCode: 'at',
       }
 
-      expect(adjustMultistoreApiUrl('/test?a=b&storeCode=de')).toStrictEqual('/test?a=b&storeCode=at')
+      expect(adjustMultistoreApiUrl('/test?a=b&storeCode=de')).toStrictEqual(
+        '/test?a=b&storeCode=at'
+      )
     })
 
     it('returns URL /test?storeCode=de with changed storeCode at as parameter', () => {
       rootStore.state.storeView = {
-        storeCode: 'at'
+        storeCode: 'at',
       }
 
       expect(adjustMultistoreApiUrl('/test?storeCode=de')).toStrictEqual('/test?storeCode=at')
@@ -496,10 +502,12 @@ describe('Multistore', () => {
 
     it('returns URL /test?storeCode=de with changed storeCode at as parameter', () => {
       rootStore.state.storeView = {
-        storeCode: 'at'
+        storeCode: 'at',
       }
 
-      expect(adjustMultistoreApiUrl('/test?storeCode=de&storeCode=de')).toStrictEqual('/test?storeCode=at')
+      expect(adjustMultistoreApiUrl('/test?storeCode=de&storeCode=de')).toStrictEqual(
+        '/test?storeCode=at'
+      )
     })
   })
 
@@ -513,8 +521,8 @@ describe('Multistore', () => {
     it('URL /test starts with /de', () => {
       config.storeViews = {
         de: {
-          appendStoreCode: true
-        }
+          appendStoreCode: true,
+        },
       }
 
       expect(localizedDispatcherRoute('/test', 'de')).toStrictEqual('/de/test')
@@ -529,8 +537,8 @@ describe('Multistore', () => {
     it('URL /test?a=b&b=a starts with /de', () => {
       config.storeViews = {
         de: {
-          appendStoreCode: true
-        }
+          appendStoreCode: true,
+        },
       }
 
       expect(localizedDispatcherRoute('/test?a=b&b=a', 'de')).toStrictEqual('/de/test?a=b&b=a')
@@ -540,7 +548,7 @@ describe('Multistore', () => {
       config.storeViews = {}
 
       const LocalizedRoute: LocalizedRoute = {
-        fullPath: 'test'
+        fullPath: 'test',
       }
 
       expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/test')
@@ -553,8 +561,8 @@ describe('Multistore', () => {
         fullPath: 'test',
         params: {
           a: 'b',
-          b: 'a'
-        }
+          b: 'a',
+        },
       }
 
       expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/test?a=b&b=a')
@@ -563,12 +571,12 @@ describe('Multistore', () => {
     it('URL with LocalizedRoute object with fullPath test gets prefixed with /de', () => {
       config.storeViews = {
         de: {
-          appendStoreCode: true
-        }
+          appendStoreCode: true,
+        },
       }
 
       const LocalizedRoute: LocalizedRoute = {
-        fullPath: 'test'
+        fullPath: 'test',
       }
 
       expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/de/test')
@@ -577,16 +585,16 @@ describe('Multistore', () => {
     it('URL with LocalizedRoute object with fullPath test and params gets prefixed with /de', () => {
       config.storeViews = {
         de: {
-          appendStoreCode: true
-        }
+          appendStoreCode: true,
+        },
       }
 
       const LocalizedRoute: LocalizedRoute = {
         fullPath: 'test',
         params: {
           a: 'b',
-          b: 'a'
-        }
+          b: 'a',
+        },
       }
 
       expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/de/test?a=b&b=a')
@@ -596,25 +604,23 @@ describe('Multistore', () => {
   describe('setupMultistoreRoutes', () => {
     it('Add new routes for each store in mapStoreUrlsFor', () => {
       config.storeViews = {
-        'de': {
-          appendStoreCode: true
+        de: {
+          appendStoreCode: true,
         },
-        mapStoreUrlsFor: [
-          'de'
-        ],
-        multistore: true
+        mapStoreUrlsFor: ['de'],
+        multistore: true,
       }
       config.seo = {
-        useUrlDispatcher: true
+        useUrlDispatcher: true,
       }
 
       const routeConfig: RouteConfig[] = [
         {
-          path: 'test'
+          path: 'test',
         },
         {
-          path: 'test2'
-        }
+          path: 'test2',
+        },
       ]
 
       setupMultistoreRoutes(config, router, routeConfig)
@@ -624,18 +630,17 @@ describe('Multistore', () => {
 
     it('Do nothing as mapStoreUrlsFor is empty', () => {
       config.storeViews = {
-        'de': {
-        },
-        mapStoreUrlsFor: []
+        de: {},
+        mapStoreUrlsFor: [],
       }
 
       const routeConfig: RouteConfig[] = [
         {
-          path: 'test'
+          path: 'test',
         },
         {
-          path: 'test2'
-        }
+          path: 'test2',
+        },
       ]
 
       setupMultistoreRoutes(config, router, routeConfig)
@@ -672,11 +677,11 @@ describe('Multistore', () => {
       const storeCode = 'de'
       const route = {
         path: '/test',
-        name: 'test'
+        name: 'test',
       }
       const expectedRoute = {
         path: '/de/test',
-        name: 'de-test'
+        name: 'de-test',
       }
 
       expect(localizedRouteConfig(route, storeCode)).toEqual(expectedRoute)
@@ -686,11 +691,11 @@ describe('Multistore', () => {
       const storeCode = 'de'
       const childRoute = {
         path: '/test2',
-        name: 'test2'
+        name: 'test2',
       }
       const expectedRoute = {
         path: '/test2',
-        name: 'de-test2'
+        name: 'de-test2',
       }
 
       expect(localizedRouteConfig(childRoute, storeCode, true)).toEqual(expectedRoute)
@@ -708,11 +713,11 @@ describe('Multistore', () => {
             children: [
               {
                 path: '/test3',
-                name: 'test3'
-              }
-            ]
-          }
-        ]
+                name: 'test3',
+              },
+            ],
+          },
+        ],
       }
       const expectedRoute = {
         path: '/de/test',
@@ -724,11 +729,11 @@ describe('Multistore', () => {
             children: [
               {
                 path: '/test3',
-                name: 'de-test3'
-              }
-            ]
-          }
-        ]
+                name: 'de-test3',
+              },
+            ],
+          },
+        ],
       }
 
       expect(localizedRouteConfig(route, storeCode)).toEqual(expectedRoute)

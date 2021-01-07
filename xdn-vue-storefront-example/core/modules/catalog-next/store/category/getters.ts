@@ -1,4 +1,4 @@
-import { nonReactiveState } from './index';
+import { nonReactiveState } from './index'
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
@@ -13,12 +13,15 @@ import get from 'lodash-es/get'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
+import {
+  _prepareCategoryPathIds,
+  getSearchOptionsFromRouteParams,
+} from '../../helpers/categoryHelpers'
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
-import config from 'config';
+import config from 'config'
 
-function mapCategoryProducts (productsFromState, productsData) {
+function mapCategoryProducts(productsFromState, productsData) {
   return productsFromState.map(prodState => {
     if (typeof prodState === 'string') {
       const product = productsData.find(prodData => prodData.sku === prodState)
@@ -30,27 +33,38 @@ function mapCategoryProducts (productsFromState, productsData) {
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
-  getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
+  getCategoriesMap: (state): { [id: string]: Category } => state.categoriesMap,
   getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
-  getCategoryProducts: (state) => mapCategoryProducts(state.products, nonReactiveState.products),
+  getCategoryProducts: state => mapCategoryProducts(state.products, nonReactiveState.products),
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path)
+    return getters.getCategories.find(
+      category =>
+        (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path
+    )
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
-    return getters.getCategories.find(category => {
-      let valueCheck = []
-      const searchOptions = getSearchOptionsFromRouteParams(params)
-      forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
-      return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
-    }) || {}
+    return (
+      getters.getCategories.find(category => {
+        let valueCheck = []
+        const searchOptions = getSearchOptionsFromRouteParams(params)
+        forEach(searchOptions, (value, key) =>
+          valueCheck.push(category[key] && category[key] === category[key].constructor(value))
+        )
+        return (
+          valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
+        )
+      }) || {}
+    )
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
     return getters.getCategoryByParams({ ...rootGetters['url/getCurrentRoute'].params })
   },
-  getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
+  getAvailableFiltersFrom: (state, getters, rootState) => aggregations => {
     const filters = {}
-    if (aggregations) { // populate filter aggregates
-      for (let attrToFilter of products.defaultFilters) { // fill out the filter options
+    if (aggregations) {
+      // populate filter aggregates
+      for (let attrToFilter of products.defaultFilters) {
+        // fill out the filter options
         let filterOptions: FilterVariant[] = []
 
         let uniqueFilterValues = new Set<string>()
@@ -58,7 +72,9 @@ const getters: GetterTree<CategoryState, RootState> = {
           if (aggregations['agg_terms_' + attrToFilter]) {
             let buckets = aggregations['agg_terms_' + attrToFilter].buckets
             if (aggregations['agg_terms_' + attrToFilter + '_options']) {
-              buckets = buckets.concat(aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
+              buckets = buckets.concat(
+                aggregations['agg_terms_' + attrToFilter + '_options'].buckets
+              )
             }
 
             for (let option of buckets) {
@@ -67,17 +83,22 @@ const getters: GetterTree<CategoryState, RootState> = {
           }
 
           uniqueFilterValues.forEach(key => {
-            const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
-            if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+            const label = optionLabel(rootState.attribute, {
+              attributeKey: attrToFilter,
+              optionId: key,
+            })
+            if (trim(label) !== '') {
+              // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
                 label: label,
-                type: attrToFilter
+                type: attrToFilter,
               })
             }
-          });
+          })
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
-        } else { // special case is range filter for prices
+        } else {
+          // special case is range filter for prices
           const currencySign = currentStoreView().i18n.currencySign
 
           if (aggregations['agg_range_' + attrToFilter]) {
@@ -89,8 +110,13 @@ const getters: GetterTree<CategoryState, RootState> = {
                 type: attrToFilter,
                 from: option.from,
                 to: option.to,
-                label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
-                single: true
+                label:
+                  index === 0 || index === count - 1
+                    ? option.to
+                      ? '< ' + currencySign + option.to
+                      : '> ' + currencySign + option.from
+                    : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
+                single: true,
               })
               index++
             }
@@ -104,7 +130,7 @@ const getters: GetterTree<CategoryState, RootState> = {
         variants.push({
           label: label,
           id: products.sortByAttributes[label],
-          type: 'sort'
+          type: 'sort',
         })
       })
       filters['sort'] = variants
@@ -121,7 +147,8 @@ const getters: GetterTree<CategoryState, RootState> = {
     const availableFilters = categoryFilters || getters.getAvailableFilters
     return getFiltersFromQuery({ availableFilters, filtersQuery: currentQuery })
   },
-  getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
+  getCurrentSearchQuery: (state, getters, rootState) =>
+    getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => products.systemFilterNames,
@@ -129,9 +156,11 @@ const getters: GetterTree<CategoryState, RootState> = {
   getBreadcrumbsFor: (state, getters) => category => {
     if (!category) return []
     const categoryHierarchyIds = _prepareCategoryPathIds(category)
-    let resultCategoryList = categoryHierarchyIds.map(categoryId => {
-      return getters.getCategoriesMap[categoryId]
-    }).filter(c => !!c)
+    let resultCategoryList = categoryHierarchyIds
+      .map(categoryId => {
+        return getters.getCategoriesMap[categoryId]
+      })
+      .filter(c => !!c)
     return parseCategoryPath(resultCategoryList)
   },
   getCategorySearchProductsStats: state => state.searchProductsStats || {},
@@ -141,9 +170,9 @@ const getters: GetterTree<CategoryState, RootState> = {
 
     return totalValue || 0
   },
-  getMenuCategories (state, getters, rootState, rootGetters) {
+  getMenuCategories(state, getters, rootState, rootGetters) {
     return state.menuCategories || rootGetters['category/getCategories']
-  }
+  },
 }
 
 export default getters

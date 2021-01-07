@@ -1,6 +1,6 @@
-import Review from './Review';
+import Review from './Review'
 
 export interface ReviewRequest {
-  review: Review,
+  review: Review
   [k: string]: any
 }

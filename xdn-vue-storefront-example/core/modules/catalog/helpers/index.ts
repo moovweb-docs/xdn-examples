@@ -12,10 +12,7 @@ import { setProductConfigurableOptions } from './productOptions'
 
 /** Below helpers are not used from 1.12 and can be removed to reduce bundle */
 import { populateProductConfigurationAsync, configureProductAsync } from './deprecatedHelpers'
-export {
-  populateProductConfigurationAsync,
-  configureProductAsync
-}
+export { populateProductConfigurationAsync, configureProductAsync }
 /***/
 
 export {
@@ -26,29 +23,30 @@ export {
   isOptionAvailable as isOptionAvailableAsync,
   filterOutUnavailableVariants,
   doPlatformPricesSync,
-  setProductConfigurableOptions as setConfigurableProductOptionsAsync
+  setProductConfigurableOptions as setConfigurableProductOptionsAsync,
 }
 
-export const hasConfigurableChildren = (product) => product && product.configurable_children && product.configurable_children.length
-export const isGroupedProduct = (product) => product.type_id === 'grouped'
-export const isBundleProduct = (product) => product.type_id === 'bundle'
+export const hasConfigurableChildren = product =>
+  product && product.configurable_children && product.configurable_children.length
+export const isGroupedProduct = product => product.type_id === 'grouped'
+export const isBundleProduct = product => product.type_id === 'bundle'
 
 /**
  * check if object have an image
  */
-export const hasImage = (product) => product && product.image && product.image !== 'no_selection'
+export const hasImage = product => product && product.image && product.image !== 'no_selection'
 /**
  * check if one of the configuableChildren has an image
  */
 export const childHasImage = (children = []) => children.some(hasImage)
 
-function _prepareProductOption (product) {
+function _prepareProductOption(product) {
   let product_option = {
     extension_attributes: {
       custom_options: [],
       configurable_item_options: [],
-      bundle_options: []
-    }
+      bundle_options: [],
+    },
   }
   /* if (product.product_option) {
     product_option = product.product_option
@@ -56,13 +54,13 @@ function _prepareProductOption (product) {
   return product_option
 }
 
-export function setCustomProductOptionsAsync (context, { product, customOptions }) {
+export function setCustomProductOptionsAsync(context, { product, customOptions }) {
   const productOption = _prepareProductOption(product)
   productOption.extension_attributes.custom_options = customOptions
   return productOption
 }
 
-export function setBundleProductOptionsAsync (context, { product, bundleOptions }) {
+export function setBundleProductOptionsAsync(context, { product, bundleOptions }) {
   const productOption = _prepareProductOption(product)
   productOption.extension_attributes.bundle_options = bundleOptions
   return productOption
@@ -72,7 +70,7 @@ export function setBundleProductOptionsAsync (context, { product, bundleOptions 
  * Get media Gallery images from product
  */
 
-export function getMediaGallery (product) {
+export function getMediaGallery(product) {
   let mediaGallery = []
   if (product.media_gallery) {
     for (let mediaItem of product.media_gallery) {
@@ -85,10 +83,22 @@ export function getMediaGallery (product) {
         }
 
         mediaGallery.push({
-          'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
-          'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
-          'video': video
+          src: getThumbnailPath(
+            mediaItem.image,
+            config.products.gallery.width,
+            config.products.gallery.height
+          ),
+          loading: getThumbnailPath(
+            mediaItem.image,
+            config.products.thumbnails.width,
+            config.products.thumbnails.height
+          ),
+          error: getThumbnailPath(
+            mediaItem.image,
+            config.products.thumbnails.width,
+            config.products.thumbnails.height
+          ),
+          video: video,
         })
       }
     }
@@ -99,15 +109,19 @@ export function getMediaGallery (product) {
 /**
  * Get images from configured attribute images
  */
-export function attributeImages (product) {
+export function attributeImages(product) {
   let attributeImages = []
   if (config.products.gallery.imageAttributes) {
     for (let attribute of config.products.gallery.imageAttributes) {
       if (product[attribute]) {
         attributeImages.push({
-          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(product[attribute], 310, 300),
-          'error': getThumbnailPath(product[attribute], 310, 300)
+          src: getThumbnailPath(
+            product[attribute],
+            config.products.gallery.width,
+            config.products.gallery.height
+          ),
+          loading: getThumbnailPath(product[attribute], 310, 300),
+          error: getThumbnailPath(product[attribute], 310, 300),
         })
       }
     }
@@ -119,20 +133,26 @@ export function attributeImages (product) {
  * otherwise get attribute images
  */
 
-export function configurableChildrenImages (product) {
+export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
   if (childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
-    configurableChildrenImages = product.configurable_children.map(child =>
-      ({
-        'src': getThumbnailPath((!hasImage(child) ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
-        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
-        'id': configurableAttributes.reduce((result, attribute) => {
-          result[attribute] = child[attribute]
-          return result
-        }, {})
-      })
-    )
+    configurableChildrenImages = product.configurable_children.map(child => ({
+      src: getThumbnailPath(
+        !hasImage(child) ? product.image : child.image,
+        config.products.gallery.width,
+        config.products.gallery.height
+      ),
+      loading: getThumbnailPath(
+        product.image,
+        config.products.thumbnails.width,
+        config.products.thumbnails.height
+      ),
+      id: configurableAttributes.reduce((result, attribute) => {
+        result[attribute] = child[attribute]
+        return result
+      }, {}),
+    }))
   } else {
     configurableChildrenImages = attributeImages(product)
   }
@@ -141,8 +161,8 @@ export function configurableChildrenImages (product) {
 
 export const setRequestCacheTags = ({ products = [] }) => {
   if (Vue.prototype.$cacheTags) {
-    products.forEach((product) => {
-      Vue.prototype.$cacheTags.add(`P${product.id}`);
+    products.forEach(product => {
+      Vue.prototype.$cacheTags.add(`P${product.id}`)
     })
   }
 }

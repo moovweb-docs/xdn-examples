@@ -3,17 +3,15 @@ import { Microcart } from '@vue-storefront/core/modules/cart/components/Microcar
 
 export default {
   methods: {
-    closeMicrocart () {
+    closeMicrocart() {
       // Method renamed to 'toggleMicrocart'
       this.toggleMicrocart()
-    }
+    },
   },
   computed: {
-    isMicrocartOpen () {
+    isMicrocartOpen() {
       return this.$store.state.ui.microcart
-    }
+    },
   },
-  mixins: [
-    Microcart
-  ]
+  mixins: [Microcart],
 }

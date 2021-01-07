@@ -20,12 +20,12 @@ import './commands'
 // require('./commands')
 
 before(() => {
-  return window.caches.keys().then((cacheNames) => {
+  return window.caches.keys().then(cacheNames => {
     return Promise.all(
-      cacheNames.map((cacheName) => {
-        return window.caches.delete(cacheName);
+      cacheNames.map(cacheName => {
+        return window.caches.delete(cacheName)
       })
-    );
+    )
   })
 })
 
@@ -35,4 +35,3 @@ beforeEach(() => {
   indexedDB.deleteDatabase('carts')
   cy.clearLocalStorage()
 })
-

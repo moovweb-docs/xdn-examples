@@ -4,15 +4,13 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     libraryTarget: 'umd',
-    globalObject: 'typeof self !== \'undefined\' ? self : this'
+    globalObject: "typeof self !== 'undefined' ? self : this",
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json']
+    extensions: ['.ts', '.js', '.json'],
   },
   module: {
-    rules: [
-      { test: /\.ts$/, use: ['ts-loader'], exclude: /node_modules/ }
-    ]
+    rules: [{ test: /\.ts$/, use: ['ts-loader'], exclude: /node_modules/ }],
   },
-  externals: ['@vue-storefront/core']
+  externals: ['@vue-storefront/core'],
 }

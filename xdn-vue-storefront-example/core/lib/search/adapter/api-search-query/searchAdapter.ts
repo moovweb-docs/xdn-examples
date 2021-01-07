@@ -7,17 +7,17 @@ import { SearchQuery } from 'storefront-query-builder'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 
 export class SearchAdapter {
   public entities: any
 
-  public constructor () {
+  public constructor() {
     this.entities = []
     this.initBaseTypes()
   }
 
-  protected decompactItem (item, fieldsToCompact) {
+  protected decompactItem(item, fieldsToCompact) {
     for (let key in fieldsToCompact) {
       const value = fieldsToCompact[key]
       if (typeof item[value] !== 'undefined') {
@@ -28,7 +28,7 @@ export class SearchAdapter {
     return item
   }
 
-  public async search (Request) {
+  public async search(Request) {
     const rawQueryObject = Request.searchQuery
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type)
@@ -43,11 +43,12 @@ export class SearchAdapter {
       rawQueryObject['groupToken'] = Request.groupToken
     }
     if (Request.sort) {
-      const [ field, options ] = Request.sort.split(':')
+      const [field, options] = Request.sort.split(':')
       rawQueryObject.applySort({ field, options })
       delete Request.sort
     }
-    const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
+    const storeView =
+      Request.store === null ? currentStoreView() : await prepareStoreView(Request.store)
     Request.index = storeView.elasticsearch.index
 
     let url = processURLAddress(getApiEndpointUrl(storeView.elasticsearch, 'host'))
@@ -61,7 +62,7 @@ export class SearchAdapter {
       from: Request.from,
       sort: Request.sort,
       request_format: 'search-query',
-      response_format: 'compact'
+      response_format: 'compact',
     }
 
     if (Request._sourceExclude) {
@@ -75,28 +76,39 @@ export class SearchAdapter {
     }
 
     if (!Request.index || !Request.type) {
-      throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
+      throw new Error(
+        'Query.index and Query.type are required arguments for executing ElasticSearch query'
+      )
     }
     if (config.elasticsearch.queryMethod === 'GET') {
       httpQuery.request = JSON.stringify(rawQueryObject)
     }
-    url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
+    url =
+      url +
+      '/' +
+      encodeURIComponent(Request.index) +
+      '/' +
+      encodeURIComponent(Request.type) +
+      '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
-    return fetch(url, { method: config.elasticsearch.queryMethod,
+    return fetch(url, {
+      method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(rawQueryObject) : null
+      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(rawQueryObject) : null,
     })
-      .then(resp => { return resp.json() })
+      .then(resp => {
+        return resp.json()
+      })
       .catch(error => {
         throw new Error('FetchError in request to API: ' + error.toString())
       })
   }
 
-  public handleResult (resp, type, start = 0, size = 50): SearchResponse {
+  public handleResult(resp, type, start = 0, size = 50): SearchResponse {
     if (resp === null) {
       throw new Error('Invalid API result - null not exepcted')
     }
@@ -111,28 +123,41 @@ export class SearchAdapter {
               })
             }
           }
-          return Object.assign(hit, { slug: hit.slug ? hit.slug : ((hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit.url_key : (hit.hasOwnProperty('name') ? slugify(hit.name) + '-' + hit.id : '')) }) // TODO: assign slugs server side
+          return Object.assign(hit, {
+            slug: hit.slug
+              ? hit.slug
+              : hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys
+              ? hit.url_key
+              : hit.hasOwnProperty('name')
+              ? slugify(hit.name) + '-' + hit.id
+              : '',
+          }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.total,
         start: start,
         perPage: size,
         aggregations: resp.aggregations,
         attributeMetadata: resp.attribute_metadata,
-        suggestions: resp.suggest
+        suggestions: resp.suggest,
       }
     } else {
       if (resp.error) {
         throw new Error(JSON.stringify(resp.error))
       } else {
-        throw new Error('Unknown error with API catalog result in resultProcessor for entity type \'' + type + '\'')
+        throw new Error(
+          "Unknown error with API catalog result in resultProcessor for entity type '" + type + "'"
+        )
       }
     }
   }
 
-  public registerEntityType (entityType, { url = '', url_ssr = '', queryProcessor, resultProcessor }) {
+  public registerEntityType(
+    entityType,
+    { url = '', url_ssr = '', queryProcessor, resultProcessor }
+  ) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor
+      resultProcessor: resultProcessor,
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -143,17 +168,26 @@ export class SearchAdapter {
     return this
   }
 
-  public initBaseTypes () {
-    const baseTypes = ['product', 'attribute', 'category', 'taxrule', 'review', 'cms_page', 'cms_block', 'cms_hierarchy']
+  public initBaseTypes() {
+    const baseTypes = [
+      'product',
+      'attribute',
+      'category',
+      'taxrule',
+      'review',
+      'cms_page',
+      'cms_block',
+      'cms_hierarchy',
+    ]
     baseTypes.forEach(type => {
       this.registerEntityType(type, {
-        queryProcessor: (query) => {
+        queryProcessor: query => {
           // function that can modify the query each time before it's being executed
           return query
         },
         resultProcessor: (resp, start, size) => {
           return this.handleResult(resp, type, start, size)
-        }
+        },
       })
     })
   }

@@ -10,4 +10,4 @@ module.exports = {
     path: './dist-xdn-server/server.js',
   },
   includeNodeModules: true,
-};
+}

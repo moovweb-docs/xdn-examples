@@ -1,7 +1,7 @@
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import base from './webpack.base.config';
-import VueSSRPlugin from 'vue-ssr-webpack-plugin';
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import base from './webpack.base.config'
+import VueSSRPlugin from 'vue-ssr-webpack-plugin'
 
 // when output cache is enabled generate cache version key
 import config from 'config'
@@ -10,10 +10,7 @@ import path from 'path'
 import uuid from 'uuid/v4'
 
 if (config.server.useOutputCache) {
-  fs.writeFileSync(
-    path.join(__dirname, 'cache-version.json'),
-    JSON.stringify(uuid())
-  )
+  fs.writeFileSync(path.join(__dirname, 'cache-version.json'), JSON.stringify(uuid()))
 }
 
 export default merge(base, {
@@ -22,18 +19,18 @@ export default merge(base, {
   entry: ['@babel/polyfill', './core/server-entry.ts'],
   output: {
     filename: 'server-bundle.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   resolve: {
     alias: {
-      'create-api': './create-api-server.js'
-    }
+      'create-api': './create-api-server.js',
+    },
   },
   externals: Object.keys(require('../../package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.VUE_ENV': '"server"'
+      'process.env.VUE_ENV': '"server"',
     }),
-    new VueSSRPlugin()
-  ]
+    new VueSSRPlugin(),
+  ],
 })

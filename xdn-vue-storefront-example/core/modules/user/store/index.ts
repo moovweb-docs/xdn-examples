@@ -16,9 +16,9 @@ export const userStore: Module<UserState, RootState> = {
     current_storecode: '',
     session_started: new Date(),
     orders_history: null,
-    local_data_loaded: false
+    local_data_loaded: false,
   },
   getters,
   actions,
-  mutations
+  mutations,
 }

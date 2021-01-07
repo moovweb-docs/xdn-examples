@@ -73,13 +73,32 @@
   },
   "initialResources": [
     {
-      "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
+      "filters": [
+        "vsf-newsletter-modal",
+        "vsf-languages-modal",
+        "vsf-layout-empty",
+        "vsf-layout-minimal",
+        "vsf-order-confirmation",
+        "vsf-search-panel"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
     },
     {
-      "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
+      "filters": [
+        "vsf-category",
+        "vsf-home",
+        "vsf-not-found",
+        "vsf-error",
+        "vsf-product",
+        "vsf-cms",
+        "vsf-checkout",
+        "vsf-compare",
+        "vsf-my-account",
+        "vsf-static",
+        "vsf-reset-password"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
@@ -159,17 +178,9 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
-    "lazyHydrateFor": [
-      "category-next.products",
-      "homepage.new_collection"
-    ],
+    "lazyHydrateFor": ["category-next.products", "homepage.new_collection"],
     "executeMixedinAsyncData": true,
-    "initialStateFilter": [
-      "__DEMO_MODE__",
-      "version",
-      "storeView",
-      "attribute.list_by_id"
-    ],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute.list_by_id"],
     "useInitialStateFilter": true
   },
   "queues": {
@@ -180,10 +191,7 @@
   "storeViews": {
     "multistore": false,
     "commonCache": false,
-    "mapStoreUrlsFor": [
-      "de",
-      "it"
-    ],
+    "mapStoreUrlsFor": ["de", "it"],
     "de": {
       "storeCode": "de",
       "storeId": 3,
@@ -271,19 +279,13 @@
         "*.children_data.id",
         "*.id"
       ],
-      "excludeFields": [
-        "sgn"
-      ],
+      "excludeFields": ["sgn"],
       "filterFields": {},
       "breadcrumbFilterFields": {},
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
       "categoriesDynamicPrefetch": true,
-      "validSearchOptionsFromRouteParams": [
-        "url-key",
-        "slug",
-        "id"
-      ]
+      "validSearchOptionsFromRouteParams": ["url-key", "slug", "id"]
     },
     "attribute": {
       "includeFields": [
@@ -446,10 +448,7 @@
       ]
     },
     "review": {
-      "excludeFields": [
-        "review_entity",
-        "review_status"
-      ]
+      "excludeFields": ["review_entity", "review_status"]
     },
     "product": {
       "excludeFields": [
@@ -620,15 +619,8 @@
     "setupVariantByAttributeCode": true,
     "calculateBundlePriceByOptions": true,
     "endpoint": "/api/product",
-    "defaultFilters": [
-      "color",
-      "erin_recommends",
-      "price",
-      "size"
-    ],
-    "systemFilterNames": [
-      "sort"
-    ],
+    "defaultFilters": ["color", "erin_recommends", "price", "size"],
+    "systemFilterNames": ["sort"],
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
@@ -648,11 +640,7 @@
     },
     "gallery": {
       "mergeConfigurableChildren": true,
-      "imageAttributes": [
-        "image",
-        "thumbnail",
-        "small_image"
-      ],
+      "imageAttributes": ["image", "thumbnail", "small_image"],
       "width": 600,
       "height": 744
     },
@@ -678,8 +666,7 @@
   "orders": {
     "directBackendSync": true,
     "endpoint": "/api/order",
-    "payment_methods_mapping": {
-    },
+    "payment_methods_mapping": {},
     "offline_orders": {
       "automatic_transmission_enabled": false,
       "notification": {
@@ -706,10 +693,7 @@
       "ordersHistory": "LOCALSTORAGE",
       "checkout": "LOCALSTORAGE"
     },
-    "preserveCollections": [
-      "cart",
-      "user"
-    ]
+    "preserveCollections": ["cart", "user"]
   },
   "reviews": {
     "create_endpoint": "/api/review/create"
@@ -777,9 +761,7 @@
   "i18n": {
     "defaultCountry": "US",
     "defaultLanguage": "EN",
-    "availableLocale": [
-      "en-US"
-    ],
+    "availableLocale": ["en-US"],
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
@@ -874,13 +856,13 @@
     "map_endpoint": "/api/url/map"
   },
   "fastly": {
-    "enabled":false
+    "enabled": false
   },
   "nginx": {
-    "enabled":false
+    "enabled": false
   },
   "varnish": {
-    "enabled":false
+    "enabled": false
   },
   "purgeConfig": [
     "server.invalidateCacheKey",

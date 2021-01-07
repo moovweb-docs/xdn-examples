@@ -1,57 +1,57 @@
-import { mountMixin, mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
-import { WishlistButton } from '@vue-storefront/core/modules/wishlist/components/WishlistButton';
+import { mountMixin, mountMixinWithStore } from '@vue-storefront/unit-tests/utils'
+import { WishlistButton } from '@vue-storefront/core/modules/wishlist/components/WishlistButton'
 
-jest.mock('@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin', () => ({}));
+jest.mock('@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin', () => ({}))
 
 describe('WishlistButton', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   it('creates a component', () => {
-    const wrapper = mountMixin(WishlistButton);
+    const wrapper = mountMixin(WishlistButton)
 
-    expect(wrapper.exists()).toBe(true);
-    expect(wrapper.isVueInstance()).toBe(true);
-  });
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.isVueInstance()).toBe(true)
+  })
 
   it('getWishlistItemsCount computed property calls wishlist/getWishlistItemsCount getter', () => {
-    const getWishlistItemsCountGetter = jest.fn(() => 42);
+    const getWishlistItemsCountGetter = jest.fn(() => 42)
     const mockStore = {
       modules: {
         wishlist: {
           getters: {
-            getWishlistItemsCount: getWishlistItemsCountGetter
+            getWishlistItemsCount: getWishlistItemsCountGetter,
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
-    const wrapper = mountMixinWithStore(WishlistButton, mockStore);
+    const wrapper = mountMixinWithStore(WishlistButton, mockStore)
 
-    const getWishlistItemsCount = (wrapper.vm as any).getWishlistItemsCount;
+    const getWishlistItemsCount = (wrapper.vm as any).getWishlistItemsCount
 
-    expect(getWishlistItemsCountGetter).toHaveBeenCalled();
-    expect(getWishlistItemsCount).toBe(42);
-  });
+    expect(getWishlistItemsCountGetter).toHaveBeenCalled()
+    expect(getWishlistItemsCount).toBe(42)
+  })
 
   it('toggleWishlist method dispatches ui/toggleWishlist action', () => {
     const mockStore = {
       modules: {
         ui: {
           actions: {
-            toggleWishlist: jest.fn()
+            toggleWishlist: jest.fn(),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
-    const wrapper = mountMixinWithStore(WishlistButton, mockStore);
+    const wrapper = mountMixinWithStore(WishlistButton, mockStore)
 
-    (wrapper.vm as any).toggleWishlist();
+    ;(wrapper.vm as any).toggleWishlist()
 
-    expect(mockStore.modules.ui.actions.toggleWishlist).toHaveBeenCalled();
-  });
-});
+    expect(mockStore.modules.ui.actions.toggleWishlist).toHaveBeenCalled()
+  })
+})

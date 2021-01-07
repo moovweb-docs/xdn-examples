@@ -10,35 +10,35 @@ export default {
   props: {
     activeBlock: {
       type: String,
-      default: 'MyProfile'
-    }
+      default: 'MyProfile',
+    },
   },
-  data () {
+  data() {
     return {
       navigation: [],
-      returnEditMode: false
+      returnEditMode: false,
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
-  async mounted () {
+  async mounted() {
     await this.$store.dispatch('user/startSession')
     if (!this.$store.getters['user/isLoggedIn']) {
       localStorage.setItem('redirect', this.$route.path)
       this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
   },
-  destroyed () {
+  destroyed() {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
   methods: {
-    onBeforeChangePassword (passwordData) {
+    onBeforeChangePassword(passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
     },
-    onBeforeUpdateUser (updatedData) {
+    onBeforeUpdateUser(updatedData) {
       if (updatedData) {
         try {
           this.$store.dispatch('user/update', { customer: updatedData })
@@ -47,18 +47,21 @@ export default {
           Logger.error(err)()
         }
       }
-    }
+    },
   },
-  metaInfo () {
+  metaInfo() {
     return {
       title: this.$route.meta.title || i18n.t('My Account'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
+      meta: this.$route.meta.description
+        ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }]
+        : [],
     }
   },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+  asyncData({ store, route, context }) {
+    // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`my-account`)
       resolve()
     })
-  }
+  },
 }

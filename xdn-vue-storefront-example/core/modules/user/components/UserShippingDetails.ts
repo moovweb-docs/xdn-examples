@@ -5,7 +5,7 @@ const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',
-  data () {
+  data() {
     return {
       shippingDetails: {
         firstName: '',
@@ -16,16 +16,16 @@ export const UserShippingDetails = {
         postcode: '',
         region: '',
         country: '',
-        phone: ''
+        phone: '',
       },
       countries: Countries,
       useCompanyAddress: false,
       currentUser: Object.assign({}, this.$store.state.user.current),
       isEdited: false,
-      remainInEditMode: false
+      remainInEditMode: false,
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
     this.$bus.$on('myAccount-before-remainInEditMode', block => {
       if (block === 'MyShippingDetails') {
@@ -33,29 +33,29 @@ export const UserShippingDetails = {
       }
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
     this.$bus.$off('myAccount-before-remainInEditMode')
   },
-  mounted () {
+  mounted() {
     this.shippingDetails = this.getShippingDetails()
   },
   watch: {
     useCompanyAddress: {
-      handler () {
+      handler() {
         this.fillCompanyAddress()
-      }
-    }
+      },
+    },
   },
   methods: {
-    onLoggedIn () {
+    onLoggedIn() {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       this.shippingDetails = this.getShippingDetails()
     },
-    edit () {
+    edit() {
       this.isEdited = true
     },
-    objectsEqual (a, b) {
+    objectsEqual(a, b) {
       const aProps = Object.keys(a)
       const bProps = Object.keys(b)
 
@@ -68,7 +68,12 @@ export const UserShippingDetails = {
         if (!b.hasOwnProperty(propName)) {
           return false
         } else {
-          if (a[propName] !== null && b[propName] !== null && a[propName] === 'object' && b[propName] === 'object') {
+          if (
+            a[propName] !== null &&
+            b[propName] !== null &&
+            a[propName] === 'object' &&
+            b[propName] === 'object'
+          ) {
             if (!this.objectsEqual(a[propName], b[propName])) {
               return false
             }
@@ -79,25 +84,30 @@ export const UserShippingDetails = {
       }
       return true
     },
-    updateDetails () {
+    updateDetails() {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-        updatedShippingDetails = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), config.users.allowModification)
+        updatedShippingDetails = pick(
+          JSON.parse(JSON.stringify(this.$store.state.user.current)),
+          config.users.allowModification
+        )
         let updatedShippingDetailsAddress = {
           firstname: this.shippingDetails.firstName,
           lastname: this.shippingDetails.lastName,
           street: [this.shippingDetails.street, this.shippingDetails.house],
           city: this.shippingDetails.city,
-          ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
+          ...(this.shippingDetails.region
+            ? { region: { region: this.shippingDetails.region } }
+            : {}),
           country_id: this.shippingDetails.country,
           postcode: this.shippingDetails.postcode,
-          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {})
+          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {}),
         }
         if (this.currentUser.hasOwnProperty('default_shipping')) {
           if (this.currentUser.addresses.length === 0) {
             updatedShippingDetails = null
           } else {
-            updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
+            updatedShippingDetails.addresses = updatedShippingDetails.addresses.map(address =>
               toString(address.id) === toString(this.currentUser.default_shipping)
                 ? { ...address, ...updatedShippingDetailsAddress } // update default address if already exist
                 : address
@@ -107,13 +117,13 @@ export const UserShippingDetails = {
           // create default address
           updatedShippingDetails.addresses.push({
             ...updatedShippingDetailsAddress,
-            default_shipping: true
+            default_shipping: true,
           })
         }
       }
       this.exitSection(null, updatedShippingDetails)
     },
-    exitSection (event, updatedShippingDetails) {
+    exitSection(event, updatedShippingDetails) {
       this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
       if (!updatedShippingDetails) {
         this.shippingDetails = this.getShippingDetails()
@@ -124,9 +134,11 @@ export const UserShippingDetails = {
         this.isEdited = false
       }
     },
-    fillCompanyAddress () {
+    fillCompanyAddress() {
       if (this.useCompanyAddress) {
-        const companyAddress = this.currentUser.addresses.find((address) => toString(address.id) === toString(this.currentUser.default_billing))
+        const companyAddress = this.currentUser.addresses.find(
+          address => toString(address.id) === toString(this.currentUser.default_billing)
+        )
         if (companyAddress) {
           this.shippingDetails.firstName = companyAddress.firstname
           this.shippingDetails.lastName = companyAddress.lastname
@@ -134,14 +146,16 @@ export const UserShippingDetails = {
           this.shippingDetails.house = companyAddress.street[1]
           this.shippingDetails.city = companyAddress.city
           this.shippingDetails.postcode = companyAddress.postcode
-          this.shippingDetails.region = companyAddress.region.region ? companyAddress.region.region : ''
+          this.shippingDetails.region = companyAddress.region.region
+            ? companyAddress.region.region
+            : ''
           this.shippingDetails.country = companyAddress.country_id
         }
       } else {
         this.shippingDetails = this.getShippingDetails()
       }
     },
-    readShippingDetailsFromCurrentUser (shippingDetails) {
+    readShippingDetailsFromCurrentUser(shippingDetails) {
       for (let address of this.currentUser.addresses) {
         if (toString(address.id) === toString(this.currentUser.default_shipping)) {
           return {
@@ -153,13 +167,13 @@ export const UserShippingDetails = {
             postcode: address.postcode,
             region: address.region.region ? address.region.region : '',
             country: address.country_id,
-            phone: address.hasOwnProperty('telephone') ? address.telephone : ''
+            phone: address.hasOwnProperty('telephone') ? address.telephone : '',
           }
         }
       }
       return shippingDetails
     },
-    getShippingDetails () {
+    getShippingDetails() {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       let shippingDetails = {
         firstName: '',
@@ -170,19 +184,19 @@ export const UserShippingDetails = {
         postcode: '',
         region: '',
         country: '',
-        phone: ''
+        phone: '',
       }
       if (this.currentUser) {
         if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
-          shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails);
+          shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails)
         } else {
           shippingDetails.firstName = this.currentUser.firstname
           shippingDetails.lastName = this.currentUser.lastname
         }
       }
-      return shippingDetails;
+      return shippingDetails
     },
-    getCountryName () {
+    getCountryName() {
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].code === this.shippingDetails.country) {
           return this.countries[i].name
@@ -190,13 +204,13 @@ export const UserShippingDetails = {
       }
       return ''
     },
-    hasBillingAddress () {
+    hasBillingAddress() {
       if (this.currentUser) {
         if (this.currentUser.hasOwnProperty('default_billing')) {
           return true
         }
       }
       return false
-    }
-  }
+    },
+  },
 }

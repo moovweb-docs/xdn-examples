@@ -7,7 +7,8 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
-  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+  async asyncData({ store, route, context }) {
+    // this is for SSR purposes to prefetch data
     Logger.log('Entering asyncData for PageNotFound ' + new Date())()
     if (context) {
       context.output.cacheTags.add(`page-not-found`)
@@ -20,17 +21,19 @@ export default {
       sort: 'created_at:desc',
       options: {
         populateRequestCacheTags: false,
-        prefetchGroupProducts: false
-      }
+        prefetchGroupProducts: false,
+      },
     })
     if (items.length) {
       store.state.homepage.bestsellers = items
     }
   },
-  metaInfo () {
+  metaInfo() {
     return {
       title: this.$route.meta.title || i18n.t('404 Page Not Found'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
+      meta: this.$route.meta.description
+        ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }]
+        : [],
     }
-  }
+  },
 }

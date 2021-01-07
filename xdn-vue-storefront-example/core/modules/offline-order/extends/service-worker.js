@@ -1,7 +1,7 @@
 // Offline order notification object
 import config from 'config'
 
-function sendNotification () {
+function sendNotification() {
   const title = config.orders.offline_orders.notification.title
   const message = config.orders.offline_orders.notification.message
   const icon = config.orders.offline_orders.notification.icon
@@ -9,11 +9,11 @@ function sendNotification () {
   self.registration.showNotification(title, {
     body: message,
     icon: icon,
-    requireInteraction: true
+    requireInteraction: true,
   })
 }
 
-function openShop (notification) {
+function openShop(notification) {
   const pageUrl = '/?order=offline'
   self.clients.openWindow(pageUrl)
   notification.close()

@@ -5,7 +5,7 @@ export const importIntlPolyfill = async () => {
   global.Intl = IntlPolyfill.default
 }
 
-export const checkForIntlPolyfill = async (storeView) => {
+export const checkForIntlPolyfill = async storeView => {
   const globDTO = typeof window !== 'undefined' ? window : global
   if (!globDTO.hasOwnProperty('Intl') || !areIntlLocalesSupported(storeView.i18n.defaultLocale)) {
     await importIntlPolyfill()

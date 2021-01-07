@@ -2,15 +2,15 @@ import * as types from '../../../store/mutation-types'
 import cartMutations from '../../../store/mutations'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: (str) => jest.fn()
+  once: str => jest.fn(),
 }))
 
 EventBus.$emit = jest.fn()
 
 jest.mock('@vue-storefront/core/store', () => ({
   state: {
-    config: {}
-  }
+    config: {},
+  },
 }))
 
 describe('Cart mutations', () => {
@@ -21,19 +21,19 @@ describe('Cart mutations', () => {
   describe('CART_ADD_ITEM', () => {
     it('adds a product to cart if none of its sku is there yet', () => {
       const stateMock = {
-        cartItems: []
+        cartItems: [],
       }
       const product = {
         qty: 123,
-        sku: 'foo'
+        sku: 'foo',
       }
       const expectedState = {
         cartItems: [
           {
             qty: 123,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const wrapper = (mutations: any) => mutations[types.CART_ADD_ITEM](stateMock, { product })
 
@@ -45,18 +45,18 @@ describe('Cart mutations', () => {
 
     it('adds a product to cart with quantity of 1 if none of its sku is there yet and product qty is not provided', () => {
       const stateMock = {
-        cartItems: []
+        cartItems: [],
       }
       const product = {
-        sku: 'foo'
+        sku: 'foo',
       }
       const expectedState = {
         cartItems: [
           {
             qty: 1,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const wrapper = (mutations: any) => mutations[types.CART_ADD_ITEM](stateMock, { product })
 
@@ -71,21 +71,21 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const product = {
         qty: 10,
-        sku: 'foo'
+        sku: 'foo',
       }
       const expectedState = {
         cartItems: [
           {
             qty: 20,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const wrapper = (mutations: any) => mutations[types.CART_ADD_ITEM](stateMock, { product })
 
@@ -99,20 +99,20 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const product = {
-        sku: 'foo'
+        sku: 'foo',
       }
       const expectedState = {
         cartItems: [
           {
             qty: 11,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const wrapper = (mutations: any) => mutations[types.CART_ADD_ITEM](stateMock, { product })
 
@@ -128,28 +128,28 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const expectedState = {
-        cartItems: []
+        cartItems: [],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_DEL_ITEM](
-        stateMock,
-        {
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_DEL_ITEM](stateMock, {
           product: { sku: 'foo' },
-          removeByParentSku: false
-        }
-      )
+          removeByParentSku: false,
+        })
 
       wrapper(cartMutations)
 
       expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
-        items: [{
-          qty: 10,
-          sku: 'foo'
-        }]
+        items: [
+          {
+            qty: 10,
+            sku: 'foo',
+          },
+        ],
       })
       expect(EventBus.$emit).toBeCalledWith('cart-after-delete', { items: expectedState.cartItems })
       expect(stateMock).toEqual(expectedState)
@@ -160,27 +160,27 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const expectedState = {
-        cartItems: []
+        cartItems: [],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_DEL_ITEM](
-        stateMock,
-        {
-          product: { parentSku: 'foo' }
-        }
-      )
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_DEL_ITEM](stateMock, {
+          product: { parentSku: 'foo' },
+        })
 
       wrapper(cartMutations)
 
       expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
-        items: [{
-          qty: 10,
-          sku: 'foo'
-        }]
+        items: [
+          {
+            qty: 10,
+            sku: 'foo',
+          },
+        ],
       })
       expect(EventBus.$emit).toBeCalledWith('cart-after-delete', { items: expectedState.cartItems })
       expect(stateMock).toEqual(expectedState)
@@ -193,26 +193,27 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const expectedState = {
-        cartItems: [] }
-      const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
-        stateMock,
-        {
+        cartItems: [],
+      }
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_DEL_NON_CONFIRMED_ITEM](stateMock, {
           product: { sku: 'foo' },
-          removeByParentSku: false
-        }
-      )
+          removeByParentSku: false,
+        })
       wrapper(cartMutations)
 
       expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
-        items: [{
-          qty: 10,
-          sku: 'foo'
-        }]
+        items: [
+          {
+            qty: 10,
+            sku: 'foo',
+          },
+        ],
       })
       expect(EventBus.$emit).toBeCalledWith('cart-after-delete', { items: expectedState.cartItems })
       expect(stateMock).toEqual(expectedState)
@@ -223,27 +224,27 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             qty: 10,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
       const expectedState = {
-        cartItems: []
+        cartItems: [],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
-        stateMock,
-        {
-          product: { parentSku: 'foo' }
-        }
-      )
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_DEL_NON_CONFIRMED_ITEM](stateMock, {
+          product: { parentSku: 'foo' },
+        })
 
       wrapper(cartMutations)
 
       expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
-        items: [{
-          qty: 10,
-          sku: 'foo'
-        }]
+        items: [
+          {
+            qty: 10,
+            sku: 'foo',
+          },
+        ],
       })
       expect(EventBus.$emit).toBeCalledWith('cart-after-delete', { items: expectedState.cartItems })
       expect(stateMock).toEqual(expectedState)
@@ -255,26 +256,24 @@ describe('Cart mutations', () => {
           {
             qty: 10,
             sku: 'foo',
-            server_item_id: 123
-          }
-        ]
+            server_item_id: 123,
+          },
+        ],
       }
       const expectedState = {
         cartItems: [
           {
             qty: 10,
             sku: 'foo',
-            server_item_id: 123
-          }
-        ]
+            server_item_id: 123,
+          },
+        ],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
-        stateMock,
-        {
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_DEL_NON_CONFIRMED_ITEM](stateMock, {
           product: { sku: 'foo' },
-          removeByParentSku: false
-        }
-      )
+          removeByParentSku: false,
+        })
 
       wrapper(cartMutations)
 
@@ -290,51 +289,51 @@ describe('Cart mutations', () => {
         cartItems: [
           {
             sku: 'foo',
-            qty: 10
-          }
-        ]
+            qty: 10,
+          },
+        ],
       }
       const expectedState = {
         cartItems: [
           {
             qty: 20,
-            sku: 'foo'
-          }
-        ]
+            sku: 'foo',
+          },
+        ],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
-        stateMock,
-        {
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_UPD_ITEM](stateMock, {
           product: { sku: 'foo' },
-          qty: 20
-        }
-      )
+          qty: 20,
+        })
       wrapper(cartMutations)
 
       // unfortunately before and after events return a reference to the same object, therefore
       // after performing this mutation after event return same object with same, updated value as before event
-      expect(EventBus.$emit).toBeCalledWith('cart-before-update', { product: expectedState.cartItems[0] })
-      expect(EventBus.$emit).toBeCalledWith('cart-after-update', { product: expectedState.cartItems[0] })
+      expect(EventBus.$emit).toBeCalledWith('cart-before-update', {
+        product: expectedState.cartItems[0],
+      })
+      expect(EventBus.$emit).toBeCalledWith('cart-after-update', {
+        product: expectedState.cartItems[0],
+      })
       expect(stateMock).toEqual(expectedState)
     })
 
-    it('doesn\'t update anything if product is not found in cart', () => {
+    it("doesn't update anything if product is not found in cart", () => {
       const stateMock = {
         cartItems: [
           {
             sku: 'foo',
-            qty: 10
-          }
-        ]
+            qty: 10,
+          },
+        ],
       }
       const expectedState = { ...stateMock }
-      const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
-        stateMock,
-        {
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_UPD_ITEM](stateMock, {
           product: { sku: 'qux' },
-          qty: 20
-        }
-      )
+          qty: 20,
+        })
 
       wrapper(cartMutations)
 
@@ -350,25 +349,23 @@ describe('Cart mutations', () => {
           {
             sku: 'foo',
             someProp: 'bar',
-            qty: 10
-          }
-        ]
+            qty: 10,
+          },
+        ],
       }
       const expectedState = {
         cartItems: [
           {
             qty: 20,
             sku: 'foo',
-            someProp: 'baz'
-          }
-        ]
+            someProp: 'baz',
+          },
+        ],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
-        stateMock,
-        {
-          product: { sku: 'foo', someProp: 'baz', qty: 20 }
-        }
-      )
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_UPD_ITEM_PROPS](stateMock, {
+          product: { sku: 'foo', someProp: 'baz', qty: 20 },
+        })
       let firstEmitCall = []
 
       EventBus.$emit.mockImplementationOnce((eventName, args) => {
@@ -377,8 +374,13 @@ describe('Cart mutations', () => {
       })
       wrapper(cartMutations)
 
-      expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
-      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
+      expect(firstEmitCall).toEqual([
+        'cart-before-itemchanged',
+        { item: expectedState.cartItems[0] },
+      ])
+      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', {
+        item: expectedState.cartItems[0],
+      })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -389,9 +391,9 @@ describe('Cart mutations', () => {
             sku: 'foo',
             server_item_id: 123,
             someProp: 'bar',
-            qty: 10
-          }
-        ]
+            qty: 10,
+          },
+        ],
       }
       const expectedState = {
         cartItems: [
@@ -399,16 +401,14 @@ describe('Cart mutations', () => {
             server_item_id: 123,
             qty: 20,
             sku: 'bar',
-            someProp: 'baz'
-          }
-        ]
+            someProp: 'baz',
+          },
+        ],
       }
-      const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
-        stateMock,
-        {
-          product: { server_item_id: 123, sku: 'bar', someProp: 'baz', qty: 20 }
-        }
-      )
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_UPD_ITEM_PROPS](stateMock, {
+          product: { server_item_id: 123, sku: 'bar', someProp: 'baz', qty: 20 },
+        })
       let firstEmitCall = []
 
       EventBus.$emit.mockImplementationOnce((eventName, args) => {
@@ -417,28 +417,31 @@ describe('Cart mutations', () => {
       })
       wrapper(cartMutations)
 
-      expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
-      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
+      expect(firstEmitCall).toEqual([
+        'cart-before-itemchanged',
+        { item: expectedState.cartItems[0] },
+      ])
+      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', {
+        item: expectedState.cartItems[0],
+      })
       expect(stateMock).toEqual(expectedState)
     })
 
-    it('doesn\'t update anything if product is not found in cart', () => {
+    it("doesn't update anything if product is not found in cart", () => {
       const stateMock = {
         cartItems: [
           {
             sku: 'foo',
             someProp: 'bar',
-            qty: 10
-          }
-        ]
+            qty: 10,
+          },
+        ],
       }
       const expectedState = { ...stateMock }
-      const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
-        stateMock,
-        {
-          product: { sku: 'qux', someProp: 'baz', qty: 20 }
-        }
-      )
+      const wrapper = (mutations: any) =>
+        mutations[types.CART_UPD_ITEM_PROPS](stateMock, {
+          product: { sku: 'qux', someProp: 'baz', qty: 20 },
+        })
 
       wrapper(cartMutations)
 
@@ -449,15 +452,13 @@ describe('Cart mutations', () => {
 
   it('CART_UPD_SHIPPING sets given shipping method', () => {
     const stateMock = {
-      shipping: 'foo'
+      shipping: 'foo',
     }
     const expectedState = {
-      shipping: 'bar'
+      shipping: 'bar',
     }
-    const wrapper = (mutations: any) => mutations[types.CART_UPD_SHIPPING](
-      stateMock,
-      expectedState.shipping
-    )
+    const wrapper = (mutations: any) =>
+      mutations[types.CART_UPD_SHIPPING](stateMock, expectedState.shipping)
 
     wrapper(cartMutations)
 
@@ -470,15 +471,13 @@ describe('Cart mutations', () => {
       cartItems: [
         {
           sku: 'foo',
-          qty: 10
-        }
+          qty: 10,
+        },
       ],
-      cartIsLoaded: true
+      cartIsLoaded: true,
     }
-    const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
-      stateMock,
-      expectedState.cartItems
-    )
+    const wrapper = (mutations: any) =>
+      mutations[types.CART_LOAD_CART](stateMock, expectedState.cartItems)
     wrapper(cartMutations)
 
     expect(EventBus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
@@ -491,11 +490,9 @@ describe('Cart mutations', () => {
     const stateMock = {}
     const expectedState = {
       cartItems: [],
-      cartIsLoaded: true
+      cartIsLoaded: true,
     }
-    const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
-      stateMock
-    )
+    const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](stateMock)
 
     wrapper(cartMutations)
 
@@ -508,12 +505,10 @@ describe('Cart mutations', () => {
   it('CART_LOAD_CART_SERVER_TOKEN saves given cart token in cart data', () => {
     const stateMock = {}
     const expectedState = {
-      cartServerToken: 'foo'
+      cartServerToken: 'foo',
     }
-    const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART_SERVER_TOKEN](
-      stateMock,
-      expectedState.cartServerToken
-    )
+    const wrapper = (mutations: any) =>
+      mutations[types.CART_LOAD_CART_SERVER_TOKEN](stateMock, expectedState.cartServerToken)
 
     wrapper(cartMutations)
 
@@ -525,42 +520,38 @@ describe('Cart mutations', () => {
     const expectedState = {
       itemsAfterPlatformTotals: ['foo'],
       platformTotals: {
-        bar: 1 /** @todo replace with real alike data to show what it can be filled with */
+        bar: 1 /** @todo replace with real alike data to show what it can be filled with */,
       },
       platformTotalSegments: [
-        { 'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36 },
-        { 'code': 'grand_total', 'title': 'Grand Total', 'value': 39.36, 'area': 'footer' }
-      ]
+        { code: 'subtotal', title: 'Subtotal', value: 39.36 },
+        { code: 'grand_total', title: 'Grand Total', value: 39.36, area: 'footer' },
+      ],
     }
-    const wrapper = (mutations: any) => mutations[types.CART_UPD_TOTALS](
-      stateMock,
-      {
+    const wrapper = (mutations: any) =>
+      mutations[types.CART_UPD_TOTALS](stateMock, {
         itemsAfterTotals: expectedState.itemsAfterPlatformTotals,
         totals: expectedState.platformTotals,
-        platformTotalSegments: expectedState.platformTotalSegments
-      }
-    )
+        platformTotalSegments: expectedState.platformTotalSegments,
+      })
 
     wrapper(cartMutations)
 
     expect(EventBus.$emit).toBeCalledWith('cart-after-updatetotals', {
       platformTotals: expectedState.platformTotals,
-      platformTotalSegments: expectedState.platformTotalSegments
+      platformTotalSegments: expectedState.platformTotalSegments,
     })
     expect(stateMock).toEqual(expectedState)
   })
 
   it('CART_UPD_PAYMENT sets given payment method', () => {
     const stateMock = {
-      payment: 'foo'
+      payment: 'foo',
     }
     const expectedState = {
-      payment: 'bar'
+      payment: 'bar',
     }
-    const wrapper = (mutations: any) => mutations[types.CART_UPD_PAYMENT](
-      stateMock,
-      expectedState.payment
-    )
+    const wrapper = (mutations: any) =>
+      mutations[types.CART_UPD_PAYMENT](stateMock, expectedState.payment)
 
     wrapper(cartMutations)
 
@@ -569,14 +560,12 @@ describe('Cart mutations', () => {
 
   it('CART_TOGGLE_MICROCART changes microcart open status to the opposite one', () => {
     const stateMock = {
-      isMicrocartOpen: true
+      isMicrocartOpen: true,
     }
     const expectedState = {
-      isMicrocartOpen: false
+      isMicrocartOpen: false,
     }
-    const wrapper = (mutations: any) => mutations[types.CART_TOGGLE_MICROCART](
-      stateMock
-    )
+    const wrapper = (mutations: any) => mutations[types.CART_TOGGLE_MICROCART](stateMock)
 
     wrapper(cartMutations)
 

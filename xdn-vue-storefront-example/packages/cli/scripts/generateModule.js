@@ -9,16 +9,17 @@ module.exports = function (moduleName) {
   const replacementOptions = {
     files: [modulePath + '/**/*.*'],
     from: 'vsf-package',
-    to: 'vsf-' + moduleName
+    to: 'vsf-' + moduleName,
   }
 
-  fse.copy(boilerplatePath, modulePath, (err) => {
+  fse.copy(boilerplatePath, modulePath, err => {
     if (err) {
       console.error(err)
     } else {
-      replace(replacementOptions)
-        .catch(error => console.error('Error occurred:', error))
-      console.log('Module vsf-' + moduleName + ' has been succesfully created!\n cd vsf-' + moduleName)
+      replace(replacementOptions).catch(error => console.error('Error occurred:', error))
+      console.log(
+        'Module vsf-' + moduleName + ' has been succesfully created!\n cd vsf-' + moduleName
+      )
     }
   })
 }

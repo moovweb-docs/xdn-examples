@@ -2,7 +2,7 @@ import { server, graphql } from 'config'
 import Vue from 'vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { once } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer } from '@vue-storefront/core/helpers'
 
 export const getApolloProvider = async () => {
   if (server.api === 'graphql') {
@@ -21,48 +21,50 @@ export const getApolloProvider = async () => {
       const host = graphql.host_ssr || graphql.host
       const port = graphql.port_ssr || graphql.port
 
-      uri = host.indexOf('://') >= 0
-        ? host
-        : (server.protocol + '://' + host + ':' + port + '/graphql')
+      uri =
+        host.indexOf('://') >= 0 ? host : server.protocol + '://' + host + ':' + port + '/graphql'
     } else {
-      uri = graphql.host.indexOf('://') >= 0
-        ? graphql.host
-        : (server.protocol + '://' + graphql.host + ':' + graphql.port + '/graphql')
+      uri =
+        graphql.host.indexOf('://') >= 0
+          ? graphql.host
+          : server.protocol + '://' + graphql.host + ':' + graphql.port + '/graphql'
     }
 
     const httpLink = new HttpLink({
-      uri
+      uri,
     })
 
     const ApolloClientModule = await import(/* webpackChunkName: "vsf-graphql" */ 'apollo-client')
     const ApolloClient = ApolloClientModule.default
-    const inMemoryCacheModule = await import(/* webpackChunkName: "vsf-graphql" */ 'apollo-cache-inmemory')
+    const inMemoryCacheModule = await import(
+      /* webpackChunkName: "vsf-graphql" */ 'apollo-cache-inmemory'
+    )
     const InMemoryCache = inMemoryCacheModule.InMemoryCache
 
     const apolloClient = new ApolloClient({
       link: httpLink,
       cache: new InMemoryCache(),
-      connectToDevTools: true
+      connectToDevTools: true,
     })
 
     let loading = 0
 
     const apolloProvider = new VueApollo({
       clients: {
-        a: apolloClient
+        a: apolloClient,
       },
       defaultClient: apolloClient,
       defaultOptions: {
         // $loadingKey: 'loading',
       },
-      watchLoading (state, mod) {
+      watchLoading(state, mod) {
         loading += mod
         Logger.log('Global loading', loading, mod)()
       },
-      errorHandler (error) {
+      errorHandler(error) {
         Logger.log('Global error handler')()
         Logger.error(error)()
-      }
+      },
     })
 
     return apolloProvider
@@ -70,5 +72,5 @@ export const getApolloProvider = async () => {
 }
 
 export default {
-  getApolloProvider
+  getApolloProvider,
 }

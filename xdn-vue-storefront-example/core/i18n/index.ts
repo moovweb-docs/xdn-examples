@@ -13,12 +13,14 @@ const loadedLanguages = [defaultLocale]
 const i18n = new VueI18n({
   locale: defaultLocale, // set locale
   fallbackLocale: defaultLocale,
-  messages: config.i18n.bundleAllStoreviewLanguages ? require('./resource/i18n/multistoreLanguages.json') : {
-    [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`)
-  }
+  messages: config.i18n.bundleAllStoreviewLanguages
+    ? require('./resource/i18n/multistoreLanguages.json')
+    : {
+        [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`),
+      },
 })
 
-function setI18nLanguage (lang: string): string {
+function setI18nLanguage(lang: string): string {
   i18n.locale = lang
   return lang
 }
@@ -28,9 +30,11 @@ function setI18nLanguage (lang: string): string {
  */
 const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
   let localeCode = lang.toLocaleLowerCase()
-  try { // try to load full locale name
+  try {
+    // try to load full locale name
     await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
-  } catch (e) { // load simplified locale name, example: de-DE -> de
+  } catch (e) {
+    // load simplified locale name, example: de-DE -> de
     const separatorIndex = localeCode.indexOf('-')
     if (separatorIndex) {
       localeCode = separatorIndex ? localeCode.substr(0, separatorIndex) : localeCode
@@ -43,17 +47,20 @@ const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
   }
 }
 
-export async function loadLanguageAsync (lang: string): Promise<string> {
+export async function loadLanguageAsync(lang: string): Promise<string> {
   await loadDateLocales(lang)
   if (!config.i18n.bundleAllStoreviewLanguages) {
     if (i18n.locale !== lang) {
       if (!loadedLanguages.includes(lang)) {
         try {
-          const msgs = await import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`)
+          const msgs = await import(
+            /* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`
+          )
           i18n.setLocaleMessage(lang, msgs.default)
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
-        } catch (e) { // eslint-disable-line handle-callback-err
+        } catch (e) {
+          // eslint-disable-line handle-callback-err
           Logger.debug('Unable to load translation')()
           return ''
         }

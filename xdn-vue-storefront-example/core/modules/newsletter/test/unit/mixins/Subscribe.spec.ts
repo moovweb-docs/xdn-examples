@@ -1,40 +1,40 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils'
 
 import Subscribe from '../../../mixins/Subscribe'
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
-  required: {}
+  required: {},
 }))
 
 describe('Subscribe', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   it('method subscribe dispatches subscription action successfully', () => {
     const storeMock = {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn()
+            subscribe: jest.fn(),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
     const wrapper = mountMixinWithStore(Subscribe, storeMock, {
       mocks: {
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
-    (wrapper.vm as any).subscribe()
+    ;(wrapper.vm as any).subscribe()
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '')
   })
 
   it('method subscribe dispatches subscription action successfully with success Callback', async () => {
@@ -42,26 +42,26 @@ describe('Subscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn(() => true)
+            subscribe: jest.fn(() => true),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
     const wrapper = mountMixinWithStore(Subscribe, storeMock, {
       mocks: {
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
     const successCallback = jest.fn()
 
     await (wrapper.vm as any).subscribe(successCallback)
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '')
     expect(successCallback).toBeCalledWith(true)
   })
 
@@ -70,24 +70,24 @@ describe('Subscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn(() => Promise.reject('subscription failed'))
+            subscribe: jest.fn(() => Promise.reject('subscription failed')),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
     const wrapper = mountMixinWithStore(Subscribe, storeMock, {
       mocks: {
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
     await (wrapper.vm as any).subscribe(() => {})
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '')
   })
 
   it('method subscribe dispatches subscription action that fails given an error handler', async () => {
@@ -95,26 +95,26 @@ describe('Subscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn(() => Promise.reject('subscription failed'))
+            subscribe: jest.fn(() => Promise.reject('subscription failed')),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
 
     const wrapper = mountMixinWithStore(Subscribe, storeMock, {
       mocks: {
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
     const errorCallback = jest.fn()
 
     await (wrapper.vm as any).subscribe(() => {}, errorCallback)
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '')
     expect(errorCallback).toBeCalledWith('subscription failed')
   })
-});
+})

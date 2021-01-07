@@ -13,28 +13,28 @@ const config = merge(base, {
           test: /node_modules/,
           name: 'vendor',
           chunks: 'initial',
-          priority: 1
-        }
-      }
+          priority: 1,
+        },
+      },
     },
     runtimeChunk: {
-      name: 'manifest'
-    }
+      name: 'manifest',
+    },
   },
   mode: 'development',
   resolve: {
     alias: {
-      'create-api': './create-api-client.js'
-    }
+      'create-api': './create-api-client.js',
+    },
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
-      'process.env.VUE_ENV': '"client"'
+      'process.env.VUE_ENV': '"client"',
     }),
-    new VueSSRClientPlugin()
-  ]
+    new VueSSRClientPlugin(),
+  ],
 })
 
-export default config;
+export default config

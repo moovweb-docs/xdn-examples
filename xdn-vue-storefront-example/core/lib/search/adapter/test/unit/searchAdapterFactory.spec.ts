@@ -1,32 +1,30 @@
 import { getSearchAdapter } from '@vue-storefront/core/lib/search/adapter/searchAdapterFactory'
 
 jest.mock('config', () => {
-  return { server: { api: 'api' } };
-});
+  return { server: { api: 'api' } }
+})
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
     log: jest.fn(() => () => {}),
     debug: jest.fn(() => () => {}),
     warn: jest.fn(() => () => {}),
-    error: jest.fn(() => () => {})
-  }
-}));
+    error: jest.fn(() => () => {}),
+  },
+}))
 
 const mockSearchAdapterModule = {
   SearchAdapter: jest.fn().mockImplementation(() => {
     return {
-      search: (Request: any): void => {
-      },
-      registerEntityType: (entityType: string, options: any): void => {
-      }
+      search: (Request: any): void => {},
+      registerEntityType: (entityType: string, options: any): void => {},
     }
-  })
-};
+  }),
+}
 
 describe('Search adapter factory tests', () => {
   it('Search adapter constructor called always only once', async () => {
     jest.mock('../../api/searchAdapter', () => {
-      return mockSearchAdapterModule;
+      return mockSearchAdapterModule
     })
 
     const apiSearchAdapter1 = await getSearchAdapter()
@@ -38,12 +36,14 @@ describe('Search adapter factory tests', () => {
     jest.mock(
       '../../virtual/searchAdapter',
       () => {
-        return {};
+        return {}
       },
       { virtual: true }
     )
 
-    await expect(getSearchAdapter('virtual')).rejects.toThrowError(new Error('Search adapter class is not provided'))
+    await expect(getSearchAdapter('virtual')).rejects.toThrowError(
+      new Error('Search adapter class is not provided')
+    )
   })
 
   it('Search adapter class has invalid search method', async () => {
@@ -54,19 +54,19 @@ describe('Search adapter factory tests', () => {
           SearchAdapter: jest.fn().mockImplementation(() => {
             return {
               search: 1,
-              registerEntityType: (entityType: string, options: any): void => {
-              }
+              registerEntityType: (entityType: string, options: any): void => {},
             }
-          })
+          }),
         }
       },
       { virtual: true }
     )
 
-    await expect(getSearchAdapter('invalidSearchMethod'))
-      .rejects.toThrowError(
-        new Error('Not valid search adapter class provided. Search Adapter must implements SearchAdapterInterfaces')
+    await expect(getSearchAdapter('invalidSearchMethod')).rejects.toThrowError(
+      new Error(
+        'Not valid search adapter class provided. Search Adapter must implements SearchAdapterInterfaces'
       )
+    )
   })
 
   it('Search adapter class has invalid registerEntityTypeMethod method', async () => {
@@ -76,19 +76,19 @@ describe('Search adapter factory tests', () => {
         return {
           SearchAdapter: jest.fn().mockImplementation(() => {
             return {
-              search: (Request: any): void => {
-              },
-              registerEntityType: 1
+              search: (Request: any): void => {},
+              registerEntityType: 1,
             }
-          })
+          }),
         }
       },
       { virtual: true }
     )
 
-    await expect(getSearchAdapter('invalidRegisterEntityTypeMethod'))
-      .rejects.toThrowError(
-        new Error('Not valid search adapter class provided. Search Adapter must implements SearchAdapterInterfaces')
+    await expect(getSearchAdapter('invalidRegisterEntityTypeMethod')).rejects.toThrowError(
+      new Error(
+        'Not valid search adapter class provided. Search Adapter must implements SearchAdapterInterfaces'
       )
+    )
   })
 })

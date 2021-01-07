@@ -20,7 +20,7 @@ const configProviders: Function[] = []
 serverHooksExecutors.afterProcessStarted(config.server)
 const express = require('express')
 const ms = require('ms')
-const request = require('request');
+const request = require('request')
 const helmet = require('helmet')
 
 const cache = require('./utils/cache-instance')
@@ -30,9 +30,11 @@ const ssr = require('./utils/ssr-renderer')
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
-  interpolate: /{{{([\s\S]+?)}}}/g
+  interpolate: /{{{([\s\S]+?)}}}/g,
 }
-const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`^.*\\.(${config.server.ssrDisabledFor.extensions.join('|')})$`)
+const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(
+  `^.*\\.(${config.server.ssrDisabledFor.extensions.join('|')})$`
+)
 
 const isProd = process.env.NODE_ENV === 'production'
 process['noDeprecation'] = true
@@ -64,9 +66,10 @@ if (isProd) {
   })
 }
 
-function invalidateCache (req, res) {
+function invalidateCache(req, res) {
   if (config.server.useOutputCache) {
-    if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
+    if (req.query.tag && req.query.key) {
+      // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
         apiStatus(res, 'Invalid cache invalidation key', 500)
@@ -84,36 +87,52 @@ function invalidateCache (req, res) {
       serverHooksExecutors.beforeCacheInvalidated({ tags, req })
 
       tags.forEach(tag => {
-        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
-          return tag.indexOf(t) === 0
-        })) {
-          subPromises.push(cache.invalidate(tag).then(() => {
-            console.log(`Tags invalidated successfully for [${tag}]`)
-          }))
+        if (
+          config.server.availableCacheTags.indexOf(tag) >= 0 ||
+          config.server.availableCacheTags.find(t => {
+            return tag.indexOf(t) === 0
+          })
+        ) {
+          subPromises.push(
+            cache.invalidate(tag).then(() => {
+              console.log(`Tags invalidated successfully for [${tag}]`)
+            })
+          )
         } else {
           console.error(`Invalid tag name ${tag}`)
         }
       })
 
-      Promise.all(subPromises).then(r => {
-        apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
-      }).catch(error => {
-        apiStatus(res, error, 500)
-        console.error(error)
-      }).finally(() => {
-        serverHooksExecutors.afterCacheInvalidated({ tags, req })
-      })
+      Promise.all(subPromises)
+        .then(r => {
+          apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
+        })
+        .catch(error => {
+          apiStatus(res, error, 500)
+          console.error(error)
+        })
+        .finally(() => {
+          serverHooksExecutors.afterCacheInvalidated({ tags, req })
+        })
 
-      if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain
-        if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) { // don't forward forwarded requests
-          request(config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs', {}, (err, res, body) => {
-            if (err) { console.error(err); }
-            try {
-              if (body && JSON.parse(body).code !== 200) console.log(body);
-            } catch (e) {
-              console.error('Invalid Cache Invalidation response format', e)
+      if (config.server.invalidateCacheForwarding) {
+        // forward invalidate request to the next server in the chain
+        if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) {
+          // don't forward forwarded requests
+          request(
+            config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs',
+            {},
+            (err, res, body) => {
+              if (err) {
+                console.error(err)
+              }
+              try {
+                if (body && JSON.parse(body).code !== 200) console.log(body)
+              } catch (e) {
+                console.error('Invalid Cache Invalidation response format', e)
+              }
             }
-          });
+          )
         }
       }
     } else {
@@ -125,17 +144,27 @@ function invalidateCache (req, res) {
   }
 }
 
-const serve = (path, cache, options?) => express.static(resolve(path), Object.assign({
-  fallthrough: false,
-  setHeaders: cache && isProd ? function (res, path) {
-    const mimeType = express.static.mime.lookup(path);
-    let maxAge = config.expireHeaders.default;
-    if (config.expireHeaders.hasOwnProperty(mimeType)) {
-      maxAge = config.expireHeaders.get(mimeType);
-    }
-    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000);
-  } : null
-}, options))
+const serve = (path, cache, options?) =>
+  express.static(
+    resolve(path),
+    Object.assign(
+      {
+        fallthrough: false,
+        setHeaders:
+          cache && isProd
+            ? function (res, path) {
+                const mimeType = express.static.mime.lookup(path)
+                let maxAge = config.expireHeaders.default
+                if (config.expireHeaders.hasOwnProperty(mimeType)) {
+                  maxAge = config.expireHeaders.get(mimeType)
+                }
+                res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000)
+              }
+            : null,
+      },
+      options
+    )
+  )
 
 // const themeRoot = require('../build/theme-path')
 
@@ -145,16 +174,19 @@ if (config.server.helmet && config.server.helmet.enabled && isProd) {
 
 app.use('/dist', serve('dist', true))
 // app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/service-worker.js', serve('dist/service-worker.js', false, {
-  setHeaders: function (res, path, stat) {
-    res.set('Content-Type', 'text/javascript; charset=UTF-8')
-  }
-}))
+app.use(
+  '/service-worker.js',
+  serve('dist/service-worker.js', false, {
+    setHeaders: function (res, path, stat) {
+      res.set('Content-Type', 'text/javascript; charset=UTF-8')
+    },
+  })
+)
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
-function cacheVersion (req, res) {
+function cacheVersion(req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
 }
 
@@ -194,60 +226,69 @@ app.get('*', (req, res, next) => {
       return next()
     }
     const context = ssr.initSSRRequestContext(app, req, res, config)
-    renderer.renderToString(context).then(output => {
-      if (!res.get('content-type')) {
-        res.setHeader('Content-Type', 'text/html')
-      }
-      let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
-        tagsArray = Array.from(context.output.cacheTags)
-        const cacheTags = tagsArray.join(' ')
-        res.setHeader('X-VS-Cache-Tags', cacheTags)
-        console.log(`cache tags for the request: ${cacheTags}`)
-      }
+    renderer
+      .renderToString(context)
+      .then(output => {
+        if (!res.get('content-type')) {
+          res.setHeader('Content-Type', 'text/html')
+        }
+        let tagsArray = []
+        if (
+          config.server.useOutputCacheTagging &&
+          context.output.cacheTags &&
+          context.output.cacheTags.size > 0
+        ) {
+          tagsArray = Array.from(context.output.cacheTags)
+          const cacheTags = tagsArray.join(' ')
+          res.setHeader('X-VS-Cache-Tags', cacheTags)
+          console.log(`cache tags for the request: ${cacheTags}`)
+        }
 
-      const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
-        req,
-        res,
-        context,
-        output,
-        isProd
+        const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
+          req,
+          res,
+          context,
+          output,
+          isProd,
+        })
+
+        if (typeof beforeOutputRenderedResponse.output === 'string') {
+          output = beforeOutputRenderedResponse.output
+        } else if (typeof beforeOutputRenderedResponse === 'string') {
+          output = beforeOutputRenderedResponse
+        }
+
+        output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd)
+        if (config.server.useOutputCache && cache) {
+          cache
+            .set(
+              cacheKey,
+              { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
+              tagsArray
+            )
+            .catch(errorHandler)
+        }
+
+        const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
+          req,
+          res,
+          context,
+          output,
+          isProd,
+        })
+
+        if (typeof afterOutputRenderedResponse === 'string') {
+          res.end(afterOutputRenderedResponse)
+        } else if (typeof afterOutputRenderedResponse.output === 'string') {
+          res.end(afterOutputRenderedResponse.output)
+        } else {
+          res.end(output)
+        }
+
+        console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+        next()
       })
-
-      if (typeof beforeOutputRenderedResponse.output === 'string') {
-        output = beforeOutputRenderedResponse.output
-      } else if (typeof beforeOutputRenderedResponse === 'string') {
-        output = beforeOutputRenderedResponse
-      }
-
-      output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
-      if (config.server.useOutputCache && cache) {
-        cache.set(
-          cacheKey,
-          { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
-          tagsArray
-        ).catch(errorHandler)
-      }
-
-      const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
-        req,
-        res,
-        context,
-        output,
-        isProd
-      })
-
-      if (typeof afterOutputRenderedResponse === 'string') {
-        res.end(afterOutputRenderedResponse)
-      } else if (typeof afterOutputRenderedResponse.output === 'string') {
-        res.end(afterOutputRenderedResponse.output)
-      } else {
-        res.end(output)
-      }
-
-      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
-      next()
-    }).catch(errorHandler)
+      .catch(errorHandler)
       .finally(() => {
         ssr.clearContext(context)
       })
@@ -255,35 +296,36 @@ app.get('*', (req, res, next) => {
 
   const dynamicCacheHandler = () => {
     if (config.server.useOutputCache && cache) {
-      cache.get(
-        cacheKey
-      ).then(output => {
-        if (output !== null) {
-          if (output.headers) {
-            for (const header of Object.keys(output.headers)) {
-              res.setHeader(header, output.headers[header])
+      cache
+        .get(cacheKey)
+        .then(output => {
+          if (output !== null) {
+            if (output.headers) {
+              for (const header of Object.keys(output.headers)) {
+                res.setHeader(header, output.headers[header])
+              }
             }
-          }
-          res.setHeader('X-VS-Cache', 'Hit')
+            res.setHeader('X-VS-Cache', 'Hit')
 
-          if (output.httpCode) {
-            res.status(output.httpCode)
-          }
+            if (output.httpCode) {
+              res.status(output.httpCode)
+            }
 
-          if (output.body) {
-            res.end(output.body)
+            if (output.body) {
+              res.end(output.body)
+            } else {
+              res.setHeader('Content-Type', 'text/html')
+              res.end(output)
+            }
+            console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+            next()
           } else {
-            res.setHeader('Content-Type', 'text/html')
-            res.end(output)
+            res.setHeader('X-VS-Cache', 'Miss')
+            console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+            dynamicRequestHandler(renderer) // render response
           }
-          console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
-          next()
-        } else {
-          res.setHeader('X-VS-Cache', 'Miss')
-          console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
-          dynamicRequestHandler(renderer) // render response
-        }
-      }).catch(errorHandler)
+        })
+        .catch(errorHandler)
     } else {
       dynamicRequestHandler(renderer)
     }
@@ -299,20 +341,22 @@ app.get('*', (req, res, next) => {
     if (configProviders.length > 0) {
       configProviders.forEach(configProvider => {
         if (typeof configProvider === 'function') {
-          configProvider(req).then(loadedConfig => {
-            config = config.util.extendDeep(config, loadedConfig)
-            dynamicCacheHandler()
-          }).catch(error => {
-            if (config.server.dynamicConfigContinueOnError) {
+          configProvider(req)
+            .then(loadedConfig => {
+              config = config.util.extendDeep(config, loadedConfig)
               dynamicCacheHandler()
-            } else {
-              console.log('config provider error:', error)
-              if (req.url !== '/error') {
-                res.redirect('/error')
+            })
+            .catch(error => {
+              if (config.server.dynamicConfigContinueOnError) {
+                dynamicCacheHandler()
+              } else {
+                console.log('config provider error:', error)
+                if (req.url !== '/error') {
+                  res.redirect('/error')
+                }
+                dynamicCacheHandler()
               }
-              dynamicCacheHandler()
-            }
-          })
+            })
         }
       })
     } else {

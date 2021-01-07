@@ -4,7 +4,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 
 const quantityActions = {
-  async restoreQuantity ({ dispatch }, { product }) {
+  async restoreQuantity({ dispatch }, { product }) {
     const currentCartItem = await dispatch('getItem', { product })
     if (currentCartItem) {
       Logger.log('Restoring qty after error' + product.sku + currentCartItem.prev_qty, 'cart')()
@@ -12,8 +12,8 @@ const quantityActions = {
         await dispatch('updateItem', {
           product: {
             ...product,
-            qty: currentCartItem.prev_qty
-          }
+            qty: currentCartItem.prev_qty,
+          },
         })
         EventBus.$emit('cart-after-itemchanged', { item: currentCartItem })
       } else {
@@ -21,15 +21,21 @@ const quantityActions = {
       }
     }
   },
-  async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
+  async updateQuantity(
+    { commit, dispatch, getters },
+    { product, qty, forceServerSilence = false }
+  ) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     }
 
-    return createDiffLog()
-      .pushClientParty({ status: 'wrong-qty', sku: product.sku, 'client-qty': qty })
-  }
+    return createDiffLog().pushClientParty({
+      status: 'wrong-qty',
+      sku: product.sku,
+      'client-qty': qty,
+    })
+  },
 }
 
 export default quantityActions

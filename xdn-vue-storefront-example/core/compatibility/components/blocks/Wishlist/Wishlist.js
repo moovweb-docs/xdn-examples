@@ -7,14 +7,14 @@ export default {
     product: {
       type: Object,
       required: false,
-      default: () => { }
-    }
+      default: () => {},
+    },
   },
   methods: {
     // theme-specific
-    onEscapePress () {
+    onEscapePress() {
       this.$store.dispatch('ui/closeWishlist')
-    }
+    },
   },
-  mixins: [ Wishlist, onEscapePress ]
+  mixins: [Wishlist, onEscapePress],
 }

@@ -10,5 +10,5 @@ export const urlStore: Module<UrlState, any> = {
   actions,
   state,
   getters,
-  mutations
+  mutations,
 }

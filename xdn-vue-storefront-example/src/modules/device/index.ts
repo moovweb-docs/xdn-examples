@@ -1,8 +1,9 @@
-import { isServer } from '@vue-storefront/core/helpers/index';
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { isServer } from '@vue-storefront/core/helpers/index'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import Vue from 'vue'
 
-const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36'
+const DEFAULT_USER_AGENT =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36'
 
 export const DeviceModule: StorefrontModule = async function ({ app, appConfig }) {
   let headersOrUserAgent
@@ -12,11 +13,15 @@ export const DeviceModule: StorefrontModule = async function ({ app, appConfig }
     headersOrUserAgent = window.navigator.userAgent || DEFAULT_USER_AGENT
   }
 
-  if (appConfig.device && appConfig.device.appendToInstance && appConfig.device.tests && appConfig.device.tests.length) {
+  if (
+    appConfig.device &&
+    appConfig.device.appendToInstance &&
+    appConfig.device.tests &&
+    appConfig.device.tests.length
+  ) {
     const deviceLibrary: any = await import(/* webpackChunkName: "device" */ './logic')
-    let userAgent = typeof headersOrUserAgent === 'string'
-      ? headersOrUserAgent
-      : headersOrUserAgent['user-agent']
+    let userAgent =
+      typeof headersOrUserAgent === 'string' ? headersOrUserAgent : headersOrUserAgent['user-agent']
 
     Vue.prototype.$device = deviceLibrary.default(userAgent, appConfig.device.tests)
     if (userAgent === 'Amazon CloudFront') {
@@ -29,6 +34,6 @@ export const DeviceModule: StorefrontModule = async function ({ app, appConfig }
         Vue.prototype.$device.isMobileOrTablet = true
       }
     }
-    (app as any).device = Vue.prototype.$device
+    ;(app as any).device = Vue.prototype.$device
   }
 }

@@ -1,6 +1,6 @@
 import config from 'config'
 import i18n from '@vue-storefront/i18n'
-import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 
 const validateProduct = (product: CartItem): string[] => {
   const errors = []
@@ -18,6 +18,6 @@ const validateProduct = (product: CartItem): string[] => {
   }
 
   return errors
-};
+}
 
-export default validateProduct;
+export default validateProduct

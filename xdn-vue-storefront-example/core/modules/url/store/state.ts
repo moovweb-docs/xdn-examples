@@ -4,5 +4,5 @@ export const state: UrlState = {
   dispatcherMap: {},
   currentRoute: {},
   prevRoute: {},
-  isBackRoute: false
+  isBackRoute: false,
 }

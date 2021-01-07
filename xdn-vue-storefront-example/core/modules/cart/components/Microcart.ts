@@ -6,28 +6,28 @@ import CartTotalSegments from '../types/CartTotalSegments'
 export const Microcart = {
   name: 'Microcart',
   computed: {
-    productsInCart (): Product[] {
+    productsInCart(): Product[] {
       return this.$store.state.cart.cartItems
     },
-    appliedCoupon (): AppliedCoupon | false {
+    appliedCoupon(): AppliedCoupon | false {
       return this.$store.getters['cart/getCoupon']
     },
-    totals (): CartTotalSegments {
+    totals(): CartTotalSegments {
       return this.$store.getters['cart/getTotals']
     },
-    isOpen (): boolean {
+    isOpen(): boolean {
       return this.$store.state.cart.isMicrocartOpen
-    }
+    },
   },
   methods: {
-    applyCoupon (code: string): Promise<boolean> {
+    applyCoupon(code: string): Promise<boolean> {
       return this.$store.dispatch('cart/applyCoupon', code)
     },
-    removeCoupon (): Promise<boolean> {
+    removeCoupon(): Promise<boolean> {
       return this.$store.dispatch('cart/removeCoupon')
     },
-    toggleMicrocart (): void {
+    toggleMicrocart(): void {
       this.$store.dispatch('ui/toggleMicrocart')
-    }
-  }
+    },
+  },
 }

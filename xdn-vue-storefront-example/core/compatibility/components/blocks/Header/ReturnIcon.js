@@ -4,16 +4,16 @@ export default {
   props: {
     to: {
       type: String | Object,
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
-    goBack () {
+    goBack() {
       if (this.to) {
         this.$router.push(this.to)
       } else {
         this.$router.back()
       }
-    }
-  }
+    },
+  },
 }

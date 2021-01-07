@@ -18,17 +18,13 @@ module.exports = function () {
           }
 
           return true
-        }
+        },
       },
-      ...createThemePrompt()
+      ...createThemePrompt(),
     ])
     .then(answers => {
       const { cloneTheme, installDeps, configureTheme } = createThemeTasks(answers.vsf_dir)
 
-      new Listr([
-        cloneTheme,
-        installDeps,
-        configureTheme
-      ]).run(answers)
+      new Listr([cloneTheme, installDeps, configureTheme]).run(answers)
     })
 }

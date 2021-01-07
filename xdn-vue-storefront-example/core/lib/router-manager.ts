@@ -8,15 +8,32 @@ const RouterManager = {
   _routeLock: null,
   _routeDispatched: false,
   _callbacks: [],
-  addRoutes: function (routes: RouteConfig[], useRouteQueue: boolean = false, priority: number = 0): void {
+  addRoutes: function (
+    routes: RouteConfig[],
+    useRouteQueue: boolean = false,
+    priority: number = 0
+  ): void {
     if (useRouteQueue && !this._routeQueueFlushed) {
-      this._routeQueue.push(...routes.map(route => { return { route: route, priority: priority } }))
+      this._routeQueue.push(
+        ...routes.map(route => {
+          return { route: route, priority: priority }
+        })
+      )
     } else {
-      const uniqueRoutes = routes.filter((route) => {
-        return this._registeredRoutes.findIndex(registeredRoute => registeredRoute.route.name === route.name && registeredRoute.route.path === route.path) < 0
+      const uniqueRoutes = routes.filter(route => {
+        return (
+          this._registeredRoutes.findIndex(
+            registeredRoute =>
+              registeredRoute.route.name === route.name && registeredRoute.route.path === route.path
+          ) < 0
+        )
       })
       if (uniqueRoutes.length > 0) {
-        this._registeredRoutes.push(...uniqueRoutes.map(route => { return { route: route, priority: priority } }))
+        this._registeredRoutes.push(
+          ...uniqueRoutes.map(route => {
+            return { route: route, priority: priority }
+          })
+        )
         baseRouter.addRoutes(uniqueRoutes)
       }
     }
@@ -31,8 +48,11 @@ const RouterManager = {
   addRoutesByPriority: function (routesData) {
     const routesToAdd = []
     for (const routeData of routesData) {
-      let exisitingIndex = routesToAdd.findIndex(r => r.route.name === routeData.route.name && r.route.path === routeData.route.path)
-      if ((exisitingIndex >= 0) && (routesToAdd[exisitingIndex].priority < routeData.priority)) { // same priority doesn't override exisiting
+      let exisitingIndex = routesToAdd.findIndex(
+        r => r.route.name === routeData.route.name && r.route.path === routeData.route.path
+      )
+      if (exisitingIndex >= 0 && routesToAdd[exisitingIndex].priority < routeData.priority) {
+        // same priority doesn't override exisiting
         routesToAdd.splice(exisitingIndex, 1)
         exisitingIndex = -1
       }
@@ -44,7 +64,11 @@ const RouterManager = {
     baseRouter.addRoutes(routesToAdd.map(r => r.route))
   },
   isRouteAdded: function (addedRoutes: any[], route: RouteConfig) {
-    return addedRoutes.findIndex((addedRoute) => addedRoute.route.name === route.name && addedRoute.route.path === route.path) >= 0
+    return (
+      addedRoutes.findIndex(
+        addedRoute => addedRoute.route.name === route.name && addedRoute.route.path === route.path
+      ) >= 0
+    )
   },
   addDispatchCallback: function (callback: Function) {
     this._callbacks.push(callback)
@@ -65,8 +89,10 @@ const RouterManager = {
   lockRoute: function () {
     let resolver
     this._routeLock = {
-      lockPromise: new Promise(resolve => { resolver = resolve }),
-      resolver
+      lockPromise: new Promise(resolve => {
+        resolver = resolve
+      }),
+      resolver,
     }
   },
   isRouteProcessing: function () {
@@ -87,8 +113,8 @@ const RouterManager = {
     this._routeDispatched = true
     this._callbacks.forEach(callback => {
       callback()
-    });
-  }
+    })
+  },
 }
 
 export { RouterManager }

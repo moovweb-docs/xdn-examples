@@ -1,4 +1,4 @@
-import { addRegexpListToConfig, createRegexpMatcher, flatToRegexpList } from './helpers';
+import { addRegexpListToConfig, createRegexpMatcher, flatToRegexpList } from './helpers'
 import config from 'config'
 
 const initialResources = addRegexpListToConfig(config)
@@ -13,10 +13,14 @@ const preloadRegexps = flatToRegexpList(
 /**
  * Build links that need to be load and add them on the end of head.
  */
-const addLinksFromManifest = (manifestFilesUrls: string[], regexps: RegExp[], publicPath: string) => {
+const addLinksFromManifest = (
+  manifestFilesUrls: string[],
+  regexps: RegExp[],
+  publicPath: string
+) => {
   manifestFilesUrls
-    .filter((file) => createRegexpMatcher(file)(regexps))
-    .forEach((file) => {
+    .filter(file => createRegexpMatcher(file)(regexps))
+    .forEach(file => {
       const link = document.createElement('link')
       link.href = publicPath + file
       link.rel = 'prefetch'

@@ -5,7 +5,12 @@ import config from 'config'
 /**
  * This function responsiblity is to find best matching variant for configurable product based on configuration object or stock availability.
  */
-export default function findConfigurableVariant ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+export default function findConfigurableVariant({
+  product,
+  configuration = null,
+  selectDefaultChildren = false,
+  availabilityCheck = true,
+}) {
   const selectedVariant = product.configurable_children.reduce((prevVariant, nextVariant) => {
     if (availabilityCheck) {
       if (nextVariant.stock && !config.products.listOutOfStockProducts) {
@@ -14,16 +19,14 @@ export default function findConfigurableVariant ({ product, configuration = null
         }
       }
     }
-    if (nextVariant.status >= 2/** disabled product */) {
+    if (nextVariant.status >= 2 /** disabled product */) {
       return prevVariant
     }
     if (selectDefaultChildren) {
       return prevVariant || nextVariant // return first
     }
-    if (
-      (configuration && configuration.sku) &&
-      (nextVariant.sku === configuration.sku)
-    ) { // by sku or first one
+    if (configuration && configuration.sku && nextVariant.sku === configuration.sku) {
+      // by sku or first one
       return nextVariant
     } else {
       // get match level for each variant

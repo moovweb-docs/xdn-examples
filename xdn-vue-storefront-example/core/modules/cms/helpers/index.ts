@@ -9,5 +9,5 @@ export {
   createSingleBlockQuery,
   createHierarchyLoadQuery,
   createPageLoadingQuery,
-  createSinglePageLoadQuery
+  createSinglePageLoadQuery,
 }

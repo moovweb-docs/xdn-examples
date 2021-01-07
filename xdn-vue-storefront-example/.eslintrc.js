@@ -6,14 +6,10 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 8,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: [
-    'plugin:vue/recommended',
-    'standard',
-    'plugin:@typescript-eslint/recommended'
-  ],
+  extends: ['plugin:vue/recommended', 'standard', 'plugin:@typescript-eslint/recommended'],
   plugins: ['vue', 'vue-storefront', '@typescript-eslint'],
   // add your custom rules here
   rules: {
@@ -22,7 +18,10 @@ module.exports = {
     '@typescript-eslint/camelcase': 0,
     semi: 'off',
     '@typescript-eslint/semi': 0,
-    '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'comma', 'requireLast': false }, 'singleline': { 'delimiter': 'comma' } }],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      { multiline: { delimiter: 'comma', requireLast: false }, singleline: { delimiter: 'comma' } },
+    ],
     '@typescript-eslint/no-empty-interface': 1,
     '@typescript-eslint/no-use-before-define': 1,
     '@typescript-eslint/no-explicit-any': 0,
@@ -32,7 +31,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     'handle-callback-err': 1,
     'prefer-promise-reject-errors': 0,
-    'import/no-duplicates': ['warning'],
+    'import/no-duplicates': 1,
     'vue/return-in-computed-property': 1,
     'vue/no-use-v-if-with-v-for': 0,
     'vue/no-unused-components': 1,
@@ -57,7 +56,7 @@ module.exports = {
     'vue-storefront/no-corecomponent-import': 'error',
     'vue-storefront/no-corecomponent': 'error',
     'vue-storefront/no-corepage-import': 'error',
-    'vue-storefront/no-corepage': 'error'
+    'vue-storefront/no-corepage': 'error',
   },
   overrides: [
     {
@@ -65,8 +64,8 @@ module.exports = {
       // This is an issue with interfaces so we need to wait until it fixed.
       files: ['core/**/*.ts'],
       rules: {
-        'no-undef': 1
-      }
-    }
-  ]
-};
+        'no-undef': 1,
+      },
+    },
+  ],
+}

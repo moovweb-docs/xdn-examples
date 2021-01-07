@@ -20,7 +20,7 @@ const state: any = {
   twoStageCachingDisabled: false,
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
-  userTokenInvalidateLock: 0
+  userTokenInvalidateLock: 0,
 }
 
 let rootStore = new Vuex.Store<RootState>({
@@ -28,7 +28,7 @@ let rootStore = new Vuex.Store<RootState>({
   state,
   actions,
   getters,
-  mutations
+  mutations,
 })
 
 export default rootStore

@@ -8,9 +8,9 @@ import TaxState from '../../types/TaxState'
 export const taxModule: Module<TaxState, RootState> = {
   namespaced: true,
   state: {
-    rules: []
+    rules: [],
   },
   actions,
   mutations,
-  getters
+  getters,
 }

@@ -4,7 +4,7 @@ import config from 'config'
 jest.clearAllMocks()
 jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
-  Logger: {}
+  Logger: {},
 }))
 jest.mock('@vue-storefront/core/store', () => ({}))
 jest.mock('@vue-storefront/core/modules/url/helpers', () => ({}))
@@ -13,14 +13,14 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({}))
 describe('getThumbnailPath', () => {
   it('Get right value when useExactUrlsNoProxy is set', () => {
     config.images = {
-      useExactUrlsNoProxy: true
+      useExactUrlsNoProxy: true,
     }
     expect(getThumbnailPath('testing')).toBe('testing')
   })
 
   it('Get right value when productPlaceholder is set', () => {
     config.images = {
-      productPlaceholder: 'productPlaceholder'
+      productPlaceholder: 'productPlaceholder',
     }
     expect(getThumbnailPath('no_selection')).toBe('productPlaceholder')
   })
@@ -30,8 +30,8 @@ describe('getThumbnailPath', () => {
       useSpecificImagePaths: true,
       paths: {
         product: '/catalog/product',
-        test: '/test'
-      }
+        test: '/test',
+      },
     }
     expect(getThumbnailPath('/prod', 10, 10, 'test')).toBe('10/10/resize/test/prod')
     expect(getThumbnailPath('/prod', 10, 10)).toBe('10/10/resize/catalog/product/prod')
@@ -42,8 +42,8 @@ describe('getThumbnailPath', () => {
       baseUrl: 'test/',
       paths: {
         product: '/catalog/product',
-        test: '/test'
-      }
+        test: '/test',
+      },
     }
     expect(getThumbnailPath('/prod', 10, 10, 'test')).toBe('test/10/10/resize/test/prod')
     expect(getThumbnailPath('/prod', 10, 10)).toBe('test/10/10/resize/catalog/product/prod')
@@ -51,7 +51,7 @@ describe('getThumbnailPath', () => {
 
   it('Get right value when baseUrl is set', () => {
     config.images = {
-      baseUrl: 'test/'
+      baseUrl: 'test/',
     }
     expect(getThumbnailPath('/test')).toBe('test/0/0/resize/test')
     expect(getThumbnailPath('/test', 10, 20)).toBe('test/10/20/resize/test')

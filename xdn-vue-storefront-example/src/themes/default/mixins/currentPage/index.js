@@ -1,7 +1,7 @@
 import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
-  data () {
+  data() {
     return {
       productPageRoutes: [
         'product',
@@ -10,37 +10,37 @@ export default {
         'simple-product',
         'downloadable-product',
         'grouped-product',
-        'configurable-product'
+        'configurable-product',
       ],
       isProductPage: false,
-      isCheckoutPage: false
+      isCheckoutPage: false,
     }
   },
   watch: {
     '$route.name': function () {
       this.setCurrentPage()
-    }
+    },
   },
   computed: {
-    canGoBack () {
+    canGoBack() {
       return !this.isHistoryEmpty() && this.isProductPage
-    }
+    },
   },
-  created () {
+  created() {
     this.setCurrentPage()
   },
   methods: {
-    setCurrentPage () {
+    setCurrentPage() {
       this.isProductPage = !!this.$route.params.parentSku
       this.isCheckoutPage = this.$route.name === 'checkout'
     },
     // Check if history is empty
-    isHistoryEmpty () {
+    isHistoryEmpty() {
       if (!isServer) {
         return window.history.length <= 1
       }
 
       return false
-    }
-  }
+    },
+  },
 }

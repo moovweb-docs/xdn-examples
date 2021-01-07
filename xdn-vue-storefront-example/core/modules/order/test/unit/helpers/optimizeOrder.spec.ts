@@ -15,16 +15,16 @@ describe('optimizeOrder method', () => {
       store_code: '2',
       store_id: 2,
       /**
-      * Products list
-      */
+       * Products list
+       */
       products: [
         {
           sku: 'sku1',
           qty: 5,
           name: 'Product 1',
           price: 50,
-          product_type: 'Product type 1'
-        }
+          product_type: 'Product type 1',
+        },
       ],
       addressInformation: {
         shippingAddress: {
@@ -46,17 +46,17 @@ describe('optimizeOrder method', () => {
           lastname: 'last name',
           email: 'example@example.com',
           region_code: '20',
-          sameAsBilling: 1
+          sameAsBilling: 1,
         },
         billingAddress: {
-          properties: {}
+          properties: {},
         },
         shipping_method_code: 'one',
         shipping_carrier_code: 'two',
         payment_method_code: 'three',
-        payment_method_additional: 'four'
-      }
-    };
+        payment_method_additional: 'four',
+      },
+    }
     const optimizedOrder: Order = {
       order_id: 'orderId',
       created_at: '10-29-2019',
@@ -69,18 +69,17 @@ describe('optimizeOrder method', () => {
       cart_id: '20',
       store_code: '2',
       store_id: 2,
-      products:
-        [{
+      products: [
+        {
           sku: 'sku1',
           qty: 5,
           name: 'Product 1',
           price: 50,
-          product_type: 'Product type 1'
-        }],
-      addressInformation:
-      {
-        shippingAddress:
-        {
+          product_type: 'Product type 1',
+        },
+      ],
+      addressInformation: {
+        shippingAddress: {
           region: 'Region here',
           region_id: 4,
           country_id: '15',
@@ -93,16 +92,16 @@ describe('optimizeOrder method', () => {
           lastname: 'last name',
           email: 'example@example.com',
           region_code: '20',
-          sameAsBilling: 1
+          sameAsBilling: 1,
         },
         billingAddress: { properties: {} },
         shipping_method_code: 'one',
         shipping_carrier_code: 'two',
         payment_method_code: 'three',
-        payment_method_additional: 'four'
-      }
+        payment_method_additional: 'four',
+      },
     }
 
     expect(optimizedOrder).toEqual(expectedOrder)
   })
-});
+})

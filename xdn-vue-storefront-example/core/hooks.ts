@@ -2,33 +2,30 @@ import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/
 
 const {
   hook: beforeStoreViewChangedHook,
-  executor: beforeStoreViewChangedExecutor
+  executor: beforeStoreViewChangedExecutor,
 } = createMutatorHook<any, any>()
 
 const {
   hook: afterStoreViewChangedHook,
-  executor: afterStoreViewChangedExecutor
+  executor: afterStoreViewChangedExecutor,
 } = createListenerHook<any>()
 
-const {
-  hook: afterAppInitHook,
-  executor: afterAppInitExecutor
-} = createListenerHook<any>()
+const { hook: afterAppInitHook, executor: afterAppInitExecutor } = createListenerHook<any>()
 
-const {
-  hook: beforeHydratedHook,
-  executor: beforeHydratedExecutor
-} = createMutatorHook<any, any>()
+const { hook: beforeHydratedHook, executor: beforeHydratedExecutor } = createMutatorHook<any, any>()
 
 const {
   hook: afterProductThumbnailPathGeneratedHook,
-  executor: afterProductThumbnailPathGeneratedExecutor
-} = createMutatorHook<{ path: string, pathType: string, sizeX: number, sizeY: number }, { path: string }>()
+  executor: afterProductThumbnailPathGeneratedExecutor,
+} = createMutatorHook<
+  { path: string; pathType: string; sizeX: number; sizeY: number },
+  { path: string }
+>()
 
-const {
-  hook: beforeLogRenderedHook,
-  executor: beforeLogRenderedExecutor
-} = createMutatorHook<{ type: string, message: any, tag: any, context: any, noDefaultOutput?: boolean }, { message: any, tag: any, context: any, noDefaultOutput?: boolean }>()
+const { hook: beforeLogRenderedHook, executor: beforeLogRenderedExecutor } = createMutatorHook<
+  { type: string; message: any; tag: any; context: any; noDefaultOutput?: boolean },
+  { message: any; tag: any; context: any; noDefaultOutput?: boolean }
+>()
 
 /** Only for internal usage in core */
 const coreHooksExecutors = {
@@ -37,7 +34,7 @@ const coreHooksExecutors = {
   afterStoreViewChanged: afterStoreViewChangedExecutor,
   beforeHydrated: beforeHydratedExecutor,
   afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor,
-  beforeLogRendered: beforeLogRenderedExecutor
+  beforeLogRendered: beforeLogRenderedExecutor,
 }
 
 const coreHooks = {
@@ -45,18 +42,15 @@ const coreHooks = {
   afterAppInit: afterAppInitHook,
   /** Hook is fired directly before changing current storeView (multistrore)
    * @param storeView Inside this function you have access to order object that you can access and modify. It should return order object.
-  */
+   */
   beforeStoreViewChanged: beforeStoreViewChangedHook,
   /** Hook is fired right after storeView (multistore) is changed
    * @param storeView current storeView
-  */
+   */
   afterStoreViewChanged: afterStoreViewChangedHook,
   beforeHydrated: beforeHydratedHook,
   afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook,
-  beforeLogRendered: beforeLogRenderedHook
+  beforeLogRendered: beforeLogRenderedHook,
 }
 
-export {
-  coreHooks,
-  coreHooksExecutors
-}
+export { coreHooks, coreHooksExecutors }

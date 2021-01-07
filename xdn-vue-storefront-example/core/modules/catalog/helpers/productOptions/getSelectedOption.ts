@@ -1,11 +1,13 @@
 /**
  * Returns single option for configurable product based on attribute code
  */
-export default function getSelectedOption (selectedVariant, attributeCode, option) {
-  let selectedOption = (selectedVariant.custom_attributes || []).find((a) => a.attribute_code === attributeCode)
+export default function getSelectedOption(selectedVariant, attributeCode, option) {
+  let selectedOption = (selectedVariant.custom_attributes || []).find(
+    a => a.attribute_code === attributeCode
+  )
   selectedOption = selectedOption || {
     attribute_code: attributeCode,
-    value: selectedVariant[attributeCode]
+    value: selectedVariant[attributeCode],
   }
   if (option.values && option.values.length) {
     const selectedOptionMeta = option.values.find(ov => ov.value_index === selectedOption.value)

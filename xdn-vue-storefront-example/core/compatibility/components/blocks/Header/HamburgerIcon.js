@@ -4,11 +4,11 @@ import { mapState } from 'vuex'
 export default {
   name: 'HamburgerIcon',
   computed: mapState({
-    isOpen: state => state.ui.sidebar
+    isOpen: state => state.ui.sidebar,
   }),
   methods: {
-    openSidebarMenu () {
+    openSidebarMenu() {
       this.$store.commit('ui/setSidebar', !this.isOpen)
-    }
-  }
+    },
+  },
 }

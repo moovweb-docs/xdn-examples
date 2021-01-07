@@ -8,7 +8,10 @@ const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): Shipp
   const onlineShippingMethods = shippingMethods.filter(shippingMethod => !shippingMethod.offline)
   if (!onlineShippingMethods.length) return
 
-  return onlineShippingMethods.find(shippingMethod => !!shippingMethod.default) || onlineShippingMethods[0]
+  return (
+    onlineShippingMethods.find(shippingMethod => !!shippingMethod.default) ||
+    onlineShippingMethods[0]
+  )
 }
 
 const getDefaultPaymentMethod = (paymentMethods: PaymentMethod[] = []): PaymentMethod => {
@@ -22,7 +25,7 @@ const createOrderData = ({
   shippingMethods,
   paymentMethods,
   paymentDetails,
-  taxCountry = currentStoreView().tax.defaultCountry
+  taxCountry = currentStoreView().tax.defaultCountry,
 }: CheckoutData): OrderShippingDetails => {
   const country = shippingDetails.country ? shippingDetails.country : taxCountry
   const shipping = getDefaultShippingMethod(shippingMethods)
@@ -35,7 +38,7 @@ const createOrderData = ({
       lastname: shippingDetails.lastName,
       city: shippingDetails.city,
       postcode: shippingDetails.zipCode,
-      street: [shippingDetails.streetAddress]
+      street: [shippingDetails.streetAddress],
     },
     billingAddress: {
       firstname: paymentDetails.firstName,
@@ -43,11 +46,11 @@ const createOrderData = ({
       city: paymentDetails.city,
       postcode: paymentDetails.zipCode,
       street: [paymentDetails.streetAddress],
-      countryId: paymentDetails.country
+      countryId: paymentDetails.country,
     },
     method_code: shipping && shipping.method_code ? shipping.method_code : null,
     carrier_code: shipping && shipping.carrier_code ? shipping.carrier_code : null,
-    payment_method: payment && payment.code ? payment.code : null
+    payment_method: payment && payment.code ? payment.code : null,
   }
 }
 

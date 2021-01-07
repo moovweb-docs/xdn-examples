@@ -1,42 +1,42 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils'
 
 import Unsubscribe from '../../../mixins/Unsubscribe'
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
-  required: {}
+  required: {},
 }))
 
 describe('Unsubscribe', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   it('method unsubscribe dispatches unsubscribe action successfully', async () => {
     const storeMock = {
       modules: {
         newsletter: {
           actions: {
-            unsubscribe: jest.fn(() => true)
+            unsubscribe: jest.fn(() => true),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
     const emit = jest.fn()
 
     const wrapper = mountMixinWithStore(Unsubscribe, storeMock, {
       mocks: {
         $emit: emit,
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
     await (wrapper.vm as any).unsubscribe()
 
-    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '')
     expect(emit).toBeCalledWith('unsubscribed', true)
   })
 
@@ -45,26 +45,26 @@ describe('Unsubscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            unsubscribe: jest.fn(() => Promise.reject('error'))
+            unsubscribe: jest.fn(() => Promise.reject('error')),
           },
-          namespaced: true
-        }
-      }
-    };
+          namespaced: true,
+        },
+      },
+    }
     const emit = jest.fn()
 
     const wrapper = mountMixinWithStore(Unsubscribe, storeMock, {
       mocks: {
         $emit: emit,
         $v: {
-          $invalid: false
-        }
-      }
-    });
+          $invalid: false,
+        },
+      },
+    })
 
     await (wrapper.vm as any).unsubscribe()
 
-    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '');
+    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '')
     expect(emit).toBeCalledWith('unsubscription-error', 'error')
   })
-});
+})

@@ -1,6 +1,7 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
-export default function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
+export default function syncProductPrice(product, backProduct) {
+  // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
   product.price_incl_tax = backProduct.price_info.final_price
   product.original_price_incl_tax = backProduct.price_info.regular_price

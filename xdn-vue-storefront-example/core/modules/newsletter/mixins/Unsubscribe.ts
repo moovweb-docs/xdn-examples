@@ -12,29 +12,32 @@ import { required, email } from 'vuelidate/lib/validators'
  */
 export default {
   name: 'NewsletterUnsubscribe',
-  data () {
+  data() {
     return {
-      email: ''
+      email: '',
     }
   },
   validations: {
     email: {
       required,
-      email
-    }
+      email,
+    },
   },
   methods: {
-    unsubscribe (success?: Function, failure?: Function) {
+    unsubscribe(success?: Function, failure?: Function) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
-        return this.$store.dispatch('newsletter/unsubscribe', this.email).then(res => {
-          if (success) success(res)
-          this.$emit('unsubscribed', res)
-        }).catch(err => {
-          if (failure) failure(err)
-          this.$emit('unsubscription-error', err)
-        })
+        return this.$store
+          .dispatch('newsletter/unsubscribe', this.email)
+          .then(res => {
+            if (success) success(res)
+            this.$emit('unsubscribed', res)
+          })
+          .catch(err => {
+            if (failure) failure(err)
+            this.$emit('unsubscription-error', err)
+          })
       }
-    }
-  }
+    },
+  },
 }

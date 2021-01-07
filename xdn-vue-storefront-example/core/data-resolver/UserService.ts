@@ -1,14 +1,14 @@
-import { DataResolver } from './types/DataResolver';
+import { DataResolver } from './types/DataResolver'
 import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 
 const headers = {
-  'Accept': 'application/json, text/plain, */*',
-  'Content-Type': 'application/json'
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
 }
 
 const resetPassword = async (email: string): Promise<Task> =>
@@ -18,19 +18,23 @@ const resetPassword = async (email: string): Promise<Task> =>
       method: 'POST',
       mode: 'cors',
       headers,
-      body: JSON.stringify({ email })
-    }
+      body: JSON.stringify({ email }),
+    },
   })
 
-const createPassword = async (email: string, newPassword: string, resetToken: string): Promise<Task> =>
+const createPassword = async (
+  email: string,
+  newPassword: string,
+  resetToken: string
+): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.users.createPassword_endpoint),
     payload: {
       method: 'POST',
       mode: 'cors',
       headers,
-      body: JSON.stringify({ email, newPassword, resetToken })
-    }
+      body: JSON.stringify({ email, newPassword, resetToken }),
+    },
   })
 
 const login = async (username: string, password: string): Promise<Task> =>
@@ -40,8 +44,8 @@ const login = async (username: string, password: string): Promise<Task> =>
       method: 'POST',
       mode: 'cors',
       headers,
-      body: JSON.stringify({ username, password })
-    }
+      body: JSON.stringify({ username, password }),
+    },
   })
 
 const register = async (customer: DataResolver.Customer, password: string): Promise<Task> =>
@@ -50,8 +54,8 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
     payload: {
       method: 'POST',
       headers,
-      body: JSON.stringify({ customer, password })
-    }
+      body: JSON.stringify({ customer, password }),
+    },
   })
 
 const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
@@ -61,9 +65,9 @@ const updateProfile = async (userProfile: UserProfile, actionName: string): Prom
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify(userProfile)
+      body: JSON.stringify(userProfile),
     },
-    callback_event: `store:${actionName}`
+    callback_event: `store:${actionName}`,
   })
 
 const getProfile = async () =>
@@ -72,20 +76,22 @@ const getProfile = async () =>
     payload: {
       method: 'GET',
       mode: 'cors',
-      headers
-    }
+      headers,
+    },
   })
 
 const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(
-      getApiEndpointUrl(config.users, 'history_endpoint').replace('{{pageSize}}', pageSize + '').replace('{{currentPage}}', currentPage + '')
+      getApiEndpointUrl(config.users, 'history_endpoint')
+        .replace('{{pageSize}}', pageSize + '')
+        .replace('{{currentPage}}', currentPage + '')
     ),
     payload: {
       method: 'GET',
       mode: 'cors',
-      headers
-    }
+      headers,
+    },
   })
 
 const changePassword = async (passwordData: DataResolver.PasswordData): Promise<Task> =>
@@ -95,8 +101,8 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(passwordData)
-    }
+      body: JSON.stringify(passwordData),
+    },
   })
 
 const refreshToken = async (refreshToken: string): Promise<string> =>
@@ -104,8 +110,9 @@ const refreshToken = async (refreshToken: string): Promise<string> =>
     method: 'POST',
     mode: 'cors',
     headers,
-    body: JSON.stringify({ refreshToken })
-  }).then(resp => resp.json())
+    body: JSON.stringify({ refreshToken }),
+  })
+    .then(resp => resp.json())
     .then(resp => resp.result)
 
 export const UserService: DataResolver.UserService = {
@@ -117,5 +124,5 @@ export const UserService: DataResolver.UserService = {
   getProfile,
   getOrdersHistory,
   changePassword,
-  refreshToken
+  refreshToken,
 }

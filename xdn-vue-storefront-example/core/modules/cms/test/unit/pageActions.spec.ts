@@ -1,10 +1,10 @@
-import * as types from '../../store/page/mutation-types';
+import * as types from '../../store/page/mutation-types'
 import pageActions from '../../store/page/actions'
 
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 
-jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }))
 jest.mock('@vue-storefront/core/app', () => jest.fn())
 jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
 
@@ -13,7 +13,7 @@ jest.mock('@vue-storefront/core/lib/search')
 jest.mock('@vue-storefront/core/lib/storage-manager')
 jest.mock('@vue-storefront/core/modules/cms/helpers', () => ({
   createSinglePageLoadQuery: jest.fn(),
-  createPageLoadingQuery: jest.fn()
+  createPageLoadingQuery: jest.fn(),
 }))
 
 describe('Page actions', () => {
@@ -26,10 +26,10 @@ describe('Page actions', () => {
       const filter = {}
       const items = ['item1, item2, item3']
       const contextMock = {
-        commit: jest.fn()
-      };
+        commit: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: items })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: items })
 
       const wrapper = (actions: any) => actions.list(contextMock, filter)
       const listAction = await wrapper(pageActions)
@@ -45,13 +45,13 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => 'item1',
-          hasItems: true
+          hasItems: true,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(pageActions)
@@ -65,13 +65,13 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => 'item1',
-          hasItems: true
+          hasItems: true,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(pageActions)
@@ -86,13 +86,13 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => 'item1',
-          hasItems: false
+          hasItems: false,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(pageActions)
@@ -106,13 +106,13 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => undefined,
-          hasItems: false
+          hasItems: false,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(pageActions)
@@ -126,13 +126,13 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => undefined,
-          hasItems: false
+          hasItems: false,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
-      (quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
+      ;(quickSearchByQuery as any).mockResolvedValue({ items: ['item1'] })
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       try {
@@ -147,11 +147,11 @@ describe('Page actions', () => {
       const contextMock = {
         getters: {
           findItems: () => 'item1',
-          hasItems: false
+          hasItems: false,
         },
         commit: jest.fn(),
-        dispatch: jest.fn()
-      };
+        dispatch: jest.fn(),
+      }
 
       const wrapper = (actions: any) => actions.single(contextMock, filter)
       const singleAction = await wrapper(pageActions)
@@ -169,10 +169,10 @@ describe('Page actions', () => {
     it('should return cached response and set the page as current', async () => {
       const filter = { key: 'test', value: 'value', setCurrent: true }
       const contextMock = { commit: jest.fn() }
-      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter);
-      (StorageManager as any).get.mockImplementationOnce((...args) => {
+      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter)
+      ;(StorageManager as any).get.mockImplementationOnce((...args) => {
         return {
-          getItem: (...args) => Promise.resolve([{ test: 'value' }])
+          getItem: (...args) => Promise.resolve([{ test: 'value' }]),
         }
       })
 
@@ -185,25 +185,27 @@ describe('Page actions', () => {
     it('should return cached response and NOT set the page as current', async () => {
       const filter = { key: 'test', value: 'value', setCurrent: false }
       const contextMock = { commit: jest.fn() }
-      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter);
-      (StorageManager as any).get.mockImplementationOnce((...args) => {
+      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter)
+      ;(StorageManager as any).get.mockImplementationOnce((...args) => {
         return {
-          getItem: (...args: any) => Promise.resolve([{ test: 'value' }])
+          getItem: (...args: any) => Promise.resolve([{ test: 'value' }]),
         }
       })
 
       const loadFromCacheAction = await wrapper(pageActions)
 
-      expect(contextMock.commit).not.toHaveBeenCalledWith(types.CMS_PAGE_SET_CURRENT, { test: 'value' })
+      expect(contextMock.commit).not.toHaveBeenCalledWith(types.CMS_PAGE_SET_CURRENT, {
+        test: 'value',
+      })
       expect(loadFromCacheAction).toEqual({ test: 'value' })
     })
 
     it('should throw error when storedItems are empty', async () => {
       const filter = { key: 'test', value: 'value', setCurrent: false }
       const contextMock = { commit: jest.fn() }
-      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter);
-      (StorageManager as any).get.mockImplementationOnce((...args: any) => {
-        return ({ getItem: (...args: any) => Promise.resolve(undefined) })
+      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter)
+      ;(StorageManager as any).get.mockImplementationOnce((...args: any) => {
+        return { getItem: (...args: any) => Promise.resolve(undefined) }
       })
 
       try {
@@ -218,9 +220,9 @@ describe('Page actions', () => {
     it('should throw error when cannot find given element in stored items', async () => {
       const filter = { key: 'test', value: 'value', setCurrent: false }
       const contextMock = { commit: jest.fn() }
-      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter);
-      (StorageManager as any).get.mockImplementationOnce((...args: any) => {
-        return ({ getItem: (...args: any) => Promise.resolve([]) })
+      const wrapper = (actions: any) => actions.loadFromCache(contextMock, filter)
+      ;(StorageManager as any).get.mockImplementationOnce((...args: any) => {
+        return { getItem: (...args: any) => Promise.resolve([]) }
       })
 
       try {
@@ -236,7 +238,7 @@ describe('Page actions', () => {
     it('should add new page', async () => {
       const page = 'page_name'
       const contextMock = {
-        commit: jest.fn()
+        commit: jest.fn(),
       }
       const wrapper = (actions: any) => actions.addItem(contextMock, page)
       await wrapper(pageActions)

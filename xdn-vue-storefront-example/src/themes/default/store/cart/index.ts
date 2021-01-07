@@ -7,9 +7,9 @@ import CartState from './types/CartState'
 export const module: Module<CartState, any> = {
   namespaced: true,
   state: {
-    editMode: null
+    editMode: null,
   },
   getters,
   actions,
-  mutations
+  mutations,
 }

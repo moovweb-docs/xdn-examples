@@ -4,11 +4,11 @@ import { mapGetters } from 'vuex'
 export const WishlistButton = {
   mixins: [wishlistMountedMixin],
   computed: {
-    ...mapGetters('wishlist', ['getWishlistItemsCount'])
+    ...mapGetters('wishlist', ['getWishlistItemsCount']),
   },
   methods: {
-    toggleWishlist () {
+    toggleWishlist() {
       this.$store.dispatch('ui/toggleWishlist')
-    }
-  }
+    },
+  },
 }

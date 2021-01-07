@@ -13,22 +13,22 @@ export const uiStore = {
     openMyAccount: false,
     submenu: {
       depth: false,
-      path: []
-    }
+      path: [],
+    },
   },
   mutations: {
-    setCheckoutMode (state, action) {
+    setCheckoutMode(state, action) {
       state.checkoutMode = action === true
     },
-    setMicrocart (state, action) {
+    setMicrocart(state, action) {
       state.microcart = action === true
       state.overlay = action === true
     },
-    setSidebar (state, action) {
+    setSidebar(state, action) {
       state.sidebar = action === true
       state.overlay = action === true
     },
-    setSubmenu (state, { id, depth }) {
+    setSubmenu(state, { id, depth }) {
       if (id) {
         state.submenu.path.push(id)
       } else if (state.submenu.path.length) {
@@ -38,36 +38,36 @@ export const uiStore = {
       }
       state.submenu.depth = state.submenu.depth > 0 && depth
     },
-    setSearchpanel (state, action) {
+    setSearchpanel(state, action) {
       state.searchpanel = action === true
       state.overlay = action === true
     },
-    setWishlist (state, action) {
+    setWishlist(state, action) {
       state.wishlist = action === true
       state.overlay = action === true
     },
-    setOverlay (state, action) {
+    setOverlay(state, action) {
       state.overlay = action === true
     },
-    setLoader (state, action) {
+    setLoader(state, action) {
       state.loader = action === true
     },
-    setAuthElem (state, action) {
+    setAuthElem(state, action) {
       state.authElem = action
-    }
+    },
   },
   actions: {
-    toggleMicrocart ({ commit, state }) {
+    toggleMicrocart({ commit, state }) {
       commit('setMicrocart', !state.microcart)
     },
-    toggleWishlist ({ commit, state }) {
+    toggleWishlist({ commit, state }) {
       commit('setWishlist', !state.wishlist)
     },
-    closeMicrocart ({ commit, state }) {
+    closeMicrocart({ commit, state }) {
       if (state.microcart) commit('setMicrocart', false)
     },
-    closeWishlist ({ commit, state }) {
+    closeWishlist({ commit, state }) {
       if (state.wishlist) commit('setWishlist', false)
-    }
-  }
+    },
+  },
 }

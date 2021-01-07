@@ -1,10 +1,10 @@
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 import { DataResolver } from './types/DataResolver'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
-import config from 'config';
+import config from 'config'
 
 const setShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
@@ -13,10 +13,10 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({ addressInformation })
+      body: JSON.stringify({ addressInformation }),
     },
-    silent: true
-  });
+    silent: true,
+  })
 
 const getTotals = async (): Promise<Task> =>
   TaskQueue.execute({
@@ -24,26 +24,31 @@ const getTotals = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    silent: true
-  });
+    silent: true,
+  })
 
-const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
-  const url = processLocalizedURLAddress(guestCart
-    ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
-    : getApiEndpointUrl(config.cart, 'create_endpoint'))
+const getCartToken = async (
+  guestCart: boolean = false,
+  forceClientState: boolean = false
+): Promise<Task> => {
+  const url = processLocalizedURLAddress(
+    guestCart
+      ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
+      : getApiEndpointUrl(config.cart, 'create_endpoint')
+  )
 
   return TaskQueue.execute({
     url,
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
     force_client_state: forceClientState,
-    silent: true
-  });
+    silent: true,
+  })
 }
 
 const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
@@ -56,11 +61,11 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
-          quoteId: cartItem.quoteId || cartServerToken
-        }
-      })
-    }
-  });
+          quoteId: cartItem.quoteId || cartServerToken,
+        },
+      }),
+    },
+  })
 
 const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
   TaskQueue.execute({
@@ -72,12 +77,12 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
-          quoteId: cartServerToken
-        }
-      })
+          quoteId: cartServerToken,
+        },
+      }),
     },
-    silent: true
-  });
+    silent: true,
+  })
 
 const getPaymentMethods = async (): Promise<Task> =>
   TaskQueue.execute({
@@ -85,10 +90,10 @@ const getPaymentMethods = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    silent: true
-  });
+    silent: true,
+  })
 
 const getShippingMethods = async (address: any): Promise<Task> =>
   TaskQueue.execute({
@@ -98,11 +103,11 @@ const getShippingMethods = async (address: any): Promise<Task> =>
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({
-        address
-      })
+        address,
+      }),
     },
-    silent: true
-  });
+    silent: true,
+  })
 
 const getItems = async (): Promise<Task> =>
   TaskQueue.execute({
@@ -110,23 +115,25 @@ const getItems = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    silent: true
-  });
+    silent: true,
+  })
 
 const applyCoupon = async (couponCode: string): Promise<Task> => {
-  const url = processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'applycoupon_endpoint').replace('{{coupon}}', couponCode))
+  const url = processLocalizedURLAddress(
+    getApiEndpointUrl(config.cart, 'applycoupon_endpoint').replace('{{coupon}}', couponCode)
+  )
 
   return TaskQueue.execute({
     url,
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    silent: false
-  });
+    silent: false,
+  })
 }
 
 const removeCoupon = async (): Promise<Task> =>
@@ -135,10 +142,10 @@ const removeCoupon = async (): Promise<Task> =>
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    silent: false
-  });
+    silent: false,
+  })
 
 export const CartService: DataResolver.CartService = {
   setShippingInfo,
@@ -150,5 +157,5 @@ export const CartService: DataResolver.CartService = {
   getShippingMethods,
   getItems,
   applyCoupon,
-  removeCoupon
+  removeCoupon,
 }

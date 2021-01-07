@@ -2,5 +2,5 @@ import { AddToCart } from '@vue-storefront/core/modules/cart/components/AddToCar
 
 export default {
   name: 'AddToCart',
-  mixins: [ AddToCart ]
+  mixins: [AddToCart],
 }

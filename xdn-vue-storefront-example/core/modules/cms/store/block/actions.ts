@@ -1,12 +1,26 @@
 import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 import CmsBlockState from '../../types/CmsBlockState'
-import { createLoadingBlockQuery, createSingleBlockQuery } from '@vue-storefront/core/modules/cms/helpers'
+import {
+  createLoadingBlockQuery,
+  createSingleBlockQuery,
+} from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
-  async list ({ getters, commit }, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
+  async list(
+    { getters, commit },
+    {
+      filterValues = null,
+      filterField = 'identifier',
+      size = 150,
+      start = 0,
+      excludeFields = null,
+      includeFields = null,
+      skipCache = false,
+    }
+  ) {
     if (skipCache || !getters.hasItems) {
       const blockResponse = await quickSearchByQuery({
         query: createLoadingBlockQuery({ filterField, filterValues }),
@@ -14,7 +28,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         size,
         start,
         excludeFields,
-        includeFields
+        includeFields,
       })
 
       commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, blockResponse.items)
@@ -23,7 +37,10 @@ const actions: ActionTree<CmsBlockState, RootState> = {
 
     return getters.getCmsBlocks
   },
-  async single ({ getters, commit }, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }) {
+  async single(
+    { getters, commit },
+    { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }
+  ) {
     let cmsBlock = getters.findCmsBlocks({ key, value })
 
     if (skipCache || cmsBlock.length === 0) {
@@ -31,7 +48,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         query: createSingleBlockQuery({ key, value }),
         entityType: 'cms_block',
         excludeFields,
-        includeFields
+        includeFields,
       })
 
       if (blockResponse.items.length > 0) {
@@ -42,9 +59,9 @@ const actions: ActionTree<CmsBlockState, RootState> = {
 
     return cmsBlock[0]
   },
-  addItem ({ commit }, block) {
+  addItem({ commit }, block) {
     commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block)
-  }
+  },
 }
 
 export default actions

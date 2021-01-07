@@ -17,7 +17,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       lastName: '',
       emailAddress: '',
       password: '',
-      createAccount: false
+      createAccount: false,
     },
     shippingDetails: {
       firstName: '',
@@ -30,7 +30,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       region_id: 0,
       zipCode: '',
       phoneNumber: '',
-      shippingMethod: ''
+      shippingMethod: '',
     },
     paymentDetails: {
       firstName: '',
@@ -46,12 +46,12 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       phoneNumber: '',
       taxId: '',
       paymentMethod: '',
-      paymentMethodAdditional: {}
+      paymentMethodAdditional: {},
     },
     isThankYouPage: false,
-    modifiedAt: 0
+    modifiedAt: 0,
   },
   getters,
   actions,
-  mutations
+  mutations,
 }

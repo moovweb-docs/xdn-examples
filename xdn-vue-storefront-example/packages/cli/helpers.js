@@ -12,5 +12,5 @@ const getVsfPackageJSON = (installationDir, quiet) => {
 }
 
 module.exports = {
-  getVsfPackageJSON
+  getVsfPackageJSON,
 }

@@ -1,11 +1,10 @@
-
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '@vue-storefront/core/modules/cart/types/CartState'
 import connectActions from './connectActions'
 import couponActions from './couponActions'
 import itemActions from './itemActions'
-import mergeActions from './mergeActions';
+import mergeActions from './mergeActions'
 import methodsActions from './methodsActions'
 import productActions from './productActions'
 import quantityActions from './quantityActions'
@@ -21,7 +20,7 @@ const actions: ActionTree<CartState, RootState> = {
   ...productActions,
   ...quantityActions,
   ...synchronizeActions,
-  ...totalsActions
+  ...totalsActions,
 }
 
 export default actions

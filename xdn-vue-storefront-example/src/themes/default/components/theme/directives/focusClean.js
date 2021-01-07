@@ -10,16 +10,17 @@ export default Vue.directive('focus-clean', {
       mouseDown = true
     })
 
-    el.addEventListener('mouseup', (event) => {
+    el.addEventListener('mouseup', event => {
       mouseDown = false
 
-      css && setTimeout(() => {
-        event.target.blur()
-        event.target.classList.remove(css)
-      }, timeout)
+      css &&
+        setTimeout(() => {
+          event.target.blur()
+          event.target.classList.remove(css)
+        }, timeout)
     })
 
-    el.addEventListener('focus', (event) => {
+    el.addEventListener('focus', event => {
       if (mouseDown) {
         if (css) {
           event.target.classList.add(css)
@@ -28,5 +29,5 @@ export default Vue.directive('focus-clean', {
         }
       }
     })
-  }
+  },
 })

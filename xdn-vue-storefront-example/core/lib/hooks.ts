@@ -6,20 +6,20 @@
   @return hook:  a hook function to use in modules
   @return executor: a function that will run all the collected hooks
  */
-function createListenerHook<T> () {
+function createListenerHook<T>() {
   const functionsToRun: ((arg: T) => void)[] = []
 
-  function hook (fn: (arg?: T) => void) {
+  function hook(fn: (arg?: T) => void) {
     functionsToRun.push(fn)
   }
 
-  function executor (args: T = null): void {
+  function executor(args: T = null): void {
     functionsToRun.forEach(fn => fn(args))
   }
 
   return {
     hook,
-    executor
+    executor,
   }
 }
 
@@ -30,14 +30,14 @@ function createListenerHook<T> () {
   @return hook: a hook function to use in modules
   @return executor: a function that will apply all hooks on a given value
  */
-function createMutatorHook<T, R> () {
+function createMutatorHook<T, R>() {
   const mutators: ((arg: T) => R)[] = []
 
-  function hook (mutator: (arg: T) => R) {
+  function hook(mutator: (arg: T) => R) {
     mutators.push(mutator)
   }
 
-  function executor (rawOutput: T): T | R {
+  function executor(rawOutput: T): T | R {
     if (mutators.length > 0) {
       let modifiedOutput: R = null
       mutators.forEach(fn => {
@@ -51,13 +51,10 @@ function createMutatorHook<T, R> () {
 
   return {
     hook,
-    executor
+    executor,
   }
 }
 
-export {
-  createListenerHook,
-  createMutatorHook
-}
+export { createListenerHook, createMutatorHook }
 
 // TODO: Hooks for Client entry, replaceState (can be part of client entry), shopping cart loaded, user logged

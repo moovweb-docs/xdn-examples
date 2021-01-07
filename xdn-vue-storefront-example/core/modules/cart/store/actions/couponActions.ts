@@ -2,7 +2,7 @@ import { CartService } from '@vue-storefront/core/data-resolver'
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 
 const couponActions = {
-  async removeCoupon ({ getters, dispatch, commit }, { sync = true } = {}) {
+  async removeCoupon({ getters, dispatch, commit }, { sync = true } = {}) {
     if (getters.canSyncTotals) {
       const { result } = await CartService.removeCoupon()
 
@@ -16,7 +16,7 @@ const couponActions = {
       }
     }
   },
-  async applyCoupon ({ getters, dispatch, commit }, couponCode) {
+  async applyCoupon({ getters, dispatch, commit }, couponCode) {
     if (couponCode && getters.canSyncTotals) {
       const { result } = await CartService.applyCoupon(couponCode)
 
@@ -29,7 +29,7 @@ const couponActions = {
       }
       return result
     }
-  }
+  },
 }
 
 export default couponActions

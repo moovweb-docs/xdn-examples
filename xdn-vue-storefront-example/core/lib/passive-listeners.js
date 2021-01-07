@@ -3,9 +3,9 @@ const eventListenerOptionsSupported = () => {
 
   try {
     const opts = Object.defineProperty({}, 'passive', {
-      get () {
+      get() {
         supported = true
-      }
+      },
     })
 
     window.addEventListener('test', null, opts)
@@ -17,12 +17,24 @@ const eventListenerOptionsSupported = () => {
 
 const defaultOptions = {
   passive: true,
-  capture: false
+  capture: false,
 }
 const supportedPassiveTypes = [
-  'scroll', 'wheel',
-  'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave',
-  'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'
+  'scroll',
+  'wheel',
+  'touchstart',
+  'touchmove',
+  'touchenter',
+  'touchend',
+  'touchleave',
+  'mouseout',
+  'mouseleave',
+  'mouseup',
+  'mousedown',
+  'mousemove',
+  'mouseenter',
+  'mousewheel',
+  'mouseover',
 ]
 const getDefaultPassiveOption = (passive, eventName) => {
   if (passive !== undefined) return passive
@@ -30,13 +42,17 @@ const getDefaultPassiveOption = (passive, eventName) => {
   return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive
 }
 
-const getWritableOptions = (options) => {
+const getWritableOptions = options => {
   const passiveDescriptor = Object.getOwnPropertyDescriptor(options, 'passive')
 
-  return passiveDescriptor && passiveDescriptor.writable !== true && passiveDescriptor.set === undefined ? Object.assign({}, options) : options
+  return passiveDescriptor &&
+    passiveDescriptor.writable !== true &&
+    passiveDescriptor.set === undefined
+    ? Object.assign({}, options)
+    : options
 }
 
-const overwriteAddEvent = (superMethod) => {
+const overwriteAddEvent = superMethod => {
   EventTarget.prototype.addEventListener = function (type, listener, options) {
     const usesListenerOptions = typeof options === 'object' && options !== null
     const useCapture = usesListenerOptions ? options.capture : options

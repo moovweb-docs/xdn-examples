@@ -1,5 +1,9 @@
-import { localizedRoute as localizedRouteHelper, localizedDispatcherRoute as localizedDispatcherRouteHelper, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { isServer } from '../helpers';
+import {
+  localizedRoute as localizedRouteHelper,
+  localizedDispatcherRoute as localizedDispatcherRouteHelper,
+  currentStoreView,
+} from '@vue-storefront/core/lib/multistore'
+import { isServer } from '../helpers'
 
 export const multistore = {
   methods: {
@@ -9,7 +13,7 @@ export const multistore = {
      * @param {Int} width
      * @param {Int} height
      */
-    localizedRoute (routeObj) {
+    localizedRoute(routeObj) {
       const storeView = currentStoreView()
 
       return localizedRouteHelper(routeObj, storeView.storeCode)
@@ -20,10 +24,10 @@ export const multistore = {
      * @param {Int} width
      * @param {Int} height
      */
-    localizedDispatcherRoute (routeObj) {
+    localizedDispatcherRoute(routeObj) {
       const storeView = currentStoreView()
 
       return localizedDispatcherRouteHelper(routeObj, storeView.storeCode)
-    }
-  }
+    },
+  },
 }

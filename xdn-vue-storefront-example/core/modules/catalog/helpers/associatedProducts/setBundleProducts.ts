@@ -11,10 +11,13 @@ import { catalogHooksExecutors } from './../../hooks'
  * This function prepare all product_links for bundle products.
  * It fetches products by sku.
  */
-export default async function setBundleProducts (product: Product, { includeFields = null, excludeFields = null } = {}) {
+export default async function setBundleProducts(
+  product: Product,
+  { includeFields = null, excludeFields = null } = {}
+) {
   if (isBundleProduct(product) && product.bundle_options) {
     const skus = product.bundle_options
-      .map((bundleOption) => bundleOption.product_links.map((productLink) => productLink.sku))
+      .map(bundleOption => bundleOption.product_links.map(productLink => productLink.sku))
       .reduce((acc, next) => acc.concat(next), [])
 
     const query = buildQuery(skus)
@@ -28,15 +31,17 @@ export default async function setBundleProducts (product: Product, { includeFiel
         setProductErrors: false,
         setConfigurableProductOptions: false,
         assignProductConfiguration: false,
-        separateSelectedVariant: false
-      }
+        separateSelectedVariant: false,
+      },
     })
 
     catalogHooksExecutors.afterSetBundleProducts(items)
 
     for (const bundleOption of product.bundle_options) {
       for (const productLink of bundleOption.product_links) {
-        const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.sku)
+        const associatedProduct = items.find(
+          associatedProduct => associatedProduct.sku === productLink.sku
+        )
         setProductLink(productLink, associatedProduct)
       }
     }

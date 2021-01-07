@@ -8,36 +8,40 @@ export const ProductTile = {
   props: {
     product: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       clicks: 0,
-      placeholder: '/assets/placeholder.jpg'
+      placeholder: '/assets/placeholder.jpg',
     }
   },
   computed: {
-    productLink () {
+    productLink() {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
-    thumbnail () {
+    thumbnail() {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
       let thumbnail = productThumbnailPath(this.product)
-      return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
+      return this.getThumbnail(
+        thumbnail,
+        config.products.thumbnails.width,
+        config.products.thumbnails.height
+      )
     },
-    thumbnailObj () {
+    thumbnailObj() {
       return {
         src: this.thumbnail,
         loading: this.placeholder,
-        error: this.placeholder
+        error: this.placeholder,
       }
     },
-    isOnSale () {
+    isOnSale() {
       return [true, '1'].includes(this.product.sale) ? 'sale' : ''
     },
-    isNew () {
+    isNew() {
       return [true, '1'].includes(this.product.new) ? 'new' : ''
-    }
-  }
+    },
+  },
 }

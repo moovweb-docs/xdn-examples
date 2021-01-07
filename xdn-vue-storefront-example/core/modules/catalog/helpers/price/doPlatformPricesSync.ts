@@ -11,11 +11,12 @@ import syncProductPrice from './syncProductPrice'
  * Synchronize / override prices got from ElasticSearch with current one's from Magento2 or other platform backend
  * @param {Array} products
  */
-export default function doPlatformPricesSync (products) {
+export default function doPlatformPricesSync(products) {
   return new Promise(async (resolve, reject) => {
     if (config.products.alwaysSyncPlatformPricesOver) {
       if (config.products.clearPricesBeforePlatformSync) {
-        for (let product of products) { // clear out the prices as we need to sync them with Magento
+        for (let product of products) {
+          // clear out the prices as we need to sync them with Magento
           product.price_incl_tax = null
           product.original_price_incl_tax = null
           product.special_price_incl_tax = null
@@ -66,10 +67,21 @@ export default function doPlatformPricesSync (products) {
         }
       }
 
-      let skus = products.map((p) => { return p.sku })
+      let skus = products.map(p => {
+        return p.sku
+      })
 
-      if (products.length === 1) { // single product - download child data
-        const childSkus = flattenDeep(products.map((p) => { return (p.configurable_children) ? p.configurable_children.map((cc) => { return cc.sku }) : null }))
+      if (products.length === 1) {
+        // single product - download child data
+        const childSkus = flattenDeep(
+          products.map(p => {
+            return p.configurable_children
+              ? p.configurable_children.map(cc => {
+                  return cc.sku
+                })
+              : null
+          })
+        )
         skus = union(skus, childSkus)
       }
       if (skus && skus.length > 0) {
@@ -78,11 +90,11 @@ export default function doPlatformPricesSync (products) {
           skus,
           isUserGroupedTaxActive: rootStore.getters['tax/getIsUserGroupedTaxActive'],
           userGroupId: rootStore.getters['tax/getUserTaxGroupId'],
-          token: rootStore.getters['user/getToken']
+          token: rootStore.getters['user/getToken'],
         })
         if (items) {
           for (let product of products) {
-            const backProduct = items.find((itm) => itm.id === product.id)
+            const backProduct = items.find(itm => itm.id === product.id)
             if (backProduct) {
               product.price_is_current = true // in case we're syncing up the prices we should mark if we do have current or not
               product.price_refreshed_at = new Date()
@@ -90,7 +102,7 @@ export default function doPlatformPricesSync (products) {
 
               if (product.configurable_children) {
                 for (let configurableChild of product.configurable_children) {
-                  const backProductChild = items.find((itm) => itm.id === configurableChild.id)
+                  const backProductChild = items.find(itm => itm.id === configurableChild.id)
                   if (backProductChild) {
                     configurableChild = syncProductPrice(configurableChild, backProductChild)
                   }
@@ -101,7 +113,8 @@ export default function doPlatformPricesSync (products) {
           }
         }
         resolve(products)
-      } else { // empty list of products
+      } else {
+        // empty list of products
         resolve(products)
       }
       if (!config.products.waitForPlatformSync && !isServer) {

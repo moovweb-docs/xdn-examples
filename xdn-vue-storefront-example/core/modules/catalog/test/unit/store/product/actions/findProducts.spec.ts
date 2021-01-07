@@ -1,44 +1,47 @@
-import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver';
-import productActions from '@vue-storefront/core/modules/catalog/store/product/actions';
-import config from 'config';
+import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver'
+import productActions from '@vue-storefront/core/modules/catalog/store/product/actions'
+import config from 'config'
 import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
-import { registerProductsMapping, setRequestCacheTags } from '@vue-storefront/core/modules/catalog/helpers'
+import {
+  registerProductsMapping,
+  setRequestCacheTags,
+} from '@vue-storefront/core/modules/catalog/helpers'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: (str) => jest.fn()
+  once: str => jest.fn(),
 }))
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   registerProductsMapping: jest.fn(),
-  setRequestCacheTags: jest.fn()
+  setRequestCacheTags: jest.fn(),
 }))
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),
-  state: {}
-}));
-jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+  state: {},
+}))
+jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
     log: jest.fn(() => () => {}),
     debug: jest.fn(() => () => {}),
     warn: jest.fn(() => () => {}),
     error: jest.fn(() => () => {}),
-    info: jest.fn(() => () => {})
-  }
-}));
+    info: jest.fn(() => () => {}),
+  },
+}))
 jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
-  $emit: jest.fn()
-}));
+  $emit: jest.fn(),
+}))
 jest.mock('@vue-storefront/core/data-resolver/ProductService', () => ({
   ProductService: {
     getProducts: jest.fn(),
     getProductRenderList: jest.fn(),
-    getProductByKey: jest.fn()
-  }
-}));
-jest.mock('config', () => ({}));
+    getProductByKey: jest.fn(),
+  },
+}))
+jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/modules/catalog/events', () => ({
-  checkParentRedirection: (str) => jest.fn()
+  checkParentRedirection: str => jest.fn(),
 }))
 
 describe('product/findProducts action', () => {
@@ -47,16 +50,16 @@ describe('product/findProducts action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     contextMock = {
-      dispatch: jest.fn(() => ({}))
+      dispatch: jest.fn(() => ({})),
     }
     items = [{ url_path: 'dsada', sku: 'dsad' }]
     config.cart = {
-      setConfigurableProductOptions: true
+      setConfigurableProductOptions: true,
     }
     config.products = {
-      filterUnavailableVariants: false
+      filterUnavailableVariants: false,
     }
-    ;(ProductService.getProducts as jest.Mock).mockImplementation(async () => ({ items }));
+    ;(ProductService.getProducts as jest.Mock).mockImplementation(async () => ({ items }))
   })
   it('should trigger ProductService.getProducts with default values', async () => {
     const wrapper = (actions: any) => actions.findProducts(contextMock)
@@ -78,32 +81,33 @@ describe('product/findProducts action', () => {
         assignProductConfiguration: false,
         separateSelectedVariant: false,
         setConfigurableProductOptions: true,
-        filterUnavailableVariants: false
-      }
+        filterUnavailableVariants: false,
+      },
     })
   })
 
   it('should trigger ProductService.getProducts with provided values', async () => {
-    const wrapper = (actions: any) => actions.findProducts(contextMock, {
-      query: { test: 'test' },
-      start: 123,
-      size: 1221,
-      sort: 'test',
-      excludeFields: ['test'],
-      includeFields: ['test'],
-      configuration: { test: 'test' },
-      populateRequestCacheTags: true,
-      options: {
+    const wrapper = (actions: any) =>
+      actions.findProducts(contextMock, {
+        query: { test: 'test' },
+        start: 123,
+        size: 1221,
+        sort: 'test',
+        excludeFields: ['test'],
+        includeFields: ['test'],
+        configuration: { test: 'test' },
         populateRequestCacheTags: true,
-        prefetchGroupProducts: false,
-        setProductErrors: true,
-        fallbackToDefaultWhenNoAvailable: false,
-        assignProductConfiguration: true,
-        separateSelectedVariant: true,
-        setConfigurableProductOptions: false,
-        filterUnavailableVariants: false
-      }
-    })
+        options: {
+          populateRequestCacheTags: true,
+          prefetchGroupProducts: false,
+          setProductErrors: true,
+          fallbackToDefaultWhenNoAvailable: false,
+          assignProductConfiguration: true,
+          separateSelectedVariant: true,
+          setConfigurableProductOptions: false,
+          filterUnavailableVariants: false,
+        },
+      })
 
     await wrapper(productActions)
 
@@ -122,8 +126,8 @@ describe('product/findProducts action', () => {
         assignProductConfiguration: true,
         separateSelectedVariant: true,
         setConfigurableProductOptions: false,
-        filterUnavailableVariants: false
-      }
+        filterUnavailableVariants: false,
+      },
     })
   })
   it('should register mapping for products returned from ProductService.getProducts', async () => {
@@ -141,14 +145,16 @@ describe('product/findProducts action', () => {
     expect(setRequestCacheTags).toHaveBeenCalledTimes(0)
   })
   it('should set cache tags if populateRequestCacheTags is true', async () => {
-    const wrapper = (actions: any) => actions.findProducts(contextMock, { populateRequestCacheTags: true })
+    const wrapper = (actions: any) =>
+      actions.findProducts(contextMock, { populateRequestCacheTags: true })
 
     await wrapper(productActions)
 
     expect(setRequestCacheTags).toHaveBeenNthCalledWith(1, { products: items })
   })
   it('should set cache tags if options.populateRequestCacheTags is true', async () => {
-    const wrapper = (actions: any) => actions.findProducts(contextMock, { options: { populateRequestCacheTags: true } })
+    const wrapper = (actions: any) =>
+      actions.findProducts(contextMock, { options: { populateRequestCacheTags: true } })
 
     await wrapper(productActions)
 
@@ -159,7 +165,12 @@ describe('product/findProducts action', () => {
 
     await wrapper(productActions)
 
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'tax/calculateTaxes', { products: items }, { root: true })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(
+      1,
+      'tax/calculateTaxes',
+      { products: items },
+      { root: true }
+    )
   })
   it('should return items and rest response data as one object', async () => {
     ;(ProductService.getProducts as jest.Mock).mockImplementation(async () => ({
@@ -168,8 +179,8 @@ describe('product/findProducts action', () => {
       start: 2,
       total: 3,
       aggregations: [],
-      attributeMetadata: []
-    }));
+      attributeMetadata: [],
+    }))
 
     const wrapper = (actions: any) => actions.findProducts(contextMock)
 
@@ -181,7 +192,7 @@ describe('product/findProducts action', () => {
       start: 2,
       total: 3,
       aggregations: [],
-      attributeMetadata: []
+      attributeMetadata: [],
     })
   })
 })

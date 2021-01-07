@@ -1,6 +1,6 @@
 import { CompareModule } from '..'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
-import { registerModule } from '@vue-storefront/core/lib/modules';
+import { registerModule } from '@vue-storefront/core/lib/modules'
 
 export const IsOnCompare = {
   name: 'IsOnCompare',
@@ -8,15 +8,15 @@ export const IsOnCompare = {
   props: {
     product: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
-  created () {
+  created() {
     registerModule(CompareModule)
   },
   computed: {
-    isOnCompare () {
+    isOnCompare() {
       return this.$store.getters['compare/isOnCompare'](this.product)
-    }
-  }
+    },
+  },
 }

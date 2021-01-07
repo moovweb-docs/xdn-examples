@@ -1,4 +1,4 @@
-import { localizedDispatcherRouteName, currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { localizedDispatcherRouteName, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export const transformProductUrl = (product, urlParams = {}) => {
   const { storeCode, appendStoreCode } = currentStoreView()
@@ -7,26 +7,26 @@ export const transformProductUrl = (product, urlParams = {}) => {
     params: {
       slug: product.slug,
       parentSku: product.parentSku || product.sku,
-      childSku: urlParams['childSku'] ? urlParams['childSku'] : product.sku
-    }
+      childSku: urlParams['childSku'] ? urlParams['childSku'] : product.sku,
+    },
   }
 }
 
-export const transformCategoryUrl = (category) => {
+export const transformCategoryUrl = category => {
   const { storeCode, appendStoreCode } = currentStoreView()
   return {
     name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
     params: {
-      slug: category.slug
-    }
+      slug: category.slug,
+    },
   }
 }
 
-export const transformCmsPageUrl = (cmsPage) => {
+export const transformCmsPageUrl = cmsPage => {
   return {
     name: 'cms-page',
     params: {
-      slug: cmsPage.identifier
-    }
+      slug: cmsPage.identifier,
+    },
   }
 }

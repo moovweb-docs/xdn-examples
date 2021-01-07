@@ -1,17 +1,17 @@
-import { Router } from "@xdn/core/router";
-import { CACHE_ASSETS, CACHE_PAGES } from "./cache";
-import { BACKENDS } from '@xdn/core/constants';
+import { Router } from '@xdn/core/router'
+import { CACHE_ASSETS, CACHE_PAGES } from './cache'
+import { BACKENDS } from '@xdn/core/constants'
 
-const DIST_APP = 'dist';
-const DIST_XDN_CLIENT = 'dist-xdn-client';
-const DIST_XDN_ASSETS = 'dist-xdn-assets';
+const DIST_APP = 'dist'
+const DIST_XDN_CLIENT = 'dist-xdn-client'
+const DIST_XDN_ASSETS = 'dist-xdn-assets'
 
-const SPLAT = ':path*';
-const SUFFIX_SPLAT = `:suffix/${SPLAT}`;
+const SPLAT = ':path*'
+const SUFFIX_SPLAT = `:suffix/${SPLAT}`
 
 // //////////////////////////////////////////
 
-const router = new Router();
+const router = new Router()
 
 const pages = [
   // home
@@ -224,57 +224,57 @@ const pages = [
   `/zing-${SUFFIX_SPLAT}`,
   `/zoe-${SUFFIX_SPLAT}`,
   `/zoltan-${SUFFIX_SPLAT}`,
-];
+]
 
 // static prerendering
-router.prerender(pages.filter(page => !page.includes(SPLAT)));
+router.prerender(pages.filter(page => !page.includes(SPLAT)))
 
 // xdn static files
 router.get('/service-worker.js', ({ serviceWorker, cache }) => {
-  cache(CACHE_ASSETS);
-  serviceWorker(`${DIST_XDN_CLIENT}/service-worker.js`);
-});
+  cache(CACHE_ASSETS)
+  serviceWorker(`${DIST_XDN_CLIENT}/service-worker.js`)
+})
 router.get('/main.js', ({ serveStatic, cache }) => {
-  cache(CACHE_ASSETS);
-  serveStatic(`${DIST_XDN_CLIENT}/browser.js`);
-});
+  cache(CACHE_ASSETS)
+  serveStatic(`${DIST_XDN_CLIENT}/browser.js`)
+})
 
 // assets
 router.get(`/dist/${SPLAT}`, ({ serveStatic, cache }) => {
-  cache(CACHE_ASSETS);
-  serveStatic(`${DIST_APP}/${SPLAT}`);
-});
+  cache(CACHE_ASSETS)
+  serveStatic(`${DIST_APP}/${SPLAT}`)
+})
 router.get(`/assets/${SPLAT}`, ({ serveStatic, cache }) => {
-  cache(CACHE_ASSETS);
-  serveStatic(`${DIST_XDN_ASSETS}/${SPLAT}`);
-});
+  cache(CACHE_ASSETS)
+  serveStatic(`${DIST_XDN_ASSETS}/${SPLAT}`)
+})
 router.get(`/img/${SPLAT}`, ({ proxy, cache }) => {
-  cache(CACHE_ASSETS);
+  cache(CACHE_ASSETS)
   proxy('origin')
-});
+})
 
 // api
 router.get(`/api/catalog/${SPLAT}`, ({ proxy, cache }) => {
-  cache(CACHE_PAGES);
-  proxy('origin');
-});
+  cache(CACHE_PAGES)
+  proxy('origin')
+})
 
 router.get(`/api/stock/${SPLAT}`, ({ proxy, cache }) => {
-  cache(CACHE_PAGES);
-  proxy('origin');
-});
+  cache(CACHE_PAGES)
+  proxy('origin')
+})
 
 // pages
 pages.forEach(page => {
   router.get(page, ({ cache, proxy }) => {
-    cache(CACHE_PAGES);
-    proxy(BACKENDS.js);
-  });
-});
+    cache(CACHE_PAGES)
+    proxy(BACKENDS.js)
+  })
+})
 
 // fallback
 router.fallback(({ proxy }) => {
-  proxy(BACKENDS.js);
-});
+  proxy(BACKENDS.js)
+})
 
-export default router;
+export default router

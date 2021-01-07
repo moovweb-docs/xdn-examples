@@ -1,4 +1,4 @@
-import { InitialResources } from './types';
+import { InitialResources } from './types'
 
 /**
  * Creates RegExp based on type and provided filter/filname in config.
@@ -23,13 +23,15 @@ const createRegexp = (type, filter = ''): RegExp => {
 /**
  * Create RegExp list based on initialResources config
  */
-const createRegexpList = ({ type, filters = [] }: InitialResources): RegExp[] => filters.map(createRegexp.bind(null, type))
+const createRegexpList = ({ type, filters = [] }: InitialResources): RegExp[] =>
+  filters.map(createRegexp.bind(null, type))
 
 /**
  * Returns function that require RegExp list. Then after second call we will get boolean that determines if file match any regexp.
  * @param file - this is filename that will be checked
  */
-export const createRegexpMatcher = (file: string) => (regexps: RegExp[]): boolean => regexps.some(regexp => file.match(regexp))
+export const createRegexpMatcher = (file: string) => (regexps: RegExp[]): boolean =>
+  regexps.some(regexp => file.match(regexp))
 
 /**
  * Extended initialResurces config by adding to it list of RegExp.
@@ -37,16 +39,14 @@ export const createRegexpMatcher = (file: string) => (regexps: RegExp[]): boolea
 export const addRegexpListToConfig = (config): InitialResources[] => {
   const initialResourcesConfig: InitialResources[] = config.initialResources || []
 
-  return initialResourcesConfig
-    .map(resourceConfig => ({
-      ...resourceConfig,
-      regexps: createRegexpList(resourceConfig)
-    }))
+  return initialResourcesConfig.map(resourceConfig => ({
+    ...resourceConfig,
+    regexps: createRegexpList(resourceConfig),
+  }))
 }
 
 /**
  * Returns RegExp list from extended initialResources config.
  */
-export const flatToRegexpList = (configs: InitialResources[]) => configs
-  .map(pConfig => pConfig.regexps)
-  .reduce((acc, val) => acc.concat(val), [])
+export const flatToRegexpList = (configs: InitialResources[]) =>
+  configs.map(pConfig => pConfig.regexps).reduce((acc, val) => acc.concat(val), [])

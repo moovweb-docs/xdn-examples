@@ -1,33 +1,37 @@
-import config from 'config';
-import { DataResolver } from './types/DataResolver';
-import { TaskQueue } from '@vue-storefront/core/lib/sync';
-import Task from '@vue-storefront/core/lib/sync/types/Task';
-import { processURLAddress } from '@vue-storefront/core/helpers';
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import config from 'config'
+import { DataResolver } from './types/DataResolver'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
+import { processURLAddress } from '@vue-storefront/core/helpers'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 
 const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({
-    url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
+    url: processURLAddress(
+      `${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`
+    ),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
     is_result_cacheable: true,
     product_sku: sku,
-    callback_event: `store:${actionName}`
+    callback_event: `store:${actionName}`,
   })
 
 const check = (sku: string): Promise<Task> =>
   TaskQueue.execute({
-    url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
+    url: processURLAddress(
+      `${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`
+    ),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
     is_result_cacheable: true,
-    product_sku: sku
+    product_sku: sku,
   })
 
 const list = (skuList: string[]): Promise<Task> =>
@@ -40,13 +44,13 @@ const list = (skuList: string[]): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
+      mode: 'cors',
     },
-    skus: skuList
+    skus: skuList,
   })
 
 export const StockService: DataResolver.StockService = {
   check,
   list,
-  queueCheck
+  queueCheck,
 }

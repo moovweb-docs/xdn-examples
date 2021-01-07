@@ -1,26 +1,26 @@
-import { normalizeUrlPath } from '@vue-storefront/core/modules/url/helpers';
+import { normalizeUrlPath } from '@vue-storefront/core/modules/url/helpers'
 
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(() => ({
     storeCode: '2',
-    localizedRoute: jest.fn()
-  }))
-}));
+    localizedRoute: jest.fn(),
+  })),
+}))
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: jest.fn()
+  once: jest.fn(),
 }))
 jest.mock('@vue-storefront/core/helpers/router', () => ({
   createRouter: jest.fn(),
-  createRouterProxy: jest.fn()
+  createRouterProxy: jest.fn(),
 }))
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),
   router: {
-    addRoutes: jest.fn()
-  }
+    addRoutes: jest.fn(),
+  },
 }))
 
-let expectedUrl: string;
+let expectedUrl: string
 
 describe('normalizeUrlPath helper', () => {
   beforeEach(() => {

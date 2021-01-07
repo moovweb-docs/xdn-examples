@@ -6,14 +6,14 @@ export const PersonalDetails = {
   props: {
     isActive: {
       type: Boolean,
-      required: true
+      required: true,
     },
     focusedField: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
-  data () {
+  data() {
     return {
       isFilled: false,
       personalDetails: this.$store.state.checkout.personalDetails,
@@ -21,26 +21,26 @@ export const PersonalDetails = {
       acceptConditions: false,
       password: '',
       rPassword: '',
-      isValidationError: false
+      isValidationError: false,
     }
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current
+      currentUser: (state: RootState) => state.user.current,
     }),
     ...mapGetters({
-      isVirtualCart: 'cart/isVirtualCart'
-    })
+      isVirtualCart: 'cart/isVirtualCart',
+    }),
   },
   methods: {
-    onLoggedIn (receivedData) {
+    onLoggedIn(receivedData) {
       this.personalDetails = {
         firstName: receivedData.firstname,
         lastName: receivedData.lastname,
-        emailAddress: receivedData.email
+        emailAddress: receivedData.email,
       }
     },
-    sendDataToCheckout () {
+    sendDataToCheckout() {
       if (this.createAccount) {
         this.personalDetails.password = this.password
         this.personalDetails.createAccount = true
@@ -51,19 +51,19 @@ export const PersonalDetails = {
       this.isFilled = true
       this.isValidationError = false
     },
-    edit () {
+    edit() {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'personalDetails')
       }
     },
-    gotoAccount () {
+    gotoAccount() {
       this.$bus.$emit('modal-show', 'modal-signup')
     },
-    onCheckoutLoad () {
+    onCheckoutLoad() {
       this.personalDetails = this.$store.state.checkout.personalDetails
-    }
+    },
   },
-  updated () {
+  updated() {
     // Perform focusing on a field, name of which is passed through 'focusedField' prop
     if (this.focusedField && !this.isValidationError) {
       if (this.focusedField === 'password') {
@@ -74,12 +74,12 @@ export const PersonalDetails = {
       }
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
-  }
+  },
 }

@@ -5,12 +5,12 @@ import { processESResponseType, processProductsType, processCmsType } from './pr
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 
 export class SearchAdapter {
   public entities: any
 
-  public constructor () {
+  public constructor() {
     this.entities = []
     this.initBaseTypes()
   }
@@ -18,19 +18,24 @@ export class SearchAdapter {
    * register entit type using registerEntityTypeByQuery
    * @param {Request} Request request object
    * @return {Promise}
-  */
-  public async search (Request) {
+   */
+  public async search(Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
-      throw new Error('SearchQuery instance has wrong class required to process with graphQl request.')
+      throw new Error(
+        'SearchQuery instance has wrong class required to process with graphQl request.'
+      )
     }
 
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type)
     }
 
-    const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
+    const storeView =
+      Request.store === null ? currentStoreView() : await prepareStoreView(Request.store)
     if (storeView.storeCode === undefined || storeView.storeCode == null || !Request.type) {
-      throw new Error('Store and SearchRequest.type are required arguments for executing Graphql query')
+      throw new Error(
+        'Store and SearchRequest.type are required arguments for executing Graphql query'
+      )
     }
 
     const gqlQueryVars = prepareQueryVars(Request)
@@ -38,7 +43,7 @@ export class SearchAdapter {
 
     const gqlQueryBody = JSON.stringify({
       query,
-      variables: gqlQueryVars
+      variables: gqlQueryVars,
     })
 
     // define GraphQL url from searchAdapter entity or use default graphQl host with storeCode param
@@ -46,11 +51,14 @@ export class SearchAdapter {
     if (getApiEndpointUrl(this.entities[Request.type], 'url')) {
       urlGql = getApiEndpointUrl(this.entities[Request.type], 'url')
     } else {
-      const serverProtocol = isServer ? getApiEndpointUrl(config.server, 'protocol') : config.server.protocol
+      const serverProtocol = isServer
+        ? getApiEndpointUrl(config.server, 'protocol')
+        : config.server.protocol
       const host = isServer ? getApiEndpointUrl(config.graphql, 'host') : config.graphql.host
       const port = isServer ? getApiEndpointUrl(config.graphql, 'port') : config.graphql.port
       urlGql = serverProtocol + '://' + host + ':' + port + '/graphql'
-      const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
+      const urlStoreCode =
+        storeView.storeCode !== '' ? encodeURIComponent(storeView.storeCode) + '/' : ''
       urlGql = urlGql + '/' + urlStoreCode
     }
 
@@ -58,9 +66,9 @@ export class SearchAdapter {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json',
       },
-      body: gqlQueryBody
+      body: gqlQueryBody,
     })
       .then(resp => {
         return resp.json()
@@ -77,12 +85,15 @@ export class SearchAdapter {
    * @param {function} queryProcessor some function which can update query if needed
    * @param {function} resultProcessor process results of response
    * @return {Object}
-  */
-  public registerEntityType (entityType, { url = '', url_ssr = '', gql, queryProcessor, resultProcessor }) {
+   */
+  public registerEntityType(
+    entityType,
+    { url = '', url_ssr = '', gql, queryProcessor, resultProcessor }
+  ) {
     this.entities[entityType] = {
       query: require(`${gql}`),
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor
+      resultProcessor: resultProcessor,
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -100,12 +111,15 @@ export class SearchAdapter {
    * @param {function} queryProcessor some function which can update query if needed
    * @param {function} resultProcessor process results of response
    * @return {Object}
-  */
-  public registerEntityTypeByQuery (entityType, { url = '', url_ssr = '', query, queryProcessor, resultProcessor }) {
+   */
+  public registerEntityTypeByQuery(
+    entityType,
+    { url = '', url_ssr = '', query, queryProcessor, resultProcessor }
+  ) {
     this.entities[entityType] = {
       query: query,
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor
+      resultProcessor: resultProcessor,
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -117,10 +131,10 @@ export class SearchAdapter {
   }
 
   // initialise default entitypes
-  public initBaseTypes () {
+  public initBaseTypes() {
     this.registerEntityType('product', {
       gql: './queries/products.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -134,15 +148,17 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'product\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'product'"
+            )
           }
         }
-      }
+      },
     })
 
     this.registerEntityType('attribute', {
       gql: './queries/customAttributeMetadata.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -156,14 +172,16 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'attribute\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'attribute'"
+            )
           }
         }
-      }
+      },
     })
     this.registerEntityType('review', {
       gql: './queries/reviews.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -177,14 +195,16 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'review\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'review'"
+            )
           }
         }
-      }
+      },
     })
     this.registerEntityType('category', {
       gql: './queries/categories.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -198,15 +218,17 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'category\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'category'"
+            )
           }
         }
-      }
+      },
     })
 
     this.registerEntityType('taxrule', {
       gql: './queries/taxrule.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -220,15 +242,17 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'taxrule\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'taxrule'"
+            )
           }
         }
-      }
+      },
     })
 
     this.registerEntityType('cms_page', {
       gql: './queries/cmsPage.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -242,15 +266,17 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsPage\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'cmsPage'"
+            )
           }
         }
-      }
+      },
     })
 
     this.registerEntityType('cms_block', {
       gql: './queries/cmsBlock.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -264,15 +290,17 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsBlock\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'cmsBlock'"
+            )
           }
         }
-      }
+      },
     })
 
     this.registerEntityType('cms_hierarchy', {
       gql: './queries/cmsHierarchy.gql',
-      queryProcessor: (query) => {
+      queryProcessor: query => {
         // function that can modify the query each time before it's being executed
         return query
       },
@@ -286,10 +314,12 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsHierarchy\'')
+            throw new Error(
+              "Unknown error with graphQl result in resultProcessor for entity type 'cmsHierarchy'"
+            )
           }
         }
-      }
+      },
     })
   }
 }

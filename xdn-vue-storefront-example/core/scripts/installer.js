@@ -41,7 +41,7 @@ class Abstract {
    *
    * Initialize fields
    */
-  constructor (answers) {
+  constructor(answers) {
     this.answers = answers
   }
 }
@@ -55,12 +55,10 @@ class Message {
    *
    * @param text
    */
-  static info (text) {
+  static info(text) {
     text = Array.isArray(text) ? text : [text]
 
-    message([
-      ...text
-    ], { color: 'blue', border: false, marginTop: 1 })
+    message([...text], { color: 'blue', border: false, marginTop: 1 })
   }
 
   /**
@@ -69,7 +67,7 @@ class Message {
    * @param text
    * @param logFile
    */
-  static error (text, logFile = INSTALL_LOG_FILE) {
+  static error(text, logFile = INSTALL_LOG_FILE) {
     text = Array.isArray(text) ? text : [text]
 
     // show trace if exception occurred
@@ -83,13 +81,7 @@ class Message {
       logDetailsInfo = 'Try to fix problem with logs to see the error details.'
     }
 
-    message([
-      'ERROR',
-      '',
-      ...text,
-      '',
-      logDetailsInfo
-    ], { borderColor: 'red', marginBottom: 1 })
+    message(['ERROR', '', ...text, '', logDetailsInfo], { borderColor: 'red', marginBottom: 1 })
 
     shell.exit(1)
   }
@@ -99,13 +91,10 @@ class Message {
    *
    * @param text
    */
-  static warning (text) {
+  static warning(text) {
     text = Array.isArray(text) ? text : [text]
 
-    message([
-      'WARNING:',
-      ...text
-    ], { color: 'yellow', border: false, marginTop: 1 })
+    message(['WARNING:', ...text], { color: 'yellow', border: false, marginTop: 1 })
   }
 
   /**
@@ -114,12 +103,16 @@ class Message {
    * @param text
    * @param isLastMessage
    */
-  static greeting (text, isLastMessage = false) {
+  static greeting(text, isLastMessage = false) {
     text = Array.isArray(text) ? text : [text]
 
-    message([
-      ...text
-    ], Object.assign(isLastMessage ? { marginTop: 1 } : {}, { borderColor: 'green', marginBottom: 1 }))
+    message(
+      [...text],
+      Object.assign(isLastMessage ? { marginTop: 1 } : {}, {
+        borderColor: 'green',
+        marginBottom: 1,
+      })
+    )
   }
 }
 
@@ -132,14 +125,18 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneRepository () {
+  cloneRepository() {
     return new Promise((resolve, reject) => {
       const backendDir = path.normalize(this.answers.backend_dir)
       const gitPath = path.normalize(this.answers.git_path)
 
       Message.info(`Cloning backend into '${backendDir}'...`)
 
-      if (shell.exec(`${gitPath} clone ${STOREFRONT_BACKEND_GIT_URL} '${backendDir}' > ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+      if (
+        shell.exec(
+          `${gitPath} clone ${STOREFRONT_BACKEND_GIT_URL} '${backendDir}' > ${Abstract.infoLogStream} 2>&1`
+        ).code !== 0
+      ) {
         reject(new Error(`Can't clone backend into '${backendDir}'.`))
       }
 
@@ -152,7 +149,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory (backendDir = null) {
+  goToDirectory(backendDir = null) {
     return new Promise((resolve, reject) => {
       const dir = this.answers ? this.answers.backend_dir : backendDir
 
@@ -173,12 +170,12 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  depInstall () {
+  depInstall() {
     return new Promise((resolve, reject) => {
       Message.info('Installing backend dep...')
 
       if (shell.exec(`yarn >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t install backend dep.'))
+        reject(new Error("Can't install backend dep."))
       }
 
       resolve()
@@ -190,16 +187,18 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  dockerComposeUp () {
+  dockerComposeUp() {
     return new Promise((resolve, reject) => {
       Message.info('Starting Docker in background...')
 
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
-        reject(new Error('Can\'t start Docker in background.'))
+        reject(new Error("Can't start Docker in background."))
       }
       // Adding 20sec timer for ES to get up and running
       // before starting restoration and migration processes
-      setTimeout(() => { resolve() }, 20000)
+      setTimeout(() => {
+        resolve()
+      }, 20000)
     })
   }
 
@@ -208,7 +207,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  validateM2Integration () {
+  validateM2Integration() {
     return new Promise((resolve, reject) => {
       const Magento2Client = require('magento2-rest-client').Magento2Client
 
@@ -225,18 +224,20 @@ class Backend extends Abstract {
       }
 
       let options = {
-        'url': apiUrl,
-        'consumerKey': this.answers.m2_api_consumer_key,
-        'consumerSecret': this.answers.m2_api_consumer_secret,
-        'accessToken': this.answers.m2_api_access_token,
-        'accessTokenSecret': this.answers.m2_api_access_token_secret
+        url: apiUrl,
+        consumerKey: this.answers.m2_api_consumer_key,
+        consumerSecret: this.answers.m2_api_consumer_secret,
+        accessToken: this.answers.m2_api_access_token,
+        accessTokenSecret: this.answers.m2_api_access_token_secret,
       }
       let client = Magento2Client(options)
 
-      client.categories.list()
-        .then((categories) => {
+      client.categories
+        .list()
+        .then(categories => {
           resolve()
-        }).catch((e) => {
+        })
+        .catch(e => {
           reject(new Error('Invalid Magento integration settings. Original error: ' + e))
         })
     })
@@ -247,7 +248,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig () {
+  createConfig() {
     return new Promise((resolve, reject) => {
       let config
 
@@ -264,16 +265,22 @@ class Backend extends Abstract {
         config.imageable.whitelist.allowedHosts.push(host)
 
         config.magento2.url = urlParser(this.answers.m2_url).href
-        config.magento2.imgUrl = this.answers.m2_url ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product' : config.magento2.imgUrl
+        config.magento2.imgUrl = this.answers.m2_url
+          ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product'
+          : config.magento2.imgUrl
         config.magento2.api.url = urlParser(this.answers.m2_api_url).href || config.magento2.api.url
-        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key || config.magento2.api.consumerKey
-        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret || config.magento2.api.consumerSecret
-        config.magento2.api.accessToken = this.answers.m2_api_access_token || config.magento2.api.accessToken
-        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
+        config.magento2.api.consumerKey =
+          this.answers.m2_api_consumer_key || config.magento2.api.consumerKey
+        config.magento2.api.consumerSecret =
+          this.answers.m2_api_consumer_secret || config.magento2.api.consumerSecret
+        config.magento2.api.accessToken =
+          this.answers.m2_api_access_token || config.magento2.api.accessToken
+        config.magento2.api.accessTokenSecret =
+          this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
 
         jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
-        reject(new Error('Can\'t create backend config. Original error: ' + e))
+        reject(new Error("Can't create backend config. Original error: " + e))
       }
 
       resolve()
@@ -285,12 +292,12 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  restoreElasticSearch () {
+  restoreElasticSearch() {
     return new Promise((resolve, reject) => {
       Message.info('Restoring data for ElasticSearch...')
 
       if (shell.exec(`yarn restore >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t restore data for ElasticSearch.'))
+        reject(new Error("Can't restore data for ElasticSearch."))
       }
 
       resolve()
@@ -302,12 +309,12 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  migrateElasticSearch () {
+  migrateElasticSearch() {
     return new Promise((resolve, reject) => {
       Message.info('Migrating data into ElasticSearch...')
 
       if (shell.exec(`yarn migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t migrate data into ElasticSearch.'))
+        reject(new Error("Can't migrate data into ElasticSearch."))
       }
 
       resolve()
@@ -319,12 +326,12 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  importElasticSearch () {
+  importElasticSearch() {
     return new Promise((resolve, reject) => {
       Message.info('Importing data from Magento into ElasticSearch...')
 
       if (shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t import data into ElasticSearch.'))
+        reject(new Error("Can't import data into ElasticSearch."))
       }
 
       resolve()
@@ -336,11 +343,15 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneMagentoSampleData () {
+  cloneMagentoSampleData() {
     return new Promise((resolve, reject) => {
       Message.info(`Cloning Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`)
 
-      if (shell.exec(`${this.answers.git_path} clone ${MAGENTO_SAMPLE_DATA_GIT_URL} ${SAMPLE_DATA_PATH} >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+      if (
+        shell.exec(
+          `${this.answers.git_path} clone ${MAGENTO_SAMPLE_DATA_GIT_URL} ${SAMPLE_DATA_PATH} >> ${Abstract.infoLogStream} 2>&1`
+        ).code !== 0
+      ) {
         reject(new Error(`Can't clone Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`))
       }
 
@@ -353,17 +364,17 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment () {
+  runDevEnvironment() {
     return new Promise((resolve, reject) => {
       Message.info('Starting backend server...')
 
       if (isWindows()) {
         if (shell.exec(`start /min yarn dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
-          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
+          reject(new Error("Can't start dev server.", VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       } else {
         if (shell.exec(`nohup yarn dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
-          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
+          reject(new Error("Can't start dev server.", VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       }
 
@@ -381,7 +392,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory () {
+  goToDirectory() {
     return new Promise((resolve, reject) => {
       if (Abstract.wasLocalBackendInstalled) {
         Message.info(`Trying change directory to '${STOREFRONT_DIRECTORY}'...`)
@@ -402,7 +413,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig () {
+  createConfig() {
     return new Promise((resolve, reject) => {
       let config
 
@@ -511,12 +522,12 @@ class Storefront extends Abstract {
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
-          backend_dir: this.answers.backend_dir || false
+          backend_dir: this.answers.backend_dir || false,
         }
 
         jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
-        reject(new Error('Can\'t create storefront config.'))
+        reject(new Error("Can't create storefront config."))
       }
 
       resolve()
@@ -528,12 +539,12 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  depBuild () {
+  depBuild() {
     return new Promise((resolve, reject) => {
       Message.info('Build storefront dep...')
 
       if (shell.exec(`yarn build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
-        reject(new Error('Can\'t build storefront dep.', VUE_STOREFRONT_LOG_FILE))
+        reject(new Error("Can't build storefront dep.", VUE_STOREFRONT_LOG_FILE))
       }
 
       resolve()
@@ -545,17 +556,19 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment (answers) {
+  runDevEnvironment(answers) {
     return new Promise((resolve, reject) => {
       Message.info('Starting storefront server...')
 
       if (isWindows()) {
-        if (shell.exec(`start /min yarn dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
-          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
+        if (
+          shell.exec(`start /min yarn dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0
+        ) {
+          reject(new Error("Can't start storefront server.", VUE_STOREFRONT_LOG_FILE))
         }
       } else {
         if (shell.exec(`nohup yarn dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
-          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
+          reject(new Error("Can't start storefront server.", VUE_STOREFRONT_LOG_FILE))
         }
       }
 
@@ -566,16 +579,14 @@ class Storefront extends Abstract {
   /**
    * Handles all tasks needed to make theme installation
    */
-  async themeInstallation () {
+  async themeInstallation() {
     // get theme tasks
-    const { installDeps, cloneTheme, configureTheme } = createThemeTasks(STOREFRONT_DIRECTORY.toString())
+    const { installDeps, cloneTheme, configureTheme } = createThemeTasks(
+      STOREFRONT_DIRECTORY.toString()
+    )
 
     // put tasks in order
-    const tasks = [
-      cloneTheme,
-      installDeps,
-      configureTheme
-    ]
+    const tasks = [cloneTheme, installDeps, configureTheme]
 
     for (let { title, task, skip } of tasks) {
       Message.info(title)
@@ -597,7 +608,7 @@ class Manager extends Abstract {
    *
    * Assign backend and storefront entities
    */
-  constructor (answers) {
+  constructor(answers) {
     super(answers)
 
     this.backend = new Backend(answers)
@@ -610,18 +621,14 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  tryToCreateLogFiles () {
+  tryToCreateLogFiles() {
     return new Promise((resolve, reject) => {
       Message.info('Trying to create log files...')
 
       try {
         mkdirp.sync(LOG_DIR, { mode: parseInt('0755', 8) })
 
-        let logFiles = [
-          INSTALL_LOG_FILE,
-          VUE_STOREFRONT_BACKEND_LOG_FILE,
-          VUE_STOREFRONT_LOG_FILE
-        ]
+        let logFiles = [INSTALL_LOG_FILE, VUE_STOREFRONT_BACKEND_LOG_FILE, VUE_STOREFRONT_LOG_FILE]
 
         for (let logFile of logFiles) {
           if (shell.touch(logFile).code !== 0 || !exists(logFile)) {
@@ -634,7 +641,7 @@ class Manager extends Abstract {
         Abstract.storefrontLogStream = VUE_STOREFRONT_LOG_FILE
         Abstract.backendLogStream = VUE_STOREFRONT_BACKEND_LOG_FILE
       } catch (e) {
-        Message.warning('Can\'t create log files.')
+        Message.warning("Can't create log files.")
       }
 
       resolve()
@@ -646,11 +653,12 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initBackend () {
+  initBackend() {
     if (this.answers.is_remote_backend === false) {
       Abstract.wasLocalBackendInstalled = true
       if (this.answers.m2_api_oauth2 === true) {
-        return this.backend.validateM2Integration()
+        return this.backend
+          .validateM2Integration()
           .then(this.backend.cloneRepository.bind(this.backend))
           .then(this.backend.goToDirectory.bind(this.backend))
           .then(this.backend.depInstall.bind(this.backend))
@@ -659,7 +667,8 @@ class Manager extends Abstract {
           .then(this.backend.importElasticSearch.bind(this.backend))
           .then(this.backend.runDevEnvironment.bind(this.backend))
       } else {
-        return this.backend.cloneRepository()
+        return this.backend
+          .cloneRepository()
           .then(this.backend.goToDirectory.bind(this.backend))
           .then(this.backend.depInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
@@ -679,8 +688,9 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initStorefront () {
-    return this.storefront.goToDirectory()
+  initStorefront() {
+    return this.storefront
+      .goToDirectory()
       .then(this.storefront.createConfig.bind(this.storefront))
       .then(this.storefront.themeInstallation.bind(this.storefront))
       .then(this.storefront.depBuild.bind(this.storefront))
@@ -690,10 +700,10 @@ class Manager extends Abstract {
   /**
    * Shows message rendered on the very beginning
    */
-  static showWelcomeMessage () {
+  static showWelcomeMessage() {
     Message.greeting([
       'Hi, welcome to the vue-storefront installation.',
-      'Let\'s configure it together :)'
+      "Let's configure it together :)",
     ])
   }
 
@@ -702,21 +712,27 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  showGoodbyeMessage () {
+  showGoodbyeMessage() {
     return new Promise((resolve, reject) => {
-      Message.greeting([
-        'Congratulations!',
-        '',
-        'You\'ve just successfully installed vue-storefront.',
-        'All required servers are running in background',
-        '',
-        'Storefront: http://localhost:3000',
-        'Backend: ' + (Abstract.wasLocalBackendInstalled ? 'http://localhost:8080' : STOREFRONT_REMOTE_BACKEND_URL),
-        '',
-        Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : 'You don\'t have log files created.',
-        '',
-        'Good Luck!'
-      ], true)
+      Message.greeting(
+        [
+          'Congratulations!',
+          '',
+          "You've just successfully installed vue-storefront.",
+          'All required servers are running in background',
+          '',
+          'Storefront: http://localhost:3000',
+          'Backend: ' +
+            (Abstract.wasLocalBackendInstalled
+              ? 'http://localhost:8080'
+              : STOREFRONT_REMOTE_BACKEND_URL),
+          '',
+          Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : "You don't have log files created.",
+          '',
+          'Good Luck!',
+        ],
+        true
+      )
 
       resolve()
     })
@@ -733,12 +749,12 @@ let questions = [
     type: 'confirm',
     name: 'is_remote_backend',
     message: `Would you like to use ${STOREFRONT_REMOTE_BACKEND_URL} as the backend?`,
-    default: true
+    default: true,
   },
   {
     type: 'input',
     name: 'git_path',
-    message: 'Please provide Git path (if it\'s not globally installed)',
+    message: "Please provide Git path (if it's not globally installed)",
     default: 'git',
     when: function (answers) {
       return answers.is_remote_backend === false
@@ -749,7 +765,7 @@ let questions = [
       }
 
       return true
-    }
+    },
   },
   {
     type: 'input',
@@ -767,24 +783,20 @@ let questions = [
           return 'Please provide path to empty directory.'
         }
       } catch (error) {
-        return 'Can\'t access to write in this directory. Try again ;)'
+        return "Can't access to write in this directory. Try again ;)"
       }
 
       return true
-    }
+    },
   },
   {
     type: 'list',
     name: 'images_endpoint',
     message: 'Choose path for images endpoint',
-    choices: [
-      `${STOREFRONT_REMOTE_BACKEND_URL}/img/`,
-      'http://localhost:8080/img/',
-      'Custom url'
-    ],
+    choices: [`${STOREFRONT_REMOTE_BACKEND_URL}/img/`, 'http://localhost:8080/img/', 'Custom url'],
     when: function (answers) {
       return answers.is_remote_backend === false
-    }
+    },
   },
   {
     type: 'input',
@@ -803,13 +815,16 @@ let questions = [
       url = url.trim()
 
       // add http:// if no protocol set
-      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+      if (
+        url.substr(0, prefix.length) !== prefix &&
+        url.substr(0, prefixSsl.length) !== prefixSsl
+      ) {
         url = prefix + url
       }
 
       // add extra slash as suffix if was not set
       return url.slice(-1) === '/' ? url : `${url}/`
-    }
+    },
   },
   {
     type: 'input',
@@ -818,7 +833,7 @@ let questions = [
     default: 'http://demo-magento2.vuestorefront.io',
     when: function (answers) {
       return answers.is_remote_backend === false
-    }
+    },
   },
   {
     type: 'confirm',
@@ -827,7 +842,7 @@ let questions = [
     default: false,
     when: function (answers) {
       return answers.is_remote_backend === false
-    }
+    },
   },
   {
     type: 'input',
@@ -844,12 +859,15 @@ let questions = [
       url = url.trim()
 
       // add http:// if no protocol set
-      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+      if (
+        url.substr(0, prefix.length) !== prefix &&
+        url.substr(0, prefixSsl.length) !== prefixSsl
+      ) {
         url = prefix + url
       }
 
       return url
-    }
+    },
   },
   {
     type: 'input',
@@ -858,7 +876,7 @@ let questions = [
     default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    }
+    },
   },
   {
     type: 'input',
@@ -867,7 +885,7 @@ let questions = [
     default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    }
+    },
   },
   {
     type: 'input',
@@ -876,7 +894,7 @@ let questions = [
     default: '040xx3qy7s0j28o3q0exrfop579cy20m',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    }
+    },
   },
   {
     type: 'input',
@@ -885,21 +903,22 @@ let questions = [
     default: '7qunl3p505rubmr7u1ijt7odyialnih9',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    }
+    },
   },
   {
     type: 'confirm',
     name: 'ssr_endpoints',
     message: `Would You like to create fields for SSR endpoints?`,
-    default: false
+    default: false,
   },
-  ...createThemePrompt(STOREFRONT_DIRECTORY.toString())
+  ...createThemePrompt(STOREFRONT_DIRECTORY.toString()),
 ]
 
-async function processAnswers (answers) {
+async function processAnswers(answers) {
   let manager = new Manager(answers)
 
-  await manager.tryToCreateLogFiles()
+  await manager
+    .tryToCreateLogFiles()
     .then(manager.initBackend.bind(manager))
     .then(manager.initStorefront.bind(manager))
     .then(manager.showGoodbyeMessage.bind(manager))
@@ -922,9 +941,7 @@ if (require.main.filename === __filename) {
    * This is where all the magic happens
    */
 
-  program
-    .option('--default-config', 'Run with default configuration')
-    .parse(process.argv)
+  program.option('--default-config', 'Run with default configuration').parse(process.argv)
 
   if (program.defaultConfig) {
     const defaultConfig = {}

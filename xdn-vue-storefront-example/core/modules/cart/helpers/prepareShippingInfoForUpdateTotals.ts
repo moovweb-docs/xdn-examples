@@ -11,12 +11,10 @@ const applyOptions = (item: Totals) => {
 
 const reduceToObject = (previousValue: any, currentValue: Totals) => ({
   ...previousValue,
-  [currentValue.item_id]: currentValue
+  [currentValue.item_id]: currentValue,
 })
 
 const prepareShippingInfoForUpdateTotals = (totals: Totals[]) =>
-  totals
-    .map(applyOptions)
-    .reduce(reduceToObject, {})
+  totals.map(applyOptions).reduce(reduceToObject, {})
 
 export default prepareShippingInfoForUpdateTotals

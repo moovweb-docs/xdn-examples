@@ -11,10 +11,10 @@ import config from 'config'
 import { calculateProductTax } from '@vue-storefront/core/modules/catalog/helpers/taxCalc'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
 import { catalogHooksExecutors } from './../../hooks'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const actions: ActionTree<TaxState, RootState> = {
-  async list ({ state, commit, dispatch }, { entityType = 'taxrule' }) {
+  async list({ state, commit, dispatch }, { entityType = 'taxrule' }) {
     if (state.rules.length > 0) {
       Logger.info('Tax rules served from local memory', 'tax')()
       return { items: state.rules }
@@ -26,22 +26,22 @@ const actions: ActionTree<TaxState, RootState> = {
 
     return resp
   },
-  storeToRulesCache (context, { items }) {
+  storeToRulesCache(context, { items }) {
     const cache = StorageManager.get('elasticCache')
 
     for (let tc of items) {
       const cacheKey = entityKeyName('tc', tc.id)
-      cache.setItem(cacheKey, tc).catch((err) => {
+      cache.setItem(cacheKey, tc).catch(err => {
         Logger.error('Cannot store cache for ' + cacheKey + ', ' + err)()
       })
     }
   },
-  single ({ getters }, { productTaxClassId }) {
-    return getters.getRules.find((e) =>
-      e.product_tax_class_ids.indexOf(parseInt(productTaxClassId)) >= 0
+  single({ getters }, { productTaxClassId }) {
+    return getters.getRules.find(
+      e => e.product_tax_class_ids.indexOf(parseInt(productTaxClassId)) >= 0
     )
   },
-  async calculateTaxes ({ dispatch, getters, rootState }, { products }) {
+  async calculateTaxes({ dispatch, getters, rootState }, { products }) {
     const mutatedProducts = catalogHooksExecutors.beforeTaxesCalculated(products)
 
     if (config.tax.calculateServerSide) {
@@ -57,7 +57,7 @@ const actions: ActionTree<TaxState, RootState> = {
       defaultRegion,
       sourcePriceIncludesTax,
       finalPriceIncludesTax,
-      deprecatedPriceFieldsSupport
+      deprecatedPriceFieldsSupport,
     } = storeView.tax
 
     const recalculatedProducts = mutatedProducts.map(product =>
@@ -70,12 +70,12 @@ const actions: ActionTree<TaxState, RootState> = {
         sourcePriceInclTax: sourcePriceIncludesTax,
         userGroupId: getters.getUserTaxGroupId,
         deprecatedPriceFieldsSupport: deprecatedPriceFieldsSupport,
-        isTaxWithUserGroupIsActive: getters.getIsUserGroupedTaxActive
+        isTaxWithUserGroupIsActive: getters.getIsUserGroupedTaxActive,
       })
     )
 
     return doPlatformPricesSync(recalculatedProducts)
-  }
+  },
 }
 
 export default actions

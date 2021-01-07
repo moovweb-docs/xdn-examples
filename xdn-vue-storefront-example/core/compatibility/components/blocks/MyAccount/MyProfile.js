@@ -4,5 +4,5 @@ import { UserAccount } from '@vue-storefront/core/modules/user/components/UserAc
 
 export default {
   name: 'MyProfile',
-  mixins: [UserAccount]
+  mixins: [UserAccount],
 }

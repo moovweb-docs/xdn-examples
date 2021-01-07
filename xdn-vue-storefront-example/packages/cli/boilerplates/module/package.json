@@ -7,7 +7,9 @@
     "build": "webpack --config node_modules/@vue-storefront/core/lib/modules/tools/module-build.config.js",
     "prePublishOnly": "yarn build"
   },
-  "keywords": ["vue-storefront"],
+  "keywords": [
+    "vue-storefront"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {},

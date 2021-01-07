@@ -4,8 +4,8 @@ export const CompareButton = {
   name: 'CompareButton',
   mixins: [compareMountedMixin],
   computed: {
-    isEmpty (): boolean {
+    isEmpty(): boolean {
       return this.$store.getters['compare/isEmpty']
-    }
-  }
+    },
+  },
 }

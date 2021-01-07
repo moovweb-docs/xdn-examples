@@ -10,7 +10,8 @@ export const thumbnail = {
      * @param {string} pathType
      * @returns {string}
      */
-    getThumbnail: (relativeUrl, width, height, pathType) => getThumbnailPath(relativeUrl, width, height, pathType),
+    getThumbnail: (relativeUrl, width, height, pathType) =>
+      getThumbnailPath(relativeUrl, width, height, pathType),
 
     /**
      * Return thumbnail URL for specific base url using media path
@@ -19,6 +20,7 @@ export const thumbnail = {
      * @param {number} height
      * @returns {string}
      */
-    getMediaThumbnail: (relativeUrl, width, height) => getThumbnailPath(relativeUrl, width, height, 'media')
-  }
+    getMediaThumbnail: (relativeUrl, width, height) =>
+      getThumbnailPath(relativeUrl, width, height, 'media'),
+  },
 }

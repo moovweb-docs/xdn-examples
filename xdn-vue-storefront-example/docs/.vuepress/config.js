@@ -3,12 +3,12 @@ module.exports = {
   port: 8081,
   markdown: {
     toc: {
-      includeLevel: [2]
-    }
+      includeLevel: [2],
+    },
   },
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
-    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}]
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js' }],
   ],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
@@ -27,13 +27,11 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [
-      	{
-          title : 'General Information',
+        {
+          title: 'General Information',
           collapsable: false,
-          children: [
-            'general/introduction'
-          ]
-	      },
+          children: ['general/introduction'],
+        },
         'upgrade-notes/',
         'security/',
         {
@@ -45,16 +43,13 @@ module.exports = {
             'cookbook/setup',
             'cookbook/module',
             'cookbook/theme',
-            'cookbook/checklist'
+            'cookbook/checklist',
           ],
         },
         {
           title: 'Installation',
           collapsable: false,
-          children: [
-            'installation/theme',
-            'installation/production-setup',
-          ],
+          children: ['installation/theme', 'installation/production-setup'],
         },
         {
           title: 'Basics',
@@ -69,7 +64,7 @@ module.exports = {
             'basics/ssr-cache',
             'basics/static-generator',
             'basics/e2e',
-            'basics/url'
+            'basics/url',
           ],
         },
         {
@@ -96,7 +91,7 @@ module.exports = {
             'data/elastic-queries',
             'data/database-tool',
             'data/static-data',
-            'data/data-loader'
+            'data/data-loader',
           ],
         },
         {
@@ -120,7 +115,7 @@ module.exports = {
             'data-resolvers/introduction',
             'data-resolvers/category-service',
             'data-resolvers/user-service',
-          ]
+          ],
         },
         {
           title: 'Archives',
@@ -135,7 +130,7 @@ module.exports = {
             'archives/amp',
             'archives/typescript',
             'archives/migration',
-            'archives/entity_type'
+            'archives/entity_type',
           ],
         },
       ],
@@ -143,4 +138,4 @@ module.exports = {
   },
   title: 'Vue Storefront',
   description: 'Headless PWA for eCommerce',
-};
+}

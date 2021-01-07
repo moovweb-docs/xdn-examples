@@ -14,7 +14,7 @@ const getters: GetterTree<CheckoutState, RootState> = {
   getPaymentDetails: state => state.paymentDetails,
   isThankYouPage: state => state.isThankYouPage,
   getModifiedAt: state => state.modifiedAt,
-  isUserInCheckout: state => ((Date.now() - state.modifiedAt) <= (60 * 30 * 1000)),
+  isUserInCheckout: state => Date.now() - state.modifiedAt <= 60 * 30 * 1000,
   getPaymentMethods: (state, getters, rootState, rootGetters) => {
     const isVirtualCart = rootGetters['cart/isVirtualCart']
 
@@ -22,11 +22,9 @@ const getters: GetterTree<CheckoutState, RootState> = {
   },
   getDefaultPaymentMethod: (state, getters) => getters.getPaymentMethods.find(item => item.default),
   getNotServerPaymentMethods: (state, getters) =>
-    getters.getPaymentMethods.filter((itm) =>
-      (typeof itm !== 'object' || !itm.is_server_method)
-    ),
+    getters.getPaymentMethods.filter(itm => typeof itm !== 'object' || !itm.is_server_method),
   getShippingMethods: state => state.shippingMethods,
-  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
+  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default),
 }
 
 export default getters

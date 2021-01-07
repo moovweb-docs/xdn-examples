@@ -1,5 +1,5 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import productChecksum, { getProductOptions } from './productChecksum';
+import productChecksum, { getProductOptions } from './productChecksum'
 
 type ProductEqualCheckFn = (product1: CartItem, product2: CartItem) => boolean
 
@@ -70,19 +70,28 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
 
   const check = makeCheck.bind(null, product1, product2)
 
-  if (getProductOptions(product1, 'bundle_options').length || getProductOptions(product2, 'bundle_options').length) {
+  if (
+    getProductOptions(product1, 'bundle_options').length ||
+    getProductOptions(product2, 'bundle_options').length
+  ) {
     // bundle options skus are merged into one sku so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
     return check(['id', 'checksum'])
   }
 
-  if (getProductOptions(product1, 'custom_options').length || getProductOptions(product2, 'custom_options').length) {
+  if (
+    getProductOptions(product1, 'custom_options').length ||
+    getProductOptions(product2, 'custom_options').length
+  ) {
     // in admin panel we can add different sku for specific custom option so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
     return check(['id', 'checksum'])
   }
 
-  if (getProductOptions(product1, 'configurable_item_options').length || getProductOptions(product2, 'configurable_item_options').length) {
+  if (
+    getProductOptions(product1, 'configurable_item_options').length ||
+    getProductOptions(product2, 'configurable_item_options').length
+  ) {
     // 'sku' should be uniq for configurable products
     // we can't check 'id' because it is the same when user edit product in microcart, so it can give wrong result
     return check(['sku'])

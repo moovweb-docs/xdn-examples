@@ -1,17 +1,17 @@
-import { buildLocaleIgnorePattern } from '@vue-storefront/i18n/helpers';
-import path from 'path';
-import fs from 'fs';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import autoprefixer from 'autoprefixer';
-import webpack from 'webpack';
-import dayjs from 'dayjs';
-import config from 'config';
+import { buildLocaleIgnorePattern } from '@vue-storefront/i18n/helpers'
+import path from 'path'
+import fs from 'fs'
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
+import VueLoaderPlugin from 'vue-loader/lib/plugin'
+import autoprefixer from 'autoprefixer'
+import webpack from 'webpack'
+import dayjs from 'dayjs'
+import config from 'config'
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // eslint-disable-next-line import/first
-import themeRoot from './theme-path';
+import themeRoot from './theme-path'
 
 const themesRoot = '../../src/themes'
 const themeResources = themeRoot + '/resource'
@@ -26,23 +26,23 @@ const postcssConfig = {
   loader: 'postcss-loader',
   options: {
     ident: 'postcss',
-    plugins: (loader) => [
+    plugins: loader => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009'
-      })
-    ]
-  }
-};
+        flexbox: 'no-2009',
+      }),
+    ],
+  },
+}
 
-var nodeModules = {};
+var nodeModules = {}
 fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
+  .filter(function (x) {
+    return ['.bin'].indexOf(x) === -1
   })
-  .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
+  .forEach(function (mod) {
+    nodeModules[mod] = 'commonjs ' + mod
+  })
 
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
@@ -57,14 +57,14 @@ export default {
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss')),
     }),
     // Server
     new webpack.DefinePlugin({
-      'process.env.VUE_ENV': '"server"'
+      'process.env.VUE_ENV': '"server"',
     }),
     // define `config` package
-    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require("config")) }),
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require('config')) }),
   ],
   // devtool: 'source-map',
   output: {
@@ -74,37 +74,40 @@ export default {
     libraryTarget: 'commonjs',
   },
   resolveLoader: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, themesRoot)
-    ]
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)],
   },
   resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, themesRoot)
-    ],
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)],
     extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {
       // Main aliases
       // 'config': path.resolve(__dirname, './config.json'),
-      'src': path.resolve(__dirname, '../../src'),
+      src: path.resolve(__dirname, '../../src'),
 
       // Theme aliases
-      'theme': themeRoot,
+      theme: themeRoot,
       'theme/app': themeApp,
       'theme/css': themeCSS,
       'theme/resource': themeResources,
 
       // Backward compatible
       '@vue-storefront/core/lib/store/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
-      'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
-      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue'),
-      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(__dirname, '../lib/storage-manager.ts'),
-      
+      'src/modules/order-history/components/UserOrders': path.resolve(
+        __dirname,
+        '../../core/modules/order/components/UserOrdersHistory'
+      ),
+      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(
+        __dirname,
+        '../../src/themes/default/components/theme/WebShare.vue'
+      ),
+      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(
+        __dirname,
+        '../lib/storage-manager.ts'
+      ),
+
       // Server aliases
-      'create-api': './create-api-server.js'
-    }
+      'create-api': './create-api-server.js',
+    },
   },
   module: {
     rules: [
@@ -112,23 +115,23 @@ export default {
         enforce: 'pre',
         test: /\.(js|vue,ts)$/,
         loader: 'eslint-loader',
-        exclude: [/node_modules/, /test/]
+        exclude: [/node_modules/, /test/],
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()]
-        }
+          postcss: [autoprefixer()],
+        },
       },
       {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/]
+          appendTsSuffixTo: [/\.vue$/],
         },
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.js$/,
@@ -136,32 +139,23 @@ export default {
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
-          path.resolve(__dirname, '../../core')
-        ]
+          path.resolve(__dirname, '../../core'),
+        ],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
-        }
+          name: '[name].[ext]?[hash]',
+        },
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          postcssConfig
-        ]
+        use: ['vue-style-loader', 'css-loader', postcssConfig],
       },
       {
         test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          postcssConfig,
-          'sass-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader'],
       },
       {
         test: /\.sass$/,
@@ -172,25 +166,25 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true
-            }
-          }
-        ]
+              indentedSyntax: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
-        loader: 'url-loader?importLoaders=1&limit=10000'
+        loader: 'url-loader?importLoaders=1&limit=10000',
       },
       {
         test: /\.(graphqls|gql)$/,
         exclude: /node_modules/,
-        loader: ['graphql-tag/loader']
+        loader: ['graphql-tag/loader'],
       },
       // {
       //   test: /core\/build\/config\.json$/,
       //   loader: path.resolve('core/build/purge-config.js')
       // }
-    ]
+    ],
   },
 
   // Server

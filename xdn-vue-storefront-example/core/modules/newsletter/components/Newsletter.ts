@@ -4,5 +4,5 @@ import Unsubscribe from '@vue-storefront/core/modules/newsletter/mixins/Unsubscr
 
 export const Newsletter = {
   name: 'Newsletter',
-  mixins: [SubscriptionStatus, Subscribe, Unsubscribe]
+  mixins: [SubscriptionStatus, Subscribe, Unsubscribe],
 }

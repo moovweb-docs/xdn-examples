@@ -1,4 +1,4 @@
-import { addRegexpListToConfig, createRegexpMatcher, flatToRegexpList } from './helpers';
+import { addRegexpListToConfig, createRegexpMatcher, flatToRegexpList } from './helpers'
 
 const config = require('config')
 const initialResources = addRegexpListToConfig(config)

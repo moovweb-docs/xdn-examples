@@ -6,71 +6,68 @@ import http from 'http'
 
 const {
   hook: afterProcessStartedHook,
-  executor: afterProcessStartedExecutor
+  executor: afterProcessStartedExecutor,
 } = createListenerHook<any>()
 
 interface BeforeCacheInvalidatedParamter {
-  tags: string[],
+  tags: string[]
   req: Request
 }
 
 interface AfterCacheInvalidatedParamter {
-  tags: string[],
+  tags: string[]
   req: Request
 }
 
 const {
   hook: beforeCacheInvalidatedHook,
-  executor: beforeCacheInvalidatedExecutor
+  executor: beforeCacheInvalidatedExecutor,
 } = createListenerHook<BeforeCacheInvalidatedParamter>()
 
 const {
   hook: afterCacheInvalidatedHook,
-  executor: afterCacheInvalidatedExecutor
+  executor: afterCacheInvalidatedExecutor,
 } = createListenerHook<AfterCacheInvalidatedParamter>()
 
 // beforeStartApp
 interface Extend {
-  app: Express,
-  config: any,
+  app: Express
+  config: any
   isProd: boolean
 }
 
 const {
   hook: afterApplicationInitializedHook,
-  executor: afterApplicationInitializedExecutor
+  executor: afterApplicationInitializedExecutor,
 } = createListenerHook<Extend>()
 
 interface Server {
-  server: http.Server,
-  config: any,
+  server: http.Server
+  config: any
   isProd: boolean
 }
 
 const {
   hook: httpServerIsReadyHook,
-  executor: httpServerIsReadyExecutor
+  executor: httpServerIsReadyExecutor,
 } = createListenerHook<Server>()
 
 interface Exception {
-  err: Exception,
-  req: Request,
+  err: Exception
+  req: Request
   isProd: boolean
 }
 
-const {
-  hook: ssrExceptionHook,
-  executor: ssrExceptionExecutor
-} = createListenerHook<Exception>()
+const { hook: ssrExceptionHook, executor: ssrExceptionExecutor } = createListenerHook<Exception>()
 
 const {
   hook: beforeOutputRenderedResponseHook,
-  executor: beforeOutputRenderedResponseExecutor
+  executor: beforeOutputRenderedResponseExecutor,
 } = createMutatorHook<any, any>()
 
 const {
   hook: afterOutputRenderedResponseHook,
-  executor: afterOutputRenderedResponseExecutor
+  executor: afterOutputRenderedResponseExecutor,
 } = createMutatorHook<any, any>()
 
 /** Only for internal usage in this module */
@@ -82,7 +79,7 @@ const serverHooksExecutors = {
   beforeOutputRenderedResponse: beforeOutputRenderedResponseExecutor,
   afterOutputRenderedResponse: afterOutputRenderedResponseExecutor,
   beforeCacheInvalidated: beforeCacheInvalidatedExecutor,
-  afterCacheInvalidated: afterCacheInvalidatedExecutor
+  afterCacheInvalidated: afterCacheInvalidatedExecutor,
 }
 
 const serverHooks = {
@@ -99,10 +96,7 @@ const serverHooks = {
   beforeOutputRenderedResponse: beforeOutputRenderedResponseHook,
   afterOutputRenderedResponse: afterOutputRenderedResponseHook,
   beforeCacheInvalidated: beforeCacheInvalidatedHook,
-  afterCacheInvalidated: afterCacheInvalidatedHook
+  afterCacheInvalidated: afterCacheInvalidatedHook,
 }
 
-export {
-  serverHooks,
-  serverHooksExecutors
-}
+export { serverHooks, serverHooksExecutors }

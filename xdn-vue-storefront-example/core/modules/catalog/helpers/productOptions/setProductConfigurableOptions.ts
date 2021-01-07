@@ -5,7 +5,11 @@ import omitInternalOptionsFormat from './omitInternalOptionsFormat'
 /**
  * set 'product_option' and 'options' based on selected configuration
  */
-export default function setProductConfigurableOptions ({ product, configuration, setConfigurableProductOptions }) {
+export default function setProductConfigurableOptions({
+  product,
+  configuration,
+  setConfigurableProductOptions,
+}) {
   // return if there is no 'setConfigurableProductOptions' option
   if (!setConfigurableProductOptions) return
 

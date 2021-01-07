@@ -4,13 +4,13 @@ import { Search } from '@vue-storefront/core/modules/catalog/components/Search'
 export default {
   mixins: [Search],
   computed: {
-    showPanel () {
+    showPanel() {
       return this.isOpen && this.componentLoaded
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       this.componentLoaded = true
     })
-  }
+  },
 }

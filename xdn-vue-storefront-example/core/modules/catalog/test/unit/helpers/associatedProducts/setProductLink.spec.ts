@@ -1,16 +1,20 @@
-import { createBundleProduct, createGroupProduct, createSimpleProduct } from '../../../helpers/createProduct';
-import setProductLink from '@vue-storefront/core/modules/catalog/helpers/associatedProducts/setProductLink';
+import {
+  createBundleProduct,
+  createGroupProduct,
+  createSimpleProduct,
+} from '../../../helpers/createProduct'
+import setProductLink from '@vue-storefront/core/modules/catalog/helpers/associatedProducts/setProductLink'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: (str) => jest.fn()
+  once: str => jest.fn(),
 }))
-jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
-    error: jest.fn(() => () => {})
-  }
-}));
-jest.mock('@vue-storefront/core/store', () => ({}));
+    error: jest.fn(() => () => {}),
+  },
+}))
+jest.mock('@vue-storefront/core/store', () => ({}))
 
 describe('setProductLink helper', () => {
   it('should add product if associatedProduct exist for bundle link', async () => {
@@ -33,7 +37,7 @@ describe('setProductLink helper', () => {
     expect(productLink.product).toStrictEqual(simpleProduct)
     expect(productLink.product.qty).toBe(1)
   })
-  it('should not add product if associatedProduct doesn\'t exist', async () => {
+  it("should not add product if associatedProduct doesn't exist", async () => {
     const groupProduct = createGroupProduct()
     const productLink = groupProduct.product_links[0]
 

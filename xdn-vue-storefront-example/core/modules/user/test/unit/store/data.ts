@@ -19,7 +19,7 @@ let user = {
       region: {
         region_code: null,
         region: null,
-        region_id: 0
+        region_id: 0,
       },
       region_id: 0,
       country_id: 'CountryId',
@@ -29,7 +29,7 @@ let user = {
       city: 'City',
       firstname: 'ExampleFirstName',
       lastname: 'ExampleLastName',
-      default_shipping: true
+      default_shipping: true,
     },
     {
       id: 62,
@@ -37,7 +37,7 @@ let user = {
       region: {
         region_code: null,
         region: null,
-        region_id: 0
+        region_id: 0,
       },
       region_id: 0,
       country_id: 'CountryId',
@@ -49,34 +49,45 @@ let user = {
       firstname: 'ExampleFirstName',
       lastname: 'ExampleLastName',
       vat_id: 'vatidhere42342',
-      default_billing: true
-    }
+      default_billing: true,
+    },
   ],
-  'disable_auto_group_change': 0
-};
-let lastUserToken = 'current-refresh-token';
+  disable_auto_group_change: 0,
+}
+let lastUserToken = 'current-refresh-token'
 let responseOb = {
   code: 200,
   result: lastUserToken,
-  meta: 'meta'
-};
-let email = 'examplename@example.com';
-let username = 'username';
-let password = 'Password456';
+  meta: 'meta',
+}
+let email = 'examplename@example.com'
+let username = 'username'
+let password = 'Password456'
 let customer = {
   email: 'examplename@example.com',
   firstname: 'ExampleFirstName',
   lastname: 'ExampleLastName',
-  addresses: 'addr'
-};
-let ordersHistory = 'orders-history';
-let refresh = true;
-let useCache = true;
-let resolvedFromCache = true;
-let pageSize = 20;
-let currentPage = 1;
+  addresses: 'addr',
+}
+let ordersHistory = 'orders-history'
+let refresh = true
+let useCache = true
+let resolvedFromCache = true
+let pageSize = 20
+let currentPage = 1
 
 export {
-  user, lastUserToken, responseOb, email, username, password, customer,
-  ordersHistory, refresh, useCache, resolvedFromCache, pageSize, currentPage
+  user,
+  lastUserToken,
+  responseOb,
+  email,
+  username,
+  password,
+  customer,
+  ordersHistory,
+  refresh,
+  useCache,
+  resolvedFromCache,
+  pageSize,
+  currentPage,
 }

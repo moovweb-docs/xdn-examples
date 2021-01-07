@@ -9,8 +9,8 @@ const isDefined = product => typeof product !== 'undefined' || product !== null
 
 const applyQty = product => ({
   ...product,
-  qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty
-});
+  qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty,
+})
 
 const applyChecksum = product => ({ ...product, checksum: productChecksum(product) })
 
@@ -21,7 +21,7 @@ const prepareProductsToAdd = (product: CartItem): CartItem[] => {
     .filter(isDefined)
     .map(applyQty)
     .map(p => optimizeProduct(p))
-    .map(applyChecksum);
-};
+    .map(applyChecksum)
+}
 
-export default prepareProductsToAdd;
+export default prepareProductsToAdd

@@ -10,12 +10,12 @@ import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { routerHelper } from '@vue-storefront/core/helpers'
 
-export const UrlDispatchMapper = async (to) => {
+export const UrlDispatchMapper = async to => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })
   return Object.assign({}, to, routeData)
 }
 
-export async function beforeEachGuard (to: Route, from: Route, next) {
+export async function beforeEachGuard(to: Route, from: Route, next) {
   if (RouterManager.isRouteProcessing()) {
     await RouterManager.getRouteLockPromise()
     next()
@@ -25,17 +25,26 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
 
   const path = normalizeUrlPath(to.path)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
-  const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-  if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
+  const isPreviouslyDispatchedDynamicRoute =
+    to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
+  if (
+    !to.matched.length ||
+    to.matched[0].name.endsWith('page-not-found') ||
+    (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)
+  ) {
     const storeCode = currentStoreView().storeCode
     try {
       const routeData = await UrlDispatchMapper(to)
       if (routeData) {
-        let dynamicRoute: LocalizedRoute = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
+        let dynamicRoute: LocalizedRoute = processDynamicRoute(
+          routeData,
+          path,
+          !isPreviouslyDispatchedDynamicRoute
+        )
         if (dynamicRoute) {
           next({
             ...dynamicRoute,
-            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath
+            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath,
           })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()

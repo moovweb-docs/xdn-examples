@@ -16,28 +16,31 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
   store.subscribe((mutation, state) => {
     const type = mutation.type
 
-    if (
-      type.endsWith(types.CHECKOUT_SAVE_PERSONAL_DETAILS)
-    ) {
-      StorageManager.get('checkout').setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
+    if (type.endsWith(types.CHECKOUT_SAVE_PERSONAL_DETAILS)) {
+      StorageManager.get('checkout')
+        .setItem('personal-details', state.checkout.personalDetails)
+        .catch(reason => {
+          Logger.error(reason)() // it doesn't work on SSR
+        }) // populate cache
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE)
+      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) ||
+      type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE)
     ) {
-      StorageManager.get('checkout').setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
+      StorageManager.get('checkout')
+        .setItem('shipping-details', state.checkout.shippingDetails)
+        .catch(reason => {
+          Logger.error(reason)() // it doesn't work on SSR
+        }) // populate cache
     }
 
-    if (
-      type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS)
-    ) {
-      StorageManager.get('checkout').setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
+    if (type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS)) {
+      StorageManager.get('checkout')
+        .setItem('payment-details', state.checkout.paymentDetails)
+        .catch(reason => {
+          Logger.error(reason)() // it doesn't work on SSR
+        }) // populate cache
     }
   })
 }

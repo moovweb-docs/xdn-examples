@@ -5,7 +5,7 @@ const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
   name: 'UserAccount',
-  data () {
+  data() {
     return {
       currentUser: Object.assign({}, this.$store.state.user.current),
       userCompany: {
@@ -17,7 +17,7 @@ export const UserAccount = {
         country: '',
         postcode: '',
         taxId: '',
-        phone: ''
+        phone: '',
       },
       countries: Countries,
       changePassword: false,
@@ -26,10 +26,10 @@ export const UserAccount = {
       rPassword: '',
       addCompany: false,
       isEdited: false,
-      remainInEditMode: false
+      remainInEditMode: false,
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
     this.$bus.$on('myAccount-before-remainInEditMode', block => {
       if (block === 'MyProfile') {
@@ -37,28 +37,28 @@ export const UserAccount = {
       }
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
     this.$bus.$off('myAccount-before-remainInEditMode')
   },
-  mounted () {
+  mounted() {
     this.userCompany = this.getUserCompany()
     if (this.userCompany.company) {
       this.addCompany = true
     }
   },
   methods: {
-    onLoggedIn () {
+    onLoggedIn() {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       this.userCompany = this.getUserCompany()
       if (this.userCompany.company) {
         this.addCompany = true
       }
     },
-    edit () {
+    edit() {
       this.isEdited = true
     },
-    objectsEqual (a, b, excludedFields = []) {
+    objectsEqual(a, b, excludedFields = []) {
       const aProps = Object.keys(a)
       const bProps = Object.keys(b)
 
@@ -71,7 +71,12 @@ export const UserAccount = {
         if (!b.hasOwnProperty(propName)) {
           return false
         } else {
-          if (a[propName] !== null && b[propName] !== null && a[propName] === 'object' && b[propName] === 'object') {
+          if (
+            a[propName] !== null &&
+            b[propName] !== null &&
+            a[propName] === 'object' &&
+            b[propName] === 'object'
+          ) {
             if (!this.objectsEqual(a[propName], b[propName])) {
               return false
             }
@@ -82,20 +87,29 @@ export const UserAccount = {
       }
       return true
     },
-    updateProfile () {
+    updateProfile() {
       let updatedProfile
-      if (!this.objectsEqual(this.currentUser, this.$store.state.user.current, ['updated_at', 'addresses']) ||
+      if (
+        !this.objectsEqual(this.currentUser, this.$store.state.user.current, [
+          'updated_at',
+          'addresses',
+        ]) ||
         !this.objectsEqual(this.userCompany, this.getUserCompany()) ||
         (this.userCompany.company && !this.addCompany)
       ) {
-        updatedProfile = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), [...config.users.allowModification, 'default_billing'])
+        updatedProfile = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), [
+          ...config.users.allowModification,
+          'default_billing',
+        ])
         updatedProfile.firstname = this.currentUser.firstname
         updatedProfile.lastname = this.currentUser.lastname
         updatedProfile.email = this.currentUser.email
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
           for (let i = 0; i < updatedProfile.addresses.length; i++) {
-            if (toString(updatedProfile.addresses[i].id) === toString(updatedProfile.default_billing)) {
+            if (
+              toString(updatedProfile.addresses[i].id) === toString(updatedProfile.default_billing)
+            ) {
               index = i
             }
           }
@@ -104,10 +118,13 @@ export const UserAccount = {
               updatedProfile.addresses[index].firstname = this.currentUser.firstname || ''
               updatedProfile.addresses[index].lastname = this.currentUser.lastname || ''
               updatedProfile.addresses[index].company = this.userCompany.company || ''
-              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house] || ['', '']
+              updatedProfile.addresses[index].street = [
+                this.userCompany.street,
+                this.userCompany.house,
+              ] || ['', '']
               updatedProfile.addresses[index].city = this.userCompany.city || ''
               updatedProfile.addresses[index].region = {
-                region: this.userCompany.region ? this.userCompany.region : null
+                region: this.userCompany.region ? this.userCompany.region : null,
               }
               updatedProfile.addresses[index].country_id = this.userCompany.country || ''
               updatedProfile.addresses[index].postcode = this.userCompany.postcode || ''
@@ -124,7 +141,7 @@ export const UserAccount = {
                 country: '',
                 postcode: '',
                 taxId: '',
-                phone: ''
+                phone: '',
               }
             }
           }
@@ -140,19 +157,19 @@ export const UserAccount = {
             postcode: this.userCompany.postcode,
             vat_id: this.userCompany.taxId,
             telephone: this.userCompany.phone,
-            default_billing: true
+            default_billing: true,
           })
         }
       }
       if (this.password) {
         this.$bus.$emit('myAccount-before-changePassword', {
           currentPassword: this.oldPassword,
-          newPassword: this.password
+          newPassword: this.password,
         })
       }
       this.exitSection(null, updatedProfile)
     },
-    exitSection (event, updatedProfile) {
+    exitSection(event, updatedProfile) {
       this.$bus.$emit('myAccount-before-updateUser', updatedProfile)
       if (!updatedProfile) {
         this.currentUser = Object.assign({}, this.$store.state.user.current)
@@ -170,7 +187,7 @@ export const UserAccount = {
         this.isEdited = false
       }
     },
-    getUserCompany () {
+    getUserCompany() {
       let user = this.$store.state.user.current
       if (user && user.hasOwnProperty('default_billing')) {
         let index
@@ -189,7 +206,7 @@ export const UserAccount = {
             country: user.addresses[index].country_id || '',
             postcode: user.addresses[index].postcode || '',
             taxId: user.addresses[index].vat_id || '',
-            phone: user.addresses[index].telephone || ''
+            phone: user.addresses[index].telephone || '',
           }
         }
       } else {
@@ -202,17 +219,17 @@ export const UserAccount = {
           country: '',
           postcode: '',
           taxId: '',
-          phone: ''
+          phone: '',
         }
       }
     },
-    getCountryName () {
+    getCountryName() {
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].code === this.userCompany.country) {
           return this.countries[i].name
         }
       }
       return ''
-    }
-  }
+    },
+  },
 }

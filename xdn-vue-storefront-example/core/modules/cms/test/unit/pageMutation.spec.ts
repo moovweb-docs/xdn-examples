@@ -12,10 +12,11 @@ describe('Page mutations', () => {
     const cmsPage = ['new-page1', 'new-page2']
     const stateMock = { items: [] }
     const expectedState = {
-      items: ['new-page1', 'new-page2']
+      items: ['new-page1', 'new-page2'],
     }
 
-    const wrapper = (mutations: any) => mutations[types.CMS_PAGE_UPDATE_CMS_PAGES](stateMock, cmsPage)
+    const wrapper = (mutations: any) =>
+      mutations[types.CMS_PAGE_UPDATE_CMS_PAGES](stateMock, cmsPage)
     wrapper(pageMutations)
 
     expect(stateMock).toEqual(expectedState)
@@ -46,7 +47,10 @@ describe('Page mutations', () => {
     const cmsPage = { id: 2, url: 'new-page' }
     const stateMock = { items: [{ id: 1, url: 'old-page' }] }
     const expectedState = {
-      items: [ { id: 1, url: 'old-page' }, { id: 2, url: 'new-page' } ]
+      items: [
+        { id: 1, url: 'old-page' },
+        { id: 2, url: 'new-page' },
+      ],
     }
 
     const wrapper = (mutations: any) => mutations[types.CMS_PAGE_ADD_CMS_PAGE](stateMock, cmsPage)
@@ -59,7 +63,7 @@ describe('Page mutations', () => {
     const cmsPage = { id: 1, url: 'new-page' }
     const stateMock = { items: [{ id: 1, url: 'old-page' }] }
     const expectedState = {
-      items: [ { id: 1, url: 'old-page' } ]
+      items: [{ id: 1, url: 'old-page' }],
     }
 
     const wrapper = (mutations: any) => mutations[types.CMS_PAGE_ADD_CMS_PAGE](stateMock, cmsPage)

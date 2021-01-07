@@ -1,4 +1,4 @@
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer } from '@vue-storefront/core/helpers'
 
 // object - parent object in the config, e.g. config.cart
 // field - field inside the object, e.g. create_endpoint

@@ -4,9 +4,9 @@ export default {
   name: 'Compare',
   mixins: [Compare],
   computed: {
-    all_comparable_attributes () {
+    all_comparable_attributes() {
       // Computed Property renamed to 'allComparableAttributes'
       return this.allComparableAttributes
-    }
-  }
+    },
+  },
 }

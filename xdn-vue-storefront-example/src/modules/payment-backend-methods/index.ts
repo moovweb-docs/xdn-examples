@@ -1,18 +1,18 @@
 import * as types from './store/mutation-types'
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const PaymentBackendMethodsStore = {
   namespaced: true,
   state: {
-    methods: null
+    methods: null,
   },
   mutations: {
-    [types.SET_BACKEND_PAYMENT_METHODS] (state, paymentMethods) {
+    [types.SET_BACKEND_PAYMENT_METHODS](state, paymentMethods) {
       state.methods = paymentMethods
-    }
-  }
+    },
+  },
 }
 
 export const PaymentBackendMethodsModule: StorefrontModule = function ({ store }) {
@@ -36,9 +36,12 @@ export const PaymentBackendMethodsModule: StorefrontModule = function ({ store }
     EventBus.$on('checkout-before-placeOrder', placeOrder)
 
     // Mount the info component when required
-    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
+    EventBus.$on('checkout-payment-method-changed', paymentMethodCode => {
       let methods = store.state['payment-backend-methods'].methods
-      if (methods !== null && methods.find(item => (item.code === paymentMethodCode && item.is_server_method === true))) {
+      if (
+        methods !== null &&
+        methods.find(item => item.code === paymentMethodCode && item.is_server_method === true)
+      ) {
         correctPaymentMethod = true
       } else {
         correctPaymentMethod = false

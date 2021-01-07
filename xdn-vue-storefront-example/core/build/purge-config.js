@@ -4,7 +4,7 @@ const omit = require('lodash/omit')
  * clear config properties that shouldn't be visible on frontend
  */
 module.exports = function loader(source) {
-  let config = JSON.parse(source);
+  let config = JSON.parse(source)
 
   const purgeConfig = (config.purgeConfig || []).slice()
 
@@ -12,5 +12,5 @@ module.exports = function loader(source) {
 
   delete config['purgeConfig']
 
-  return JSON.stringify(config);
+  return JSON.stringify(config)
 }

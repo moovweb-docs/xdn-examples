@@ -2,13 +2,15 @@ import { RawLocation } from 'vue-router'
 import config from 'config'
 import { LocalizedRoute } from './types'
 
-const getNormalizedPath = (matchedRouteOrUrl) => {
+const getNormalizedPath = matchedRouteOrUrl => {
   const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)
 
-  return matchingPath && (matchingPath.length > 0 && matchingPath[0] !== '/') ? `/${matchingPath}` : matchingPath
+  return matchingPath && matchingPath.length > 0 && matchingPath[0] !== '/'
+    ? `/${matchingPath}`
+    : matchingPath
 }
 
-const getUrl = (matchedRouteOrUrl) => {
+const getUrl = matchedRouteOrUrl => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
 
   if (matchedRouteOrUrl && typeof matchedRouteOrUrl === 'object') {
@@ -38,7 +40,10 @@ const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | st
   for (let storeCode of config.storeViews.mapStoreUrlsFor) {
     const store = config.storeViews[storeCode]
 
-    if (isMatchingByPath(matchedRouteOrUrl, store) || isMatchingByDomainAndPath(matchedRouteOrUrl, store)) {
+    if (
+      isMatchingByPath(matchedRouteOrUrl, store) ||
+      isMatchingByDomainAndPath(matchedRouteOrUrl, store)
+    ) {
       return storeCode
     }
   }

@@ -18,7 +18,7 @@ if (config.server.useOutputCache) {
 
   cache = new TagCache({
     redis: redisConfig,
-    defaultTimeout: config.server.outputCacheDefaultTtl
+    defaultTimeout: config.server.outputCacheDefaultTtl,
   })
 }
 

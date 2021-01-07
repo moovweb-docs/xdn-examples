@@ -9,6 +9,6 @@ export const stockModule: Module<StockState, RootState> = {
   actions,
   mutations,
   state: {
-    cache: {}
-  }
+    cache: {},
+  },
 }

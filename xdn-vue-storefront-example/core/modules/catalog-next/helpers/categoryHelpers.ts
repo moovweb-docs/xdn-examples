@@ -16,13 +16,17 @@ export const _prepareCategoryPathIds = (category: Category): string[] => {
   return category.path.split('/')
 }
 
-export const getSearchOptionsFromRouteParams = (params: { [key: string]: string } = {}): Record<string, string> => {
+export const getSearchOptionsFromRouteParams = (
+  params: { [key: string]: string } = {}
+): Record<string, string> => {
   const filterableKeys = entities.category.validSearchOptionsFromRouteParams
   let filters: { [key: string]: string } = {}
 
   Object.keys(params)
     .filter(key => filterableKeys.includes(key))
-    .forEach(key => { filters[key] = params[key] })
+    .forEach(key => {
+      filters[key] = params[key]
+    })
 
   return filters
 }

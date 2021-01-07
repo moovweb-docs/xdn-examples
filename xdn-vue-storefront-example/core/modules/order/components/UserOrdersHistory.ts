@@ -4,28 +4,28 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 export default {
   name: 'UserOrdersHistory',
   mixins: [MyOrders, onBottomScroll],
-  data () {
+  data() {
     return {
       pagination: {
         perPage: 10,
         current: 1,
-        enabled: false
+        enabled: false,
       },
-      lazyLoadOrdersOnScroll: true
+      lazyLoadOrdersOnScroll: true,
     }
   },
   computed: {
-    ordersHistory () {
+    ordersHistory() {
       let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
         items = items.slice(0, (this.pagination.perPage + 1) * this.pagination.current)
       }
       return items
-    }
+    },
   },
   methods: {
-    onBottomScroll () {
+    onBottomScroll() {
       ++this.pagination.current
-    }
-  }
+    },
+  },
 }

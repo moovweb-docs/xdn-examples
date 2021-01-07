@@ -11,7 +11,7 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
 let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
 
-module.exports = function setupDevServer (app, cb) {
+module.exports = function setupDevServer(app, cb) {
   let bundle
   let template
 
@@ -29,8 +29,8 @@ module.exports = function setupDevServer (app, cb) {
     publicPath: clientConfig.output.publicPath,
     stats: {
       colors: true,
-      chunks: false
-    }
+      chunks: false,
+    },
   })
   app.use(devMiddleware)
   clientCompiler.plugin('done', () => {

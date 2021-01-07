@@ -10,13 +10,33 @@ import { createLoadReviewsQuery } from '@vue-storefront/core/modules/review/help
 import { ReviewsService } from '@vue-storefront/core/data-resolver'
 
 const actions: ActionTree<ReviewState, RootState> = {
-  async list (context, { productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null }) {
+  async list(
+    context,
+    {
+      productId,
+      approved = true,
+      start = 0,
+      size = 50,
+      entityType = 'review',
+      sort = '',
+      excludeFields = null,
+      includeFields = null,
+    }
+  ) {
     const query = createLoadReviewsQuery({ productId, approved })
 
-    const reviewResponse = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields })
+    const reviewResponse = await quickSearchByQuery({
+      query,
+      start,
+      size,
+      entityType,
+      sort,
+      excludeFields,
+      includeFields,
+    })
     context.commit(types.REVIEW_UPD_REVIEWS, reviewResponse)
   },
-  async add (context, review: Review) {
+  async add(context, review: Review) {
     EventBus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
     const isReviewCreated = await ReviewsService.createReview(review)
@@ -27,7 +47,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     }
 
     return isReviewCreated
-  }
+  },
 }
 
 export default actions

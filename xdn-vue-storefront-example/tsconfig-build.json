@@ -4,7 +4,5 @@
     "target": "es5",
     "esModuleInterop": true
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  "exclude": ["**/*.spec.ts"]
 }

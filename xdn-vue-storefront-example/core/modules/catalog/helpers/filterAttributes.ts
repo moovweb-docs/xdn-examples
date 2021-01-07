@@ -1,16 +1,16 @@
 import config from 'config'
 
-export default function filterAttributes ({
+export default function filterAttributes({
   filterValues,
   filterField,
   blacklist,
   idsList,
-  codesList
+  codesList,
 }: {
-  filterValues: string[],
-  filterField: string,
-  blacklist: string[],
-  idsList: any,
+  filterValues: string[]
+  filterField: string
+  blacklist: string[]
+  idsList: any
   codesList: any
 }) {
   return filterValues.filter(fv => {
@@ -21,10 +21,10 @@ export default function filterAttributes ({
       return false
     }
     if (filterField === 'attribute_id') {
-      return (typeof idsList[fv] === 'undefined' || idsList[fv] === null)
+      return typeof idsList[fv] === 'undefined' || idsList[fv] === null
     }
     if (filterField === 'attribute_code') {
-      return (typeof codesList[fv] === 'undefined' || codesList[fv] === null)
+      return typeof codesList[fv] === 'undefined' || codesList[fv] === null
     }
   })
 }

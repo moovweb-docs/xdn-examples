@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 /**
  * Component responsible for displaying single user order. Requires User module.
@@ -7,32 +7,32 @@ export const UserSingleOrder = {
   name: 'UserSingleOrder',
   computed: {
     ...mapGetters({
-      ordersHistory: 'user/getOrdersHistory'
+      ordersHistory: 'user/getOrdersHistory',
     }),
-    order () {
-      return this.ordersHistory.find(order =>
-        parseInt(order.entity_id) === parseInt(this.$route.params.orderId)
+    order() {
+      return this.ordersHistory.find(
+        order => parseInt(order.entity_id) === parseInt(this.$route.params.orderId)
       )
     },
-    paymentMethod () {
+    paymentMethod() {
       return this.order && this.order.payment.additional_information[0]
     },
-    billingAddress () {
+    billingAddress() {
       return this.order && this.order.billing_address
     },
-    shippingAddress () {
+    shippingAddress() {
       return this.order && this.order.extension_attributes.shipping_assignments[0].shipping.address
     },
-    singleOrderItems () {
+    singleOrderItems() {
       if (!this.order) return []
 
-      return this.order.items.filter((item) => {
+      return this.order.items.filter(item => {
         return !item.parent_item_id
       })
-    }
+    },
   },
   methods: {
-    async remakeOrder (products) {
+    async remakeOrder(products) {
       this.$bus.$emit('notification-progress-start', this.$t('Please wait ...'))
       const productsToAdd = []
       for (const item of products) {
@@ -45,10 +45,10 @@ export const UserSingleOrder = {
       // Redirect to the cart straight away.
       this.$router.push(this.localizedRoute('/checkout'))
     },
-    skipGrouped (items) {
-      return items.filter((item) => {
+    skipGrouped(items) {
+      return items.filter(item => {
         return !item.parent_item_id
       })
-    }
-  }
+    },
+  },
 }

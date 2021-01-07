@@ -1,6 +1,6 @@
 /* eslint no-undef: 0 */
 
-Cypress.Commands.add('internalNavigation', (selector) => {
+Cypress.Commands.add('internalNavigation', selector => {
   // create random numbre which will be checked after page change
   cy.window().then(win => {
     // add random number to window object
@@ -8,15 +8,20 @@ Cypress.Commands.add('internalNavigation', (selector) => {
   })
   // change page by clicking link
   cy.get(selector).click()
-  cy.window()
-    .then(win => {
-      if (!win.e2eInternalNavigationKey) {
-        cy.log(`After clicking on link ${selector} page was reloaded. Please use 'router-link' or 'nuxt-link' instead of native link`)
-      }
-      // check if page was reloaded, if it wasn't reloaded then it should pass, because window should be still the same
-      cy.wrap({ e2eInternalNavigationKey: win.e2eInternalNavigationKey }).should('have.property', 'e2eInternalNavigationKey', 'test-key')
-      cy.log(`Internal page navigation was successfull`)
-    })
+  cy.window().then(win => {
+    if (!win.e2eInternalNavigationKey) {
+      cy.log(
+        `After clicking on link ${selector} page was reloaded. Please use 'router-link' or 'nuxt-link' instead of native link`
+      )
+    }
+    // check if page was reloaded, if it wasn't reloaded then it should pass, because window should be still the same
+    cy.wrap({ e2eInternalNavigationKey: win.e2eInternalNavigationKey }).should(
+      'have.property',
+      'e2eInternalNavigationKey',
+      'test-key'
+    )
+    cy.log(`Internal page navigation was successfull`)
+  })
 })
 // ***********************************************
 // This example commands.js shows you how to

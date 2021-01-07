@@ -4,11 +4,11 @@ export default {
   props: {
     routes: {
       type: Array,
-      required: true
+      required: true,
     },
     activeRoute: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }

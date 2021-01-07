@@ -15,7 +15,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
 
-function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
+function getExtendedStoreviewConfig(storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
@@ -36,24 +36,27 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
 /**
  * Returns base storeView object that can be created without storeCode
  */
-function buildBaseStoreView (): StoreView {
+function buildBaseStoreView(): StoreView {
   return cloneDeep({
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
-    seo: config.seo
+    storeId:
+      config.defaultStoreCode && config.defaultStoreCode !== ''
+        ? config.storeViews[config.defaultStoreCode].storeId
+        : 1,
+    seo: config.seo,
   })
 }
 
-export function currentStoreView (): StoreView {
+export function currentStoreView(): StoreView {
   const serverStoreView = get(global, 'process.storeView', undefined)
   const clientStoreView = get(rootStore, 'state.storeView', undefined)
   return (isServer ? serverStoreView : clientStoreView) || buildBaseStoreView()
 }
 
-export async function prepareStoreView (storeCode: string): Promise<StoreView> {
+export async function prepareStoreView(storeCode: string): Promise<StoreView> {
   let storeView: StoreView = buildBaseStoreView() // current, default store
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
@@ -61,9 +64,14 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     storeView.storeCode = storeCode || ''
   }
 
-  const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
+  const storeViewHasChanged =
+    !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
-  if (storeView.storeCode && config.storeViews.multistore === true && config.storeViews[storeView.storeCode]) {
+  if (
+    storeView.storeCode &&
+    config.storeViews.multistore === true &&
+    config.storeViews[storeView.storeCode]
+  ) {
     storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
   }
 
@@ -76,7 +84,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     rootStore.state.storeView = storeView
 
     if (global && isServer) {
-      (global.process as any).storeView = storeView
+      ;(global.process as any).storeView = storeView
     }
 
     await loadLanguageAsync(storeView.i18n.defaultLocale)
@@ -91,7 +99,9 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   return storeView
 }
 
-export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
+export function removeStoreCodeFromRoute(
+  matchedRouteOrUrl: LocalizedRoute | string
+): LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
     let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
@@ -101,37 +111,40 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
   }
 }
 
-function removeURLQueryParameter (url, parameter) {
+function removeURLQueryParameter(url, parameter) {
   // prefer to use l.search if you have a location/link object
-  var urlparts = url.split('?');
+  var urlparts = url.split('?')
   if (urlparts.length >= 2) {
-    var prefix = encodeURIComponent(parameter) + '=';
-    var pars = urlparts[1].split(/[&;]/g);
+    var prefix = encodeURIComponent(parameter) + '='
+    var pars = urlparts[1].split(/[&;]/g)
 
     // reverse iteration as may be destructive
-    for (var i = pars.length; i-- > 0;) {
+    for (var i = pars.length; i-- > 0; ) {
       // idiom for string.startsWith
       if (pars[i].lastIndexOf(prefix, 0) !== -1) {
-        pars.splice(i, 1);
+        pars.splice(i, 1)
       }
     }
 
-    return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
+    return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '')
   }
-  return url;
+  return url
 }
 
-export function adjustMultistoreApiUrl (url: string): string {
+export function adjustMultistoreApiUrl(url: string): string {
   const { storeCode } = currentStoreView()
   if (storeCode) {
     url = removeURLQueryParameter(url, 'storeCode')
-    const urlSep = (url.indexOf('?') > 0) ? '&' : '?'
+    const urlSep = url.indexOf('?') > 0 ? '&' : '?'
     url += `${urlSep}storeCode=${storeCode}`
   }
   return url
 }
 
-export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode?: string): LocalizedRoute | string {
+export function localizedDispatcherRoute(
+  routeObj: LocalizedRoute | string,
+  storeCode?: string
+): LocalizedRoute | string {
   const { storeCode: currentStoreCode, appendStoreCode } = currentStoreView()
   if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreCode
@@ -144,13 +157,15 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   }
 
   if (routeObj) {
-    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) {
+      // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
 
-    if (routeObj.path) { // case of using dispatcher
+    if (routeObj.path) {
+      // case of using dispatcher
       const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : ''
-      const qrStr = queryString.stringify(routeObj.params);
+      const qrStr = queryString.stringify(routeObj.params)
 
       const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
       return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
@@ -160,7 +175,11 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
+export function localizedDispatcherRouteName(
+  routeName: string,
+  storeCode: string,
+  appendStoreCode: boolean = false
+): string {
   if (appendStoreCode) {
     return `${storeCode}-${routeName}`
   }
@@ -172,7 +191,7 @@ export function localizedDispatcherRouteName (routeName: string, storeCode: stri
  * @param path - route path
  * @param storeCode - language prefix specified in global config
  */
-export function localizedRoutePath (path: string, storeCode: string): string {
+export function localizedRoutePath(path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
 
   return `/${storeCode}/${_path}`
@@ -184,7 +203,11 @@ export function localizedRoutePath (path: string, storeCode: string): string {
  * @param storeCode - language prefix specified in global config
  * @param isChildRoute - determines if route config is for child route
  */
-export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
+export function localizedRouteConfig(
+  route: RouteConfig,
+  storeCode: string,
+  isChildRoute: boolean = false
+): RouteConfig {
   // note: we need shallow copy to prevent modifications in provided route object
   const _route = { ...route }
 
@@ -197,13 +220,18 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
   }
 
   if (_route.children) {
-    _route.children = _route.children.map(childRoute => localizedRouteConfig(childRoute, storeCode, true))
+    _route.children = _route.children.map(childRoute =>
+      localizedRouteConfig(childRoute, storeCode, true)
+    )
   }
 
   return _route
 }
 
-export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string = null): any {
+export function localizedRoute(
+  routeObj: LocalizedRoute | string | RouteConfig | RawLocation,
+  storeCode: string = null
+): any {
   if (!storeCode) {
     storeCode = currentStoreView().storeCode
   }
@@ -211,13 +239,19 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     return routeObj
   }
 
-  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
-    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+  if (typeof routeObj === 'object' && (routeObj as LocalizedRoute)) {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) {
+      // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
   }
 
-  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+  if (
+    storeCode &&
+    config.defaultStoreCode !== storeCode &&
+    config.storeViews[storeCode] &&
+    config.storeViews[storeCode].appendStoreCode
+  ) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }
@@ -227,7 +261,12 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
+export function setupMultistoreRoutes(
+  config,
+  router: VueRouter,
+  routes: RouteConfig[],
+  priority: number = 0
+): void {
   const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {

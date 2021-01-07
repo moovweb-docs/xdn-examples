@@ -4,7 +4,7 @@ import SubscriptionStatus from '../../../mixins/SubscriptionStatus'
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
-  required: {}
+  required: {},
 }))
 
 describe('SubscriptionStatus', () => {
@@ -17,34 +17,34 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => false)
+            isSubscribed: jest.fn(() => false),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           state: {
             current: {
-              email: 'e@ma.il'
-            }
+              email: 'e@ma.il',
+            },
           },
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
     mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
-          $on: jest.fn()
-        }
-      }
+          $on: jest.fn(),
+        },
+      },
     })
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
@@ -55,32 +55,32 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => false)
+            isSubscribed: jest.fn(() => false),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           state: {
-            current: null
+            current: null,
           },
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
     mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
-          $on: jest.fn()
-        }
-      }
+          $on: jest.fn(),
+        },
+      },
     })
 
     expect(storeMock.modules.newsletter.actions.status).not.toBeCalled()
@@ -91,17 +91,17 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => false)
+            isSubscribed: jest.fn(() => false),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
     const busOnHook = jest.fn()
@@ -111,13 +111,13 @@ describe('SubscriptionStatus', () => {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
           $on: busOnHook,
-          $off: busOffHook
-        }
-      }
+          $off: busOffHook,
+        },
+      },
     })
 
     wrapper.destroy()
@@ -131,22 +131,22 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => false)
+            isSubscribed: jest.fn(() => false),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           state: {
             current: {
-              email: 'e@ma.il'
-            }
+              email: 'e@ma.il',
+            },
           },
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
     const busOnHook = jest.fn()
@@ -156,13 +156,13 @@ describe('SubscriptionStatus', () => {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
           $on: busOnHook,
-          $off: busOffHook
-        }
-      }
+          $off: busOffHook,
+        },
+      },
     })
 
     wrapper.destroy()
@@ -177,30 +177,35 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => true)
+            isSubscribed: jest.fn(() => true),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
-    const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
-      mocks: {
-        $emit: jest.fn(),
-        $v: {
-          $invalid: false
+    const wrapper = mountMixinWithStore(
+      SubscriptionStatus,
+      storeMock,
+      {
+        mocks: {
+          $emit: jest.fn(),
+          $v: {
+            $invalid: false,
+          },
+          $bus: {
+            $on: jest.fn(),
+          },
         },
-        $bus: {
-          $on: jest.fn()
-        }
-      }
-    }, "<p v-if='isSubscribed'>should be displayed</p>")
+      },
+      "<p v-if='isSubscribed'>should be displayed</p>"
+    )
 
     expect(wrapper).toMatchInlineSnapshot('<p>should be displayed</p>')
   })
@@ -210,37 +215,37 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => true)
+            isSubscribed: jest.fn(() => true),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           namespaced: true,
           state: {
             current: {
-              email: 'john@doe.com'
-            }
-          }
-        }
-      }
+              email: 'john@doe.com',
+            },
+          },
+        },
+      },
     }
 
     const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
-          $on: jest.fn()
-        }
-      }
-    });
+          $on: jest.fn(),
+        },
+      },
+    })
 
-    (wrapper.vm as any).onLoggedIn()
+    ;(wrapper.vm as any).onLoggedIn()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })
@@ -250,37 +255,37 @@ describe('SubscriptionStatus', () => {
       modules: {
         newsletter: {
           actions: {
-            status: jest.fn(() => true)
+            status: jest.fn(() => true),
           },
           getters: {
-            isSubscribed: jest.fn(() => true)
+            isSubscribed: jest.fn(() => true),
           },
-          namespaced: true
+          namespaced: true,
         },
         user: {
           namespaced: true,
           state: {
             current: {
-              email: 'john@doe.com'
-            }
-          }
-        }
-      }
+              email: 'john@doe.com',
+            },
+          },
+        },
+      },
     }
 
     const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
-          $invalid: false
+          $invalid: false,
         },
         $bus: {
-          $on: jest.fn()
-        }
-      }
-    });
+          $on: jest.fn(),
+        },
+      },
+    })
 
-    (wrapper.vm as any).onLoggedIn()
+    ;(wrapper.vm as any).onLoggedIn()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })

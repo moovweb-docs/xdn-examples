@@ -18,7 +18,7 @@ const isBottomVisible = () => {
  * It will be invoked when view reach the bottom.
  */
 export default {
-  mounted () {
+  mounted() {
     const scrollHandler = () => {
       if (isBottomVisible()) {
         this.onBottomScroll()
@@ -28,5 +28,5 @@ export default {
     this.$once('hook:destroyed', () => {
       document.removeEventListener('scroll', scrollHandler)
     })
-  }
+  },
 }

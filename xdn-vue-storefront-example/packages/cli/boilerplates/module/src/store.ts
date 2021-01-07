@@ -1,16 +1,16 @@
 export const ExampleStore = {
   state: {
-    message: 'Hello World'
-  }
+    message: 'Hello World',
+  },
 }
 
 export const ExtendProductStore = {
   actions: {
     state: {
-      newprop: null
+      newprop: null,
     },
-    list () {
+    list() {
       console.log('Hello from extended action')
-    }
-  }
+    },
+  },
 }

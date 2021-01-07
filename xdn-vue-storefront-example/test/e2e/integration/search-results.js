@@ -9,7 +9,8 @@ describe('Search results', () => {
     cy.get('[data-testid=searchPanel] [data-testid=productLink]').first().as('firstResult')
     cy.get('@firstResult')
       .should('be.visible')
-      .find('.product-image__thumb').eq(1)
+      .find('.product-image__thumb')
+      .eq(1)
       .should(
         'have.attr',
         'src',
@@ -29,7 +30,8 @@ describe('Search results', () => {
     cy.get('[data-testid=searchPanel] [data-testid=productLink]').first().as('firstResult')
     cy.get('@firstResult')
       .should('be.visible')
-      .find('.product-image__thumb').eq(1)
+      .find('.product-image__thumb')
+      .eq(1)
       .should(
         'have.attr',
         'src',

@@ -3,9 +3,9 @@ import config from 'config'
 
 jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/helpers', () => ({
-  get isServer () {
+  get isServer() {
     return true
-  }
+  },
 }))
 
 describe('Logger', () => {
@@ -25,7 +25,7 @@ describe('Logger', () => {
     jest.clearAllMocks()
     config.console = {
       verbosityLevel: 'display-everything',
-      showErrorOnProduction: true
+      showErrorOnProduction: true,
     }
     process.env = Object.assign({}, env)
   })
@@ -121,7 +121,7 @@ describe('Logger', () => {
   })
 
   describe('debug', () => {
-    it('doesn\'t display message if logger is configured not to log it', () => {
+    it("doesn't display message if logger is configured not to log it", () => {
       jest.isolateModules(() => {
         config.console.verbosityLevel = 'none'
 
@@ -212,7 +212,7 @@ describe('Logger', () => {
   })
 
   describe('info', () => {
-    it('doesn\'t display message if logger is configured not to log it', () => {
+    it("doesn't display message if logger is configured not to log it", () => {
       jest.isolateModules(() => {
         config.console.verbosityLevel = 'none'
 
@@ -275,7 +275,7 @@ describe('Logger', () => {
   })
 
   describe('warn', () => {
-    it('doesn\'t display message if logger is configured not to log it', () => {
+    it("doesn't display message if logger is configured not to log it", () => {
       jest.isolateModules(() => {
         config.console.verbosityLevel = 'none'
 
@@ -356,7 +356,7 @@ describe('Logger', () => {
       })
     })
 
-    it('doesn\'t display message if logger is configured not to log it and not in SSR mode', () => {
+    it("doesn't display message if logger is configured not to log it and not in SSR mode", () => {
       jest.isolateModules(() => {
         isServerSpy.mockReturnValueOnce(false)
         config.console.verbosityLevel = 'none'

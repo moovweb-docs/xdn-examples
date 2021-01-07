@@ -1,24 +1,32 @@
 import Vuex from 'vuex'
-import { shallowMount, createLocalVue, Wrapper, ThisTypedShallowMountOptions } from '@vue/test-utils';
-import Vue, { ComponentOptions } from 'vue';
+import {
+  shallowMount,
+  createLocalVue,
+  Wrapper,
+  ThisTypedShallowMountOptions,
+} from '@vue/test-utils'
+import Vue, { ComponentOptions } from 'vue'
 
 export const mountMixin = <V extends Vue>(
   component: ComponentOptions<V>,
   mountOptions: ThisTypedShallowMountOptions<V> = {},
   template = '<div />'
 ): Wrapper<V> => {
-  const localVue = createLocalVue();
+  const localVue = createLocalVue()
 
-  localVue.use(Vuex);
+  localVue.use(Vuex)
 
-  return shallowMount({
-    template,
-    mixins: [component]
-  }, {
-    localVue,
-    ...mountOptions
-  })
-};
+  return shallowMount(
+    {
+      template,
+      mixins: [component],
+    },
+    {
+      localVue,
+      ...mountOptions,
+    }
+  )
+}
 
 export const mountMixinWithStore = <V extends Vue>(
   component: ComponentOptions<V>,
@@ -26,23 +34,26 @@ export const mountMixinWithStore = <V extends Vue>(
   mountOptions: ThisTypedShallowMountOptions<V> = {},
   template = '<div />'
 ): Wrapper<V> => {
-  const localVue = createLocalVue();
+  const localVue = createLocalVue()
 
-  localVue.use(Vuex);
+  localVue.use(Vuex)
 
   const store = new Vuex.Store({
-    ...storeOptions
-  });
-
-  return shallowMount({
-    template,
-    mixins: [component]
-  }, {
-    store,
-    localVue,
-    ...mountOptions
+    ...storeOptions,
   })
-};
+
+  return shallowMount(
+    {
+      template,
+      mixins: [component],
+    },
+    {
+      store,
+      localVue,
+      ...mountOptions,
+    }
+  )
+}
 
 export const createContextMock = (props = {}) => ({
   // @ts-ignore
@@ -50,5 +61,5 @@ export const createContextMock = (props = {}) => ({
   // @ts-ignore
   dispatch: jest.fn(),
   // @ts-ignore
-  ...props
+  ...props,
 })

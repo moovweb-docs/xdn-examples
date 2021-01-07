@@ -12,11 +12,11 @@ describe('compareMountedMixin', () => {
       modules: {
         compare: {
           actions: {
-            load: jest.fn()
+            load: jest.fn(),
           },
-          namespaced: true
-        }
-      }
+          namespaced: true,
+        },
+      },
     }
 
     mountMixinWithStore(compareMountedMixin, storeMock)

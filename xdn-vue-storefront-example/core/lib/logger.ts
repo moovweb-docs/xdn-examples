@@ -1,24 +1,25 @@
 import { isServer } from '@vue-storefront/core/helpers'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import buildTimeConfig from 'config'
-const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
+const bgColorStyle = color =>
+  `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
 class Logger {
   /**
    * Logger verbosity level
    */
-  public verbosityLevel: string;
+  public verbosityLevel: string
 
   /**
    * Is production environment
    */
-  public isProduction: boolean;
+  public isProduction: boolean
 
   /**
    * Force to show error on production
    */
-  public showErrorOnProduction: boolean;
+  public showErrorOnProduction: boolean
 
   /**
    * Logger constructor
@@ -26,7 +27,10 @@ class Logger {
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  public constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
+  public constructor(
+    verbosityLevel: string = 'display-everything',
+    showErrorOnProduction: boolean = false
+  ) {
     this.verbosityLevel = verbosityLevel
     this.showErrorOnProduction = showErrorOnProduction
     this.isProduction = process.env.NODE_ENV === 'production'
@@ -36,8 +40,9 @@ class Logger {
    * Convert message to string - as it may be object, array either primitive
    * @param payload
    */
-  public convertToString (payload: any) {
-    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
+  public convertToString(payload: any) {
+    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number')
+      return payload
     if (payload && payload.message) return payload.message
     return JSON.stringify(payload)
   }
@@ -47,12 +52,15 @@ class Logger {
    *
    * @param {string} method
    */
-  public canPrint (method: string) {
+  public canPrint(method: string) {
     const allowedMethods = []
 
     if (this.verbosityLevel === 'display-everything' && this.isProduction === false) {
       allowedMethods.push(...['info', 'warn', 'error', 'debug'])
-    } else if (this.verbosityLevel === 'only-errors' && (this.isProduction === false || this.showErrorOnProduction === true)) {
+    } else if (
+      this.verbosityLevel === 'only-errors' &&
+      (this.isProduction === false || this.showErrorOnProduction === true)
+    ) {
       allowedMethods.push('error')
     }
 
@@ -67,25 +75,48 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public debug (message: any, tag: string = null, context: any = null): () => void {
+  public debug(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('debug')) {
       return () => {}
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'debug', message, tag, context }))
+    ;({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({
+      type: 'debug',
+      message,
+      tag,
+      context,
+    }))
     if (noDefaultOutput === true) {
       return () => {}
     }
 
     if (isServer) {
-      return console.debug.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+      return console.debug.bind(
+        console,
+        (tag ? `[${tag}] ` : '') + this.convertToString(message),
+        context
+      )
     }
 
     if (tag) {
-      return console.debug.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context)
+      return console.debug.bind(
+        window.console,
+        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
+        bgColorStyle('grey'),
+        'color: inherit',
+        bgColorStyle('gray'),
+        'font-weight: normal',
+        context
+      )
     } else {
-      return console.debug.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('grey'), 'font-weight: normal', context)
+      return console.debug.bind(
+        window.console,
+        '%cVSF%c ' + this.convertToString(message),
+        bgColorStyle('grey'),
+        'font-weight: normal',
+        context
+      )
     }
   }
 
@@ -97,7 +128,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public log (message: any, tag: string = null, context: any = null): () => void {
+  public log(message: any, tag: string = null, context: any = null): () => void {
     return this.info(message, tag, context)
   }
 
@@ -109,25 +140,48 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public info (message: any, tag: string = null, context: any = null): () => void {
+  public info(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('info')) {
       return () => {}
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'info', message, tag, context }))
+    ;({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({
+      type: 'info',
+      message,
+      tag,
+      context,
+    }))
     if (noDefaultOutput === true) {
       return () => {}
     }
 
     if (isServer) {
-      return console.log.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+      return console.log.bind(
+        console,
+        (tag ? `[${tag}] ` : '') + this.convertToString(message),
+        context
+      )
     }
 
     if (tag) {
-      return console.log.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
+      return console.log.bind(
+        window.console,
+        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
+        bgColorStyle('green'),
+        'color: inherit',
+        bgColorStyle('gray'),
+        'font-weight: bold',
+        context
+      )
     } else {
-      return console.log.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('green'), 'font-weight: bold', context)
+      return console.log.bind(
+        window.console,
+        '%cVSF%c ' + this.convertToString(message),
+        bgColorStyle('green'),
+        'font-weight: bold',
+        context
+      )
     }
   }
 
@@ -139,25 +193,48 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public warn (message: any, tag: string = null, context: any = null): () => void {
+  public warn(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('warn')) {
       return () => {}
     }
 
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'warn', message, tag, context }))
+    ;({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({
+      type: 'warn',
+      message,
+      tag,
+      context,
+    }))
     if (noDefaultOutput === true) {
       return () => {}
     }
 
     if (isServer) {
-      return console.warn.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+      return console.warn.bind(
+        console,
+        (tag ? `[${tag}] ` : '') + this.convertToString(message),
+        context
+      )
     }
 
     if (tag) {
-      return console.warn.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
+      return console.warn.bind(
+        window.console,
+        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
+        bgColorStyle('orange'),
+        'color: inherit',
+        bgColorStyle('gray'),
+        'font-weight: bold',
+        context
+      )
     } else {
-      return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context)
+      return console.warn.bind(
+        window.console,
+        '%cVSF%c ' + this.convertToString(message),
+        bgColorStyle('orange'),
+        'font-weight: bold',
+        context
+      )
     }
   }
 
@@ -169,22 +246,46 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public error (message: any, tag: string = null, context: any = null): () => void {
+  public error(message: any, tag: string = null, context: any = null): () => void {
     let noDefaultOutput
-    ({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({ type: 'error', message, tag, context }))
+    ;({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({
+      type: 'error',
+      message,
+      tag,
+      context,
+    }))
     if (noDefaultOutput === true) {
       return () => {}
     }
 
-    if (isServer) { // always show errors in SSR
-      return console.error.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+    if (isServer) {
+      // always show errors in SSR
+      return console.error.bind(
+        console,
+        (tag ? `[${tag}] ` : '') + this.convertToString(message),
+        context
+      )
     }
 
     if (this.canPrint('error')) {
       if (tag) {
-        return console.error.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
+        return console.error.bind(
+          window.console,
+          '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
+          bgColorStyle('red'),
+          'color: inherit',
+          bgColorStyle('gray'),
+          'font-weight: bold',
+          context
+        )
       } else {
-        return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context)
+        return console.error.bind(
+          window.console,
+          '%cVSF%c ' + this.convertToString(message),
+          bgColorStyle('red'),
+          'font-weight: bold',
+          context
+        )
       }
     }
 

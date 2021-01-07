@@ -4,8 +4,13 @@ const cache = require('./utils/cache-instance')
 
 program
   .command('clear')
-  .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')
-  .action((cmd) => { // TODO: add parallel processing
+  .option(
+    '-t|--tag <tag>',
+    'tag name, available tags: ' + config.server.availableCacheTags.join(', '),
+    '*'
+  )
+  .action(cmd => {
+    // TODO: add parallel processing
     if (!cmd.tag) {
       console.error('error: tag must be specified')
       process.exit(1)
@@ -19,22 +24,29 @@ program
       }
       const subPromises = []
       tags.forEach(tag => {
-        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
-          return tag.indexOf(t) === 0
-        })) {
-          subPromises.push(cache.invalidate(tag).then(() => {
-            console.log(`Tags invalidated successfully for [${tag}]`)
-          }))
+        if (
+          config.server.availableCacheTags.indexOf(tag) >= 0 ||
+          config.server.availableCacheTags.find(t => {
+            return tag.indexOf(t) === 0
+          })
+        ) {
+          subPromises.push(
+            cache.invalidate(tag).then(() => {
+              console.log(`Tags invalidated successfully for [${tag}]`)
+            })
+          )
         } else {
           console.error(`Invalid tag name ${tag}`)
         }
       })
-      Promise.all(subPromises).then(r => {
-        console.log(`All tags invalidated successfully [${cmd.tag}]`)
-        process.exit(0)
-      }).catch(error => {
-        console.error(error)
-      })
+      Promise.all(subPromises)
+        .then(r => {
+          console.log(`All tags invalidated successfully [${cmd.tag}]`)
+          process.exit(0)
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   })
 

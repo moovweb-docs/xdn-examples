@@ -39,7 +39,11 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
+const createApp = async (
+  ssrContext,
+  config,
+  storeCode = null
+): Promise<{ app: Vue; router: VueRouter; store: Store<RootState>; initialState: RootState }> => {
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
@@ -47,14 +51,14 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION
   store.state.config = config // @deprecated
-  store.state.__DEMO_MODE__ = (config.demomode === true)
+  store.state.__DEMO_MODE__ = config.demomode === true
   if (ssrContext) {
     // @deprecated - we shouldn't share server context between requests
     Vue.prototype.$ssrRequestContext = {
       output: {
-        cacheTags: ssrContext.output.cacheTags
+        cacheTags: ssrContext.output.cacheTags,
       },
-      userAgent: ssrContext.server.request.headers['user-agent']
+      userAgent: ssrContext.server.request.headers['user-agent'],
     }
 
     Vue.prototype.$cacheTags = ssrContext.output.cacheTags
@@ -68,7 +72,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, { attempt: 2, preLoad: 1.5 })
     Vue.use(Meta, {
-      ssrAppId: 1
+      ssrAppId: 1,
     })
     Vue.use(VueObserveVisibility)
 
@@ -89,7 +93,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     router: routerProxy,
     store,
     i18n,
-    render: h => h(themeEntry)
+    render: h => h(themeEntry),
   }
 
   const apolloProvider = await getApolloProvider()
@@ -99,7 +103,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
 
   const appContext = {
     isServer,
-    ssrContext
+    ssrContext,
   }
 
   injectReferences(app, store, routerProxy, globalConfig)
@@ -113,7 +117,12 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router: routerProxy, store, initialState: stateFactory.createInitialState(store.state) }
+  return {
+    app,
+    router: routerProxy,
+    store,
+    initialState: stateFactory.createInitialState(store.state),
+  }
 }
 
 export { routerProxy as router, createApp, router as baseRouter }

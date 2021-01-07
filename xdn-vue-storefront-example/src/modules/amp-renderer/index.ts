@@ -6,8 +6,8 @@ import config from 'config'
 const ampRendererStore = {
   namespaced: true,
   state: {
-    key: null
-  }
+    key: null,
+  },
 }
 
 export const AmpRendererModule: StorefrontModule = function ({ store, router }) {

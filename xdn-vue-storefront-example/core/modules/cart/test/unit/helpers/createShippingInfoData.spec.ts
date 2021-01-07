@@ -1,22 +1,22 @@
-import createShippingInfoData from './../../../helpers/createShippingInfoData';
+import createShippingInfoData from './../../../helpers/createShippingInfoData'
 
 describe('Cart createShippingInfoData', () => {
   it('returns methods data', async () => {
     const methodsData = {
       country: 'UK',
       carrier_code: 'XX',
-      method_code: 'YY'
-    };
-    const shippingInfoData = createShippingInfoData(methodsData);
+      method_code: 'YY',
+    }
+    const shippingInfoData = createShippingInfoData(methodsData)
     expect(shippingInfoData).toEqual({
       billingAddress: {},
       shippingAddress: {
-        countryId: 'UK'
+        countryId: 'UK',
       },
       shippingCarrierCode: 'XX',
-      shippingMethodCode: 'YY'
-    });
-  });
+      shippingMethodCode: 'YY',
+    })
+  })
 
   it('returns methods data with shipping address', async () => {
     const methodsData = {
@@ -28,10 +28,10 @@ describe('Cart createShippingInfoData', () => {
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
-        street: ['JohnDoe street']
-      }
-    };
-    const shippingInfoData = createShippingInfoData(methodsData);
+        street: ['JohnDoe street'],
+      },
+    }
+    const shippingInfoData = createShippingInfoData(methodsData)
     expect(shippingInfoData).toEqual({
       billingAddress: {},
       shippingAddress: {
@@ -40,12 +40,12 @@ describe('Cart createShippingInfoData', () => {
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
-        street: ['JohnDoe street']
+        street: ['JohnDoe street'],
       },
       shippingCarrierCode: 'XX',
-      shippingMethodCode: 'YY'
-    });
-  });
+      shippingMethodCode: 'YY',
+    })
+  })
 
   it('returns methods data with billing address', async () => {
     const methodsData = {
@@ -58,10 +58,10 @@ describe('Cart createShippingInfoData', () => {
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
-        street: ['JohnDoe street']
-      }
-    };
-    const shippingInfoData = createShippingInfoData(methodsData);
+        street: ['JohnDoe street'],
+      },
+    }
+    const shippingInfoData = createShippingInfoData(methodsData)
     expect(shippingInfoData).toEqual({
       shippingAddress: { countryId: 'UK' },
       billingAddress: {
@@ -70,23 +70,23 @@ describe('Cart createShippingInfoData', () => {
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
-        street: ['JohnDoe street']
+        street: ['JohnDoe street'],
       },
       shippingCarrierCode: 'XX',
-      shippingMethodCode: 'YY'
-    });
-  });
+      shippingMethodCode: 'YY',
+    })
+  })
 
   it('doesn\t add shippingCarrierCode or shippingMethodCode if missing carrier_code or method_code', async () => {
     const methodsData = {
-      country: 'UK'
-    };
-    const shippingInfoData = createShippingInfoData(methodsData);
+      country: 'UK',
+    }
+    const shippingInfoData = createShippingInfoData(methodsData)
     expect(shippingInfoData).toEqual({
       billingAddress: {},
       shippingAddress: {
-        countryId: 'UK'
-      }
-    });
-  });
-});
+        countryId: 'UK',
+      },
+    })
+  })
+})

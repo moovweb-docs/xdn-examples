@@ -7,7 +7,11 @@ const getThumbnailForProduct = (product: CartItem): string => {
   const thumbnail = productThumbnailPath(product)
 
   if (typeof navigator !== 'undefined' && !navigator.onLine) {
-    return getThumbnailPath(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
+    return getThumbnailPath(
+      thumbnail,
+      config.products.thumbnails.width,
+      config.products.thumbnails.height
+    )
   }
 
   return getThumbnailPath(thumbnail, config.cart.thumbnails.width, config.cart.thumbnails.height)

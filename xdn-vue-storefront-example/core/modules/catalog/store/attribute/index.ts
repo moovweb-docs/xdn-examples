@@ -11,9 +11,9 @@ export const attributeModule: Module<AttributeState, RootState> = {
     list_by_code: {},
     list_by_id: {},
     blacklist: [],
-    labels: {}
+    labels: {},
   },
   getters,
   actions,
-  mutations
+  mutations,
 }

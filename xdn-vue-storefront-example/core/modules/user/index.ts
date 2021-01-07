@@ -14,7 +14,7 @@ export const UserModule: StorefrontModule = async function ({ store }) {
       store.dispatch('user/logout', { silent: false })
       // TODO: Move it to theme
       store.commit('ui/setSubmenu', {
-        depth: 0
+        depth: 0,
       })
     })
 
@@ -23,7 +23,7 @@ export const UserModule: StorefrontModule = async function ({ store }) {
       store.dispatch('checkout/savePersonalDetails', {
         firstName: receivedData.firstname,
         lastName: receivedData.lastname,
-        emailAddress: receivedData.email
+        emailAddress: receivedData.email,
       })
     })
 
@@ -33,32 +33,34 @@ export const UserModule: StorefrontModule = async function ({ store }) {
   store.subscribe((mutation, state) => {
     const type = mutation.type
 
-    if (
-      type.endsWith(types.USER_INFO_LOADED)
-    ) {
-      StorageManager.get('user').setItem('current-user', state.user.current).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
-    }
-
-    if (
-      type.endsWith(types.USER_ORDERS_HISTORY_LOADED)
-    ) {
-      StorageManager.get('user').setItem('orders-history', state.user.orders_history).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
-    }
-
-    if (
-      type.endsWith(types.USER_TOKEN_CHANGED)
-    ) {
-      StorageManager.get('user').setItem('current-token', state.user.token).catch((reason) => {
-        Logger.error(reason)() // it doesn't work on SSR
-      }) // populate cache
-      if (state.user.refreshToken) {
-        StorageManager.get('user').setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
+    if (type.endsWith(types.USER_INFO_LOADED)) {
+      StorageManager.get('user')
+        .setItem('current-user', state.user.current)
+        .catch(reason => {
           Logger.error(reason)() // it doesn't work on SSR
         }) // populate cache
+    }
+
+    if (type.endsWith(types.USER_ORDERS_HISTORY_LOADED)) {
+      StorageManager.get('user')
+        .setItem('orders-history', state.user.orders_history)
+        .catch(reason => {
+          Logger.error(reason)() // it doesn't work on SSR
+        }) // populate cache
+    }
+
+    if (type.endsWith(types.USER_TOKEN_CHANGED)) {
+      StorageManager.get('user')
+        .setItem('current-token', state.user.token)
+        .catch(reason => {
+          Logger.error(reason)() // it doesn't work on SSR
+        }) // populate cache
+      if (state.user.refreshToken) {
+        StorageManager.get('user')
+          .setItem('current-refresh-token', state.user.refreshToken)
+          .catch(reason => {
+            Logger.error(reason)() // it doesn't work on SSR
+          }) // populate cache
       }
     }
   })

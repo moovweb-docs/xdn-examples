@@ -18,7 +18,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   /**
    * @deprecated use getCategories instead
    */
-  list: (state, getters) => getters.getCategories
+  list: (state, getters) => getters.getCategories,
 }
 
 export default getters

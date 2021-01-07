@@ -24,7 +24,7 @@ import Vue from 'vue'
 const filterExt = {
   $dataFilters: {
     value: [],
-    writable: true
+    writable: true,
   }, // data filters to be registered by extension developers
   $filter: {
     get: function () {
@@ -34,7 +34,7 @@ const filterExt = {
         }
         this.$dataFilters[eventName].push(callback)
       }
-    }
+    },
   },
   $emitFilter: {
     get: function () {
@@ -51,8 +51,8 @@ const filterExt = {
         }
         return Promise.all(promises)
       }
-    }
-  }
+    },
+  },
 }
 const EventBus = new Vue()
 if (!EventBus.$dataFilters) {
@@ -60,16 +60,17 @@ if (!EventBus.$dataFilters) {
 }
 
 const EventBusPlugin = {
-  install (Vue) {
-    if (!Vue.prototype.$bus) { /** Vue.prototype.$bus is now @deprecated please do use `EventBus` instead */
+  install(Vue) {
+    if (!Vue.prototype.$bus) {
+      /** Vue.prototype.$bus is now @deprecated please do use `EventBus` instead */
       Object.defineProperties(Vue.prototype, {
         $bus: {
           get: function () {
             return EventBus
-          }
-        }
+          },
+        },
       })
     }
-  }
+  },
 }
 export { EventBus as default, EventBusPlugin }
