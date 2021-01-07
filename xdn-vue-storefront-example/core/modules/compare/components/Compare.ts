@@ -9,29 +9,29 @@ export const Compare = {
   computed: {
     ...mapGetters({
       items: 'compare/getCompareItems',
-      allComparableAttributes: 'attribute/getAllComparableAttributes',
-    }),
+      allComparableAttributes: 'attribute/getAllComparableAttributes'
+    })
   },
-  created() {
+  created () {
     if (!config.entities.attribute.loadByAttributeMetadata) {
       this.$store.dispatch('attribute/list', {
         filterValues: [],
-        filterField: 'is_user_defined',
+        filterField: 'is_user_defined'
       })
     }
   },
   methods: {
-    removeFromCompare(product: Product) {
+    removeFromCompare (product: Product) {
       return this.$store.state['compare']
         ? this.$store.dispatch('compare/removeItem', product)
         : false
-    },
+    }
   },
-  asyncData({ store, route, context }) {
+  asyncData ({ store, route, context }) {
     // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`compare`)
       resolve()
     })
-  },
+  }
 }

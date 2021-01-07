@@ -8,10 +8,10 @@ import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<StockState, RootState> = {
-  async queueCheck({ dispatch }, { product }) {
+  async queueCheck ({ dispatch }, { product }) {
     const checkStatus = {
       qty: product.stock ? product.stock.qty : 0,
-      status: getStatus(product, 'ok'),
+      status: getStatus(product, 'ok')
     }
 
     if (config.stock.synchronize) {
@@ -27,16 +27,16 @@ const actions: ActionTree<StockState, RootState> = {
 
       return {
         ...checkStatus,
-        onlineCheckTaskId: task.task_id,
+        onlineCheckTaskId: task.task_id
       }
     }
 
     return {
       ...checkStatus,
-      status: getStatus(product, 'volatile'),
+      status: getStatus(product, 'volatile')
     }
   },
-  async check(context, { product }) {
+  async check (context, { product }) {
     if (config.stock.synchronize) {
       const { result, task_id } = await StockService.check(product.sku)
 
@@ -44,16 +44,16 @@ const actions: ActionTree<StockState, RootState> = {
         qty: result ? result.qty : 0,
         status: getStatus(result, 'ok'),
         isManageStock: result.manage_stock,
-        onlineCheckTaskId: task_id,
+        onlineCheckTaskId: task_id
       }
     }
 
     return {
       qty: product.stock ? product.stock.qty : 0,
-      status: getStatus(product, 'volatile'),
+      status: getStatus(product, 'volatile')
     }
   },
-  async list({ commit }, { skus }) {
+  async list ({ commit }, { skus }) {
     if (!config.stock.synchronize) return
 
     const task = await StockService.list(skus)
@@ -64,16 +64,16 @@ const actions: ActionTree<StockState, RootState> = {
       for (const productInfo of productInfos) {
         commit(stockMutationTypes.SET_STOCK_CACHE_PRODUCT, {
           productId: productInfo.product_id,
-          productInfo,
+          productInfo
         })
       }
     }
 
     return task
   },
-  clearCache({ commit }) {
+  clearCache ({ commit }) {
     commit(stockMutationTypes.SET_STOCK_CACHE, {})
-  },
+  }
 }
 
 export default actions

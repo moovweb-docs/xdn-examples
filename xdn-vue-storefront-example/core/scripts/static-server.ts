@@ -13,7 +13,7 @@ const serve = (path, cache, options) =>
     Object.assign(
       {
         maxAge: cache && isProd ? 2592000000 : 0, // 1 month in milliseconds = 1000 * 60 * 60 * 24 * 30 = 2592000000
-        fallthrough: false,
+        fallthrough: false
       },
       options
     )
@@ -30,7 +30,7 @@ app.use(
           res.set('Content-Type', 'text/html; charset=UTF-8')
         }
       } // TODO: add better mime type guessing
-    },
+    }
   })
 )
 

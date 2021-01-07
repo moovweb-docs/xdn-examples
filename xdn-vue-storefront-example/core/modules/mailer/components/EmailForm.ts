@@ -3,13 +3,13 @@ import MailItem from '../types/MailItem'
 
 export const EmailForm = {
   name: 'EmailForm',
-  data() {
+  data () {
     return {
-      token: null,
+      token: null
     }
   },
   methods: {
-    sendEmail(letter: MailItem, success, failure) {
+    sendEmail (letter: MailItem, success, failure) {
       this.$store
         .dispatch('mailer/sendEmail', letter)
         .then(res => {
@@ -28,6 +28,6 @@ export const EmailForm = {
         .catch(() => {
           if (failure) failure(i18n.t('Could not send an email. Please try again later.'))
         })
-    },
-  },
+    }
+  }
 }

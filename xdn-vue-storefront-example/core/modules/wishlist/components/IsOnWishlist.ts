@@ -8,15 +8,15 @@ export const IsOnWishlist = {
   props: {
     product: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
-  created() {
+  created () {
     registerModule(WishlistModule)
   },
   computed: {
-    isOnWishlist() {
+    isOnWishlist () {
       return this.$store.getters['wishlist/isOnWishlist'](this.product)
-    },
-  },
+    }
+  }
 }

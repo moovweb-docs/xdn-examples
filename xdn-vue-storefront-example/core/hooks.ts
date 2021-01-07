@@ -2,12 +2,12 @@ import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/
 
 const {
   hook: beforeStoreViewChangedHook,
-  executor: beforeStoreViewChangedExecutor,
+  executor: beforeStoreViewChangedExecutor
 } = createMutatorHook<any, any>()
 
 const {
   hook: afterStoreViewChangedHook,
-  executor: afterStoreViewChangedExecutor,
+  executor: afterStoreViewChangedExecutor
 } = createListenerHook<any>()
 
 const { hook: afterAppInitHook, executor: afterAppInitExecutor } = createListenerHook<any>()
@@ -16,15 +16,15 @@ const { hook: beforeHydratedHook, executor: beforeHydratedExecutor } = createMut
 
 const {
   hook: afterProductThumbnailPathGeneratedHook,
-  executor: afterProductThumbnailPathGeneratedExecutor,
+  executor: afterProductThumbnailPathGeneratedExecutor
 } = createMutatorHook<
-  { path: string; pathType: string; sizeX: number; sizeY: number },
-  { path: string }
+{ path: string, pathType: string, sizeX: number, sizeY: number },
+{ path: string }
 >()
 
 const { hook: beforeLogRenderedHook, executor: beforeLogRenderedExecutor } = createMutatorHook<
-  { type: string; message: any; tag: any; context: any; noDefaultOutput?: boolean },
-  { message: any; tag: any; context: any; noDefaultOutput?: boolean }
+{ type: string, message: any, tag: any, context: any, noDefaultOutput?: boolean },
+{ message: any, tag: any, context: any, noDefaultOutput?: boolean }
 >()
 
 /** Only for internal usage in core */
@@ -34,7 +34,7 @@ const coreHooksExecutors = {
   afterStoreViewChanged: afterStoreViewChangedExecutor,
   beforeHydrated: beforeHydratedExecutor,
   afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor,
-  beforeLogRendered: beforeLogRenderedExecutor,
+  beforeLogRendered: beforeLogRenderedExecutor
 }
 
 const coreHooks = {
@@ -50,7 +50,7 @@ const coreHooks = {
   afterStoreViewChanged: afterStoreViewChangedHook,
   beforeHydrated: beforeHydratedHook,
   afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook,
-  beforeLogRendered: beforeLogRenderedHook,
+  beforeLogRendered: beforeLogRenderedHook
 }
 
 export { coreHooks, coreHooksExecutors }

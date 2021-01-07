@@ -18,8 +18,8 @@ const getProductConfiguration = (product: CartItem): ProductConfiguration => {
       ...prev,
       [curr]: {
         attribute_code: curr,
-        ...getAttributesFields(curr),
-      },
+        ...getAttributesFields(curr)
+      }
     }),
     {}
   ) as any) as ProductConfiguration

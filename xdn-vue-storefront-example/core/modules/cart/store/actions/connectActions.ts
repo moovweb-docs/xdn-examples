@@ -6,7 +6,7 @@ import { CartService } from '@vue-storefront/core/data-resolver'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 
 const connectActions = {
-  toggleMicrocart({ commit }) {
+  toggleMicrocart ({ commit }) {
     commit(types.CART_TOGGLE_MICROCART)
   },
   /**
@@ -15,7 +15,7 @@ const connectActions = {
    * sync - if you want to sync it with backend.
    * disconnect - if you want to clear cart token.
    */
-  async clear({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
+  async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
     await commit(types.CART_LOAD_CART, [])
     if (sync) {
       await dispatch('sync', { forceClientState: true, forceSync: true })
@@ -25,10 +25,10 @@ const connectActions = {
       await dispatch('disconnect')
     }
   },
-  async disconnect({ commit }) {
+  async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  async authorize({ dispatch, getters }) {
+  async authorize ({ dispatch, getters }) {
     const coupon = getters.getCoupon.code
     if (coupon) {
       await dispatch('removeCoupon', { sync: false })
@@ -40,7 +40,7 @@ const connectActions = {
       await dispatch('applyCoupon', coupon)
     }
   },
-  async connect(
+  async connect (
     { getters, dispatch, commit },
     { guestCart = false, forceClientState = false, mergeQty = false }
   ) {
@@ -54,7 +54,7 @@ const connectActions = {
       return dispatch('sync', {
         forceClientState,
         dryRun: !config.cart.serverMergeByDefault,
-        mergeQty,
+        mergeQty
       })
     }
 
@@ -71,14 +71,14 @@ const connectActions = {
   /**
    * Create cart token when there are products in cart and we don't have token already
    */
-  async create({ dispatch, getters }) {
+  async create ({ dispatch, getters }) {
     const storedItems = getters['getCartItems'] || []
     const cartToken = getters['getCartToken']
     if (storedItems.length && !cartToken) {
       Logger.info('Creating server cart token', 'cart')()
       return dispatch('connect', { guestCart: false })
     }
-  },
+  }
 }
 
 export default connectActions

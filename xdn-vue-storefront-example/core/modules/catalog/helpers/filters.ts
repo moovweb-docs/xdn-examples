@@ -27,7 +27,7 @@ const getSelectedFiltersByProduct = (product: Product, configuration: ProductCon
       selectedFilters[filterType] = {
         id: filter.id,
         label: filter.label,
-        type: filterType,
+        type: filterType
       }
     })
   }

@@ -7,33 +7,33 @@ export const OrderReview = {
   props: {
     isActive: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       isFilled: false,
       orderReview: {
-        terms: false,
-      },
+        terms: false
+      }
     }
   },
   computed: {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
       getShippingDetails: 'checkout/getShippingDetails',
-      getPersonalDetails: 'checkout/getPersonalDetails',
-    }),
+      getPersonalDetails: 'checkout/getPersonalDetails'
+    })
   },
   methods: {
-    placeOrder() {
+    placeOrder () {
       if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {
         this.$bus.$emit('checkout-before-placeOrder')
       }
     },
-    async register() {
+    async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
 
       try {
@@ -48,7 +48,7 @@ export const OrderReview = {
               lastname: this.getShippingDetails.lastName,
               street: [
                 this.getShippingDetails.streetAddress,
-                this.getShippingDetails.apartmentNumber,
+                this.getShippingDetails.apartmentNumber
               ],
               city: this.getShippingDetails.city,
               ...(this.getShippingDetails.state
@@ -59,9 +59,9 @@ export const OrderReview = {
               ...(this.getShippingDetails.phoneNumber
                 ? { telephone: this.getShippingDetails.phoneNumber }
                 : {}),
-              default_shipping: true,
-            },
-          ],
+              default_shipping: true
+            }
+          ]
         })
 
         if (result.code !== 200) {
@@ -79,7 +79,7 @@ export const OrderReview = {
           this.$bus.$emit('modal-hide', 'modal-signup')
           await this.$store.dispatch('user/login', {
             username: this.getPersonalDetails.emailAddress,
-            password: this.getPersonalDetails.password,
+            password: this.getPersonalDetails.password
           })
           this.$bus.$emit('notification-progress-stop')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
@@ -89,6 +89,6 @@ export const OrderReview = {
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'checkout')()
       }
-    },
-  },
+    }
+  }
 }

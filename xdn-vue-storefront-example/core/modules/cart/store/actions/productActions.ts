@@ -1,7 +1,7 @@
 import { SearchQuery } from 'storefront-query-builder'
 
 const productActions = {
-  async findProductOption({ dispatch }, { serverItem }) {
+  async findProductOption ({ dispatch }, { serverItem }) {
     if (serverItem.product_type === 'configurable') {
       let query = new SearchQuery()
       query = query.applyFilter({ key: 'configurable_children.sku', value: { eq: serverItem.sku } })
@@ -15,8 +15,8 @@ const productActions = {
           options: {
             populateRequestCacheTags: false,
             prefetchGroupProducts: false,
-            separateSelectedVariant: true,
-          },
+            separateSelectedVariant: true
+          }
         },
         { root: true }
       )
@@ -26,7 +26,7 @@ const productActions = {
 
     return { sku: serverItem.sku }
   },
-  async getProductVariant({ dispatch }, { serverItem }) {
+  async getProductVariant ({ dispatch }, { serverItem }) {
     try {
       const options = await dispatch('findProductOption', { serverItem })
       const singleProduct = await dispatch('product/single', { options }, { root: true })
@@ -36,12 +36,12 @@ const productActions = {
         server_item_id: serverItem.item_id,
         qty: serverItem.qty,
         server_cart_id: serverItem.quote_id,
-        product_option: serverItem.product_option || singleProduct.product_option,
+        product_option: serverItem.product_option || singleProduct.product_option
       }
     } catch (e) {
       return null
     }
-  },
+  }
 }
 
 export default productActions

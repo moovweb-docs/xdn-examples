@@ -76,7 +76,7 @@ export const getOptimizedFields = ({ excludeFields, includeFields }) => {
   if (config.entities.optimize) {
     return {
       excluded: excludeFields || config.entities.product.excludeFields,
-      included: includeFields || config.entities.product.includeFields,
+      included: includeFields || config.entities.product.includeFields
     }
   }
 

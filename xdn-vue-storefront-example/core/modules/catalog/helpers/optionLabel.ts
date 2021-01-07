@@ -7,7 +7,7 @@
 import toString from 'lodash-es/toString'
 import get from 'lodash-es/get'
 
-export function optionLabel(state, { attributeKey, searchBy = 'code', optionId }) {
+export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
   if (!state.labels) {
     state.labels = {}
   }

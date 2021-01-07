@@ -3,7 +3,7 @@ import { localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import { ActionContext } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 
-export default async function registerProductsMapping(
+export default async function registerProductsMapping (
   { dispatch }: ActionContext<any, RootState>,
   products = []
 ): Promise<void> {
@@ -15,7 +15,7 @@ export default async function registerProductsMapping(
           'url/registerMapping',
           {
             url: localizedDispatcherRoute(url_path),
-            routeData: transformProductUrl({ sku, parentSku, slug, type_id }),
+            routeData: transformProductUrl({ sku, parentSku, slug, type_id })
           },
           { root: true }
         )

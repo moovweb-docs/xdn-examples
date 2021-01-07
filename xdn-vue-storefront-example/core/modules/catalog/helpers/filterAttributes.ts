@@ -1,16 +1,16 @@
 import config from 'config'
 
-export default function filterAttributes({
+export default function filterAttributes ({
   filterValues,
   filterField,
   blacklist,
   idsList,
-  codesList,
+  codesList
 }: {
-  filterValues: string[]
-  filterField: string
-  blacklist: string[]
-  idsList: any
+  filterValues: string[],
+  filterField: string,
+  blacklist: string[],
+  idsList: any,
   codesList: any
 }) {
   return filterValues.filter(fv => {

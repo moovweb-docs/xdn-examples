@@ -7,8 +7,8 @@ import ReviewState from '../types/ReviewState'
 export const reviewStore: Module<ReviewState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
+    items: []
   },
   actions,
-  mutations,
+  mutations
 }

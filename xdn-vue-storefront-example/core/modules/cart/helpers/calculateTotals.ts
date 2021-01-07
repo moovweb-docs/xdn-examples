@@ -15,27 +15,27 @@ const calculateTotals = (
     {
       code: 'subtotal_incl_tax',
       title: i18n.t('Subtotal incl. tax'),
-      value: sumBy(cartItems, p => p.qty * p.price_incl_tax),
+      value: sumBy(cartItems, p => p.qty * p.price_incl_tax)
     },
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
-      value: sumBy(cartItems, p => p.qty * p.price_incl_tax + shippingTax),
-    },
+      value: sumBy(cartItems, p => p.qty * p.price_incl_tax + shippingTax)
+    }
   ]
 
   if (paymentMethod) {
     totalsArray.push({
       code: 'payment',
       title: i18n.t(paymentMethod.title),
-      value: paymentMethod.cost_incl_tax,
+      value: paymentMethod.cost_incl_tax
     })
   }
   if (shippingMethod) {
     totalsArray.push({
       code: 'shipping',
       title: i18n.t(shippingMethod.method_title),
-      value: shippingMethod.price_incl_tax,
+      value: shippingMethod.price_incl_tax
     })
   }
 

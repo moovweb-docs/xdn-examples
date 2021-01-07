@@ -1,4 +1,4 @@
-function processNestedFieldFilter(filter) {
+function processNestedFieldFilter (filter) {
   let processedFilter = {}
   let filterAttributes = filter.attribute.split('.')
   if (filterAttributes.length > 1) {
@@ -13,7 +13,7 @@ function processNestedFieldFilter(filter) {
   return processedFilter
 }
 
-export function prepareQueryVars(Request) {
+export function prepareQueryVars (Request) {
   let queryVariables = {}
   const filters =
     typeof Request.searchQuery.getAppliedFilters !== 'undefined'
@@ -68,7 +68,7 @@ export function prepareQueryVars(Request) {
   return queryVariables
 }
 
-export function prepareGraphQlBody(Request) {
+export function prepareGraphQlBody (Request) {
   // @TODO Create graphQl query builder uses gqlQuery.body params
   // below is a simple demo test products search query
 
@@ -100,7 +100,7 @@ export function prepareGraphQlBody(Request) {
 
   const body = JSON.stringify({
     query,
-    variables: queryVariables,
+    variables: queryVariables
   })
 
   return body

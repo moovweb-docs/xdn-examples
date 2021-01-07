@@ -3,7 +3,7 @@ import { hasConfigurableChildren } from '../'
 /**
  * Fill custom attributes for every configurable child
  */
-export default function setCustomAttributesForChild(product: Product) {
+export default function setCustomAttributesForChild (product: Product) {
   if (!hasConfigurableChildren(product)) return
   // handle custom_attributes for easier comparing in the future
   product.configurable_children.forEach(child => {

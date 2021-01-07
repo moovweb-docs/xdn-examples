@@ -7,20 +7,20 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
   actions: {
-    addMethod({ dispatch }, paymentMethod) {
+    addMethod ({ dispatch }, paymentMethod) {
       Logger.error(
         'The action payment/addMethod has been deprecated please change to checkout/addPaymentMethod'
       )()
 
       dispatch('checkout/addPaymentMethod', paymentMethod, { root: true })
     },
-    replaceMethods({ dispatch }, paymentMethods) {
+    replaceMethods ({ dispatch }, paymentMethods) {
       Logger.error(
         'The action payment/replaceMethods has been deprecated please change to checkout/replacePaymentMethods'
       )()
 
       dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
-    },
+    }
   },
   getters: {
     // @deprecated
@@ -31,6 +31,6 @@ export const paymentModule: Module<PaymentState, RootState> = {
       rootGetters['checkout/getDefaultPaymentMethod'],
     // @deprecated
     getNotServerPaymentMethods: (state, getters, rootState, rootGetters) =>
-      rootGetters['checkout/getNotServerPaymentMethods'],
-  },
+      rootGetters['checkout/getNotServerPaymentMethods']
+  }
 }

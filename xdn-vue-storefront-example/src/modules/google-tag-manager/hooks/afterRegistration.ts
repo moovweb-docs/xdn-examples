@@ -8,7 +8,7 @@ export const isEnabled = (gtmId: string | null) => {
   return typeof gtmId === 'string' && gtmId.length > 0 && !isServer
 }
 
-export function afterRegistration(config, store: Store<any>) {
+export function afterRegistration (config, store: Store<any>) {
   if (isEnabled(config.googleTagManager.id)) {
     const GTM: VueGtm = (Vue as any).gtm
 
@@ -49,9 +49,9 @@ export function afterRegistration(config, store: Store<any>) {
           ecommerce: {
             currencyCode: currencyCode,
             add: {
-              products: [getProduct(payload.product)],
-            },
-          },
+              products: [getProduct(payload.product)]
+            }
+          }
         })
       }
 
@@ -61,9 +61,9 @@ export function afterRegistration(config, store: Store<any>) {
           event: 'removeFromCart',
           ecommerce: {
             remove: {
-              products: [getProduct(payload.product)],
-            },
-          },
+              products: [getProduct(payload.product)]
+            }
+          }
         })
       }
 
@@ -73,9 +73,9 @@ export function afterRegistration(config, store: Store<any>) {
           ecommerce: {
             detail: {
               actionField: { list: '' }, // 'detail' actions have an optional list property.
-              products: [getProduct(payload)],
-            },
-          },
+              products: [getProduct(payload)]
+            }
+          }
         })
       }
 
@@ -97,23 +97,23 @@ export function afterRegistration(config, store: Store<any>) {
                   revenue: order
                     ? order.total_due
                     : state.cart.platformTotals && state.cart.platformTotals.base_grand_total
-                    ? state.cart.platformTotals.base_grand_total
-                    : '',
+                      ? state.cart.platformTotals.base_grand_total
+                      : '',
                   tax: order
                     ? order.total_due
                     : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount
-                    ? state.cart.platformTotals.base_tax_amount
-                    : '',
+                      ? state.cart.platformTotals.base_tax_amount
+                      : '',
                   shipping: order
                     ? order.total_due
                     : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount
-                    ? state.cart.platformTotals.base_shipping_amount
-                    : '',
-                  coupon: '',
+                      ? state.cart.platformTotals.base_shipping_amount
+                      : '',
+                  coupon: ''
                 },
-                products: products,
-              },
-            },
+                products: products
+              }
+            }
           })
         })
       }

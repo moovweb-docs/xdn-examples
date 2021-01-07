@@ -9,9 +9,9 @@ export const orderStore: Module<OrderState, RootState> = {
   namespaced: true,
   state: {
     last_order_confirmation: null,
-    session_order_hashes: [],
+    session_order_hashes: []
   },
   actions,
   mutations,
-  getters,
+  getters
 }

@@ -4,7 +4,7 @@ import merge from 'lodash-es/merge'
 import some from 'lodash-es/some'
 import find from 'lodash-es/find'
 
-function doesStoreAlreadyExists(
+function doesStoreAlreadyExists (
   key: string,
   registeredModules: VueStorefrontModuleConfig[]
 ): boolean {
@@ -16,9 +16,9 @@ function doesStoreAlreadyExists(
   return false
 }
 
-function mergeStores(
-  originalStore: { modules?: { key: string; module: Module<any, any> }[]; plugin?: Function },
-  extendedStore: { modules?: { key: string; module: Module<any, any> }[]; plugin?: Function }
+function mergeStores (
+  originalStore: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function },
+  extendedStore: { modules?: { key: string, module: Module<any, any> }[], plugin?: Function }
 ) {
   let mergedArray = []
   originalStore.modules.map(item => {

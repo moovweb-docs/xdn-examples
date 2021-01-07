@@ -4,11 +4,11 @@ export const currentBuildLocales = (): string[] => {
   const defaultLocale = config.i18n.defaultLocale || 'en-US'
   const multistoreLocales = config.storeViews.multistore
     ? Object.values(config.storeViews)
-        .map(
-          (store: any) =>
-            store && typeof store === 'object' && store.i18n && store.i18n.defaultLocale
-        )
-        .filter(Boolean)
+      .map(
+        (store: any) =>
+          store && typeof store === 'object' && store.i18n && store.i18n.defaultLocale
+      )
+      .filter(Boolean)
     : config.i18n.availableLocale
   const locales = multistoreLocales.includes(defaultLocale)
     ? multistoreLocales

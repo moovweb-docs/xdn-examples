@@ -16,24 +16,24 @@ import {
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
   getProductGallery,
-  setRequestCacheTags,
+  setRequestCacheTags
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
 import { checkParentRedirection } from '@vue-storefront/core/modules/catalog/events'
 
 const actions: ActionTree<ProductState, RootState> = {
-  doPlatformPricesSync(context, { products }) {
+  doPlatformPricesSync (context, { products }) {
     return doPlatformPricesSync(products)
   },
   /**
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
-  checkConfigurableParent({ commit, dispatch, getters }, { product }) {
+  checkConfigurableParent ({ commit, dispatch, getters }, { product }) {
     if (product.type_id === 'simple') {
       Logger.log('Checking configurable parent')()
       const parent = dispatch('findConfigurableParent', {
-        product: { sku: getters.getCurrentProduct.sku },
+        product: { sku: getters.getCurrentProduct.sku }
       })
       if (parent) {
         commit(types.PRODUCT_SET_PARENT, parent)
@@ -49,7 +49,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  async list(
+  async list (
     context,
     {
       query,
@@ -62,7 +62,7 @@ const actions: ActionTree<ProductState, RootState> = {
       configuration = null,
       populateRequestCacheTags = true,
       updateState = false,
-      append = false,
+      append = false
     } = {}
   ) {
     Logger.warn(
@@ -78,8 +78,8 @@ const actions: ActionTree<ProductState, RootState> = {
       configuration,
       options: {
         populateRequestCacheTags,
-        prefetchGroupProducts,
-      },
+        prefetchGroupProducts
+      }
     })
 
     if (updateState) {
@@ -94,12 +94,12 @@ const actions: ActionTree<ProductState, RootState> = {
       size,
       sort,
       entityType: 'product',
-      result: { items },
+      result: { items }
     })
 
     return { items }
   },
-  async findProducts(
+  async findProducts (
     context,
     {
       query,
@@ -118,8 +118,8 @@ const actions: ActionTree<ProductState, RootState> = {
         assignProductConfiguration = false,
         separateSelectedVariant = false,
         setConfigurableProductOptions = config.cart.setConfigurableProductOptions,
-        filterUnavailableVariants = config.products.filterUnavailableVariants,
-      } = {},
+        filterUnavailableVariants = config.products.filterUnavailableVariants
+      } = {}
     } = {}
   ) {
     const { items, ...restResponseData } = await ProductService.getProducts({
@@ -137,8 +137,8 @@ const actions: ActionTree<ProductState, RootState> = {
         setConfigurableProductOptions,
         filterUnavailableVariants,
         assignProductConfiguration,
-        separateSelectedVariant,
-      },
+        separateSelectedVariant
+      }
     })
 
     registerProductsMapping(context, items)
@@ -155,11 +155,11 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return { ...restResponseData, items }
   },
-  async findConfigurableParent(context, { product, configuration }) {
+  async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
     const query = searchQuery.applyFilter({
       key: 'configurable_children.sku',
-      value: { eq: product.sku },
+      value: { eq: product.sku }
     })
     const products = await context.dispatch('findProducts', { query, configuration })
     return products.items && products.items.length > 0 ? products.items[0] : null
@@ -168,7 +168,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Search products by specific field
    * @param {Object} options
    */
-  async single(
+  async single (
     context,
     { options = {}, setCurrentProduct = false, key = 'sku', skipCache = false } = {}
   ) {
@@ -181,7 +181,7 @@ const actions: ActionTree<ProductState, RootState> = {
     const product = await ProductService.getProductByKey({
       options,
       key,
-      skipCache,
+      skipCache
     })
 
     await context.dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
@@ -194,7 +194,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Assign the custom options object to the currentl product
    */
-  setCustomOptions(context, { customOptions, product }) {
+  setCustomOptions (context, { customOptions, product }) {
     if (customOptions) {
       // TODO: this causes some kind of recurrency error
       context.commit(
@@ -202,8 +202,8 @@ const actions: ActionTree<ProductState, RootState> = {
         Object.assign({}, product, {
           product_option: setCustomProductOptionsAsync(context, {
             product: context.getters.getCurrentProduct,
-            customOptions: customOptions,
-          }),
+            customOptions: customOptions
+          })
         })
       )
     }
@@ -211,7 +211,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Assign the bundle options object to the vurrent product
    */
-  setBundleOptions(context, { bundleOptions, product }) {
+  setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) {
       // TODO: this causes some kind of recurrency error
       context.commit(
@@ -219,8 +219,8 @@ const actions: ActionTree<ProductState, RootState> = {
         Object.assign({}, product, {
           product_option: setBundleProductOptionsAsync(context, {
             product: context.getters.getCurrentProduct,
-            bundleOptions: bundleOptions,
-          }),
+            bundleOptions: bundleOptions
+          })
         })
       )
     }
@@ -230,7 +230,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} context
    * @param {Object} productVariant
    */
-  setCurrent(context, product) {
+  setCurrent (context, product) {
     if (product && typeof product === 'object') {
       const { configuration, ...restProduct } = product
       const productUpdated = Object.assign({}, restProduct)
@@ -239,7 +239,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       const productOptions = getProductConfigurationOptions({
         product,
-        attribute: context.rootState.attribute,
+        attribute: context.rootState.attribute
       })
       context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
       context.commit(types.PRODUCT_SET_CURRENT_CONFIGURATION, configuration || {})
@@ -250,13 +250,13 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Set related products
    */
-  related(context, { key = 'related-products', items }) {
+  related (context, { key = 'related-products', items }) {
     context.commit(types.PRODUCT_SET_RELATED, { key, items })
   },
   /**
    * Load the product data and sets current product
    */
-  async loadProduct(
+  async loadProduct (
     { dispatch, state },
     { parentSku, childSku = null, route = null, skipCache = false }
   ) {
@@ -266,10 +266,10 @@ const actions: ActionTree<ProductState, RootState> = {
     const product = await dispatch('single', {
       options: {
         sku: parentSku,
-        childSku: childSku,
+        childSku: childSku
       },
       key: 'sku',
-      skipCache,
+      skipCache
     })
 
     setRequestCacheTags({ products: [product] })
@@ -309,7 +309,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Add custom option validator for product custom options
    */
-  addCustomOptionValidator(context, { validationRule, validatorFunction }) {
+  addCustomOptionValidator (context, { validationRule, validatorFunction }) {
     context.commit(types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
 
@@ -317,11 +317,11 @@ const actions: ActionTree<ProductState, RootState> = {
    * Set product gallery depending on product type
    */
 
-  setProductGallery(context, { product }) {
+  setProductGallery (context, { product }) {
     const productGallery = getProductGallery(product)
     context.commit(types.PRODUCT_SET_GALLERY, productGallery)
   },
-  async loadProductBreadcrumbs({ dispatch, rootGetters }, { product } = {}) {
+  async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
       const currentCategory = rootGetters['category-next/getCurrentCategory']
       let breadcrumbCategory
@@ -333,7 +333,7 @@ const actions: ActionTree<ProductState, RootState> = {
         'category-next/loadCategories',
         {
           filters: categoryFilters,
-          reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0,
+          reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0
         },
         { root: true }
       )
@@ -354,7 +354,7 @@ const actions: ActionTree<ProductState, RootState> = {
       )
     }
   },
-  async getProductVariant(context, { product, configuration } = {}) {
+  async getProductVariant (context, { product, configuration } = {}) {
     let searchQuery = new SearchQuery()
     searchQuery = searchQuery.applyFilter({ key: 'sku', value: { eq: product.parentSku } })
     if (!product.parentSku) {
@@ -363,7 +363,7 @@ const actions: ActionTree<ProductState, RootState> = {
       )
     }
     const {
-      items: [newProductVariant],
+      items: [newProductVariant]
     } = await context.dispatch('findProducts', {
       query: searchQuery,
       size: 1,
@@ -371,15 +371,15 @@ const actions: ActionTree<ProductState, RootState> = {
       options: {
         fallbackToDefaultWhenNoAvailable: false,
         setProductErrors: true,
-        separateSelectedVariant: true,
-      },
+        separateSelectedVariant: true
+      }
     })
     const { selectedVariant = {}, options, product_option } = newProductVariant
 
     return { ...selectedVariant, options, product_option }
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
-  ...require('./deprecatedActions').default,
+  ...require('./deprecatedActions').default
 }
 
 export default actions

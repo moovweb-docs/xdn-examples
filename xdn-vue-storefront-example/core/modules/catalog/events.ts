@@ -28,19 +28,19 @@ export const productAfterPriceupdate = async (product, store) => {
 export const filterChangedProduct = async (filterOption, store, router) => {
   EventBus.$emit('product-before-configure', {
     filterOption: filterOption,
-    configuration: store.getters['product/getCurrentProductConfiguration'],
+    configuration: store.getters['product/getCurrentProductConfiguration']
   })
   const currentProductConfiguration = store.getters['product/getCurrentProductConfiguration']
   const changedConfig = Object.assign({}, currentProductConfiguration, {
-    [filterOption.attribute_code]: filterOption,
+    [filterOption.attribute_code]: filterOption
   })
   let searchQuery = new SearchQuery()
   searchQuery = searchQuery.applyFilter({
     key: 'sku',
-    value: { eq: store.getters['product/getCurrentProduct'].parentSku },
+    value: { eq: store.getters['product/getCurrentProduct'].parentSku }
   })
   const {
-    items: [newProductVariant],
+    items: [newProductVariant]
   } = await store.dispatch(
     'product/findProducts',
     {
@@ -51,8 +51,8 @@ export const filterChangedProduct = async (filterOption, store, router) => {
         fallbackToDefaultWhenNoAvailable: false,
         setProductErrors: true,
         assignProductConfiguration: true,
-        separateSelectedVariant: true,
-      },
+        separateSelectedVariant: true
+      }
     },
     { root: true }
   )
@@ -72,7 +72,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     EventBus.$emit('product-after-configure', {
       product: newProductConfiguration,
       configuration: configuration,
-      selectedVariant: selectedVariant,
+      selectedVariant: selectedVariant
     })
     return selectedVariant
   } else {
@@ -81,7 +81,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
       message: i18n.t(
         'No such configuration for the product. Please do choose another combination of attributes.'
       ),
-      action1: { label: i18n.t('OK') },
+      action1: { label: i18n.t('OK') }
     })
   }
 }
@@ -108,7 +108,7 @@ export const productAfterCustomoptions = async (payload, store) => {
     prefixMutation(PRODUCT_SET_CURRENT),
     Object.assign({}, store.getters['product/getCurrentProduct'], {
       price: store.getters['product/getCurrentProduct'].price + priceDelta,
-      price_incl_tax: store.getters['product/getCurrentProduct'].price_incl_tax + priceDeltaInclTax,
+      price_incl_tax: store.getters['product/getCurrentProduct'].price_incl_tax + priceDeltaInclTax
     }),
     { root: true }
   )
@@ -129,7 +129,7 @@ export const productAfterBundleoptions = async (payload, store) => {
       prefixMutation(PRODUCT_SET_CURRENT),
       Object.assign({}, store.getters['product/getCurrentProduct'], {
         price: priceDelta,
-        price_incl_tax: priceDeltaInclTax,
+        price_incl_tax: priceDeltaInclTax
       }),
       { root: true }
     )
@@ -147,9 +147,9 @@ export const onUserPricesRefreshed = async (store, router) => {
           childSku:
             router && router.currentRoute.params && router.currentRoute.params.childSku
               ? router.currentRoute.params.childSku
-              : null,
+              : null
         },
-        skipCache: true,
+        skipCache: true
       },
       { root: true }
     )
@@ -172,7 +172,7 @@ export const checkParentRedirection = (currentProduct, parentProduct) => {
           if (context && !context.url.includes(parentUrl)) {
             context.server.response.redirect(301, parentUrl)
           }
-        },
+        }
       })
     } else {
       router.replace(parentUrl as string)

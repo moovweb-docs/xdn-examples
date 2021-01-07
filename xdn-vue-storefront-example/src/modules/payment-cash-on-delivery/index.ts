@@ -20,7 +20,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
     costInclTax: 0,
     default: true,
     offline: true,
-    is_server_method: false,
+    is_server_method: false
   }
   store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
   if (!isServer) {
@@ -32,7 +32,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
       cost_incl_tax: 0,
       default: true,
       offline: true,
-      is_server_method: false,
+      is_server_method: false
     }
     store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
 

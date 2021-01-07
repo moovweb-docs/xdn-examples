@@ -7,7 +7,7 @@ const { currentBuildLocales } = require('../helpers')
 /**
  *  Converts an Array to an Object
  */
-function convertToObject(array) {
+function convertToObject (array) {
   const obj = []
   array.forEach((element, index, array) => {
     obj[element[0]] = element[1]

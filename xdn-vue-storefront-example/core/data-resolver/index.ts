@@ -13,5 +13,5 @@ export {
   OrderService,
   StockService,
   ReviewsService,
-  NewsletterService,
+  NewsletterService
 }

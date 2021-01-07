@@ -10,14 +10,14 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/lib/store/entities'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { processURLAddress } from '@vue-storefront/core/helpers'
-import { serial } from '@vue-storefront/core/helpers'
+import { processURLAddress, serial, onlineHelper } from '@vue-storefront/core/helpers'
+
 import config from 'config'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+
 import { hasResponseError, getResponseMessage } from '@vue-storefront/core/lib/sync/helpers'
 import queryString from 'query-string'
 
-export function _prepareTask(task) {
+export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
   task.task_id = taskId.toString()
   task.transmited = false
@@ -26,11 +26,11 @@ export function _prepareTask(task) {
   return task
 }
 
-function _sleep(time) {
+function _sleep (time) {
   return new Promise(resolve => setTimeout(resolve, time))
 }
 
-function getUrl(task, currentToken, currentCartId) {
+function getUrl (task, currentToken, currentCartId) {
   let url = task.url
     .replace('{{token}}', currentToken == null ? '' : currentToken)
     .replace('{{cartId}}', currentCartId == null ? '' : currentCartId)
@@ -49,18 +49,18 @@ function getUrl(task, currentToken, currentCartId) {
   return url
 }
 
-function getPayload(task, currentToken) {
+function getPayload (task, currentToken) {
   const payload = {
     ...task.payload,
     headers: {
       ...task.payload.headers,
-      ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {}),
-    },
+      ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {})
+    }
   }
   return payload
 }
 
-function _internalExecute(resolve, reject, task: Task, currentToken, currentCartId) {
+function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
   if (currentToken && rootStore.state.userTokenInvalidateLock > 0) {
     // invalidate lock set
     Logger.log(
@@ -82,7 +82,7 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
     )()
     resolve({
       code: 401,
-      result: i18n.t('Error refreshing user token. User is not authorized to access the resource'),
+      result: i18n.t('Error refreshing user token. User is not authorized to access the resource')
     })()
     return
   } else {
@@ -132,13 +132,11 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
             if (
               isNaN(rootStore.state.userTokenInvalidateAttemptsCount) ||
               isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)
-            )
-              rootStore.state.userTokenInvalidateAttemptsCount = 0
+            ) { rootStore.state.userTokenInvalidateAttemptsCount = 0 }
             if (
               isNaN(rootStore.state.userTokenInvalidateLock) ||
               isUndefined(rootStore.state.userTokenInvalidateLock)
-            )
-              rootStore.state.userTokenInvalidateLock = 0
+            ) { rootStore.state.userTokenInvalidateLock = 0 }
 
             silentMode = true
             if (config.users.autoRefreshTokens) {
@@ -161,7 +159,7 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
                     message: i18n.t(
                       'Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'
                     ),
-                    action1: { label: i18n.t('OK') },
+                    action1: { label: i18n.t('OK') }
                   })
                   rootStore.state.userTokenInvalidateAttemptsCount = 0
                 } else {
@@ -199,8 +197,7 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
               if (
                 rootStore.state.userTokenInvalidateAttemptsCount <=
                 config.queues.maxNetworkTaskAttempts
-              )
-                _internalExecute(resolve, reject, task, currentToken, currentCartId) // retry
+              ) { _internalExecute(resolve, reject, task, currentToken, currentCartId) } // retry
             } else {
               Logger.info(
                 'Invalidation process is disabled (autoRefreshTokens is set to false)',
@@ -220,7 +217,7 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
             rootStore.dispatch('notification/spawnNotification', {
               type: 'error',
               message: i18n.t(getResponseMessage(jsonResponse)),
-              action1: { label: i18n.t('OK') },
+              action1: { label: i18n.t('OK') }
             })
           }
         }
@@ -260,7 +257,7 @@ function _internalExecute(resolve, reject, task: Task, currentToken, currentCart
     })
 }
 
-export function execute(task: Task, currentToken = null, currentCartId = null): Promise<Task> {
+export function execute (task: Task, currentToken = null, currentCartId = null): Promise<Task> {
   const taskId = task.task_id
 
   return new Promise((resolve, reject) => {
@@ -268,14 +265,14 @@ export function execute(task: Task, currentToken = null, currentCartId = null): 
   })
 }
 
-export function initializeSyncTaskStorage() {
+export function initializeSyncTaskStorage () {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
   StorageManager.init('syncTasks')
 }
 
-export function registerSyncTaskProcessor() {
+export function registerSyncTaskProcessor () {
   const mutex = {}
   EventBus.$on('sync/PROCESS_QUEUE', async data => {
     if (onlineHelper.isOnline) {

@@ -5,7 +5,7 @@ import getSelectedOption from './getSelectedOption'
 /**
  * Returns configuration based on selected variant. Only applies to configurable product
  */
-export default function getProductConfiguration({ product, selectedVariant, attribute }) {
+export default function getProductConfiguration ({ product, selectedVariant, attribute }) {
   const currentProductOption = {}
   const configurableOptions = product.configurable_options || []
   for (const option of configurableOptions) {
@@ -14,14 +14,14 @@ export default function getProductConfiguration({ product, selectedVariant, attr
     const label = selectedOption.label
       ? selectedOption.label
       : optionLabel(attribute, {
-          attributeKey: selectedOption.attribute_code,
-          searchBy: 'code',
-          optionId: selectedOption.value,
-        })
+        attributeKey: selectedOption.attribute_code,
+        searchBy: 'code',
+        optionId: selectedOption.value
+      })
     currentProductOption[attributeCode] = {
       attribute_code: attributeCode,
       id: String(selectedOption.value),
-      label: label,
+      label: label
     }
   }
   return currentProductOption

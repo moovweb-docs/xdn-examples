@@ -92,7 +92,7 @@ const RouterManager = {
       lockPromise: new Promise(resolve => {
         resolver = resolve
       }),
-      resolver,
+      resolver
     }
   },
   isRouteProcessing: function () {
@@ -114,7 +114,7 @@ const RouterManager = {
     this._callbacks.forEach(callback => {
       callback()
     })
-  },
+  }
 }
 
 export { RouterManager }

@@ -14,7 +14,7 @@ const transformMetadataToAttributes = attributeMetadata =>
               options: uniqBy(
                 [...(attr.options || []), ...(curr.options || [])],
                 obj => `${obj.label}_${obj.value}`
-              ),
+              )
             }
           }
 
@@ -28,12 +28,12 @@ const transformMetadataToAttributes = attributeMetadata =>
       (prev, curr) => ({
         attrHashByCode: {
           ...(prev.attrHashByCode || {}),
-          [curr.attribute_code]: curr,
+          [curr.attribute_code]: curr
         },
         attrHashById: {
           ...(prev.attrHashById || {}),
-          [curr.attribute_id]: curr,
-        },
+          [curr.attribute_id]: curr
+        }
       }),
       { attrHashByCode: {}, attrHashById: {} }
     )

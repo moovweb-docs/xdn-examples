@@ -9,7 +9,7 @@ import config from 'config'
 import { findConfigurableVariant } from './variant'
 import { hasImage } from './'
 
-export function populateProductConfigurationAsync(context, { product, selectedVariant }) {
+export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
   Logger.warn('deprecated, will be not used from 1.12')()
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
@@ -20,8 +20,8 @@ export function populateProductConfigurationAsync(context, { product, selectedVa
         attribute_label = option.label
           ? option.label
           : option.frontend_label
-          ? option.frontend_label
-          : option.default_frontend_label
+            ? option.frontend_label
+            : option.default_frontend_label
       } else {
         if (option.attribute_id) {
           let attr = context.rootState.attribute.list_by_id[option.attribute_id]
@@ -53,7 +53,7 @@ export function populateProductConfigurationAsync(context, { product, selectedVa
       } else {
         selectedOption = {
           attribute_code: attribute_code,
-          value: selectedVariant[attribute_code],
+          value: selectedVariant[attribute_code]
         }
       }
       if (option.values && option.values.length) {
@@ -74,30 +74,30 @@ export function populateProductConfigurationAsync(context, { product, selectedVa
         label: selectedOption.label
           ? selectedOption.label
           : /* if not set - find by attribute */ optionLabel(context.rootState.attribute, {
-              attributeKey: selectedOption.attribute_code,
-              searchBy: 'code',
-              optionId: selectedOption.value,
-            }),
+            attributeKey: selectedOption.attribute_code,
+            searchBy: 'code',
+            optionId: selectedOption.value
+          })
       }
       Vue.set(context.state.current_configuration, attribute_code, confVal)
     }
     setProductConfigurableOptions({
       product,
       configuration: context.state.current_configuration,
-      setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+      setConfigurableProductOptions: config.cart.setConfigurableProductOptions
     }) // set the custom options
   }
   return selectedVariant
 }
 
-export function configureProductAsync(
+export function configureProductAsync (
   context,
   {
     product,
     configuration,
     selectDefaultVariant = true,
     fallbackToDefaultWhenNoAvailable = true,
-    setProductErorrs = false,
+    setProductErorrs = false
   }
 ) {
   Logger.warn('deprecated, will be not used from 1.12')()
@@ -123,14 +123,14 @@ export function configureProductAsync(
     let selectedVariant = findConfigurableVariant({
       product,
       configuration,
-      availabilityCheck: true,
+      availabilityCheck: true
     })
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
         selectedVariant = findConfigurableVariant({
           product,
           selectDefaultChildren: true,
-          availabilityCheck: true,
+          availabilityCheck: true
         }) // return first available child
         desiredProductFound = false
       } else {
@@ -148,7 +148,7 @@ export function configureProductAsync(
         // update the configuration
         populateProductConfigurationAsync(context, {
           product: product,
-          selectedVariant: selectedVariant,
+          selectedVariant: selectedVariant
         })
         configuration = context.state.current_configuration
       }
@@ -166,7 +166,7 @@ export function configureProductAsync(
         setProductConfigurableOptions({
           product,
           configuration,
-          setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
+          setConfigurableProductOptions: config.cart.setConfigurableProductOptions
         }) // set the custom options
       } /* else {
         Logger.debug('Skipping configurable options setup', configuration)()
@@ -181,7 +181,7 @@ export function configureProductAsync(
       EventBus.$emit('product-after-configure', {
         product: product,
         configuration: configuration,
-        selectedVariant: selectedVariant,
+        selectedVariant: selectedVariant
       })
     }
     if (!selectedVariant && setProductErorrs) {

@@ -7,31 +7,31 @@ export default {
     ...mapGetters('category', [
       'getActiveCategoryFilters',
       'getCurrentCategoryProductQuery',
-      'getAllCategoryFilters',
+      'getAllCategoryFilters'
     ]),
-    filters() {
+    filters () {
       return this.getAllCategoryFilters
     },
-    activeFilters() {
+    activeFilters () {
       return this.getActiveCategoryFilters
-    },
+    }
   },
   methods: {
     /** used to sort filters descending by id */
-    sortById(filters) {
+    sortById (filters) {
       return [...filters].sort((a, b) => {
         return a.id - b.id
       })
     },
-    resetAllFilters() {
+    resetAllFilters () {
       // todo: get rid of this one
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       this.$store.dispatch('category/searchProductQuery', {})
       this.$store.dispatch('category/mergeSearchOptions', {
-        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters),
+        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
       })
       this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-    },
-  },
+    }
+  }
 }

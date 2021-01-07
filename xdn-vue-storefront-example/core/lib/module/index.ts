@@ -15,35 +15,35 @@ import config from 'config'
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
 
-function registerModules(modules: VueStorefrontModule[], context): void {
+function registerModules (modules: VueStorefrontModule[], context): void {
   modules.forEach(m => m.register())
   Logger.info('VS Modules registration finished.', 'module', {
     succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
-    registrationOrder: registeredModules,
+    registrationOrder: registeredModules
   })()
 }
 
-function extendModule(moduleConfig: VueStorefrontModuleConfig) {
+function extendModule (moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
 
 class VueStorefrontModule {
   private _isRegistered = false
   private _c: VueStorefrontModuleConfig
-  public constructor(_c: VueStorefrontModuleConfig) {
+  public constructor (_c: VueStorefrontModuleConfig) {
     this._c = _c
   }
 
-  private static _extendStore(
+  private static _extendStore (
     storeInstance: any,
-    modules: { key: string; module: Module<any, any> }[],
+    modules: { key: string, module: Module<any, any> }[],
     plugin: any
   ): void {
     if (modules) modules.forEach(store => storeInstance.registerModule(store.key, store.module))
     if (plugin) storeInstance.subscribe(plugin)
   }
 
-  private static _extendRouter(
+  private static _extendRouter (
     routerInstance,
     routes?: RouteConfig[],
     beforeEach?: NavigationGuard,
@@ -56,7 +56,7 @@ class VueStorefrontModule {
     if (afterEach) routerInstance.afterEach(afterEach)
   }
 
-  private _extendModule(extendedConfig: VueStorefrontModuleConfig): void {
+  private _extendModule (extendedConfig: VueStorefrontModuleConfig): void {
     const mergedStore = { modules: [], plugin: null }
     const key = this._c.key
     const originalStore = this._c.store
@@ -70,16 +70,16 @@ class VueStorefrontModule {
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
 
-  public get config() {
+  public get config () {
     return this._c
   }
 
   /** Use only if you want to explicitly modify module config. Otherwise it's much easier to use `extendModule` */
-  public set config(config) {
+  public set config (config) {
     this._c = config
   }
 
-  public register(): VueStorefrontModuleConfig | void {
+  public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
       Logger.warn(
         'The module you are registering is using outdated API that will soon be depreciated. Please check https://docs.vuestorefront.io to learn more.',
@@ -91,7 +91,7 @@ class VueStorefrontModule {
         Vue,
         config: config,
         store: rootStore,
-        isServer,
+        isServer
       }
 
       moduleExtendings.forEach(extending => {
@@ -127,15 +127,15 @@ class VueStorefrontModule {
             this._c.beforeRegistration(Vue, config, rootStore, isServer)
           }
         }
-        if (this._c.store)
-          VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
-        if (this._c.router)
+        if (this._c.store) { VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin) }
+        if (this._c.router) {
           VueStorefrontModule._extendRouter(
             router,
             this._c.router.routes,
             this._c.router.beforeEach,
             this._c.router.afterEach
           )
+        }
         registeredModules.push(this._c)
         this._isRegistered = true
         if (this._c.afterRegistration) {
@@ -156,7 +156,7 @@ class VueStorefrontModule {
   }
 }
 
-function createModule(config: VueStorefrontModuleConfig): VueStorefrontModule {
+function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
   return new VueStorefrontModule(config)
 }
 
@@ -166,5 +166,5 @@ export {
   extendModule,
   VueStorefrontModule,
   registerModules,
-  createModule,
+  createModule
 }

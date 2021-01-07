@@ -5,7 +5,7 @@ import config from 'config'
 fs.writeFileSync(path.resolve(__dirname, '../build/config.json'), JSON.stringify(config))
 
 const csvDirectories = [
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
 ]
 
 const moduleRoot = path.resolve(__dirname, '../../src/modules')

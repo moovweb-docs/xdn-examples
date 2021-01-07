@@ -2,12 +2,12 @@ import config from 'config'
 import { mapGetters } from 'vuex'
 export const CategorySort = {
   name: 'SortBy',
-  data() {
+  data () {
     return {
-      sortby: '',
+      sortby: ''
     }
   },
-  mounted() {
+  mounted () {
     const sort =
       this.getCurrentCategoryProductQuery && this.getCurrentCategoryProductQuery.sort
         ? this.getCurrentCategoryProductQuery.sort
@@ -22,26 +22,26 @@ export const CategorySort = {
   },
   methods: {
     // emit to category, todo: move all logic inside
-    sort() {
+    sort () {
       this.$emit('change', this.sortby)
       // this.$bus.$emit('list-change-sort', { attribute: this.sortby })
-    },
+    }
   },
   computed: {
     ...mapGetters('category', ['getCurrentCategoryProductQuery']),
-    sortingOptions() {
+    sortingOptions () {
       return config.products.sortByAttributes
     },
-    sortingVariants() {
+    sortingVariants () {
       let variants = []
       Object.keys(this.sortingOptions).map(label => {
         variants.push({
           label: label,
           id: this.sortingOptions[label],
-          type: 'sort',
+          type: 'sort'
         })
       })
       return variants
-    },
-  },
+    }
+  }
 }

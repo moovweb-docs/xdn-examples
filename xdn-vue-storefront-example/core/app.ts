@@ -1,7 +1,7 @@
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, once } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
@@ -19,7 +19,7 @@ import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/mul
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
 import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
-import { once } from '@vue-storefront/core/helpers'
+
 import store from '@vue-storefront/core/store'
 import { enabledModules } from './modules-entry'
 import globalConfig from 'config'
@@ -43,7 +43,7 @@ const createApp = async (
   ssrContext,
   config,
   storeCode = null
-): Promise<{ app: Vue; router: VueRouter; store: Store<RootState>; initialState: RootState }> => {
+): Promise<{ app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState }> => {
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
@@ -56,9 +56,9 @@ const createApp = async (
     // @deprecated - we shouldn't share server context between requests
     Vue.prototype.$ssrRequestContext = {
       output: {
-        cacheTags: ssrContext.output.cacheTags,
+        cacheTags: ssrContext.output.cacheTags
       },
-      userAgent: ssrContext.server.request.headers['user-agent'],
+      userAgent: ssrContext.server.request.headers['user-agent']
     }
 
     Vue.prototype.$cacheTags = ssrContext.output.cacheTags
@@ -72,7 +72,7 @@ const createApp = async (
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, { attempt: 2, preLoad: 1.5 })
     Vue.use(Meta, {
-      ssrAppId: 1,
+      ssrAppId: 1
     })
     Vue.use(VueObserveVisibility)
 
@@ -93,7 +93,7 @@ const createApp = async (
     router: routerProxy,
     store,
     i18n,
-    render: h => h(themeEntry),
+    render: h => h(themeEntry)
   }
 
   const apolloProvider = await getApolloProvider()
@@ -103,7 +103,7 @@ const createApp = async (
 
   const appContext = {
     isServer,
-    ssrContext,
+    ssrContext
   }
 
   injectReferences(app, store, routerProxy, globalConfig)
@@ -121,7 +121,7 @@ const createApp = async (
     app,
     router: routerProxy,
     store,
-    initialState: stateFactory.createInitialState(store.state),
+    initialState: stateFactory.createInitialState(store.state)
   }
 }
 

@@ -7,7 +7,7 @@ export const CartSummary = {
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
-      isVirtualCart: 'cart/isVirtualCart',
-    }),
-  },
+      isVirtualCart: 'cart/isVirtualCart'
+    })
+  }
 }

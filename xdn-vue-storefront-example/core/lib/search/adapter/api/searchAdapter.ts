@@ -1,10 +1,10 @@
 import map from 'lodash-es/map'
-import { elasticsearch } from 'storefront-query-builder'
+import { elasticsearch, SearchQuery } from 'storefront-query-builder'
 import fetch from 'isomorphic-fetch'
 import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'
-import { SearchQuery } from 'storefront-query-builder'
+
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
@@ -13,12 +13,12 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 export class SearchAdapter {
   public entities: any
 
-  public constructor() {
+  public constructor () {
     this.entities = []
     this.initBaseTypes()
   }
 
-  public async search(Request) {
+  public async search (Request) {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type)
     }
@@ -28,7 +28,7 @@ export class SearchAdapter {
       ElasticsearchQueryBody = await elasticsearch.buildQueryBodyFromSearchQuery({
         config,
         queryChain: bodybuilder.default(),
-        searchQuery: Request.searchQuery,
+        searchQuery: Request.searchQuery
       })
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
@@ -58,7 +58,7 @@ export class SearchAdapter {
     const httpQuery: HttpQuery = {
       size: Request.size,
       from: Request.from,
-      sort: Request.sort,
+      sort: Request.sort
     }
 
     if (Request._sourceExclude) {
@@ -93,10 +93,10 @@ export class SearchAdapter {
       mode: 'cors',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body:
-        config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null,
+        config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
       .then(resp => {
         return resp.json()
@@ -106,7 +106,7 @@ export class SearchAdapter {
       })
   }
 
-  public handleResult(resp, type, start = 0, size = 50): SearchResponse {
+  public handleResult (resp, type, start = 0, size = 50): SearchResponse {
     if (resp === null) {
       throw new Error('Invalid ES result - null not exepcted')
     }
@@ -118,10 +118,10 @@ export class SearchAdapter {
             slug: hit._source.slug
               ? hit._source.slug
               : hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys
-              ? hit._source.url_key
-              : hit._source.hasOwnProperty('name')
-              ? slugify(hit._source.name) + '-' + hit._source.id
-              : '',
+                ? hit._source.url_key
+                : hit._source.hasOwnProperty('name')
+                  ? slugify(hit._source.name) + '-' + hit._source.id
+                  : ''
           }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.hits.total,
@@ -129,7 +129,7 @@ export class SearchAdapter {
         perPage: size,
         aggregations: resp.aggregations,
         attributeMetadata: resp.attribute_metadata,
-        suggestions: resp.suggest,
+        suggestions: resp.suggest
       }
     } else {
       const isErrorObject = (resp && resp.code) >= 400 ? resp : null
@@ -145,13 +145,13 @@ export class SearchAdapter {
     }
   }
 
-  public registerEntityType(
+  public registerEntityType (
     entityType,
     { url = '', url_ssr = '', queryProcessor, resultProcessor }
   ) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor,
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -162,7 +162,7 @@ export class SearchAdapter {
     return this
   }
 
-  public initBaseTypes() {
+  public initBaseTypes () {
     this.registerEntityType('product', {
       queryProcessor: query => {
         // function that can modify the query each time before it's being executed
@@ -170,7 +170,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'product', start, size)
-      },
+      }
     })
 
     this.registerEntityType('attribute', {
@@ -180,7 +180,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'attribute', start, size)
-      },
+      }
     })
 
     this.registerEntityType('category', {
@@ -190,7 +190,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'category', start, size)
-      },
+      }
     })
 
     this.registerEntityType('taxrule', {
@@ -200,7 +200,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'taxrule', start, size)
-      },
+      }
     })
 
     this.registerEntityType('review', {
@@ -210,7 +210,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'review', start, size)
-      },
+      }
     })
     this.registerEntityType('cms_page', {
       queryProcessor: query => {
@@ -219,7 +219,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_page', start, size)
-      },
+      }
     })
     this.registerEntityType('cms_block', {
       queryProcessor: query => {
@@ -228,7 +228,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_block', start, size)
-      },
+      }
     })
     this.registerEntityType('cms_hierarchy', {
       queryProcessor: query => {
@@ -237,7 +237,7 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_hierarchy', start, size)
-      },
+      }
     })
   }
 }

@@ -4,7 +4,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import {
   BundleOption,
   BundleOptionsProductLink,
-  SelectedBundleOption,
+  SelectedBundleOption
 } from '@vue-storefront/core/modules/catalog/types/BundleOption'
 
 export const getBundleOptionPrice = (bundleOptionValues: BundleOptionsProductLink[]) =>
@@ -43,7 +43,7 @@ export const getSelectedBundleOptions = (product: Product): SelectedBundleOption
     return {
       option_id: bundleOption.option_id,
       option_qty: qty,
-      option_selections: [Number(defaultLink.id)],
+      option_selections: [Number(defaultLink.id)]
     }
   })
 }

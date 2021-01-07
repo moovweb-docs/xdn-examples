@@ -6,12 +6,12 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 export const AddToCompare = {
   name: 'AddToCompare',
   mixins: [compareMountedMixin],
-  created() {
+  created () {
     registerModule(CompareModule)
   },
   methods: {
-    addToCompare(product: Product) {
+    addToCompare (product: Product) {
       return this.$store.state['compare'] ? this.$store.dispatch('compare/addItem', product) : false
-    },
-  },
+    }
+  }
 }

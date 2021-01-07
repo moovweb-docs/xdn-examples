@@ -1,7 +1,7 @@
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
-export function prepareRelatedQuery(key, sku) {
+export function prepareRelatedQuery (key, sku) {
   let relatedProductsQuery = new SearchQuery()
 
   relatedProductsQuery = relatedProductsQuery.applyFilter({ key: key, value: { in: sku } })
@@ -13,7 +13,7 @@ export function prepareRelatedQuery(key, sku) {
   if (config.products.listOutOfStockProducts === false) {
     relatedProductsQuery = relatedProductsQuery.applyFilter({
       key: 'stock.is_in_stock',
-      value: { eq: true },
+      value: { eq: true }
     })
   }
 

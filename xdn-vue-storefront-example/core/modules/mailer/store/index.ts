@@ -8,7 +8,7 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 export const mailerStore: Module<any, any> = {
   namespaced: true,
   actions: {
-    async sendEmail(context, letter: MailItem) {
+    async sendEmail (context, letter: MailItem) {
       try {
         const res = await fetch(
           processURLAddress(getApiEndpointUrl(config.mailer.endpoint, 'token'))
@@ -21,12 +21,12 @@ export const mailerStore: Module<any, any> = {
               mode: 'cors',
               headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                 ...letter,
-                token: resData.result,
-              }),
+                token: resData.result
+              })
             })
             return res
           } catch (e) {
@@ -40,6 +40,6 @@ export const mailerStore: Module<any, any> = {
         Logger.error(e, 'mailer')()
         throw new Error(e)
       }
-    },
-  },
+    }
+  }
 }

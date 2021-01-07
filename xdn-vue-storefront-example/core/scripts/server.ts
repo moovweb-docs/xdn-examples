@@ -30,7 +30,7 @@ const ssr = require('./utils/ssr-renderer')
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
-  interpolate: /{{{([\s\S]+?)}}}/g,
+  interpolate: /{{{([\s\S]+?)}}}/g
 }
 const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(
   `^.*\\.(${config.server.ssrDisabledFor.extensions.join('|')})$`
@@ -66,7 +66,7 @@ if (isProd) {
   })
 }
 
-function invalidateCache(req, res) {
+function invalidateCache (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) {
       // clear cache pages for specific query tag
@@ -153,14 +153,14 @@ const serve = (path, cache, options?) =>
         setHeaders:
           cache && isProd
             ? function (res, path) {
-                const mimeType = express.static.mime.lookup(path)
-                let maxAge = config.expireHeaders.default
-                if (config.expireHeaders.hasOwnProperty(mimeType)) {
-                  maxAge = config.expireHeaders.get(mimeType)
-                }
-                res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000)
+              const mimeType = express.static.mime.lookup(path)
+              let maxAge = config.expireHeaders.default
+              if (config.expireHeaders.hasOwnProperty(mimeType)) {
+                maxAge = config.expireHeaders.get(mimeType)
               }
-            : null,
+              res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge) / 1000)
+            }
+            : null
       },
       options
     )
@@ -179,14 +179,14 @@ app.use(
   serve('dist/service-worker.js', false, {
     setHeaders: function (res, path, stat) {
       res.set('Content-Type', 'text/javascript; charset=UTF-8')
-    },
+    }
   })
 )
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
-function cacheVersion(req, res) {
+function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
 }
 
@@ -249,7 +249,7 @@ app.get('*', (req, res, next) => {
           res,
           context,
           output,
-          isProd,
+          isProd
         })
 
         if (typeof beforeOutputRenderedResponse.output === 'string') {
@@ -274,7 +274,7 @@ app.get('*', (req, res, next) => {
           res,
           context,
           output,
-          isProd,
+          isProd
         })
 
         if (typeof afterOutputRenderedResponse === 'string') {

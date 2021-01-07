@@ -2,17 +2,17 @@ import { AccountButton } from '@vue-storefront/core/modules/user/components/Acco
 
 export default {
   name: 'AccountIcon',
-  data() {
+  data () {
     // theme-specific, deprecated
     return {
-      navigation: [],
+      navigation: []
     }
   },
   computed: {
-    currentUser() {
+    currentUser () {
       // renamed to 'user'
       return this.user
-    },
+    }
   },
-  mixins: [AccountButton],
+  mixins: [AccountButton]
 }

@@ -3,5 +3,5 @@ import { UserOrders } from '@vue-storefront/core/modules/order/components/UserOr
 // component fully deprecated. Use user/components/Orders instead
 export default {
   name: 'MyOrders',
-  mixins: [UserOrders],
+  mixins: [UserOrders]
 }

@@ -13,9 +13,9 @@ const isSubscribed = (email: string): Promise<boolean> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: true,
+    silent: true
   }).then(({ result }) => result === 'subscribed')
 
 const subscribe = (email: string): Promise<boolean> =>
@@ -25,8 +25,8 @@ const subscribe = (email: string): Promise<boolean> =>
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({ email }),
-    },
+      body: JSON.stringify({ email })
+    }
   }).then(({ code }) => code === 200)
 
 const unsubscribe = (email: string): Promise<boolean> =>
@@ -36,12 +36,12 @@ const unsubscribe = (email: string): Promise<boolean> =>
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({ email }),
-    },
+      body: JSON.stringify({ email })
+    }
   }).then(({ code }) => code === 200)
 
 export const NewsletterService: DataResolver.NewsletterService = {
   isSubscribed,
   subscribe,
-  unsubscribe,
+  unsubscribe
 }

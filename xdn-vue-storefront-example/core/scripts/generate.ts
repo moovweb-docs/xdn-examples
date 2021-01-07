@@ -12,7 +12,7 @@ const resolve = file => path.resolve(rootPath, file)
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 const { renderer, templatesCache, destPath } = _prepareRenderer()
 
-async function _renderItems(
+async function _renderItems (
   itemsSource,
   pageFrom,
   pageSize,
@@ -70,7 +70,7 @@ const _cmdGenerateProducts = async cmd => {
         searchQuery: bodybuilder()
           .filter('terms', 'visibility', [2, 3, 4])
           .andFilter('term', 'status', 1)
-          .build(),
+          .build()
       },
       config,
       config /* TODO: add support for different storeviews */
@@ -95,7 +95,7 @@ const _cmdGenerateCategories = async cmd => {
         from: from,
         sort: 'id:desc',
         type: 'category',
-        searchQuery: bodybuilder().filter('term', 'is_active', true).build(),
+        searchQuery: bodybuilder().filter('term', 'is_active', true).build()
       },
       config,
       config /* TODO: add support for different storeviews */
@@ -122,7 +122,7 @@ const _cmdGenerateCms = async cmd => {
         from: from,
         sort: 'id:desc',
         type: 'cms_page',
-        searchQuery: bodybuilder().build(),
+        searchQuery: bodybuilder().build()
       },
       config,
       config /* TODO: add support for different storeviews */
@@ -167,18 +167,18 @@ const _cmdAll = async cmd => {
                 _source: {
                   name: 'Home page',
                   output_file_name: 'index.html',
-                  url_path: '/', // to render home page
-                },
+                  url_path: '/' // to render home page
+                }
               },
               {
                 _source: {
                   name: 'Page not found',
                   output_file_name: 'page-not-found',
-                  url_path: '/page-not-found', // to render home page
-                },
-              },
-            ],
-          },
+                  url_path: '/page-not-found' // to render home page
+                }
+              }
+            ]
+          }
         }
       } else {
         return { hits: null }
@@ -202,10 +202,10 @@ program
   .option('-s|--size <size>', 'size - batch size', 20)
   .action(_cmdAll)
 
-function _prepareRenderer() {
+function _prepareRenderer () {
   const compileOptions = {
     escape: /{{([^{][\s\S]+?[^}])}}/g,
-    interpolate: /{{{([\s\S]+?)}}}/g,
+    interpolate: /{{{([\s\S]+?)}}}/g
   }
   const templatesCache = ssr.initTemplatesCache(config, compileOptions)
   // In production: create server renderer using server bundle and index HTML

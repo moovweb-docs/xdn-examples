@@ -12,15 +12,15 @@ export const categoryModule: Module<CategoryState, RootState> = {
     current: {},
     filters: {
       available: {},
-      chosen: {},
+      chosen: {}
     },
     breadcrumbs: {
-      routes: [],
+      routes: []
     },
     current_product_query: null,
-    current_path: [], // list of categories from root to current
+    current_path: [] // list of categories from root to current
   },
   getters,
   actions,
-  mutations,
+  mutations
 }

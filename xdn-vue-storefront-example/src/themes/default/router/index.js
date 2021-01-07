@@ -20,111 +20,111 @@ let routes = [
     path: '/legal',
     component: Static,
     props: { page: 'lorem', title: 'Legal Notice' },
-    meta: { title: 'Legal Notice', description: 'Legal Notice - example of description usage' },
+    meta: { title: 'Legal Notice', description: 'Legal Notice - example of description usage' }
   },
   {
     name: 'privacy',
     path: '/privacy',
     component: Static,
-    props: { page: 'lorem', title: 'Privacy' },
+    props: { page: 'lorem', title: 'Privacy' }
   },
   {
     name: 'magazine',
     path: '/magazine',
     component: Static,
-    props: { page: 'lorem', title: 'Magazine' },
+    props: { page: 'lorem', title: 'Magazine' }
   },
   { name: 'sale', path: '/sale', component: Static, props: { page: 'lorem', title: 'Sale' } },
   {
     name: 'order-tracking',
     path: '/order-tracking',
     component: Static,
-    props: { page: 'lorem', title: 'Track my Order' },
+    props: { page: 'lorem', title: 'Track my Order' }
   },
   { name: 'my-account', path: '/my-account', component: MyAccount },
   {
     name: 'my-shipping-details',
     path: '/my-account/shipping-details',
     component: MyAccount,
-    props: { activeBlock: 'MyShippingDetails' },
+    props: { activeBlock: 'MyShippingDetails' }
   },
   {
     name: 'my-newsletter',
     path: '/my-account/newsletter',
     component: MyAccount,
-    props: { activeBlock: 'MyNewsletter' },
+    props: { activeBlock: 'MyNewsletter' }
   },
   {
     name: 'my-orders',
     path: '/my-account/orders',
     component: MyAccount,
-    props: { activeBlock: 'MyOrders' },
+    props: { activeBlock: 'MyOrders' }
   },
   {
     name: 'my-order',
     path: '/my-account/orders/:orderId',
     component: MyAccount,
-    props: { activeBlock: 'MyOrder' },
+    props: { activeBlock: 'MyOrder' }
   },
   {
     name: 'my-recently-viewed',
     path: '/my-account/recently-viewed',
     component: MyAccount,
-    props: { activeBlock: 'MyRecentlyViewed' },
+    props: { activeBlock: 'MyRecentlyViewed' }
   },
   {
     name: 'about-us',
     path: '/about-us',
     component: Static,
-    props: { page: 'lorem', title: 'About us' },
+    props: { page: 'lorem', title: 'About us' }
   },
   {
     name: 'customer-service',
     path: '/customer-service',
     component: Static,
-    props: { page: 'lorem', title: 'Customer service' },
+    props: { page: 'lorem', title: 'Customer service' }
   },
   {
     name: 'store-locator',
     path: '/store-locator',
     component: Static,
-    props: { page: 'lorem', title: 'Store locator' },
+    props: { page: 'lorem', title: 'Store locator' }
   },
   {
     name: 'size-guide',
     path: '/size-guide',
     component: Static,
-    props: { page: 'lorem', title: 'Size guide' },
+    props: { page: 'lorem', title: 'Size guide' }
   },
   {
     name: 'gift-card',
     path: '/gift-card',
     component: Static,
-    props: { page: 'lorem', title: 'Gift card' },
+    props: { page: 'lorem', title: 'Gift card' }
   },
   {
     name: 'delivery',
     path: '/delivery',
     component: Static,
-    props: { page: 'lorem', title: 'Delivery' },
+    props: { page: 'lorem', title: 'Delivery' }
   },
   {
     name: 'returns',
     path: '/returns',
     component: Static,
-    props: { page: 'lorem', title: 'Returns policy' },
+    props: { page: 'lorem', title: 'Returns policy' }
   },
   {
     name: 'order-from-catalog',
     path: '/order-from-catalog',
     component: Static,
-    props: { page: 'lorem', title: 'Order from catalog' },
+    props: { page: 'lorem', title: 'Order from catalog' }
   },
   {
     name: 'contact',
     path: '/contact',
     component: Static,
-    props: { page: 'contact', title: 'Contact' },
+    props: { page: 'contact', title: 'Contact' }
   },
   { name: 'compare', path: '/compare', component: Compare, props: { title: 'Compare Products' } },
   { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'minimal' } },
@@ -138,7 +138,7 @@ let routes = [
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage },
   { name: 'create-password', path: '/create-password', component: ResetPassword },
-  { name: 'page-not-found', path: '*', component: PageNotFound },
+  { name: 'page-not-found', path: '*', component: PageNotFound }
 ]
 
 export default routes

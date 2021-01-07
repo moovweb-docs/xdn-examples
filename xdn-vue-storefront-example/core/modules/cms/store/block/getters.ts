@@ -14,7 +14,7 @@ const getters: GetterTree<CmsBlockState, RootState> = {
   getCmsBlockById: state => id => state.items.find(item => item.id === id),
   getCmsBlocks: state => state.items,
   hasItems: state => state.items && state.items.length > 0,
-  findCmsBlocks: state => ({ key, value }) => state.items.filter(item => item[key] === value),
+  findCmsBlocks: state => ({ key, value }) => state.items.filter(item => item[key] === value)
 }
 
 export default getters

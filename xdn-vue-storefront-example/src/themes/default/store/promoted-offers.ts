@@ -2,10 +2,10 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default interface PromotedOffersState {
   banners: {
-    mainBanners: any[]
-    smallBanners: any[]
+    mainBanners: any[],
+    smallBanners: any[],
     productBanners: any[]
-  }
+  },
   headImage: Record<string, any>
 }
 
@@ -15,18 +15,18 @@ export const promotedStore = {
     banners: {
       mainBanners: [],
       smallBanners: [],
-      productBanners: [],
+      productBanners: []
     },
-    headImage: null,
+    headImage: null
   },
   getters: {
     getPromotedOffers: state => {
       return state.banners
     },
-    getHeadImage: state => state.headImage,
+    getHeadImage: state => state.headImage
   },
   actions: {
-    async updatePromotedOffers({ commit, rootState }, data) {
+    async updatePromotedOffers ({ commit, rootState }, data) {
       let promotedBannersResource =
         rootState.storeView && rootState.storeView.storeCode
           ? `banners/${rootState.storeView.storeCode}_promoted_offers`
@@ -43,7 +43,7 @@ export const promotedStore = {
         Logger.debug('Unable to load promotedOffers' + err)()
       }
     },
-    async updateHeadImage({ commit, rootState }, data) {
+    async updateHeadImage ({ commit, rootState }, data) {
       let mainImageResource =
         rootState.storeView && rootState.storeView.storeCode
           ? `banners/${rootState.storeView.storeCode}_main-image`
@@ -59,14 +59,14 @@ export const promotedStore = {
       } catch (err) {
         Logger.debug('Unable to load headImage' + err)()
       }
-    },
+    }
   },
   mutations: {
-    updatePromotedOffers(state, data) {
+    updatePromotedOffers (state, data) {
       state.banners = data
     },
-    SET_HEAD_IMAGE(state, headImage) {
+    SET_HEAD_IMAGE (state, headImage) {
       state.headImage = headImage
-    },
-  },
+    }
+  }
 }

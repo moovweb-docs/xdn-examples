@@ -11,7 +11,7 @@ const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
 const _globalCache = {}
 
-function roughSizeOfObject(object) {
+function roughSizeOfObject (object) {
   const objectList = []
   const stack = [object]
   let bytes = 0
@@ -34,9 +34,9 @@ function roughSizeOfObject(object) {
 }
 
 interface CacheTimeouts {
-  getItem: any
-  iterate: any
-  setItem: any
+  getItem: any,
+  iterate: any,
+  setItem: any,
   base: any
 }
 
@@ -54,10 +54,10 @@ class LocalForageCacheDriver {
     getItem: null,
     iterate: null,
     setItem: null,
-    base: null,
+    base: null
   }
 
-  public constructor(collection, useLocalCacheByDefault = true, storageQuota = 0) {
+  public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
     const collectionName = collection._config.storeName
     const dbName = collection._config.name
     this._storageQuota = storageQuota
@@ -78,7 +78,7 @@ class LocalForageCacheDriver {
             if (storageSize / 1024 > storageQuota) {
               Logger.info('Clearing out the storage ', 'cache', {
                 storageSizeKB: Math.round(storageSize / 1024),
-                storageQuotaKB: storageQuota,
+                storageQuotaKB: storageQuota
               })()
               const howManyItemsToRemove = 100
               const keysPurged = []
@@ -96,7 +96,7 @@ class LocalForageCacheDriver {
               )
             } else {
               Logger.info('Storage size', 'cache', {
-                storageSizeKB: Math.round(storageSize / 1024),
+                storageSizeKB: Math.round(storageSize / 1024)
               })()
             }
           }
@@ -128,22 +128,22 @@ class LocalForageCacheDriver {
     this._persistenceErrorNotified = false
   }
 
-  public getLastError() {
+  public getLastError () {
     return this._lastError
   }
 
-  public getDbName() {
+  public getDbName () {
     return this._dbName
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
   // the app's key/value store!
-  public clear(callback?) {
+  public clear (callback?) {
     return this._localForageCollection.clear(callback)
   }
 
   // Increment the database version number and recreate the context
-  public recreateDb() {
+  public recreateDb () {
     if (this._localForageCollection._config) {
       const existingConfig = Object.assign({}, this._localForageCollection._config)
       if (existingConfig.storeName) {
@@ -155,7 +155,7 @@ class LocalForageCacheDriver {
         if (destVersionNumber > 0) {
           this._localForageCollection = localForage.createInstance({
             ...existingConfig,
-            version: destVersionNumber,
+            version: destVersionNumber
           })
         } else {
           this._localForageCollection = localForage.createInstance(existingConfig)
@@ -165,14 +165,14 @@ class LocalForageCacheDriver {
     }
   }
 
-  public getLocalCache(key) {
+  public getLocalCache (key) {
     return typeof this._localCache[key] !== 'undefined' ? cloneDeep(this._localCache[key]) : null
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
   // library in Gaia, we don't modify return values at all. If a key's value
   // is `undefined`, we pass that value to the callback function.
-  public getItem(key, callback?) {
+  public getItem (key, callback?) {
     const isCallbackCallable = typeof callback !== 'undefined' && callback
     let isResolved = false
     if (this._useLocalCacheByDefault && this._localCache[key]) {
@@ -239,7 +239,7 @@ class LocalForageCacheDriver {
             if (!this._persistenceErrorNotified) {
               Logger.error('Cache not responding for ' + key + '.', 'cache', {
                 timeout: CACHE_TIMEOUT,
-                errorsCount: this.cacheErrorsCount[this._collectionName],
+                errorsCount: this.cacheErrorsCount[this._collectionName]
               })()
               this._persistenceErrorNotified = true
               this.recreateDb()
@@ -265,7 +265,7 @@ class LocalForageCacheDriver {
   }
 
   // Iterate over all items in the store.
-  public iterate(iterator, callback?) {
+  public iterate (iterator, callback?) {
     const isIteratorCallable = typeof iterator !== 'undefined' && iterator
     const isCallbackCallable = typeof callback !== 'undefined' && callback
     let globalIterationNumber = 1
@@ -319,7 +319,7 @@ class LocalForageCacheDriver {
         if (!this._persistenceErrorNotified) {
           Logger.error('Cache not responding. (iterate)', 'cache', {
             timeout: CACHE_TIMEOUT,
-            errorsCount: this.cacheErrorsCount[this._collectionName],
+            errorsCount: this.cacheErrorsCount[this._collectionName]
           })()
           this._persistenceErrorNotified = true
           this.recreateDb()
@@ -334,21 +334,21 @@ class LocalForageCacheDriver {
   }
 
   // Same as localStorage's key() method, except takes a callback.
-  public key(n, callback?) {
+  public key (n, callback?) {
     return this._localForageCollection.key(n, callback)
   }
 
-  public keys(callback?) {
+  public keys (callback?) {
     return this._localForageCollection.keys(callback)
   }
 
   // Supply the number of keys in the datastore to the callback function.
-  public length(callback?) {
+  public length (callback?) {
     return this._localForageCollection.length(callback)
   }
 
   // Remove an item from the store, nice and simple.
-  public removeItem(key, callback?) {
+  public removeItem (key, callback?) {
     if (typeof this._localCache[key] !== 'undefined') {
       delete this._localCache[key]
     }
@@ -359,7 +359,7 @@ class LocalForageCacheDriver {
   // Unlike Gaia's implementation, the callback function is passed the value,
   // in case you want to operate on that value only after you're sure it
   // saved, or something like that.
-  public setItem(key, value, callback?, memoryOnly = false) {
+  public setItem (key, value, callback?, memoryOnly = false) {
     const isCallbackCallable = typeof callback !== 'undefined' && callback
     const copiedValue = cloneDeep(value)
     this._localCache[key] = copiedValue
@@ -410,7 +410,7 @@ class LocalForageCacheDriver {
             if (!this._persistenceErrorNotified) {
               Logger.error('Cache not responding for ' + key + '.', 'cache', {
                 timeout: CACHE_TIMEOUT,
-                errorsCount: this.cacheErrorsCount[this._collectionName],
+                errorsCount: this.cacheErrorsCount[this._collectionName]
               })()
               this._persistenceErrorNotified = true
               this.recreateDb()

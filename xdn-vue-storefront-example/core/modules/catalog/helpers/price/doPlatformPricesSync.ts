@@ -11,7 +11,7 @@ import syncProductPrice from './syncProductPrice'
  * Synchronize / override prices got from ElasticSearch with current one's from Magento2 or other platform backend
  * @param {Array} products
  */
-export default function doPlatformPricesSync(products) {
+export default function doPlatformPricesSync (products) {
   return new Promise(async (resolve, reject) => {
     if (config.products.alwaysSyncPlatformPricesOver) {
       if (config.products.clearPricesBeforePlatformSync) {
@@ -77,8 +77,8 @@ export default function doPlatformPricesSync(products) {
           products.map(p => {
             return p.configurable_children
               ? p.configurable_children.map(cc => {
-                  return cc.sku
-                })
+                return cc.sku
+              })
               : null
           })
         )
@@ -90,7 +90,7 @@ export default function doPlatformPricesSync(products) {
           skus,
           isUserGroupedTaxActive: rootStore.getters['tax/getIsUserGroupedTaxActive'],
           userGroupId: rootStore.getters['tax/getUserTaxGroupId'],
-          token: rootStore.getters['user/getToken'],
+          token: rootStore.getters['user/getToken']
         })
         if (items) {
           for (let product of products) {

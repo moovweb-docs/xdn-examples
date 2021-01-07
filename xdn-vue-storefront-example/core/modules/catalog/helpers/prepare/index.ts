@@ -8,7 +8,7 @@ import setDefaultProductOptions from './setDefaultProductOptions'
 /**
  * Apply base modification to product, after those modification we can store product in cache.
  */
-function preConfigureProduct(product) {
+function preConfigureProduct (product) {
   // base product modifications
   setDefaultQty(product)
   setDefaultObjects(product)
@@ -23,7 +23,7 @@ function preConfigureProduct(product) {
 /**
  * Apply base modification to product list, after those modification we can store product in cache.
  */
-function prepareProducts(products) {
+function prepareProducts (products) {
   const preparedProducts = products.map(preConfigureProduct)
 
   return preparedProducts

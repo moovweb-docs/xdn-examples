@@ -5,9 +5,9 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index
 import { Logger } from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
+import { serial, onlineHelper, processURLAddress, isServer } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { isServer } from '@vue-storefront/core/helpers'
+
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 
 export const OrderModule: StorefrontModule = function ({ store }) {
@@ -41,7 +41,7 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                   fetch(processURLAddress(config.orders.endpoint), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData),
+                    body: JSON.stringify(orderData)
                   })
                     .then(response => {
                       const contentType = response.headers.get('content-type')
@@ -70,7 +70,7 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                                 'Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.',
                                 { email: config.mailer.contactAddress }
                               ),
-                              action1: { label: i18n.t('OK') },
+                              action1: { label: i18n.t('OK') }
                             })
                           } else if (
                             jsonResponse.code === 500 &&
@@ -81,7 +81,7 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                               message: i18n.t(
                                 "Some products you've ordered are out of stock. Your order has been canceled."
                               ),
-                              action1: { label: i18n.t('OK') },
+                              action1: { label: i18n.t('OK') }
                             })
                           } else {
                             orderData.transmited = false // probably some server related error. Enqueue

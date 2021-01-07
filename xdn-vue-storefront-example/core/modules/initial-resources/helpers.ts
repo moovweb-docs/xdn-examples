@@ -41,7 +41,7 @@ export const addRegexpListToConfig = (config): InitialResources[] => {
 
   return initialResourcesConfig.map(resourceConfig => ({
     ...resourceConfig,
-    regexps: createRegexpList(resourceConfig),
+    regexps: createRegexpList(resourceConfig)
   }))
 }
 

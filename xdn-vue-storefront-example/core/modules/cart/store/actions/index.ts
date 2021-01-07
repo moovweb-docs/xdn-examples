@@ -20,7 +20,7 @@ const actions: ActionTree<CartState, RootState> = {
   ...productActions,
   ...quantityActions,
   ...synchronizeActions,
-  ...totalsActions,
+  ...totalsActions
 }
 
 export default actions

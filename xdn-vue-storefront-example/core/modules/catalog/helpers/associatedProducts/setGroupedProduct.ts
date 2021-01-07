@@ -10,7 +10,7 @@ import { catalogHooksExecutors } from './../../hooks'
  * This function prepare all product_links for grouped products.
  * It fetches products by sku.
  */
-export default async function setGroupedProduct(
+export default async function setGroupedProduct (
   product: Product,
   { includeFields = null, excludeFields = null } = {}
 ) {
@@ -32,8 +32,8 @@ export default async function setGroupedProduct(
         setProductErrors: false,
         setConfigurableProductOptions: false,
         assignProductConfiguration: false,
-        separateSelectedVariant: false,
-      },
+        separateSelectedVariant: false
+      }
     })
 
     catalogHooksExecutors.afterSetGroupedProduct(items)

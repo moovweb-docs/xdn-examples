@@ -2,21 +2,21 @@ export const breadcrumbsStore = {
   namespaced: true,
   state: {
     routes: [],
-    current: null,
+    current: null
   },
   mutations: {
-    set(state, payload) {
+    set (state, payload) {
       state.routes = payload.routes
       state.current = payload.current
-    },
+    }
   },
   actions: {
-    set({ commit }, payload) {
+    set ({ commit }, payload) {
       commit('set', payload)
-    },
+    }
   },
   getters: {
     getBreadcrumbsRoutes: state => state.routes,
-    getBreadcrumbsCurrent: state => state.current,
-  },
+    getBreadcrumbsCurrent: state => state.current
+  }
 }

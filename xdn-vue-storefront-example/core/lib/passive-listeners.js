@@ -3,9 +3,9 @@ const eventListenerOptionsSupported = () => {
 
   try {
     const opts = Object.defineProperty({}, 'passive', {
-      get() {
+      get () {
         supported = true
-      },
+      }
     })
 
     window.addEventListener('test', null, opts)
@@ -17,7 +17,7 @@ const eventListenerOptionsSupported = () => {
 
 const defaultOptions = {
   passive: true,
-  capture: false,
+  capture: false
 }
 const supportedPassiveTypes = [
   'scroll',
@@ -34,7 +34,7 @@ const supportedPassiveTypes = [
   'mousemove',
   'mouseenter',
   'mousewheel',
-  'mouseover',
+  'mouseover'
 ]
 const getDefaultPassiveOption = (passive, eventName) => {
   if (passive !== undefined) return passive

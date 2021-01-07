@@ -4,7 +4,7 @@ import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
-function _prepareCacheStorage(key, localized = !config.storeViews.commonCache, storageQuota = 0) {
+function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver =
@@ -16,7 +16,7 @@ function _prepareCacheStorage(key, localized = !config.storeViews.commonCache, s
     localForage.createInstance({
       name: localized ? `${dbNamePrefix}shop` : 'shop',
       storeName: key,
-      driver: localForage[cacheDriver],
+      driver: localForage[cacheDriver]
     }),
     true,
     storageQuota
@@ -57,7 +57,7 @@ const StorageManager = {
    * Check if the specified collection is already registered
    * @param collectionName string collection name to check
    */
-  exists(collectionName): boolean {
+  exists (collectionName): boolean {
     return !!this.storageMap[collectionName]
   },
   /**
@@ -76,7 +76,7 @@ const StorageManager = {
       return this.storageMap[collectionName]
     }
   },
-  clear(): Promise<void[]> {
+  clear (): Promise<void[]> {
     const promiseArray = Object.keys(this.storageMap).map(collectionName => {
       return (
         (config.localForage.preserveCollections || []).every(
@@ -92,13 +92,13 @@ const StorageManager = {
       )
     })
     return Promise.all(promiseArray)
-  },
+  }
 }
 
 /**
  * @deprecated to be removed in 2.0 in favor to `StorageManager`
  * */
-function initCacheStorage(key, localised = true, registerStorgeManager = true) {
+function initCacheStorage (key, localised = true, registerStorgeManager = true) {
   if (registerStorgeManager) {
     if (!StorageManager.exists(key)) {
       return StorageManager.set(key, _prepareCacheStorage(key, localised))

@@ -10,7 +10,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { cartHooksExecutors } from '../../hooks'
 
 const synchronizeActions = {
-  async load(
+  async load (
     { commit, dispatch },
     { forceClientState = false }: { forceClientState?: boolean } = {}
   ) {
@@ -23,10 +23,10 @@ const synchronizeActions = {
 
     cartHooksExecutors.afterLoad(storedItems)
   },
-  syncCartWhenLocalStorageChange({ commit }, { items }) {
+  syncCartWhenLocalStorageChange ({ commit }, { items }) {
     commit(types.CART_LOAD_CART, items)
   },
-  async synchronizeCart({ commit, dispatch }, { forceClientState }) {
+  async synchronizeCart ({ commit, dispatch }, { forceClientState }) {
     const { synchronize, serverMergeByDefault } = config.cart
     if (!synchronize) return
     const cartStorage = StorageManager.get('cart')
@@ -46,14 +46,14 @@ const synchronizeActions = {
     await dispatch('create')
   },
   /** @deprecated backward compatibility only */
-  async serverPull({ dispatch }, { forceClientState = false, dryRun = false }) {
+  async serverPull ({ dispatch }, { forceClientState = false, dryRun = false }) {
     Logger.warn(
       'The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11',
       'cart'
     )()
     return dispatch('sync', { forceClientState, dryRun })
   },
-  async sync(
+  async sync (
     { getters, rootGetters, commit, dispatch, state },
     { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }
   ) {
@@ -64,7 +64,7 @@ const synchronizeActions = {
     const { result, resultCode } = await CartService.getItems()
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({
       clientItems: getCartItems,
-      serverItems: result,
+      serverItems: result
     })
 
     if (resultCode === 200) {
@@ -73,7 +73,7 @@ const synchronizeActions = {
         serverItems,
         clientItems,
         forceClientState: shouldUpdateClientState,
-        mergeQty,
+        mergeQty
       })
       cartHooksExecutors.afterSync(diffLog)
       return diffLog
@@ -90,7 +90,7 @@ const synchronizeActions = {
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
     return createDiffLog()
   },
-  async stockSync({ dispatch, commit, getters }, stockTask) {
+  async stockSync ({ dispatch, commit, getters }, stockTask) {
     const product = { sku: stockTask.product_sku }
 
     const cartItem = await dispatch('getItem', { product })
@@ -108,8 +108,8 @@ const synchronizeActions = {
         product: {
           errors: { stock: i18n.t('Out of the stock!') },
           sku: stockTask.product_sku,
-          is_in_stock: false,
-        },
+          is_in_stock: false
+        }
       })
 
       return
@@ -119,12 +119,12 @@ const synchronizeActions = {
       product: {
         info: { stock: i18n.t('In stock!') },
         sku: stockTask.product_sku,
-        is_in_stock: true,
-      },
+        is_in_stock: true
+      }
     })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
-  },
+  }
 }
 
 export default synchronizeActions

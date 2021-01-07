@@ -11,7 +11,7 @@ import { catalogHooksExecutors } from './../../hooks'
  * This function prepare all product_links for bundle products.
  * It fetches products by sku.
  */
-export default async function setBundleProducts(
+export default async function setBundleProducts (
   product: Product,
   { includeFields = null, excludeFields = null } = {}
 ) {
@@ -31,8 +31,8 @@ export default async function setBundleProducts(
         setProductErrors: false,
         setConfigurableProductOptions: false,
         assignProductConfiguration: false,
-        separateSelectedVariant: false,
-      },
+        separateSelectedVariant: false
+      }
     })
 
     catalogHooksExecutors.afterSetBundleProducts(items)

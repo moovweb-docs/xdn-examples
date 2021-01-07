@@ -4,8 +4,8 @@ import { isServer } from '@vue-storefront/core/helpers'
 const hotjarStore = {
   namespaced: true,
   state: {
-    key: null,
-  },
+    key: null
+  }
 }
 
 const hotjarSnippet = hjid =>

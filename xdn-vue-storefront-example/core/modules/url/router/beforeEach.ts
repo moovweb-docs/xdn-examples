@@ -15,7 +15,7 @@ export const UrlDispatchMapper = async to => {
   return Object.assign({}, to, routeData)
 }
 
-export async function beforeEachGuard(to: Route, from: Route, next) {
+export async function beforeEachGuard (to: Route, from: Route, next) {
   if (RouterManager.isRouteProcessing()) {
     await RouterManager.getRouteLockPromise()
     next()
@@ -44,7 +44,7 @@ export async function beforeEachGuard(to: Route, from: Route, next) {
         if (dynamicRoute) {
           next({
             ...dynamicRoute,
-            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath,
+            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath
           })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()

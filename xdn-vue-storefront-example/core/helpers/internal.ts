@@ -8,12 +8,12 @@ export class HttpError {
   private code: string | number
   private name: string
 
-  public constructor(message, code) {
+  public constructor (message, code) {
     this.message = message
     this.code = code
     this.name = 'ValidationError'
   }
-  public toString() {
+  public toString () {
     return 'HttpError' + this.code + ': ' + this.message
   }
 }
@@ -21,11 +21,11 @@ export class HttpError {
 /**
  * @param {string} level available options: 'no-console', 'only-errors', 'all'
  */
-export function takeOverConsole(level = 'no-console') {
+export function takeOverConsole (level = 'no-console') {
   const console = !isServer ? window.console : global.console
   if (!console) return
 
-  function intercept(method) {
+  function intercept (method) {
     const original = console[method]
     console[method] = function () {
       let filterMethods = []

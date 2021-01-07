@@ -10,7 +10,7 @@ const get = require('lodash/get')
 const config = require('config')
 const minify = require('html-minifier').minify
 
-function createRenderer(bundle, clientManifest, template?) {
+function createRenderer (bundle, clientManifest, template?) {
   let shouldPreload = () => {}
   let shouldPrefetch = () => {}
   try {
@@ -29,23 +29,23 @@ function createRenderer(bundle, clientManifest, template?) {
     // runInNewContext: false,
     cache: new LRU({
       max: 1000,
-      maxAge: 1000 * 60 * 15,
+      maxAge: 1000 * 60 * 15
     }),
     shouldPreload,
-    shouldPrefetch,
+    shouldPrefetch
   })
 }
 
-function getFieldsToFilter() {
+function getFieldsToFilter () {
   const fields = [
     ...(config.ssr && (config.ssr.initialStateFilter || [])),
-    ...(config.ssr && (config.ssr.lazyHydrateFor || [])),
+    ...(config.ssr && (config.ssr.lazyHydrateFor || []))
   ]
 
   return fields
 }
 
-function filterState(context) {
+function filterState (context) {
   if (!config.ssr.useInitialStateFilter) {
     return context
   }
@@ -62,7 +62,7 @@ function filterState(context) {
   return omit(context, ['initialState'])
 }
 
-function applyAdvancedOutputProcessing(
+function applyAdvancedOutputProcessing (
   context,
   output,
   templatesCache,
@@ -111,7 +111,7 @@ function applyAdvancedOutputProcessing(
   return output
 }
 
-function initTemplatesCache(config, compileOptions) {
+function initTemplatesCache (config, compileOptions) {
   const templatesCache = {}
   for (const tplName of Object.keys(config.ssr.templates)) {
     const fileName = resolve(config.ssr.templates[tplName])
@@ -123,7 +123,7 @@ function initTemplatesCache(config, compileOptions) {
   return templatesCache
 }
 
-function initSSRRequestContext(app, req, res, config): Context {
+function initSSRRequestContext (app, req, res, config): Context {
   return {
     url: decodeURI(req.url),
     output: {
@@ -140,12 +140,12 @@ function initSSRRequestContext(app, req, res, config): Context {
         return ''
       },
       template: 'default',
-      cacheTags: new Set(),
+      cacheTags: new Set()
     },
     server: {
       app: app,
       response: res,
-      request: req,
+      request: req
     },
     meta: null,
     vs: {
@@ -155,12 +155,12 @@ function initSSRRequestContext(app, req, res, config): Context {
           ? req.header('x-vs-store-code')
             ? req.header('x-vs-store-code')
             : process.env.STORE_CODE
-          : process.env.STORE_CODE,
-    },
+          : process.env.STORE_CODE
+    }
   }
 }
 
-function clearContext(context) {
+function clearContext (context) {
   Object.keys(context.server).forEach(key => delete context.server[key])
   delete context.output['cacheTags']
   delete context['meta']
@@ -172,5 +172,5 @@ export {
   initSSRRequestContext,
   applyAdvancedOutputProcessing,
   compile as compileTemplate,
-  clearContext,
+  clearContext
 }

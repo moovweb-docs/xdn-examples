@@ -3,26 +3,26 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Register = {
   name: 'Register',
-  data() {
+  data () {
     return {
       email: '',
       firstName: '',
       lastName: '',
       password: '',
       rPassword: '',
-      conditions: false,
+      conditions: false
     }
   },
   methods: {
-    switchElem() {
+    switchElem () {
       // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'login')
     },
-    close() {
+    close () {
       // TODO Move to theme
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
-    callRegister() {
+    callRegister () {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store
@@ -30,7 +30,7 @@ export const Register = {
           email: this.email,
           password: this.password,
           firstname: this.firstName,
-          lastname: this.lastName,
+          lastname: this.lastName
         })
         .then(result => {
           Logger.debug(result, 'user')()
@@ -53,11 +53,11 @@ export const Register = {
         .catch(err => {
           // TODO Move to theme
           this.onFailure({
-            result: 'Unexpected authorization error. Check your Network conection.',
+            result: 'Unexpected authorization error. Check your Network conection.'
           })
           this.$bus.$emit('notification-progress-stop')
           Logger.error(err, 'user')()
         })
-    },
-  },
+    }
+  }
 }

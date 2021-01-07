@@ -7,8 +7,8 @@ import Vue from 'vue'
 const googleAnalyticsStore = {
   namespaced: true,
   state: {
-    key: null,
-  },
+    key: null
+  }
 }
 
 export const GoogleAnalyticsModule: StorefrontModule = function ({ store, router, appConfig }) {
@@ -18,8 +18,8 @@ export const GoogleAnalyticsModule: StorefrontModule = function ({ store, router
         id: appConfig.analytics.id,
         router,
         ecommerce: {
-          enabled: true,
-        },
+          enabled: true
+        }
       })
     })
   } else {
@@ -43,7 +43,7 @@ export const GoogleAnalyticsModule: StorefrontModule = function ({ store, router
           sku: product.sku,
           category: product.category ? product.category[0].name : '',
           price: product.price.toString(),
-          quantity: product.qty.toString(),
+          quantity: product.qty.toString()
         })
       })
       ecommerce.send()

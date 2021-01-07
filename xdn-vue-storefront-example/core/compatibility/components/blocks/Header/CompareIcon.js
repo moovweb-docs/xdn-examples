@@ -4,9 +4,9 @@ export default {
   name: 'CompareIcon',
   mixins: [CompareButton],
   computed: {
-    isActive() {
+    isActive () {
       // Computed Property renamed to 'isEmpty'
       return !this.isEmpty
-    },
-  },
+    }
+  }
 }

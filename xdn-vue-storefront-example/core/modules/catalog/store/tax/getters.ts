@@ -19,7 +19,7 @@ const getters: GetterTree<TaxState, RootState> = {
   },
   getIsUserGroupedTaxActive: (state, getters, rootState) => {
     return typeof currentStoreView().tax.userGroupId === 'number'
-  },
+  }
 }
 
 export default getters

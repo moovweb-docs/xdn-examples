@@ -7,27 +7,27 @@ import { setGroupedProduct, setBundleProducts } from '../associatedProducts'
 import { hasConfigurableChildren } from './..'
 
 interface ConfigureProductAsyncParams {
-  product: Product
-  configuration: any
-  attribute: any
+  product: Product,
+  configuration: any,
+  attribute: any,
   options?: {
-    fallbackToDefaultWhenNoAvailable?: boolean
-    setProductErrors?: boolean
-    setConfigurableProductOptions?: boolean
-    filterUnavailableVariants?: boolean
-    assignProductConfiguration?: boolean
-    separateSelectedVariant?: boolean
+    fallbackToDefaultWhenNoAvailable?: boolean,
+    setProductErrors?: boolean,
+    setConfigurableProductOptions?: boolean,
+    filterUnavailableVariants?: boolean,
+    assignProductConfiguration?: boolean,
+    separateSelectedVariant?: boolean,
     prefetchGroupProducts?: boolean
-  }
-  stockItems: any[]
-  excludeFields?: string[]
+  },
+  stockItems: any[],
+  excludeFields?: string[],
   includeFields?: string[]
 }
 
 /**
  * This function configure product for 'configurable', 'bundle' or 'group' product.
  */
-export default async function configureProductAsync({
+export default async function configureProductAsync ({
   product,
   configuration,
   attribute,
@@ -38,11 +38,11 @@ export default async function configureProductAsync({
     filterUnavailableVariants = false,
     assignProductConfiguration = false,
     separateSelectedVariant = false,
-    prefetchGroupProducts = false,
+    prefetchGroupProducts = false
   } = {},
   stockItems = [],
   excludeFields,
-  includeFields,
+  includeFields
 }: ConfigureProductAsyncParams) {
   // it not only filter variants but also it apply stock object
   if (filterUnavailableVariants) {
@@ -62,7 +62,7 @@ export default async function configureProductAsync({
 
     // find selected variant by configuration
     let selectedVariant = getSelectedVariant(product, _configuration, {
-      fallbackToDefaultWhenNoAvailable,
+      fallbackToDefaultWhenNoAvailable
     })
 
     if (selectedVariant) {
@@ -73,7 +73,7 @@ export default async function configureProductAsync({
       setProductConfigurableOptions({
         product,
         configuration: _configuration,
-        setConfigurableProductOptions,
+        setConfigurableProductOptions
       }) // set the custom options
 
       product.is_configured = true
@@ -88,11 +88,11 @@ export default async function configureProductAsync({
 
     const configuredProduct = {
       ...product,
-      ...(assignProductConfiguration ? { configuration: _configuration } : {}), // we can need configuration as separate object
+      ...(assignProductConfiguration ? { configuration: _configuration } : {}) // we can need configuration as separate object
     }
     return {
       ...configuredProduct,
-      ...(separateSelectedVariant ? { selectedVariant } : selectedVariant), // we can need selected variant as separate object
+      ...(separateSelectedVariant ? { selectedVariant } : selectedVariant) // we can need selected variant as separate object
     }
   }
 

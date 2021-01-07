@@ -4,14 +4,14 @@ import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import {
   localizedDispatcherRoute,
   localizedRoute,
-  currentStoreView,
+  currentStoreView
 } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { Category } from 'core/modules/catalog-next/types/Category'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export function parametrizeRouteData(
+export function parametrizeRouteData (
   routeData: LocalizedRoute,
   query: { [id: string]: any } | string,
   storeCodeInPath: string
@@ -24,13 +24,13 @@ export function parametrizeRouteData(
   return parametrizedRoute
 }
 
-function prepareDynamicRoute(routeData: LocalizedRoute, path: string): RouteConfig {
+function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteConfig {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const normalizedPath = `${path.startsWith('/') ? '' : '/'}${path}`
     const dynamicRoute = Object.assign({}, userRoute, routeData, {
       path: normalizedPath,
-      name: `urldispatcher-${normalizedPath}`,
+      name: `urldispatcher-${normalizedPath}`
     })
     return dynamicRoute
   } else {
@@ -39,7 +39,7 @@ function prepareDynamicRoute(routeData: LocalizedRoute, path: string): RouteConf
   }
 }
 
-export function processDynamicRoute(
+export function processDynamicRoute (
   routeData: LocalizedRoute,
   path: string,
   addToRoutes: boolean = true
@@ -51,7 +51,7 @@ export function processDynamicRoute(
   return preparedRoute
 }
 
-export function preProcessDynamicRoutes(
+export function preProcessDynamicRoutes (
   dispatcherMap: {},
   addToRoutes: boolean = true
 ): LocalizedRoute[] {
@@ -68,11 +68,11 @@ export function preProcessDynamicRoutes(
   return preparedRoutes
 }
 
-export function findRouteByPath(path: string): RouteConfig {
+export function findRouteByPath (path: string): RouteConfig {
   return RouterManager.findByPath(path)
 }
 
-export function normalizeUrlPath(url: string): string {
+export function normalizeUrlPath (url: string): string {
   if (url && url.length > 0) {
     if (url.length > 0 && !url.startsWith('/')) url = `/${url}`
     if (url.endsWith('/')) url = url.slice(0, -1)
@@ -82,7 +82,7 @@ export function normalizeUrlPath(url: string): string {
   return url
 }
 
-export function formatCategoryLink(
+export function formatCategoryLink (
   category: Category,
   storeCode: string = currentStoreView().storeCode
 ): string {
@@ -100,14 +100,14 @@ export function formatCategoryLink(
   return '/' + storeCode
 }
 
-export function formatProductLink(
+export function formatProductLink (
   product: {
-    parentSku?: string
-    sku: string
-    url_path?: string
-    type_id: string
-    slug: string
-    options?: []
+    parentSku?: string,
+    sku: string,
+    url_path?: string,
+    type_id: string,
+    slug: string,
+    options?: [],
     configurable_children?: []
   },
   storeCode
@@ -120,7 +120,7 @@ export function formatProductLink(
     ) {
       routeData = {
         path: product.url_path,
-        params: { childSku: product.sku },
+        params: { childSku: product.sku }
       }
     } else {
       routeData = { path: product.url_path }
@@ -132,8 +132,8 @@ export function formatProductLink(
       params: {
         parentSku: product.parentSku ? product.parentSku : product.sku,
         slug: product.slug,
-        childSku: product.sku,
-      },
+        childSku: product.sku
+      }
     }
     return localizedRoute(routeData, storeCode)
   }

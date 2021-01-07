@@ -8,15 +8,15 @@ export const IsOnCompare = {
   props: {
     product: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
-  created() {
+  created () {
     registerModule(CompareModule)
   },
   computed: {
-    isOnCompare() {
+    isOnCompare () {
       return this.$store.getters['compare/isOnCompare'](this.product)
-    },
-  },
+    }
+  }
 }

@@ -4,7 +4,7 @@ import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-function _fieldName(co) {
+function _fieldName (co) {
   return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
 }
 
@@ -13,21 +13,21 @@ export const ProductBundleOptions = {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       selectedOptions: {},
       validationRules: {},
-      validationResults: {},
+      validationResults: {}
     }
   },
   computed: {
     /**
      * Error messages map for validation options
      */
-    errorMessages() {
+    errorMessages () {
       let messages = {}
       Object.keys(this.validationResults).map(optionKey => {
         const validationResult = this.validationResults[optionKey]
@@ -36,24 +36,24 @@ export const ProductBundleOptions = {
         }
       })
       return messages
-    },
+    }
   },
-  beforeMount() {
+  beforeMount () {
     this.setupValidationRules()
   },
   methods: {
     ...mapMutations('product', {
-      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION, // map `this.add()` to `this.$store.commit('increment')`
+      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
     }),
-    setupValidationRules() {
+    setupValidationRules () {
       rootStore.dispatch('product/addCustomOptionValidator', {
         validationRule: 'gtzero', // You may add your own custom fields validators elsewhere in the theme
         validatorFunction: value => {
           return {
             error: value === null || value === '' || value === false || value <= 0,
-            message: i18n.t('Must be greater than 0'),
+            message: i18n.t('Must be greater than 0')
           }
-        },
+        }
       })
 
       for (let co of this.product.bundle_options) {
@@ -65,16 +65,16 @@ export const ProductBundleOptions = {
         }
       }
     },
-    optionChanged({ fieldName, option, qty, value }) {
+    optionChanged ({ fieldName, option, qty, value }) {
       if (!fieldName) return
       this.setBundleOptionValue({
         optionId: option.option_id,
         optionQty: parseInt(qty),
-        optionSelections: [parseInt(value.id)],
+        optionSelections: [parseInt(value.id)]
       })
       this.$store.dispatch('product/setBundleOptions', {
         product: this.product,
-        bundleOptions: this.$store.state.product.current_bundle_options,
+        bundleOptions: this.$store.state.product.current_bundle_options
       }) // TODO: move it to "AddToCart"
       this.selectedOptions[fieldName] = { qty, value }
       const valueId = value ? value.id : null
@@ -82,18 +82,18 @@ export const ProductBundleOptions = {
         this.$bus.$emit('product-after-bundleoptions', {
           product: this.product,
           option: option,
-          optionValues: this.selectedOptions,
+          optionValues: this.selectedOptions
         })
       }
     },
-    isValid() {
+    isValid () {
       let isValid = true
       this.validationResults.map(res => {
         if (res.error) isValid = false
       })
       return isValid
     },
-    validateField(option, qty, optionId) {
+    validateField (option, qty, optionId) {
       let result = true
       let validationResult = { error: false, message: '' }
       for (let fieldName of _fieldName(option)) {
@@ -127,6 +127,6 @@ export const ProductBundleOptions = {
         }
       }
       return result
-    },
-  },
+    }
+  }
 }

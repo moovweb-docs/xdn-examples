@@ -1,7 +1,7 @@
 /**
  * Add 'stock' object to 'configurable_children' and filter configurable child that is not available
  */
-export default function filterChildrenByStockitem(product, stockItems = []) {
+export default function filterChildrenByStockitem (product, stockItems = []) {
   for (const stockItem of stockItems) {
     const confChild = product.configurable_children.find(child => child.id === stockItem.product_id)
     if (

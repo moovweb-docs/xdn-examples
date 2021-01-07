@@ -14,7 +14,7 @@ const getCategories = async ({
   start = 0,
   sort = 'position:asc',
   includeFields = config.entities.optimize ? config.entities.category.includeFields : null,
-  excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null,
+  excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null
 }: DataResolver.CategorySearchOptions = {}): Promise<Category[]> => {
   let searchQuery = new SearchQuery()
   if (parentId) {
@@ -50,11 +50,11 @@ const getCategories = async ({
     size: size,
     start: start,
     includeFields: includeFields,
-    excludeFields: excludeFields,
+    excludeFields: excludeFields
   })
   return response.items as Category[]
 }
 
 export const CategoryService: DataResolver.CategoryService = {
-  getCategories,
+  getCategories
 }

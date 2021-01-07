@@ -3,25 +3,25 @@ export const Product = {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
-    thumbnail() {
+    thumbnail () {
       return this.getThumbnail(this.product.image, 150, 150)
-    },
+    }
   },
   methods: {
-    onProductChanged(event) {
+    onProductChanged (event) {
       if (event.item.sku === this.product.sku) {
         this.$forceUpdate()
       }
-    },
+    }
   },
-  beforeMount() {
+  beforeMount () {
     this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
-  },
+  }
 }

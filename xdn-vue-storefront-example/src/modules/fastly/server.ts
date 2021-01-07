@@ -41,7 +41,7 @@ serverHooks.beforeCacheInvalidated(async ({ tags }) => {
       {
         method: 'POST',
         headers: { 'Fastly-Key': config.get('fastly.token') },
-        body: JSON.stringify({ surrogate_keys: tagsChunk }),
+        body: JSON.stringify({ surrogate_keys: tagsChunk })
       }
     )
     const text = await response.text()

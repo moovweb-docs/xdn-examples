@@ -7,15 +7,15 @@ export const UserOrders = {
   name: 'UserOrders',
   computed: {
     ...mapGetters('user', ['getOrdersHistory']),
-    ordersHistory() {
+    ordersHistory () {
       return this.getOrdersHistory
     },
-    isHistoryEmpty() {
+    isHistoryEmpty () {
       return this.getOrdersHistory.length < 1
-    },
+    }
   },
   methods: {
-    async remakeOrder(products) {
+    async remakeOrder (products) {
       this.$bus.$emit('notification-progress-start', this.$t('Please wait ...'))
       const productsToAdd = []
       for (const item of products) {
@@ -28,10 +28,10 @@ export const UserOrders = {
       // Redirect to the cart straight away.
       this.$router.push(this.localizedRoute('/checkout'))
     },
-    skipGrouped(items) {
+    skipGrouped (items) {
       return items.filter(item => {
         return !item.parent_item_id
       })
-    },
-  },
+    }
+  }
 }

@@ -12,7 +12,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 // TODO - use one from helpers instead
-export function isOnline(): boolean {
+export function isOnline (): boolean {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
   } else {
@@ -36,7 +36,7 @@ export const quickSearchByQuery = async ({
   sort = '',
   storeCode = null,
   excludeFields = null,
-  includeFields = null,
+  includeFields = null
 } = {}): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
@@ -52,7 +52,7 @@ export const quickSearchByQuery = async ({
       groupId: null,
       size: size,
       from: start,
-      sort: sort,
+      sort: sort
     }
 
     if (excludeFields) Request._sourceExclude = excludeFields
@@ -153,7 +153,7 @@ export const quickSearchByQuery = async ({
               offline: true,
               cache: true,
               noresults: true,
-              suggestions: {},
+              suggestions: {}
             }
             resolve(res)
           } else {

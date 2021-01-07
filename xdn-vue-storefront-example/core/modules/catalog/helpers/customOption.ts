@@ -3,7 +3,7 @@ import {
   CustomOption,
   OptionValue,
   InputValue,
-  SelectedCustomOption,
+  SelectedCustomOption
 } from '@vue-storefront/core/modules/catalog/types/CustomOption'
 
 export const defaultCustomOptionValue = (customOption: CustomOption): InputValue => {
@@ -88,7 +88,7 @@ export const getCustomOptionPriceDelta = (
   {
     price,
     priceInclTax,
-    price_incl_tax,
+    price_incl_tax
   }: Pick<Product, 'price' | 'priceInclTax' | 'price_incl_tax'>
 ) =>
   customOptionValues.reduce(
@@ -105,6 +105,6 @@ export const getCustomOptionPriceDelta = (
     },
     {
       price: 0,
-      priceInclTax: 0,
+      priceInclTax: 0
     }
   )

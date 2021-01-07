@@ -1,7 +1,7 @@
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
-export function prepareQuery({ queryText = '', filters = [], queryConfig = '' }) {
+export function prepareQuery ({ queryText = '', filters = [], queryConfig = '' }) {
   let query = new SearchQuery()
   // prepare filters and searchText
   if (filters.length === 0 && queryConfig !== '') {

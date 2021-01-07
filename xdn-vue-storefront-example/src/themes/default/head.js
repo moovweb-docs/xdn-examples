@@ -2,7 +2,7 @@ export default {
   title: 'Default Theme',
   titleTemplate: '%s - Vue Storefront',
   htmlAttrs: {
-    lang: 'en',
+    lang: 'en'
   },
   meta: [
     { charset: 'utf-8' },
@@ -10,13 +10,13 @@ export default {
       vmid: 'description',
       name: 'description',
       content:
-        'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.',
+        'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.'
     },
     { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui' },
     { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'theme-color', content: '#ffffff' },
-    { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' },
+    { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' }
   ],
   link: [
     { rel: 'icon', type: 'image/png', href: '/assets/favicon-32x32.png', sizes: '32x32' },
@@ -34,23 +34,23 @@ export default {
       rel: 'stylesheet',
       as: 'style',
       href:
-        'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap',
+        'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap'
     },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com/', crossorigin: 'anonymous' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com/', crossorigin: 'anonymous' }
   ],
   script: [
     {
       src: 'https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js',
       async: true,
       integrity: 'sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA',
-      crossorigin: 'anonymous',
-    },
+      crossorigin: 'anonymous'
+    }
   ],
   noscript: [
     {
       rel: 'stylesheet',
       href:
-        'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap',
-    },
-  ],
+        'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap'
+    }
+  ]
 }

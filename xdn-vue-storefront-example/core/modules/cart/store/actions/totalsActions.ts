@@ -5,25 +5,25 @@ import {
   preparePaymentMethodsToSync,
   prepareShippingInfoForUpdateTotals,
   createOrderData,
-  createShippingInfoData,
+  createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const totalsActions = {
-  async getTotals(context, { addressInformation, hasShippingInformation }) {
+  async getTotals (context, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
       return CartService.setShippingInfo(addressInformation)
     }
 
     return CartService.getTotals()
   },
-  async overrideServerTotals(
+  async overrideServerTotals (
     { commit, getters, rootGetters, dispatch },
     { addressInformation, hasShippingInformation }
   ) {
     const { resultCode, result } = await dispatch('getTotals', {
       addressInformation,
-      hasShippingInformation,
+      hasShippingInformation
     })
 
     if (resultCode === 200) {
@@ -40,7 +40,7 @@ const totalsActions = {
       commit(types.CART_UPD_TOTALS, {
         itemsAfterTotal,
         totals,
-        platformTotalSegments: totals.total_segments,
+        platformTotalSegments: totals.total_segments
       })
       commit(types.CART_SET_TOTALS_SYNC)
 
@@ -59,11 +59,11 @@ const totalsActions = {
 
     Logger.error(result, 'cart')()
   },
-  async syncTotals(
+  async syncTotals (
     { dispatch, getters, rootGetters },
-    payload: { forceServerSync: boolean; methodsData?: any } = {
+    payload: { forceServerSync: boolean, methodsData?: any } = {
       forceServerSync: false,
-      methodsData: null,
+      methodsData: null
     }
   ) {
     const methodsData = payload ? payload.methodsData : null
@@ -76,14 +76,14 @@ const totalsActions = {
           shippingDetails: rootGetters['checkout/getShippingDetails'],
           shippingMethods: rootGetters['checkout/getShippingMethods'],
           paymentMethods: rootGetters['checkout/getPaymentMethods'],
-          paymentDetails: rootGetters['checkout/getPaymentDetails'],
+          paymentDetails: rootGetters['checkout/getPaymentDetails']
         })
 
       if (shippingMethodsData.country) {
         await dispatch('overrideServerTotals', {
           hasShippingInformation:
             shippingMethodsData.method_code || shippingMethodsData.carrier_code,
-          addressInformation: createShippingInfoData(shippingMethodsData),
+          addressInformation: createShippingInfoData(shippingMethodsData)
         })
         return
       }
@@ -91,13 +91,13 @@ const totalsActions = {
       Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
     }
   },
-  async refreshTotals({ dispatch }, payload) {
+  async refreshTotals ({ dispatch }, payload) {
     Logger.warn(
       'The "cart/refreshTotals" action is deprecated and will not be supported with the Vue Storefront 1.11',
       'cart'
     )()
     await dispatch('syncTotals', payload)
-  },
+  }
 }
 
 export default totalsActions

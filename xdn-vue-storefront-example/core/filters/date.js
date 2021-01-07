@@ -12,7 +12,7 @@ once('__VUE_EXTEND_DAYJS_LOCALIZED_FORMAT__', () => {
  * @param {String} date
  * @param {String} format
  */
-export function date(date, format, storeView) {
+export function date (date, format, storeView) {
   const _storeView = storeView || currentStoreView()
   const displayFormat = format || _storeView.i18n.dateFormat
   let storeLocale = _storeView.i18n.defaultLocale.toLocaleLowerCase()

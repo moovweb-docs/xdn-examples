@@ -9,8 +9,8 @@ export const getSystemFilterNames: string[] = config.products.systemFilterNames
  */
 export const changeFilterQuery = ({
   currentQuery = {},
-  filterVariant,
-}: { currentQuery?: any; filterVariant?: FilterVariant } = {}) => {
+  filterVariant
+}: { currentQuery?: any, filterVariant?: FilterVariant } = {}) => {
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
   if (getSystemFilterNames.includes(filterVariant.type)) {
@@ -40,7 +40,7 @@ export const getFiltersFromQuery = ({ filtersQuery = {}, availableFilters = {} }
   filters: Filters
 } => {
   const searchQuery = {
-    filters: {},
+    filters: {}
   }
   Object.keys(filtersQuery).forEach(filterKey => {
     const filter = availableFilters[filterKey]

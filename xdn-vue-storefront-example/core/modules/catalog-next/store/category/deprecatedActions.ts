@@ -1,7 +1,7 @@
 import {
   currentStoreView,
   localizedDispatcherRoute,
-  localizedDispatcherRouteName,
+  localizedDispatcherRouteName
 } from '@vue-storefront/core/lib/multistore'
 import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import omit from 'lodash-es/omit'
@@ -14,7 +14,7 @@ const actions = {
    * Registers URLs
    * Configures products
    */
-  async processCategoryProducts({ dispatch, rootState }, { products = [], filters = {} } = {}) {
+  async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
     const configuredProducts = await dispatch('configureProducts', { products, filters })
     return dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
@@ -23,12 +23,12 @@ const actions = {
    * Configure configurable products to have first available options selected
    * so they can be added to cart/wishlist/compare without manual configuring
    */
-  async configureProducts(
+  async configureProducts (
     { rootState },
     {
       products = [],
       filters = {},
-      populateRequestCacheTags = config.server.useOutputCacheTagging,
+      populateRequestCacheTags = config.server.useOutputCacheTagging
     } = {}
   ) {
     return products.map(product => {
@@ -40,13 +40,13 @@ const actions = {
           configuration: filters,
           selectDefaultVariant: false,
           fallbackToDefaultWhenNoAvailable: true,
-          setProductErorrs: false,
+          setProductErorrs: false
         }
       )
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })
   },
-  async registerCategoryProductsMapping({ dispatch }, products = []) {
+  async registerCategoryProductsMapping ({ dispatch }, products = []) {
     const { storeCode, appendStoreCode } = currentStoreView()
     await Promise.all(
       products.map(product => {
@@ -58,16 +58,16 @@ const actions = {
             routeData: {
               params: {
                 parentSku: product.parentSku || product.sku,
-                slug,
+                slug
               },
-              name: localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode),
-            },
+              name: localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
+            }
           },
           { root: true }
         )
       })
     )
-  },
+  }
 }
 
 export default actions

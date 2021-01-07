@@ -7,19 +7,19 @@ export const WishlistProduct = {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
-    thumbnail() {
+    thumbnail () {
       return this.getThumbnail(this.product.image, 150, 150)
-    },
+    }
   },
   methods: {
-    removeFromWishlist(product: Product) {
+    removeFromWishlist (product: Product) {
       return this.$store.state['wishlist']
         ? this.$store.dispatch('wishlist/removeItem', product)
         : false
-    },
-  },
+    }
+  }
 }

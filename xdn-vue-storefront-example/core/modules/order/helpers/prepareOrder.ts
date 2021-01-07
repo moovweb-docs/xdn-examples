@@ -7,7 +7,7 @@ const prepareOrder = (order: Order): Order => {
 
   return {
     ...order,
-    store_code: storeCode,
+    store_code: storeCode
   }
 }
 

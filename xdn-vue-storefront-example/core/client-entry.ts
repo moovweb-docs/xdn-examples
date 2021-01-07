@@ -35,33 +35,33 @@ const invokeClientEntry = async () => {
   await store.dispatch('url/registerDynamicRoutes')
   RouterManager.flushRouteQueue()
 
-  function _commonErrorHandler(err, reject) {
+  function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
         message: i18n.t(
           'The product, category or CMS page is not available in Offline mode. Redirecting to Home.'
         ),
-        action1: { label: i18n.t('OK') },
+        action1: { label: i18n.t('OK') }
       })
       router.push(localizedRoute('/', currentStoreView().storeCode))
     } else {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
         message: i18n.t(err.message),
-        action1: { label: i18n.t('OK') },
+        action1: { label: i18n.t('OK') }
       })
       reject()
     }
   }
 
-  function _ssrHydrateSubcomponents(components, next, to) {
+  function _ssrHydrateSubcomponents (components, next, to) {
     Promise.all(
       components.map(SubComponent => {
         if (SubComponent.asyncData) {
           return SubComponent.asyncData({
             store,
-            route: to,
+            route: to
           })
         } else {
           return Promise.resolve(null)

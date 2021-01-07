@@ -5,7 +5,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 const watchedMutations = [
   types.COMPARE_ADD_ITEM,
   types.COMPARE_DEL_ITEM,
-  types.COMPARE_LOAD_COMPARE,
+  types.COMPARE_LOAD_COMPARE
 ].map(m => `compare/${m}`)
 
 const cachePersistPlugin = (mutation, state) => {

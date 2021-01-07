@@ -3,9 +3,9 @@ export default {
   name: 'Product',
   methods: {
     // deprecated
-    closeWishlist() {
+    closeWishlist () {
       this.$store.commit('ui/setWishlist', false)
-    },
+    }
   },
-  mixins: [WishlistProduct],
+  mixins: [WishlistProduct]
 }

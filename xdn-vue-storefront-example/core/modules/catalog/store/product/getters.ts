@@ -12,7 +12,7 @@ const getters: GetterTree<ProductState, RootState> = {
     return (
       state.original || {
         ...getters.getCurrentProduct,
-        id: getters.getCurrentProduct.parentId || getters.getCurrentProduct.id,
+        id: getters.getCurrentProduct.parentId || getters.getCurrentProduct.id
       }
     )
   },
@@ -21,7 +21,7 @@ const getters: GetterTree<ProductState, RootState> = {
   getProducts: (state, getters) => getters.getProductsSearchResult.items,
   getProductGallery: state => state.productGallery,
   getProductRelated: state => state.related,
-  getCurrentCustomOptions: state => state.current_custom_options,
+  getCurrentCustomOptions: state => state.current_custom_options
 }
 
 export default getters

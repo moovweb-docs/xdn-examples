@@ -31,8 +31,8 @@ const getProducts = async ({
     setConfigurableProductOptions = config.cart.setConfigurableProductOptions,
     filterUnavailableVariants = config.products.filterUnavailableVariants,
     assignProductConfiguration = false,
-    separateSelectedVariant = false,
-  } = {},
+    separateSelectedVariant = false
+  } = {}
 }: DataResolver.ProductSearchOptions): Promise<DataResolver.ProductsListResponse> => {
   const isCacheable = canCache({ includeFields, excludeFields })
   const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
@@ -41,7 +41,7 @@ const getProducts = async ({
     attributeMetadata = [],
     aggregations = [],
     total,
-    perPage,
+    perPage
   } = await quickSearchByQuery({
     query,
     start,
@@ -49,7 +49,7 @@ const getProducts = async ({
     entityType: 'product',
     sort,
     excludeFields: excluded,
-    includeFields: included,
+    includeFields: included
   })
 
   products = prepareProducts(products)
@@ -73,10 +73,10 @@ const getProducts = async ({
       setConfigurableProductOptions,
       filterUnavailableVariants,
       assignProductConfiguration,
-      separateSelectedVariant,
+      separateSelectedVariant
     },
     excludeFields: excluded,
-    includeFields: included,
+    includeFields: included
   })
 
   return {
@@ -85,7 +85,7 @@ const getProducts = async ({
     start,
     total,
     aggregations,
-    attributeMetadata,
+    attributeMetadata
   }
 }
 
@@ -93,14 +93,14 @@ const getProductRenderList = async ({
   skus,
   isUserGroupedTaxActive,
   userGroupId,
-  token,
+  token
 }): Promise<DataResolver.ProductsListResponse> => {
   const { i18n, storeId } = currentStoreView()
   let url = [
     `${getApiEndpointUrl(config.products, 'endpoint')}/render-list`,
     `?skus=${encodeURIComponent(skus.join(','))}`,
     `&currencyCode=${encodeURIComponent(i18n.currencyCode)}`,
-    `&storeId=${encodeURIComponent(storeId)}`,
+    `&storeId=${encodeURIComponent(storeId)}`
   ].join('')
   if (isUserGroupedTaxActive) {
     url = `${url}&userGroupId=${userGroupId}`
@@ -117,11 +117,11 @@ const getProductRenderList = async ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && config.users.tokenInHeader ? { authorization: `Bearer ${token}` } : {}),
+          ...(token && config.users.tokenInHeader ? { authorization: `Bearer ${token}` } : {})
         },
-        mode: 'cors',
+        mode: 'cors'
       },
-      callback_event: 'prices-after-sync',
+      callback_event: 'prices-after-sync'
     })
     return task.result as DataResolver.ProductsListResponse
   } catch (err) {
@@ -139,8 +139,8 @@ const getProduct = async (options: { [key: string]: string }, key: string): Prom
     configuration: { sku: options.childSku },
     options: {
       prefetchGroupProducts: true,
-      assignProductConfiguration: true,
-    },
+      assignProductConfiguration: true
+    }
   })
   return items[0] || null
 }
@@ -163,7 +163,7 @@ const getProductFromCache = async (
       }
       const { excluded, included } = getOptimizedFields({
         excludeFields: null,
-        includeFields: null,
+        includeFields: null
       })
       const [product] = await configureProducts({
         products: [result],
@@ -173,10 +173,10 @@ const getProductFromCache = async (
           prefetchGroupProducts: true,
           setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
           filterUnavailableVariants: config.products.filterUnavailableVariants,
-          assignProductConfiguration: true,
+          assignProductConfiguration: true
         },
         excludeFields: excluded,
-        includeFields: included,
+        includeFields: included
       })
       return product
     } else {
@@ -194,7 +194,7 @@ const getProductFromCache = async (
 const getProductByKey = async ({
   options,
   key,
-  skipCache,
+  skipCache
 }: DataResolver.ProductByKeySearchOptions): Promise<Product> => {
   if (!isOnline()) {
     return getProductFromCache(options, key)
@@ -208,5 +208,5 @@ const getProductByKey = async ({
 export const ProductService: DataResolver.ProductService = {
   getProducts,
   getProductRenderList,
-  getProductByKey,
+  getProductByKey
 }

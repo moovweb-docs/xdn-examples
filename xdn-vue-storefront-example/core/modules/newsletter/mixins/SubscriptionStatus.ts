@@ -15,37 +15,37 @@ import { required, email } from 'vuelidate/lib/validators'
  */
 export default {
   name: 'SubscriptionStatus',
-  data() {
+  data () {
     return {
       email: '',
       user: {
-        isSubscribed: false,
-      },
+        isSubscribed: false
+      }
     }
   },
   validations: {
     email: {
       required,
-      email,
-    },
+      email
+    }
   },
   methods: {
-    async onLoggedIn() {
+    async onLoggedIn () {
       this.email = this.$store.state.user.current.email
       this.user.isSubscribed = await this.$store.dispatch('newsletter/status', this.email)
-    },
+    }
   },
-  beforeMount() {
+  beforeMount () {
     // the user might already be logged in, so check the subscription status
     if (this.$store.state.user.current) this.onLoggedIn()
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   },
   computed: {
-    isSubscribed(): boolean {
+    isSubscribed (): boolean {
       return this.$store.getters['newsletter/isSubscribed']
-    },
-  },
+    }
+  }
 }

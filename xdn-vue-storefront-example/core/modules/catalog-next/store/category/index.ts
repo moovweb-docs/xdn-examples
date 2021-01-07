@@ -13,13 +13,13 @@ export const categoryModule: Module<CategoryState, RootState> = {
     filtersMap: {},
     products: [],
     searchProductsStats: {},
-    menuCategories: [],
+    menuCategories: []
   },
   getters,
   actions,
-  mutations,
+  mutations
 }
 
 export const nonReactiveState = {
-  products: [],
+  products: []
 }

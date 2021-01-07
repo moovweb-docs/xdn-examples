@@ -4,16 +4,16 @@ import config from 'config'
 export default {
   name: 'SortBy',
   methods: {
-    changeOrder() {
+    changeOrder () {
       // renamed to sort
       this.sort()
-    },
+    }
   },
   computed: {
-    sortByAttribute() {
+    sortByAttribute () {
       // renamed to sortingOptions
       return config.products.sortByAttributes
-    },
+    }
   },
-  mixins: [CategorySort],
+  mixins: [CategorySort]
 }

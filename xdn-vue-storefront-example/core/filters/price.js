@@ -7,15 +7,13 @@ const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
 const getLocaleSeparators = defaultLocale => {
   return {
     decimal: (0.01).toLocaleString(defaultLocale).replace(/[0-9]/g, ''),
-    group: (1000).toLocaleString(defaultLocale).replace(/[0-9]/g, ''),
+    group: (1000).toLocaleString(defaultLocale).replace(/[0-9]/g, '')
   }
 }
 
 const replaceSeparators = (formattedPrice, currencySeparators, separators) => {
-  if (currencySeparators.decimal)
-    formattedPrice = formattedPrice.replace(separators.decimal, currencySeparators.decimal)
-  if (currencySeparators.group)
-    formattedPrice = formattedPrice.replace(separators.group, currencySeparators.group)
+  if (currencySeparators.decimal) { formattedPrice = formattedPrice.replace(separators.decimal, currencySeparators.decimal) }
+  if (currencySeparators.group) { formattedPrice = formattedPrice.replace(separators.group, currencySeparators.group) }
   return formattedPrice
 }
 
@@ -23,7 +21,7 @@ const replaceSeparators = (formattedPrice, currencySeparators, separators) => {
  * Converts number to price string
  * @param {Number} value
  */
-export function price(value, storeView) {
+export function price (value, storeView) {
   if (isNaN(value)) {
     return value
   }
@@ -38,7 +36,7 @@ export function price(value, storeView) {
     currencyDecimal,
     currencyGroup,
     fractionDigits,
-    priceFormat,
+    priceFormat
   } = _storeView.i18n
 
   const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits }

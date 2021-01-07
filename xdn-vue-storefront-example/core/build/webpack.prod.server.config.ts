@@ -10,5 +10,5 @@ export default extendedConfig(baseServerConfig, {
   mode: 'production',
   devtool: 'nosources-source-map',
   isClient: false,
-  isDev: false,
+  isDev: false
 })

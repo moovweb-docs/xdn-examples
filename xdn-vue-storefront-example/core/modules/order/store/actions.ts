@@ -21,7 +21,7 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Object} commit method
    * @param {Order} order order data to be send
    */
-  async placeOrder({ commit, getters, dispatch }, newOrder: Order) {
+  async placeOrder ({ commit, getters, dispatch }, newOrder: Order) {
     // Check if order is already processed/processing
     const optimizedOrder = optimizeOrder(newOrder)
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
@@ -50,7 +50,7 @@ const actions: ActionTree<OrderState, RootState> = {
       throw error
     }
   },
-  async processOrder({ commit, dispatch }, { newOrder, currentOrderHash }) {
+  async processOrder ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: true }
     const task = await OrderService.placeOrder(order)
 
@@ -73,7 +73,7 @@ const actions: ActionTree<OrderState, RootState> = {
         'orders'
       )()
       dispatch('notification/spawnNotification', notifications.internalValidationError(), {
-        root: true,
+        root: true
       })
       dispatch('enqueueOrder', { newOrder: order })
       EventBus.$emit('notification-progress-stop')
@@ -82,24 +82,24 @@ const actions: ActionTree<OrderState, RootState> = {
     EventBus.$emit('notification-progress-stop')
     throw new Error('Unhandled place order request error')
   },
-  handlePlacingOrderFailed({ commit, dispatch }, { newOrder, currentOrderHash }) {
+  handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { newOrder, transmited: false }
     commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
     dispatch('notification/spawnNotification', notifications.orderCannotTransfered(), {
-      root: true,
+      root: true
     })
     dispatch('enqueueOrder', { newOrder: order })
 
     EventBus.$emit('notification-progress-stop')
   },
-  enqueueOrder(context, { newOrder }) {
+  enqueueOrder (context, { newOrder }) {
     const orderId = entities.uniqueEntityId(newOrder)
     const ordersCollection = StorageManager.get('orders')
     const order = {
       ...newOrder,
       order_id: orderId.toString(),
       created_at: new Date(),
-      updated_at: new Date(),
+      updated_at: new Date()
     }
 
     ordersCollection
@@ -113,7 +113,7 @@ const actions: ActionTree<OrderState, RootState> = {
         Logger.info('Order placed, orderId = ' + orderId, 'orders')()
       })
       .catch(reason => Logger.error(reason, 'orders'))
-  },
+  }
 }
 
 export default actions

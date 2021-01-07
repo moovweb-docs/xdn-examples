@@ -14,7 +14,7 @@ import {
   productAfterCustomoptions,
   productAfterBundleoptions,
   productAfterPriceupdate,
-  onUserPricesRefreshed,
+  onUserPricesRefreshed
 } from './events'
 import { isServer } from '@vue-storefront/core/helpers'
 import uniq from 'lodash-es/uniq'
@@ -39,8 +39,8 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
       // loading attributes for application use
       filterValues: uniq([
         ...config.products.defaultFilters,
-        ...config.entities.productListWithChildren.includeFields,
-      ]),
+        ...config.entities.productListWithChildren.includeFields
+      ])
     })
   }
 

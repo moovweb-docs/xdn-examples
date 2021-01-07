@@ -15,14 +15,14 @@ const createCartItemForUpdate = (
     sku,
     ...(serverItem && serverItem.item_id ? { item_id: serverItem.item_id } : {}),
     qty: mergeQty ? clientItem.qty + serverItem.qty : clientItem.qty,
-    product_option: clientItem.product_option,
+    product_option: clientItem.product_option
   } as any) as CartItem
 
   if (updateIds && serverItem.quote_id && serverItem.item_id) {
     return {
       ...cartItem,
       quoteId: serverItem.quote_id,
-      item_id: serverItem.item_id,
+      item_id: serverItem.item_id
     }
   }
 

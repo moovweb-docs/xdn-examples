@@ -7,9 +7,9 @@ export const RemoveFromCompare = {
   name: 'RemoveFromCompare',
   mixins: [compareMountedMixin],
   methods: {
-    removeFromCompare(product: Product) {
+    removeFromCompare (product: Product) {
       registerModule(CompareModule)
       this.$store.dispatch('compare/removeItem', product)
-    },
-  },
+    }
+  }
 }

@@ -29,18 +29,18 @@ const postcssConfig = {
     plugins: loader => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
-    ],
-  },
+        flexbox: 'no-2009'
+      })
+    ]
+  }
 }
 
 var nodeModules = {}
 fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
-  .filter(function (x) {
+  .filter((x) => {
     return ['.bin'].indexOf(x) === -1
   })
-  .forEach(function (mod) {
+  .forEach((mod) => {
     nodeModules[mod] = 'commonjs ' + mod
   })
 
@@ -57,24 +57,24 @@ export default {
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss')),
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     }),
     // Server
     new webpack.DefinePlugin({
-      'process.env.VUE_ENV': '"server"',
+      'process.env.VUE_ENV': '"server"'
     }),
     // define `config` package
-    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require('config')) }),
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require('config')) })
   ],
   // devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, '../../dist-xdn-server'),
     publicPath: '/dist-xdn-server/',
     filename: 'server.js',
-    libraryTarget: 'commonjs',
+    libraryTarget: 'commonjs'
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, themesRoot)],
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)]
   },
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, themesRoot)],
@@ -106,8 +106,8 @@ export default {
       ),
 
       // Server aliases
-      'create-api': './create-api-server.js',
-    },
+      'create-api': './create-api-server.js'
+    }
   },
   module: {
     rules: [
@@ -115,23 +115,23 @@ export default {
         enforce: 'pre',
         test: /\.(js|vue,ts)$/,
         loader: 'eslint-loader',
-        exclude: [/node_modules/, /test/],
+        exclude: [/node_modules/, /test/]
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()],
-        },
+          postcss: [autoprefixer()]
+        }
       },
       {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/],
+          appendTsSuffixTo: [/\.vue$/]
         },
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
@@ -139,23 +139,23 @@ export default {
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
-          path.resolve(__dirname, '../../core'),
-        ],
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]',
-        },
+          name: '[name].[ext]?[hash]'
+        }
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader', postcssConfig],
+        use: ['vue-style-loader', 'css-loader', postcssConfig]
       },
       {
         test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader'],
+        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader']
       },
       {
         test: /\.sass$/,
@@ -166,36 +166,36 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true,
-            },
-          },
-        ],
+              indentedSyntax: true
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
-        loader: 'url-loader?importLoaders=1&limit=10000',
+        loader: 'url-loader?importLoaders=1&limit=10000'
       },
       {
         test: /\.(graphqls|gql)$/,
         exclude: /node_modules/,
-        loader: ['graphql-tag/loader'],
-      },
+        loader: ['graphql-tag/loader']
+      }
       // {
       //   test: /core\/build\/config\.json$/,
       //   loader: path.resolve('core/build/purge-config.js')
       // }
-    ],
+    ]
   },
 
   // Server
   mode: 'production',
   devtool: 'sourcemap',
   optimization: {
-    minimize: false,
+    minimize: false
   },
   // isClient: false,
   // isDev: false,
   target: 'node',
   entry: ['@babel/polyfill', './core/scripts/server.ts'],
-  externals: nodeModules,
+  externals: nodeModules
 }

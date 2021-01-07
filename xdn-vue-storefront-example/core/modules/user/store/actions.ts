@@ -5,15 +5,15 @@ import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { UserProfile } from '../types/UserProfile'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
-  async startSession({ commit, dispatch, getters }) {
+  async startSession ({ commit, dispatch, getters }) {
     const usersCollection = StorageManager.get('user')
     const userData = await usersCollection.getItem('current-user')
 
@@ -43,20 +43,20 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Send password reset link for specific e-mail
    */
-  resetPassword(context, { email }) {
+  resetPassword (context, { email }) {
     return UserService.resetPassword(email)
   },
   /**
    * Create new password for provided email with resetToken
    * We could receive resetToken by running user.resetPassword action
    */
-  createPassword(context, { email, newPassword, resetToken }) {
+  createPassword (context, { email, newPassword, resetToken }) {
     return UserService.createPassword(email, newPassword, resetToken)
   },
   /**
    * Login user and return user profile and current token
    */
-  async login({ commit, dispatch }, { username, password }) {
+  async login ({ commit, dispatch }, { username, password }) {
     const resp = await UserService.login(username, password)
     userHooksExecutors.afterUserAuthorize(resp)
 
@@ -76,14 +76,14 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async register(context, { password, ...customer }) {
+  async register (context, { password, ...customer }) {
     return UserService.register(customer, password)
   },
 
   /**
    * Invalidate user token
    */
-  async refresh({ commit }) {
+  async refresh ({ commit }) {
     const usersCollection = StorageManager.get('user')
     const refreshToken = await usersCollection.getItem('current-refresh-token')
     const newToken = await UserService.refreshToken(refreshToken)
@@ -99,7 +99,7 @@ const actions: ActionTree<UserState, RootState> = {
    * @param context
    * @param userData
    */
-  setUserGroup({ commit }, userData) {
+  setUserGroup ({ commit }, userData) {
     if (userData.groupToken) {
       commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
     }
@@ -108,7 +108,7 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_GROUP_CHANGED, userData.group_id)
     }
   },
-  async restoreCurrentUserFromCache({ commit, dispatch }) {
+  async restoreCurrentUserFromCache ({ commit, dispatch }) {
     const usersCollection = StorageManager.get('user')
     const currentUser = await usersCollection.getItem('current-user')
 
@@ -123,7 +123,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     return null
   },
-  async refreshUserProfile({ commit, dispatch }, { resolvedFromCache }) {
+  async refreshUserProfile ({ commit, dispatch }, { resolvedFromCache }) {
     const resp = await UserService.getProfile()
 
     if (resp.resultCode === 200) {
@@ -140,7 +140,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load current user profile
    */
-  async me({ dispatch, getters }, { refresh = true, useCache = true } = {}) {
+  async me ({ dispatch, getters }, { refresh = true, useCache = true } = {}) {
     if (!getters.getToken) {
       Logger.warn('No User token, user unauthorized', 'user')()
       return
@@ -164,37 +164,37 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update(_, profile: UserProfile) {
+  async update (_, profile: UserProfile) {
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
-  async handleUpdateProfile({ dispatch }, event) {
+  async handleUpdateProfile ({ dispatch }, event) {
     if (event.resultCode === 200) {
       dispatch(
         'notification/spawnNotification',
         {
           type: 'success',
           message: i18n.t('Account data has successfully been updated'),
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         },
         { root: true }
       )
       dispatch('user/setCurrentUser', event.result, { root: true })
     }
   },
-  setCurrentUser({ commit }, userData) {
+  setCurrentUser ({ commit }, userData) {
     commit(types.USER_INFO_LOADED, userData)
   },
   /**
    * Change user password
    */
-  async changePassword({ dispatch, getters }, passwordData) {
+  async changePassword ({ dispatch, getters }, passwordData) {
     if (!onlineHelper.isOnline) {
       dispatch(
         'notification/spawnNotification',
         {
           type: 'error',
           message: i18n.t('Reset password feature does not work while offline!'),
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         },
         { root: true }
       )
@@ -210,13 +210,13 @@ const actions: ActionTree<UserState, RootState> = {
         {
           type: 'success',
           message: 'Password has successfully been changed',
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         },
         { root: true }
       )
       await dispatch('login', {
         username: getters.getUserEmail,
-        password: passwordData.newPassword,
+        password: passwordData.newPassword
       })
     } else {
       await dispatch(
@@ -224,13 +224,13 @@ const actions: ActionTree<UserState, RootState> = {
         {
           type: 'error',
           message: i18n.t(resp.result.errorMessage),
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         },
         { root: true }
       )
     }
   },
-  clearCurrentUser({ commit, dispatch }) {
+  clearCurrentUser ({ commit, dispatch }) {
     commit(types.USER_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
@@ -244,7 +244,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Logout user
    */
-  async logout({ commit, dispatch }, { silent = false }) {
+  async logout ({ commit, dispatch }, { silent = false }) {
     commit(types.USER_END_SESSION)
     await dispatch('cart/disconnect', {}, { root: true })
     await dispatch('clearCurrentUser')
@@ -259,14 +259,14 @@ const actions: ActionTree<UserState, RootState> = {
         {
           type: 'success',
           message: i18n.t("You're logged out"),
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         },
         { root: true }
       )
     }
     userHooksExecutors.afterUserUnauthorize()
   },
-  async loadOrdersFromCache({ commit }) {
+  async loadOrdersFromCache ({ commit }) {
     const ordersHistoryCollection = StorageManager.get('user')
     const ordersHistory = await ordersHistoryCollection.getItem('orders-history')
 
@@ -277,7 +277,7 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
     const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
@@ -294,7 +294,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load user's orders history
    */
-  async getOrdersHistory(
+  async getOrdersHistory (
     { dispatch, getters },
     { refresh = true, useCache = true, pageSize = 20, currentPage = 1 }
   ) {
@@ -321,11 +321,11 @@ const actions: ActionTree<UserState, RootState> = {
       }
     }
   },
-  async sessionAfterAuthorized({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
+  async sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
     Logger.info('User session authorised ', 'user')()
     await dispatch('me', { refresh, useCache })
     await dispatch('getOrdersHistory', { refresh, useCache })
-  },
+  }
 }
 
 export default actions

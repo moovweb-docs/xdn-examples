@@ -21,6 +21,6 @@ export const thumbnail = {
      * @returns {string}
      */
     getMediaThumbnail: (relativeUrl, width, height) =>
-      getThumbnailPath(relativeUrl, width, height, 'media'),
-  },
+      getThumbnailPath(relativeUrl, width, height, 'media')
+  }
 }

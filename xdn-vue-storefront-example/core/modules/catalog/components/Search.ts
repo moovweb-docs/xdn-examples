@@ -7,7 +7,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Search = {
   name: 'SearchPanel',
-  data() {
+  data () {
     return {
       products: [],
       search: '',
@@ -16,33 +16,33 @@ export const Search = {
       placeholder: i18n.t('Type what you are looking for...'),
       emptyResults: false,
       readMore: true,
-      componentLoaded: false,
+      componentLoaded: false
     }
   },
-  mounted() {
+  mounted () {
     this.search = localStorage.getItem(`shop/user/searchQuery`) || ''
 
     if (this.search) {
       this.makeSearch()
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     localStorage.setItem(`shop/user/searchQuery`, this.search ? this.search : '')
   },
   methods: {
-    onEscapePress() {
+    onEscapePress () {
       this.closeSearchpanel()
     },
-    closeSearchpanel() {
+    closeSearchpanel () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setSearchpanel', false)
     },
-    buildSearchQuery(queryText) {
+    buildSearchQuery (queryText) {
       let searchQuery = prepareQuickSearchQuery(queryText)
       return searchQuery
     },
-    async makeSearch() {
+    async makeSearch () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
         let startValue = 0
@@ -55,8 +55,8 @@ export const Search = {
             size: this.size,
             options: {
               populateRequestCacheTags: false,
-              prefetchGroupProducts: false,
-            },
+              prefetchGroupProducts: false
+            }
           })
           this.products = items
           this.start = startValue + this.size
@@ -69,7 +69,7 @@ export const Search = {
         this.emptyResults = 0
       }
     },
-    async seeMore() {
+    async seeMore () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
         let startValue = this.start
@@ -80,8 +80,8 @@ export const Search = {
             size: this.size,
             options: {
               populateRequestCacheTags: false,
-              prefetchGroupProducts: false,
-            },
+              prefetchGroupProducts: false
+            }
           })
           let page = Math.floor(total / this.size)
           let exceeed = total - this.size * page
@@ -98,15 +98,15 @@ export const Search = {
         this.products = []
         this.emptyResults = 0
       }
-    },
+    }
   },
   computed: {
-    items() {
+    items () {
       return this.$store.state.search
     },
     ...mapState({
-      isOpen: (state: RootState) => state.ui.searchpanel,
-    }),
+      isOpen: (state: RootState) => state.ui.searchpanel
+    })
   },
-  mixins: [onEscapePress],
+  mixins: [onEscapePress]
 }

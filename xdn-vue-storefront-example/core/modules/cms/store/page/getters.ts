@@ -13,7 +13,7 @@ const getters: GetterTree<CmsPageState, RootState> = {
   },
   getCmsPages: state => state.items,
   hasItems: state => state.items && state.items.length > 0,
-  findItems: state => ({ key, value }) => state.items.find(p => p[key] === value),
+  findItems: state => ({ key, value }) => state.items.find(p => p[key] === value)
 }
 
 export default getters

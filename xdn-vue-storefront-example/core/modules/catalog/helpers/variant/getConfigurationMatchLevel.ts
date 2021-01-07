@@ -4,7 +4,7 @@ import omit from 'lodash/omit'
 /**
  * Counts how much coniguration match for specific variant
  */
-export default function getConfigurationMatchLevel(configuration, variant): number {
+export default function getConfigurationMatchLevel (configuration, variant): number {
   if (!variant || !configuration) return 0
   const configProperties = Object.keys(omit(configuration, ['price']))
   return configProperties

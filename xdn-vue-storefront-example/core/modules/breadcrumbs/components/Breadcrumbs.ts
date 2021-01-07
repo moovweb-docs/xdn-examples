@@ -6,40 +6,40 @@ export const Breadcrumbs = {
   computed: {
     ...mapGetters({
       getBreadcrumbsRoutes: 'breadcrumbs/getBreadcrumbsRoutes',
-      getBreadcrumbsCurrent: 'breadcrumbs/getBreadcrumbsCurrent',
+      getBreadcrumbsCurrent: 'breadcrumbs/getBreadcrumbsCurrent'
     }),
-    paths() {
+    paths () {
       const routes = this.routes ? this.routes : this.getBreadcrumbsRoutes
 
       if (this.withHomepage) {
         return [
           {
             name: i18n.t('Homepage'),
-            route_link: localizedRoute('/', currentStoreView().storeCode),
+            route_link: localizedRoute('/', currentStoreView().storeCode)
           },
-          ...routes,
+          ...routes
         ]
       }
 
       return routes
     },
-    current() {
+    current () {
       return this.activeRoute || this.getBreadcrumbsCurrent
-    },
+    }
   },
   props: {
     routes: {
       type: Array,
       required: false,
-      default: null,
+      default: null
     },
     withHomepage: {
       type: Boolean,
-      default: false,
+      default: false
     },
     activeRoute: {
       type: String,
-      default: '',
-    },
-  },
+      default: ''
+    }
+  }
 }

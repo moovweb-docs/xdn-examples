@@ -35,5 +35,5 @@ export {
   getProductConfiguration,
   createOrderData,
   createShippingInfoData,
-  syncCartWhenLocalStorageChange,
+  syncCartWhenLocalStorageChange
 }

@@ -5,20 +5,20 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 export const Wishlist = {
   name: 'Wishlist',
   mixins: [wishlistMountedMixin],
-  created() {
+  created () {
     registerModule(WishlistModule)
   },
   computed: {
-    isWishlistOpen() {
+    isWishlistOpen () {
       return this.$store.state.ui.wishlist
     },
-    productsInWishlist() {
+    productsInWishlist () {
       return this.$store.state.wishlist.items
-    },
+    }
   },
   methods: {
-    closeWishlist() {
+    closeWishlist () {
       this.$store.dispatch('ui/toggleWishlist')
-    },
-  },
+    }
+  }
 }

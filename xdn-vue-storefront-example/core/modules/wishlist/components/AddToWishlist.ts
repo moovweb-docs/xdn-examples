@@ -9,17 +9,17 @@ export const AddToWishlist = {
   props: {
     product: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
-  created() {
+  created () {
     registerModule(WishlistModule)
   },
   methods: {
-    addToWishlist(product: Product) {
+    addToWishlist (product: Product) {
       return this.$store.state['wishlist']
         ? this.$store.dispatch('wishlist/addItem', product)
         : false
-    },
-  },
+    }
+  }
 }

@@ -7,11 +7,11 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { cmsPagesStorageKey } from './'
 import {
   createPageLoadingQuery,
-  createSinglePageLoadQuery,
+  createSinglePageLoadQuery
 } from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsPageState, RootState> = {
-  async list(
+  async list (
     { commit },
     {
       filterValues = null,
@@ -20,7 +20,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
       start = 0,
       excludeFields = null,
       includeFields = null,
-      skipCache = false,
+      skipCache = false
     }
   ) {
     let query = createPageLoadingQuery({ filterField, filterValues })
@@ -28,13 +28,13 @@ const actions: ActionTree<CmsPageState, RootState> = {
       query,
       entityType: 'cms_page',
       excludeFields,
-      includeFields,
+      includeFields
     })
 
     commit(types.CMS_PAGE_UPDATE_CMS_PAGES, pageResponse.items)
     return pageResponse.items
   },
-  async single(
+  async single (
     { getters, commit, dispatch },
     {
       key = 'identifier',
@@ -42,7 +42,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
       excludeFields = null,
       includeFields = null,
       skipCache = false,
-      setCurrent = true,
+      setCurrent = true
     }
   ) {
     const currentItems = getters.findItems({ key, value })
@@ -52,7 +52,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
         query: createSinglePageLoadQuery({ key, value }),
         entityType: 'cms_page',
         excludeFields,
-        includeFields,
+        includeFields
       })
 
       if (pageResponse && pageResponse.items && pageResponse.items.length > 0) {
@@ -71,7 +71,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
       return currentItems
     }
   },
-  async loadFromCache({ commit }, { key, value, setCurrent }) {
+  async loadFromCache ({ commit }, { key, value, setCurrent }) {
     const cmsStorage = StorageManager.get('cms')
     const storedItems = await cmsStorage.getItem(cmsPagesStorageKey)
 
@@ -91,9 +91,9 @@ const actions: ActionTree<CmsPageState, RootState> = {
 
     throw new Error('CMS query returned empty result')
   },
-  addItem({ commit }, page) {
+  addItem ({ commit }, page) {
     commit(types.CMS_PAGE_ADD_CMS_PAGE, page)
-  },
+  }
 }
 
 export default actions

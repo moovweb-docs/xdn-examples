@@ -11,11 +11,11 @@ export default {
   mixins: [Composite],
   computed: {
     ...mapGetters('category', ['getCategories']),
-    rootCategories() {
+    rootCategories () {
       return this.getCategories
-    },
+    }
   },
-  async asyncData({ store, route, context }) {
+  async asyncData ({ store, route, context }) {
     // this is for SSR purposes to prefetch data
     if (context) context.output.cacheTags.add(`home`)
     Logger.info('Calling asyncData in Home Page (core)')()
@@ -26,15 +26,15 @@ export default {
       throw e
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.$store.dispatch('category/reset')
   },
-  metaInfo() {
+  metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Home Page'),
       meta: this.$route.meta.description
         ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }]
-        : [],
+        : []
     }
-  },
+  }
 }

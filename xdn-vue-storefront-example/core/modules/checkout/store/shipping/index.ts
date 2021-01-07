@@ -7,18 +7,18 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export const shippingModule: Module<ShippingState, RootState> = {
   namespaced: true,
   actions: {
-    addMethod({ dispatch }, shippingMethod) {
+    addMethod ({ dispatch }, shippingMethod) {
       Logger.error(
         'The action shipping/addMethod has been deprecated please change to checkout/addShippingMethod'
       )()
       dispatch('checkout/addShippingMethod', shippingMethod, { root: true })
     },
-    replaceMethods({ dispatch }, shippingMethods) {
+    replaceMethods ({ dispatch }, shippingMethods) {
       Logger.error(
         'The action shipping/replaceMethods has been deprecated please change to checkout/replaceShippingMethods'
       )()
       dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
-    },
+    }
   },
   getters: {
     // @deprecated
@@ -29,6 +29,6 @@ export const shippingModule: Module<ShippingState, RootState> = {
       rootGetters['checkout/getShippingMethods'],
     // @deprecated
     getDefaultShippingMethod: (state, getters, rootState, rootGetters) =>
-      rootGetters['checkout/getDefaultShippingMethod'],
-  },
+      rootGetters['checkout/getDefaultShippingMethod']
+  }
 }

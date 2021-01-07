@@ -2,13 +2,13 @@
 export default {
   name: 'Overlay',
   computed: {
-    isVisible() {
+    isVisible () {
       return this.$store.state.ui.overlay
-    },
+    }
   },
   methods: {
-    close() {
+    close () {
       this.$store.commit('ui/setOverlay', false)
-    },
-  },
+    }
+  }
 }

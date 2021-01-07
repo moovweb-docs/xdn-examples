@@ -126,13 +126,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { isModuleRegistered, registerModule } from '@vue-storefront/core/lib/modules'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
-import { registerModule } from '@vue-storefront/core/lib/modules'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'

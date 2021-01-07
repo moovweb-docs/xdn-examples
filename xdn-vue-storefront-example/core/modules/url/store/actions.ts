@@ -1,9 +1,9 @@
 import {
   transformProductUrl,
   transformCategoryUrl,
-  transformCmsPageUrl,
+  transformCmsPageUrl
 } from '@vue-storefront/core/modules/url/helpers/transformUrl'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, processURLAddress } from '@vue-storefront/core/helpers'
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex'
 // you can use this storage if you want to enable offline capabilities
@@ -15,18 +15,18 @@ import {
   preProcessDynamicRoutes,
   normalizeUrlPath,
   parametrizeRouteData,
-  getFallbackRouteData,
+  getFallbackRouteData
 } from '../helpers'
 import {
   removeStoreCodeFromRoute,
   currentStoreView,
   localizedDispatcherRouteName,
-  adjustMultistoreApiUrl,
+  adjustMultistoreApiUrl
 } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { processURLAddress } from '@vue-storefront/core/helpers'
+
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
 import isEqual from 'lodash-es/isEqual'
@@ -38,7 +38,7 @@ import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/pr
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
-  async registerMapping({ state }, { url, routeData }: { url: string; routeData: any }) {
+  async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any }) {
     if (!state.dispatcherMap[url]) {
       state.dispatcherMap[url] = routeData
     }
@@ -60,7 +60,7 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Register dynamic vue-router routes
    */
-  async registerDynamicRoutes({ state, dispatch }) {
+  async registerDynamicRoutes ({ state, dispatch }) {
     if (!state.dispatcherMap) return
 
     preProcessDynamicRoutes(state.dispatcherMap)
@@ -70,7 +70,7 @@ export const actions: ActionTree<UrlState, any> = {
     })
     await Promise.all(registrationRoutePromises)
   },
-  mapUrl({ state, dispatch }, { url, query }: { url: string; query: string }) {
+  mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string }) {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
@@ -104,7 +104,7 @@ export const actions: ActionTree<UrlState, any> = {
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  async mappingFallback({ dispatch }, { url, params }: { url: string; params: any }) {
+  async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any }) {
     Logger.warn(`
       Deprecated action mappingFallback - use mapFallbackUrl instead.
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
@@ -131,7 +131,7 @@ export const actions: ActionTree<UrlState, any> = {
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  async mapFallbackUrl({ dispatch }, { url, params }: { url: string; params: any }) {
+  async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any }) {
     url = removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string
 
     // search for record in ES based on `url`
@@ -141,7 +141,7 @@ export const actions: ActionTree<UrlState, any> = {
     if (fallbackData) {
       const [result] = await Promise.all([
         dispatch('transformFallback', { ...fallbackData, params }),
-        dispatch('saveFallbackData', fallbackData),
+        dispatch('saveFallbackData', fallbackData)
       ])
       return result
     }
@@ -149,14 +149,14 @@ export const actions: ActionTree<UrlState, any> = {
     return {
       name: 'page-not-found',
       params: {
-        slug: 'page-not-found',
-      },
+        slug: 'page-not-found'
+      }
     }
   },
   /**
    * Search for record in ES which contains url value (check which fields it searches in vsf-api config.urlModule.map.searchedFields)
    */
-  async getFallbackByUrl(context, { url, params }) {
+  async getFallbackByUrl (context, { url, params }) {
     const groupId = (config.usePriceTiers && context.rootState.user.groupId) || null
     const groupToken = context.rootState.user.groupToken || null
     try {
@@ -168,7 +168,7 @@ export const actions: ActionTree<UrlState, any> = {
         mode: 'cors',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           url,
@@ -182,12 +182,12 @@ export const actions: ActionTree<UrlState, any> = {
             fallbackToDefaultWhenNoAvailable: true,
             separateSelectedVariant: false,
             setConfigurableProductOptions: config.cart.setConfigurableProductOptions,
-            filterUnavailableVariants: config.products.filterUnavailableVariants,
+            filterUnavailableVariants: config.products.filterUnavailableVariants
           },
           filters: { sku: params.childSku },
           groupId,
-          groupToken,
-        }),
+          groupToken
+        })
       })
       if (!response.ok) {
         return null
@@ -202,7 +202,7 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Transforms data to vue-router route format
    */
-  async transformFallback(context, { _type, _source, params }) {
+  async transformFallback (context, { _type, _source, params }) {
     switch (_type) {
       case 'product': {
         return transformProductUrl(_source, params)
@@ -217,8 +217,8 @@ export const actions: ActionTree<UrlState, any> = {
         return {
           name: 'page-not-found',
           params: {
-            slug: 'page-not-found',
-          },
+            slug: 'page-not-found'
+          }
         }
       }
     }
@@ -226,7 +226,7 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Here we can save data based on _type, so there will be no need to create another request for it.
    */
-  async saveFallbackData({ commit }, { _type, _source }) {
+  async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
         const [product] = prepareProducts([_source])
@@ -235,7 +235,7 @@ export const actions: ActionTree<UrlState, any> = {
       }
       case 'category': {
         commit('category-next/' + categoryMutationTypes.CATEGORY_ADD_CATEGORY, _source, {
-          root: true,
+          root: true
         })
         break
       }
@@ -249,11 +249,11 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  setCurrentRoute({ commit, state, rootGetters }, { to, from } = {}) {
+  setCurrentRoute ({ commit, state, rootGetters }, { to, from } = {}) {
     commit(types.SET_CURRENT_ROUTE, {
       ...to,
       scrollPosition: { ...state.prevRoute.scrollPosition },
-      categoryPageSize: state.prevRoute.categoryPageSize,
+      categoryPageSize: state.prevRoute.categoryPageSize
     })
 
     const sameAsPrevRoute = isEqual(
@@ -265,12 +265,12 @@ export const actions: ActionTree<UrlState, any> = {
 
     const scrollPosition = {
       x: !isServer ? window.pageXOffset : 0,
-      y: !isServer ? window.pageYOffset : 0,
+      y: !isServer ? window.pageYOffset : 0
     }
     commit(types.SET_PREV_ROUTE, {
       ...from,
       scrollPosition,
-      categoryPageSize: rootGetters['category-next/getCategoryProducts'].length,
+      categoryPageSize: rootGetters['category-next/getCategoryProducts'].length
     })
-  },
+  }
 }

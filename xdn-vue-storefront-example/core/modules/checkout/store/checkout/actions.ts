@@ -6,7 +6,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CheckoutState, RootState> = {
-  async placeOrder({ dispatch }, { order }) {
+  async placeOrder ({ dispatch }, { order }) {
     try {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
@@ -19,33 +19,33 @@ const actions: ActionTree<CheckoutState, RootState> = {
       Logger.error(e, 'checkout')()
     }
   },
-  async updateOrderTimestamp() {
+  async updateOrderTimestamp () {
     const userStorage = StorageManager.get('user')
     await userStorage.setItem('last-cart-bypass-ts', new Date().getTime())
   },
-  async dropPassword({ commit, state }) {
+  async dropPassword ({ commit, state }) {
     if (state.personalDetails.createAccount) {
       commit(types.CHECKOUT_DROP_PASSWORD)
     }
   },
-  async setModifiedAt({ commit }, timestamp) {
+  async setModifiedAt ({ commit }, timestamp) {
     commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },
-  async savePersonalDetails({ commit }, personalDetails) {
+  async savePersonalDetails ({ commit }, personalDetails) {
     commit(types.CHECKOUT_SAVE_PERSONAL_DETAILS, personalDetails)
   },
-  async saveShippingDetails({ commit }, shippingDetails) {
+  async saveShippingDetails ({ commit }, shippingDetails) {
     commit(types.CHECKOUT_SAVE_SHIPPING_DETAILS, shippingDetails)
   },
-  async savePaymentDetails({ commit }, paymentDetails) {
+  async savePaymentDetails ({ commit }, paymentDetails) {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
-  async load({ commit }) {
+  async load ({ commit }) {
     const checkoutStorage = StorageManager.get('checkout')
     const [personalDetails, shippingDetails, paymentDetails] = await Promise.all([
       checkoutStorage.getItem('personal-details'),
       checkoutStorage.getItem('shipping-details'),
-      checkoutStorage.getItem('payment-details'),
+      checkoutStorage.getItem('payment-details')
     ])
 
     if (personalDetails) {
@@ -60,27 +60,27 @@ const actions: ActionTree<CheckoutState, RootState> = {
       commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, paymentDetails)
     }
   },
-  async updatePropValue({ commit }, payload) {
+  async updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
   },
-  async setThankYouPage({ commit }, payload) {
+  async setThankYouPage ({ commit }, payload) {
     commit(types.CHECKOUT_SET_THANKYOU, payload)
   },
-  async addPaymentMethod({ commit }, paymentMethod) {
+  async addPaymentMethod ({ commit }, paymentMethod) {
     commit(types.CHECKOUT_ADD_PAYMENT_METHOD, paymentMethod)
   },
-  async replacePaymentMethods({ commit }, paymentMethods) {
+  async replacePaymentMethods ({ commit }, paymentMethods) {
     commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods)
   },
-  async addShippingMethod({ commit }, shippingMethod) {
+  async addShippingMethod ({ commit }, shippingMethod) {
     commit(types.CHECKOUT_ADD_SHIPPING_METHOD, shippingMethod)
   },
-  async replaceShippingMethods({ commit }, shippingMethods) {
+  async replaceShippingMethods ({ commit }, shippingMethods) {
     commit(types.CHECKOUT_SET_SHIPPING_METHODS, shippingMethods)
   },
-  async updatePaymentDetails({ commit }, updateData) {
+  async updatePaymentDetails ({ commit }, updateData) {
     commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, updateData)
-  },
+  }
 }
 
 export default actions

@@ -10,7 +10,7 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 export class SearchAdapter {
   public entities: any
 
-  public constructor() {
+  public constructor () {
     this.entities = []
     this.initBaseTypes()
   }
@@ -19,7 +19,7 @@ export class SearchAdapter {
    * @param {Request} Request request object
    * @return {Promise}
    */
-  public async search(Request) {
+  public async search (Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
       throw new Error(
         'SearchQuery instance has wrong class required to process with graphQl request.'
@@ -43,7 +43,7 @@ export class SearchAdapter {
 
     const gqlQueryBody = JSON.stringify({
       query,
-      variables: gqlQueryVars,
+      variables: gqlQueryVars
     })
 
     // define GraphQL url from searchAdapter entity or use default graphQl host with storeCode param
@@ -66,9 +66,9 @@ export class SearchAdapter {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        Accept: 'application/json'
       },
-      body: gqlQueryBody,
+      body: gqlQueryBody
     })
       .then(resp => {
         return resp.json()
@@ -86,14 +86,14 @@ export class SearchAdapter {
    * @param {function} resultProcessor process results of response
    * @return {Object}
    */
-  public registerEntityType(
+  public registerEntityType (
     entityType,
     { url = '', url_ssr = '', gql, queryProcessor, resultProcessor }
   ) {
     this.entities[entityType] = {
       query: require(`${gql}`),
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor,
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -112,14 +112,14 @@ export class SearchAdapter {
    * @param {function} resultProcessor process results of response
    * @return {Object}
    */
-  public registerEntityTypeByQuery(
+  public registerEntityTypeByQuery (
     entityType,
     { url = '', url_ssr = '', query, queryProcessor, resultProcessor }
   ) {
     this.entities[entityType] = {
       query: query,
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor,
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -131,7 +131,7 @@ export class SearchAdapter {
   }
 
   // initialise default entitypes
-  public initBaseTypes() {
+  public initBaseTypes () {
     this.registerEntityType('product', {
       gql: './queries/products.gql',
       queryProcessor: query => {
@@ -153,7 +153,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
 
     this.registerEntityType('attribute', {
@@ -177,7 +177,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
     this.registerEntityType('review', {
       gql: './queries/reviews.gql',
@@ -200,7 +200,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
     this.registerEntityType('category', {
       gql: './queries/categories.gql',
@@ -223,7 +223,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
 
     this.registerEntityType('taxrule', {
@@ -247,7 +247,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
 
     this.registerEntityType('cms_page', {
@@ -271,7 +271,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
 
     this.registerEntityType('cms_block', {
@@ -295,7 +295,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
 
     this.registerEntityType('cms_hierarchy', {
@@ -319,7 +319,7 @@ export class SearchAdapter {
             )
           }
         }
-      },
+      }
     })
   }
 }

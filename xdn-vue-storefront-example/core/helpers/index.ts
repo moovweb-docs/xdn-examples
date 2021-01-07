@@ -27,7 +27,7 @@ export const processLocalizedURLAddress = (url: string = '') => {
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
  */
-export function slugify(text) {
+export function slugify (text) {
   // remove regional characters
   text = removeAccents(text)
 
@@ -47,7 +47,7 @@ export function slugify(text) {
  * @param {string} pathType
  * @returns {string}
  */
-export function getThumbnailPath(
+export function getThumbnailPath (
   relativeUrl: string,
   width: number = 0,
   height: number = 0,
@@ -63,7 +63,7 @@ export function getThumbnailPath(
       path: relativeUrl,
       sizeX: width,
       sizeY: height,
-      pathType,
+      pathType
     }).path // this is exact url mode
   } else {
     let resultUrl
@@ -72,8 +72,7 @@ export function getThumbnailPath(
       (relativeUrl.indexOf('://') > 0 ||
         relativeUrl.indexOf('?') > 0 ||
         relativeUrl.indexOf('&') > 0)
-    )
-      relativeUrl = encodeURIComponent(relativeUrl)
+    ) { relativeUrl = encodeURIComponent(relativeUrl) }
     // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
     let baseUrl = processURLAddress(
       config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl
@@ -95,7 +94,7 @@ export function getThumbnailPath(
       path,
       sizeX: width,
       sizeY: height,
-      pathType,
+      pathType
     }).path
   }
 }
@@ -104,12 +103,12 @@ export function getThumbnailPath(
  * Re-format category path to be suitable for breadcrumb
  * @param {Array} categoryPath
  */
-export function formatBreadCrumbRoutes(categoryPath) {
+export function formatBreadCrumbRoutes (categoryPath) {
   const breadCrumbRoutesArray = []
   for (let category of categoryPath) {
     breadCrumbRoutesArray.push({
       name: category.name,
-      route_link: formatCategoryLink(category),
+      route_link: formatCategoryLink(category)
     })
   }
   return breadCrumbRoutesArray
@@ -120,7 +119,7 @@ export function formatBreadCrumbRoutes(categoryPath) {
  * @param {object} product
  * @param {bool} ignoreConfig
  */
-export function productThumbnailPath(product, ignoreConfig = false) {
+export function productThumbnailPath (product, ignoreConfig = false) {
   let thumbnail = product.image
   if (
     !thumbnail &&
@@ -146,7 +145,7 @@ export function productThumbnailPath(product, ignoreConfig = false) {
   return thumbnail
 }
 
-export function baseFilterProductsQuery(parentCategory, filters = []) {
+export function baseFilterProductsQuery (parentCategory, filters = []) {
   // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
@@ -156,14 +155,14 @@ export function baseFilterProductsQuery(parentCategory, filters = []) {
   if (config.products.listOutOfStockProducts === false) {
     searchProductQuery = searchProductQuery.applyFilter({
       key: 'stock.is_in_stock',
-      value: { eq: true },
+      value: { eq: true }
     })
   }
   // Add available catalog filters
   for (let attrToFilter of filters) {
     searchProductQuery = searchProductQuery.addAvailableFilter({
       field: attrToFilter,
-      scope: 'catalog',
+      scope: 'catalog'
     })
   }
 
@@ -189,12 +188,12 @@ export function baseFilterProductsQuery(parentCategory, filters = []) {
   }
   searchProductQuery = searchProductQuery.applyFilter({
     key: 'category_ids',
-    value: { in: childCats },
+    value: { in: childCats }
   })
   return searchProductQuery
 }
 
-export function buildFilterProductsQuery(
+export function buildFilterProductsQuery (
   currentCategory,
   chosenFilters = {},
   defaultFilters = null
@@ -214,13 +213,13 @@ export function buildFilterProductsQuery(
       filterQr = filterQr.applyFilter({
         key: attributeCode,
         value: { in: values },
-        scope: 'catalog',
+        scope: 'catalog'
       })
     } else if (attributeCode !== 'price') {
       filterQr = filterQr.applyFilter({
         key: attributeCode,
         value: { eq: filter.id },
-        scope: 'catalog',
+        scope: 'catalog'
       })
     } else {
       // multi should be possible filter here?
@@ -237,7 +236,7 @@ export function buildFilterProductsQuery(
   return filterQr
 }
 
-export function once(key, fn) {
+export function once (key, fn) {
   const { process = {} } = global
   const processKey = key + '__ONCE__'
   if (!process.hasOwnProperty(processKey)) {
@@ -251,11 +250,11 @@ export const isServer: boolean = typeof window === 'undefined'
 
 // Online/Offline helper
 export const onlineHelper = Vue.observable({
-  isOnline: isServer || navigator.onLine,
+  isOnline: isServer || navigator.onLine
 })
 
 export const routerHelper = Vue.observable({
-  popStateDetected: false,
+  popStateDetected: false
 })
 
 !isServer &&
@@ -298,12 +297,12 @@ export const calcItemsHmac = (items = [], token) => {
       // we need to omit those properties because they are loaded async and added to product data
       // and they are not needed to compare products
       items: items.map(item => omit(item, ['stock', 'totals'])),
-      token: token,
+      token: token
     })
   )
 }
 
-export function extendStore(moduleName: string | string[], module: any) {
+export function extendStore (moduleName: string | string[], module: any) {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
       if (Array.isArray(source[key])) {
@@ -333,7 +332,7 @@ export function extendStore(moduleName: string | string[], module: any) {
   store.registerModule(moduleName, extendedModule)
 }
 
-export function reviewJsonLd(
+export function reviewJsonLd (
   reviews,
   { name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description },
   priceCurrency
@@ -361,13 +360,13 @@ export function reviewJsonLd(
         priceCurrency,
         price,
         itemCondition: 'https://schema.org/NewCondition',
-        availability: stock && is_in_stock ? 'InStock' : 'OutOfStock',
-      },
-    },
+        availability: stock && is_in_stock ? 'InStock' : 'OutOfStock'
+      }
+    }
   }))
 }
 
-function getMaterials(material, customAttributes) {
+function getMaterials (material, customAttributes) {
   const materialsArr = []
   if (
     customAttributes &&
@@ -399,7 +398,7 @@ function getMaterials(material, customAttributes) {
   return materialsArr
 }
 
-export function productJsonLd(
+export function productJsonLd (
   {
     category,
     image,
@@ -412,7 +411,7 @@ export function productJsonLd(
     url_path,
     stock,
     is_in_stock,
-    material,
+    material
   },
   color,
   priceCurrency,
@@ -444,7 +443,7 @@ export function productJsonLd(
       price,
       itemCondition: 'https://schema.org/NewCondition',
       availability: stock && is_in_stock ? 'InStock' : 'OutOfStock',
-      sku,
-    },
+      sku
+    }
   }
 }

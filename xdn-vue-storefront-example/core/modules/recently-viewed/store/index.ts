@@ -7,8 +7,8 @@ import RecentlyViewedState from '../types/RecentlyViewedState'
 export const recentlyViewedStore: Module<RecentlyViewedState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
+    items: []
   },
   actions,
-  mutations,
+  mutations
 }

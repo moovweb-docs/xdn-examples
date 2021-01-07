@@ -7,22 +7,22 @@ export default {
   props: {
     filters: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     ...mapGetters('category', [
       'getCurrentCategory',
       'getActiveCategoryFilters',
-      'getCurrentCategoryProductQuery',
+      'getCurrentCategoryProductQuery'
     ]),
-    category() {
+    category () {
       return this.getCurrentCategory
     },
-    activeFilters() {
+    activeFilters () {
       return this.getActiveCategoryFilters
     },
-    availableFilters() {
+    availableFilters () {
       return pickBy(this.filters, (filter, filterType) => {
         return (
           filter.length &&
@@ -30,29 +30,29 @@ export default {
         )
       })
     },
-    hasActiveFilters() {
+    hasActiveFilters () {
       return Object.keys(this.activeFilters).length !== 0
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.resetAllFilters()
   },
   methods: {
-    sortById(filters) {
+    sortById (filters) {
       return [...filters].sort((a, b) => {
         return a.id - b.id
       })
     },
-    resetAllFilters() {
+    resetAllFilters () {
       if (this.hasActiveFilters) {
         this.$bus.$emit('filter-reset')
         this.$store.dispatch('category/resetFilters')
         this.$store.dispatch('category/searchProductQuery', {})
         this.$store.dispatch('category/mergeSearchOptions', {
-          searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters),
+          searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
         })
         this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
       }
-    },
-  },
+    }
+  }
 }

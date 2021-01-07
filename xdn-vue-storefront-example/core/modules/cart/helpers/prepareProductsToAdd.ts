@@ -9,7 +9,7 @@ const isDefined = product => typeof product !== 'undefined' || product !== null
 
 const applyQty = product => ({
   ...product,
-  qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty,
+  qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty
 })
 
 const applyChecksum = product => ({ ...product, checksum: productChecksum(product) })

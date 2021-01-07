@@ -9,13 +9,13 @@ export const RemoveFromWishlist = {
   props: {
     product: {
       required: true,
-      type: Object,
-    },
+      type: Object
+    }
   },
   methods: {
-    removeFromWishlist(product: Product) {
+    removeFromWishlist (product: Product) {
       registerModule(WishlistModule)
       this.$store.dispatch('wishlist/removeItem', product)
-    },
-  },
+    }
+  }
 }

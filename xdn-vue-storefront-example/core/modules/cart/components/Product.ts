@@ -1,6 +1,6 @@
 import {
   getThumbnailForProduct,
-  getProductConfiguration,
+  getProductConfiguration
 } from '@vue-storefront/core/modules/cart/helpers'
 
 // @deprecated moved to theme
@@ -9,23 +9,23 @@ export const MicrocartProduct = {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
-    thumbnail() {
+    thumbnail () {
       return getThumbnailForProduct(this.product)
     },
-    configuration() {
+    configuration () {
       return getProductConfiguration(this.product)
-    },
+    }
   },
   methods: {
-    removeFromCart() {
+    removeFromCart () {
       this.$store.dispatch('cart/removeItem', { product: this.product })
     },
-    updateQuantity(quantity) {
+    updateQuantity (quantity) {
       this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
-    },
-  },
+    }
+  }
 }

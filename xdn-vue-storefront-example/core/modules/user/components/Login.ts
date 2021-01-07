@@ -3,15 +3,15 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const Login = {
   name: 'Login',
-  data() {
+  data () {
     return {
       remember: false,
       email: '',
-      password: '',
+      password: ''
     }
   },
   methods: {
-    callLogin() {
+    callLogin () {
       this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
       this.$store
         .dispatch('user/login', { username: this.email, password: this.password })
@@ -28,19 +28,19 @@ export const Login = {
         .catch(err => {
           Logger.error(err, 'user')()
           this.onFailure({
-            result: 'Unexpected authorization error. Check your Network conection.',
+            result: 'Unexpected authorization error. Check your Network conection.'
           })
           // TODO Move to theme
           this.$bus.$emit('notification-progress-stop')
         })
     },
-    switchElem() {
+    switchElem () {
       // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'register')
     },
-    callForgotPassword() {
+    callForgotPassword () {
       // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'forgot-pass')
-    },
-  },
+    }
+  }
 }

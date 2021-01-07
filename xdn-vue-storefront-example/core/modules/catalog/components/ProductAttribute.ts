@@ -3,26 +3,26 @@ export const ProductAttribute = {
   props: {
     product: {
       type: Object,
-      required: true,
+      required: true
     },
     attribute: {
       type: null,
-      required: true,
+      required: true
     },
     emptyPlaceholder: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   computed: {
-    label() {
+    label () {
       return this.attribute && this.attribute.frontend_label
         ? this.attribute.frontend_label
         : this.attribute && this.attribute.default_frontend_label
-        ? this.attribute.default_frontend_label
-        : ''
+          ? this.attribute.default_frontend_label
+          : ''
     },
-    value() {
+    value () {
       let parsedValues = this.product[this.attribute.attribute_code]
 
       if (!parsedValues) {
@@ -57,6 +57,6 @@ export const ProductAttribute = {
         }
         return results.join(', ')
       }
-    },
-  },
+    }
+  }
 }

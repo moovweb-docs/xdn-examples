@@ -16,11 +16,11 @@ const i18n = new VueI18n({
   messages: config.i18n.bundleAllStoreviewLanguages
     ? require('./resource/i18n/multistoreLanguages.json')
     : {
-        [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`),
-      },
+      [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`)
+    }
 })
 
-function setI18nLanguage(lang: string): string {
+function setI18nLanguage (lang: string): string {
   i18n.locale = lang
   return lang
 }
@@ -47,7 +47,7 @@ const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
   }
 }
 
-export async function loadLanguageAsync(lang: string): Promise<string> {
+export async function loadLanguageAsync (lang: string): Promise<string> {
   await loadDateLocales(lang)
   if (!config.i18n.bundleAllStoreviewLanguages) {
     if (i18n.locale !== lang) {

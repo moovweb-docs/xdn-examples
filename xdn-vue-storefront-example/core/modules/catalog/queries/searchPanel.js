@@ -1,7 +1,7 @@
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
-export function prepareQuickSearchQuery(queryText) {
+export function prepareQuickSearchQuery (queryText) {
   let searchQuery = new SearchQuery()
 
   searchQuery = searchQuery

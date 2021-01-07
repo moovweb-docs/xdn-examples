@@ -24,7 +24,7 @@ const getters: GetterTree<CheckoutState, RootState> = {
   getNotServerPaymentMethods: (state, getters) =>
     getters.getPaymentMethods.filter(itm => typeof itm !== 'object' || !itm.is_server_method),
   getShippingMethods: state => state.shippingMethods,
-  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default),
+  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
 }
 
 export default getters

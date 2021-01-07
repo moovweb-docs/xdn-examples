@@ -4,12 +4,12 @@ import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
 import {
   preConfigureProduct,
   storeProductToCache,
-  isGroupedOrBundle,
+  isGroupedOrBundle
 } from '@vue-storefront/core/modules/catalog/helpers/search'
 import toString from 'lodash-es/toString'
 import {
   registerProductsMapping,
-  filterOutUnavailableVariants,
+  filterOutUnavailableVariants
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from './mutation-types'
@@ -17,14 +17,14 @@ import { ProductService } from '@vue-storefront/core/data-resolver/ProductServic
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 const {
-  populateProductConfigurationAsync,
+  populateProductConfigurationAsync
 } = require('@vue-storefront/core/modules/catalog/helpers')
 
 const actions = {
   /**
    * Reset current configuration and selected variatnts
    */
-  reset(context) {
+  reset (context) {
     Logger.warn('`product/reset` deprecated, will be not used from 1.12')()
     const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
     context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
@@ -32,7 +32,7 @@ const actions = {
   /**
    * Setup product breadcrumbs path
    */
-  async setupBreadcrumbs(context, { product }) {
+  async setupBreadcrumbs (context, { product }) {
     Logger.warn('`product/setupBreadcrumbs` deprecated, will be not used from 1.12')()
     let breadcrumbsName = null
     let setBreadcrumbRoutesFromPath = path => {
@@ -44,7 +44,7 @@ const actions = {
         path.push({
           url_path: context.rootGetters['category/getCurrentCategory'].url_path,
           slug: context.rootGetters['category/getCurrentCategory'].slug,
-          name: context.rootGetters['category/getCurrentCategory'].name,
+          name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
       }
       // deprecated, TODO: base on breadcrumbs module
@@ -52,7 +52,7 @@ const actions = {
       const breadcrumbs = {
         routes: formatBreadCrumbRoutes(path),
         current: breadcrumbsName,
-        name: breadcrumbsName,
+        name: breadcrumbsName
       }
       context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     }
@@ -110,20 +110,20 @@ const actions = {
   /**
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
-  async syncPlatformPricesOver({ rootGetters }, { skus }) {
+  async syncPlatformPricesOver ({ rootGetters }, { skus }) {
     Logger.warn('`product/syncPlatformPricesOver`deprecated, will be not used from 1.12')()
     const result = await ProductService.getProductRenderList({
       skus,
       isUserGroupedTaxActive: rootGetters['tax/getIsUserGroupedTaxActive'],
       userGroupId: rootGetters['tax/getUserTaxGroupId'],
-      token: rootGetters['user/getToken'],
+      token: rootGetters['user/getToken']
     })
     return result
   },
   /**
    * Setup associated products
    */
-  setupAssociated(context, { product, skipCache = true }) {
+  setupAssociated (context, { product, skipCache = true }) {
     Logger.warn('`product/setupAssociated` deprecated, will be not used from 1.12')()
     let subloaders = []
     if (product.type_id === 'grouped') {
@@ -143,7 +143,7 @@ const actions = {
                   options: { sku: pl.linked_product_sku },
                   setCurrentProduct: false,
                   selectDefaultVariant: false,
-                  skipCache: skipCache,
+                  skipCache: skipCache
                 })
                 .catch(err => {
                   Logger.error(err)
@@ -184,7 +184,7 @@ const actions = {
                   options: { sku: pl.sku },
                   setCurrentProduct: false,
                   selectDefaultVariant: false,
-                  skipCache: skipCache,
+                  skipCache: skipCache
                 })
                 .catch(err => {
                   Logger.error(err)
@@ -215,7 +215,7 @@ const actions = {
    * @param context
    * @param product
    */
-  loadConfigurableAttributes(context, { product }) {
+  loadConfigurableAttributes (context, { product }) {
     Logger.warn('`product/loadConfigurableAttributes` deprecated, will be not used from 1.12')()
     let attributeKey = 'attribute_id'
     const configurableAttrKeys = product.configurable_options.map(opt => {
@@ -231,7 +231,7 @@ const actions = {
       'attribute/list',
       {
         filterValues: configurableAttrKeys,
-        filterField: attributeKey,
+        filterField: attributeKey
       },
       { root: true }
     )
@@ -239,7 +239,7 @@ const actions = {
   /**
    * Setup product current variants
    */
-  async setupVariants(context, { product }) {
+  async setupVariants (context, { product }) {
     Logger.warn('`product/setupVariants` deprecated, will be not used from 1.12')()
     if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
       return
@@ -257,10 +257,10 @@ const actions = {
         let lb = ov.label
           ? ov.label
           : optionLabel(context.rootState.attribute, {
-              attributeKey: option.attribute_id,
-              searchBy: 'id',
-              optionId: ov.value_index,
-            })
+            attributeKey: option.attribute_id,
+            searchBy: 'id',
+            optionId: ov.value_index
+          })
         if (trim(lb) !== '') {
           let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
           if (!productOptions[optionKey]) {
@@ -270,7 +270,7 @@ const actions = {
           productOptions[optionKey].push({
             label: lb,
             id: ov.value_index,
-            attribute_code: option.attribute_code,
+            attribute_code: option.attribute_code
           })
         }
       }
@@ -279,14 +279,14 @@ const actions = {
     let selectedVariant = context.getters.getCurrentProduct
     populateProductConfigurationAsync(context, {
       selectedVariant: selectedVariant,
-      product: product,
+      product: product
     })
   },
-  filterUnavailableVariants(context, { product }) {
+  filterUnavailableVariants (context, { product }) {
     Logger.warn('`product/filterUnavailableVariants` deprecated, will be not used from 1.12')()
     return filterOutUnavailableVariants(context, product)
   },
-  preConfigureAssociated(context, { searchResult, prefetchGroupProducts }) {
+  preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
     Logger.warn('`product/preConfigureAssociated` deprecated, will be not used from 1.12')()
     registerProductsMapping(context, searchResult.items)
     for (let product of searchResult.items) {
@@ -295,21 +295,21 @@ const actions = {
       }
     }
   },
-  async preConfigureProduct(context, { product, populateRequestCacheTags, configuration }) {
+  async preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
     Logger.warn('`product/preConfigureProduct` deprecated, will be not used from 1.12')()
     let _product = preConfigureProduct({ product, populateRequestCacheTags })
 
     if (configuration) {
       const selectedVariant = await context.dispatch('getProductVariant', {
         product: _product,
-        configuration,
+        configuration
       })
       _product = Object.assign({}, _product, selectedVariant)
     }
 
     return _product
   },
-  async configureLoadedProducts(
+  async configureLoadedProducts (
     context,
     { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }
   ) {
@@ -319,7 +319,7 @@ const actions = {
       {
         products: products.items,
         filters: configuration || {},
-        populateRequestCacheTags,
+        populateRequestCacheTags
       },
       { root: true }
     )
@@ -341,12 +341,12 @@ const actions = {
    * @param context
    * @param product
    */
-  configureBundleAsync(context, product) {
+  configureBundleAsync (context, product) {
     Logger.warn('`product/configureBundleAsync` deprecated, will be not used from 1.12')()
     return context
       .dispatch('setupAssociated', {
         product: product,
-        skipCache: true,
+        skipCache: true
       })
       .then(() => {
         context.dispatch('setCurrent', product)
@@ -361,12 +361,12 @@ const actions = {
    * @param context
    * @param product
    */
-  configureGroupedAsync(context, product) {
+  configureGroupedAsync (context, product) {
     Logger.warn('`product/configureGroupedAsync` deprecated, will be not used from 1.12')()
     return context
       .dispatch('setupAssociated', {
         product: product,
-        skipCache: true,
+        skipCache: true
       })
       .then(() => {
         context.dispatch('setCurrent', product)
@@ -378,13 +378,13 @@ const actions = {
    * @param {Object} product
    * @param {Array} configuration
    */
-  async configure(
+  async configure (
     context,
     {
       product = null,
       configuration,
       selectDefaultVariant = true,
-      fallbackToDefaultWhenNoAvailable = false,
+      fallbackToDefaultWhenNoAvailable = false
     }
   ) {
     Logger.warn(
@@ -394,7 +394,7 @@ const actions = {
     return result
   },
 
-  setCurrentOption(context, productOption) {
+  setCurrentOption (context, productOption) {
     Logger.warn('`product/setCurrentOption` deprecated, will be not used from 1.12')()
     if (productOption && typeof productOption === 'object') {
       // TODO: this causes some kind of recurrency error
@@ -405,7 +405,7 @@ const actions = {
     }
   },
 
-  setCurrentErrors(context, errors) {
+  setCurrentErrors (context, errors) {
     Logger.warn('`product/setCurrentErrors` deprecated, will be not used from 1.12')()
     if (errors && typeof errors === 'object') {
       context.commit(
@@ -419,17 +419,15 @@ const actions = {
    * @param {Object} context
    * @param {Object} originalProduct
    */
-  setOriginal(context, originalProduct) {
+  setOriginal (context, originalProduct) {
     Logger.warn('`product/setOriginal` deprecated, will be not used from 1.12')()
-    if (originalProduct && typeof originalProduct === 'object')
-      context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
-    else Logger.debug('Unable to setup original product.', 'product')()
+    if (originalProduct && typeof originalProduct === 'object') { context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct)) } else Logger.debug('Unable to setup original product.', 'product')()
   },
 
   /**
    * Load product attributes
    */
-  async loadProductAttributes({ dispatch }, { product }) {
+  async loadProductAttributes ({ dispatch }, { product }) {
     Logger.warn('`product/loadProductAttributes` deprecated, will be not used from 1.12')()
     const productFields = Object.keys(product).filter(fieldName => {
       return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
@@ -437,7 +435,7 @@ const actions = {
     const {
       product: { useDynamicAttributeLoader },
       optimize,
-      attribute,
+      attribute
     } = config.entities
     return dispatch(
       'attribute/list',
@@ -446,11 +444,11 @@ const actions = {
         filterValues: useDynamicAttributeLoader ? productFields : null,
         only_visible: !!useDynamicAttributeLoader,
         only_user_defined: true,
-        includeFields: optimize ? attribute.includeFields : null,
+        includeFields: optimize ? attribute.includeFields : null
       },
       { root: true }
     )
-  },
+  }
 }
 
 export default actions

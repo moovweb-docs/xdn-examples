@@ -5,21 +5,21 @@ import NotificationState from '../types/NotificationState'
 export const notificationStore: Module<NotificationState, any> = {
   namespaced: true,
   state: {
-    notifications: [],
+    notifications: []
   },
   getters: {
-    notifications: state => state.notifications,
+    notifications: state => state.notifications
   },
   mutations: {
-    add(state, payload) {
+    add (state, payload) {
       state.notifications.push(payload)
     },
-    remove(state, index) {
+    remove (state, index) {
       state.notifications.splice(index, 1)
-    },
+    }
   },
   actions: {
-    spawnNotification(
+    spawnNotification (
       { commit, state, dispatch },
       notification: NotificationItem
     ): NotificationItem {
@@ -43,19 +43,19 @@ export const notificationStore: Module<NotificationState, any> = {
 
       return newNotification
     },
-    removeNotification({ commit, state }, index?: number) {
+    removeNotification ({ commit, state }, index?: number) {
       if (!index) {
         commit('remove', state.notifications.length - 1)
       } else {
         commit('remove', index)
       }
     },
-    removeNotificationById({ commit, state }, id: number) {
+    removeNotificationById ({ commit, state }, id: number) {
       const index = state.notifications.findIndex(notification => notification.id === id)
 
       if (index !== -1) {
         commit('remove', index)
       }
-    },
-  },
+    }
+  }
 }

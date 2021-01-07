@@ -6,13 +6,13 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 const PaymentBackendMethodsStore = {
   namespaced: true,
   state: {
-    methods: null,
+    methods: null
   },
   mutations: {
-    [types.SET_BACKEND_PAYMENT_METHODS](state, paymentMethods) {
+    [types.SET_BACKEND_PAYMENT_METHODS] (state, paymentMethods) {
       state.methods = paymentMethods
-    },
-  },
+    }
+  }
 }
 
 export const PaymentBackendMethodsModule: StorefrontModule = function ({ store }) {

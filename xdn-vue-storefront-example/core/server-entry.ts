@@ -11,7 +11,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager'
 import queryString from 'query-string'
 
-function _commonErrorHandler(err, reject) {
+function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     reject(new HttpError(err.message, 404))
   } else {
@@ -19,14 +19,14 @@ function _commonErrorHandler(err, reject) {
   }
 }
 
-function _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context) {
+function _ssrHydrateSubcomponents (components, store, router, resolve, reject, app, context) {
   Promise.all(
     components.map(SubComponent => {
       if (SubComponent.asyncData) {
         return SubComponent.asyncData({
           store,
           route: router.currentRoute,
-          context,
+          context
         })
       } else {
         return Promise.resolve(null)
@@ -61,7 +61,7 @@ function _ssrHydrateSubcomponents(components, store, router, resolve, reject, ap
     })
 }
 
-function getHostFromHeader(headers: string[]): string {
+function getHostFromHeader (headers: string[]): string {
   return headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']
 }
 
@@ -72,7 +72,7 @@ export default async context => {
       // this is from url
       const currentRoute = Object.assign({
         path: queryString.parseUrl(context.url).url /* this gets just the url path part */,
-        host: getHostFromHeader(context.server.request.headers),
+        host: getHostFromHeader(context.server.request.headers)
       })
       storeCode = storeCodeFromRoute(currentRoute)
     }

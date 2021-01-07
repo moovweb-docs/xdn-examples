@@ -8,7 +8,7 @@ const optimizeOrder = (order: Order): Order => {
       ...order,
       products: order.products.map(product =>
         omit(product, ['configurable_options', 'configurable_children'])
-      ) as Order['products'],
+      ) as Order['products']
     }
   }
 

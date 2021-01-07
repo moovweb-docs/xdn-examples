@@ -7,8 +7,8 @@ export const transformProductUrl = (product, urlParams = {}) => {
     params: {
       slug: product.slug,
       parentSku: product.parentSku || product.sku,
-      childSku: urlParams['childSku'] ? urlParams['childSku'] : product.sku,
-    },
+      childSku: urlParams['childSku'] ? urlParams['childSku'] : product.sku
+    }
   }
 }
 
@@ -17,8 +17,8 @@ export const transformCategoryUrl = category => {
   return {
     name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
     params: {
-      slug: category.slug,
-    },
+      slug: category.slug
+    }
   }
 }
 
@@ -26,7 +26,7 @@ export const transformCmsPageUrl = cmsPage => {
   return {
     name: 'cms-page',
     params: {
-      slug: cmsPage.identifier,
-    },
+      slug: cmsPage.identifier
+    }
   }
 }

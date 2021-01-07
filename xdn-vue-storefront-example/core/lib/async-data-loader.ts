@@ -8,18 +8,18 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 const DEFAULT_ACTION_CATEGORY = 'asyncData'
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
 export interface AsyncDataLoaderActionContext {
-  category?: string
-  route: any
-  store: any
+  category?: string,
+  route: any,
+  store: any,
   context: any
 }
 
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
 export interface AsyncDataLoaderAction {
-  execute: any // this function must return a Promise
-  category?: string
-  name?: string
-  executedAt?: Date
+  execute: any, // this function must return a Promise
+  category?: string,
+  name?: string,
+  executedAt?: Date,
   scheduledAt?: Date
 }
 
@@ -51,5 +51,5 @@ export const AsyncDataLoader = {
     return Promise.all(actionsToExecute).then(results => {
       return results
     })
-  },
+  }
 }

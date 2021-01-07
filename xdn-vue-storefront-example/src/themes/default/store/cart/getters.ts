@@ -3,18 +3,18 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CartState from './types/CartState'
 
 const getters: GetterTree<CartState, RootState> = {
-  isEditMode(state) {
+  isEditMode (state) {
     return state.editMode !== null
   },
-  getEditingProductId(state, getters) {
+  getEditingProductId (state, getters) {
     return getters.isEditMode && state.editMode.productId
   },
-  getSelectedOptions(state, getters) {
+  getSelectedOptions (state, getters) {
     return getters.isEditMode && state.editMode.selectedOptions
   },
-  getEditingQty(state, getters) {
+  getEditingQty (state, getters) {
     return getters.isEditMode && state.editMode.qty
-  },
+  }
 }
 
 export default getters

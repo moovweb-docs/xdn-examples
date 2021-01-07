@@ -1,7 +1,7 @@
 import {
   customOptionFieldName,
   selectedCustomOptionValue,
-  defaultCustomOptionValue,
+  defaultCustomOptionValue
 } from '@vue-storefront/core/modules/catalog/helpers/customOption'
 import { mapMutations } from 'vuex'
 import * as types from '../store/product/mutation-types'
@@ -14,20 +14,20 @@ export const ProductCustomOptions = {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       inputValues: {},
       validation: {
         rules: {},
-        results: {},
-      },
+        results: {}
+      }
     }
   },
   computed: {
-    selectedOptions() {
+    selectedOptions () {
       const customOptions = this.product.custom_options
       if (!customOptions) {
         return {}
@@ -42,24 +42,24 @@ export const ProductCustomOptions = {
         )
         return selectedOptions
       }, {})
-    },
+    }
   },
-  created() {
+  created () {
     rootStore.dispatch('product/addCustomOptionValidator', {
       validationRule: 'required', // You may add your own custom fields validators elsewhere in the theme
       validatorFunction: value => {
         const error = Array.isArray(value) ? !value.length : !value
         const message = i18n.t('Field is required.')
         return { error, message }
-      },
+      }
     })
     this.setupInputFields()
   },
   methods: {
     ...mapMutations('product', {
-      setCustomOptionValue: types.PRODUCT_SET_CUSTOM_OPTION, // map `this.add()` to `this.$store.commit('increment')`
+      setCustomOptionValue: types.PRODUCT_SET_CUSTOM_OPTION // map `this.add()` to `this.$store.commit('increment')`
     }),
-    setupInputFields() {
+    setupInputFields () {
       for (const customOption of this.product.custom_options) {
         const fieldName = customOptionFieldName(customOption)
         this.$set(this.inputValues, fieldName, defaultCustomOptionValue(customOption))
@@ -70,24 +70,24 @@ export const ProductCustomOptions = {
         this.optionChanged(customOption)
       }
     },
-    optionChanged(option) {
+    optionChanged (option) {
       const fieldName = customOptionFieldName(option)
       this.validateField(option)
       this.setCustomOptionValue({
         optionId: option.option_id,
-        optionValue: this.selectedOptions[fieldName],
+        optionValue: this.selectedOptions[fieldName]
       })
       this.$store.dispatch('product/setCustomOptions', {
         product: this.product,
-        customOptions: this.$store.state.product.current_custom_options,
+        customOptions: this.$store.state.product.current_custom_options
       }) // TODO: move it to "AddToCart"
       this.$bus.$emit('product-after-customoptions', {
         product: this.product,
         option: option,
-        optionValues: this.selectedOptions,
+        optionValues: this.selectedOptions
       })
     },
-    validateField(option) {
+    validateField (option) {
       const fieldName = customOptionFieldName(option)
       const validationRule = this.validation.rules[fieldName]
       this.product.errors.custom_options = null
@@ -114,12 +114,12 @@ export const ProductCustomOptions = {
         this.validation.results[fieldName] = { error: false, message: '' }
       }
     },
-    isValid() {
+    isValid () {
       let isValid = true
       this.validation.results.map(res => {
         if (res.error) isValid = false
       })
       return isValid
-    },
-  },
+    }
+  }
 }

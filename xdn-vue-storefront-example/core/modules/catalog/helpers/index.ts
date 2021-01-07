@@ -23,7 +23,7 @@ export {
   isOptionAvailable as isOptionAvailableAsync,
   filterOutUnavailableVariants,
   doPlatformPricesSync,
-  setProductConfigurableOptions as setConfigurableProductOptionsAsync,
+  setProductConfigurableOptions as setConfigurableProductOptionsAsync
 }
 
 export const hasConfigurableChildren = product =>
@@ -40,13 +40,13 @@ export const hasImage = product => product && product.image && product.image !==
  */
 export const childHasImage = (children = []) => children.some(hasImage)
 
-function _prepareProductOption(product) {
+function _prepareProductOption (product) {
   let product_option = {
     extension_attributes: {
       custom_options: [],
       configurable_item_options: [],
-      bundle_options: [],
-    },
+      bundle_options: []
+    }
   }
   /* if (product.product_option) {
     product_option = product.product_option
@@ -54,13 +54,13 @@ function _prepareProductOption(product) {
   return product_option
 }
 
-export function setCustomProductOptionsAsync(context, { product, customOptions }) {
+export function setCustomProductOptionsAsync (context, { product, customOptions }) {
   const productOption = _prepareProductOption(product)
   productOption.extension_attributes.custom_options = customOptions
   return productOption
 }
 
-export function setBundleProductOptionsAsync(context, { product, bundleOptions }) {
+export function setBundleProductOptionsAsync (context, { product, bundleOptions }) {
   const productOption = _prepareProductOption(product)
   productOption.extension_attributes.bundle_options = bundleOptions
   return productOption
@@ -70,7 +70,7 @@ export function setBundleProductOptionsAsync(context, { product, bundleOptions }
  * Get media Gallery images from product
  */
 
-export function getMediaGallery(product) {
+export function getMediaGallery (product) {
   let mediaGallery = []
   if (product.media_gallery) {
     for (let mediaItem of product.media_gallery) {
@@ -98,7 +98,7 @@ export function getMediaGallery(product) {
             config.products.thumbnails.width,
             config.products.thumbnails.height
           ),
-          video: video,
+          video: video
         })
       }
     }
@@ -109,7 +109,7 @@ export function getMediaGallery(product) {
 /**
  * Get images from configured attribute images
  */
-export function attributeImages(product) {
+export function attributeImages (product) {
   let attributeImages = []
   if (config.products.gallery.imageAttributes) {
     for (let attribute of config.products.gallery.imageAttributes) {
@@ -121,7 +121,7 @@ export function attributeImages(product) {
             config.products.gallery.height
           ),
           loading: getThumbnailPath(product[attribute], 310, 300),
-          error: getThumbnailPath(product[attribute], 310, 300),
+          error: getThumbnailPath(product[attribute], 310, 300)
         })
       }
     }
@@ -133,7 +133,7 @@ export function attributeImages(product) {
  * otherwise get attribute images
  */
 
-export function configurableChildrenImages(product) {
+export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
   if (childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
@@ -151,7 +151,7 @@ export function configurableChildrenImages(product) {
       id: configurableAttributes.reduce((result, attribute) => {
         result[attribute] = child[attribute]
         return result
-      }, {}),
+      }, {})
     }))
   } else {
     configurableChildrenImages = attributeImages(product)

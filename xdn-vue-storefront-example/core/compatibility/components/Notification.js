@@ -1,19 +1,19 @@
 // deprecated moved to store
 export default {
   name: 'Notification',
-  data() {
+  data () {
     return {
-      notifications: [],
+      notifications: []
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.$bus.$on('notification', this.onNotification)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('notification', this.onNotification)
   },
   methods: {
-    onNotification(data) {
+    onNotification (data) {
       if (
         this.notifications.length > 0 &&
         this.notifications[this.notifications.length - 1].message === data.message
@@ -28,7 +28,7 @@ export default {
         }, data.timeToLive || 5000)
       }
     },
-    action(action, id, notification) {
+    action (action, id, notification) {
       this.$bus.$emit('notification-after-' + action, notification)
       switch (action) {
         case 'goToCheckout':
@@ -38,6 +38,6 @@ export default {
         default:
           this.notifications.splice(id, 1)
       }
-    },
-  },
+    }
+  }
 }

@@ -4,11 +4,11 @@ const createAttributesListQuery = ({
   filterValues,
   filterField,
   onlyDefinedByUser,
-  onlyVisible,
+  onlyVisible
 }: {
-  filterValues: string[]
-  filterField: string
-  onlyDefinedByUser: boolean
+  filterValues: string[],
+  filterField: string,
+  onlyDefinedByUser: boolean,
   onlyVisible: boolean
 }): SearchQuery => {
   let searchQuery = new SearchQuery()

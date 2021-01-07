@@ -10,7 +10,7 @@ const isPaymentMethodNotExist = (
 const preparePaymentMethodsToSync = (
   backendPaymentMethods: PaymentMethod[],
   currentPaymentMethods: PaymentMethod[]
-): { uniqueBackendMethods: PaymentMethod[]; paymentMethods: PaymentMethod[] } => {
+): { uniqueBackendMethods: PaymentMethod[], paymentMethods: PaymentMethod[] } => {
   const paymentMethods = [...currentPaymentMethods]
   const uniqueBackendMethods = []
 
@@ -18,7 +18,7 @@ const preparePaymentMethodsToSync = (
     if (isPaymentMethodNotExist(backendPaymentMethod, currentPaymentMethods)) {
       const backendMethod = {
         ...backendPaymentMethod,
-        is_server_method: true,
+        is_server_method: true
       }
 
       paymentMethods.push(backendMethod)

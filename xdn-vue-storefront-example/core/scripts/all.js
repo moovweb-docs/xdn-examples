@@ -8,7 +8,7 @@ class Manager extends installer.Manager {
   /**
    * {@inheritDoc}
    */
-  initBackend() {
+  initBackend () {
     if (Manager.isBackendInstalledLocally()) {
       return this.backend
         .goToDirectory(Manager.getBackendDirectory())
@@ -22,7 +22,7 @@ class Manager extends installer.Manager {
   /**
    * {@inheritDoc}
    */
-  initStorefront() {
+  initStorefront () {
     return this.storefront
       .goToDirectory()
       .then(this.storefront.depBuild.bind(this.storefront))
@@ -32,14 +32,14 @@ class Manager extends installer.Manager {
   /**
    * {@inheritDoc}
    */
-  static showWelcomeMessage() {
+  static showWelcomeMessage () {
     installer.Message.greeting(['Hi, seat, relax...', "I'll start everything for you ;)"])
   }
 
   /**
    * {@inheritDoc}
    */
-  showGoodbyeMessage() {
+  showGoodbyeMessage () {
     return new Promise((resolve, reject) => {
       installer.Message.greeting(
         [
@@ -54,7 +54,7 @@ class Manager extends installer.Manager {
               ? 'http://localhost:8080'
               : installer.STOREFRONT_REMOTE_BACKEND_URL),
           '',
-          'Good Luck!',
+          'Good Luck!'
         ],
         true
       )
@@ -68,7 +68,7 @@ class Manager extends installer.Manager {
    *
    * @returns {boolean}
    */
-  static isBackendInstalledLocally() {
+  static isBackendInstalledLocally () {
     if (typeof installer.Abstract.wasLocalBackendInstalled === 'undefined') {
       let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 
@@ -83,7 +83,7 @@ class Manager extends installer.Manager {
    *
    * @returns {string}
    */
-  static getBackendDirectory() {
+  static getBackendDirectory () {
     if (typeof installer.Abstract.backendDir === 'undefined') {
       let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 

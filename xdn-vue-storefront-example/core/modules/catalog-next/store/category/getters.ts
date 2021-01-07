@@ -2,8 +2,11 @@ import { nonReactiveState } from './index'
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
-import { compareByLabel } from '../../helpers/categoryHelpers'
-import { products } from 'config'
+import { compareByLabel,
+  _prepareCategoryPathIds,
+  getSearchOptionsFromRouteParams
+} from '../../helpers/categoryHelpers'
+import config, { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
@@ -13,15 +16,11 @@ import get from 'lodash-es/get'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import {
-  _prepareCategoryPathIds,
-  getSearchOptionsFromRouteParams,
-} from '../../helpers/categoryHelpers'
+
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
-import config from 'config'
 
-function mapCategoryProducts(productsFromState, productsData) {
+function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {
     if (typeof prodState === 'string') {
       const product = productsData.find(prodData => prodData.sku === prodState)
@@ -85,14 +84,14 @@ const getters: GetterTree<CategoryState, RootState> = {
           uniqueFilterValues.forEach(key => {
             const label = optionLabel(rootState.attribute, {
               attributeKey: attrToFilter,
-              optionId: key,
+              optionId: key
             })
             if (trim(label) !== '') {
               // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
                 label: label,
-                type: attrToFilter,
+                type: attrToFilter
               })
             }
           })
@@ -116,7 +115,7 @@ const getters: GetterTree<CategoryState, RootState> = {
                       ? '< ' + currencySign + option.to
                       : '> ' + currencySign + option.from
                     : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
-                single: true,
+                single: true
               })
               index++
             }
@@ -130,7 +129,7 @@ const getters: GetterTree<CategoryState, RootState> = {
         variants.push({
           label: label,
           id: products.sortByAttributes[label],
-          type: 'sort',
+          type: 'sort'
         })
       })
       filters['sort'] = variants
@@ -170,9 +169,9 @@ const getters: GetterTree<CategoryState, RootState> = {
 
     return totalValue || 0
   },
-  getMenuCategories(state, getters, rootState, rootGetters) {
+  getMenuCategories (state, getters, rootState, rootGetters) {
     return state.menuCategories || rootGetters['category/getCategories']
-  },
+  }
 }
 
 export default getters

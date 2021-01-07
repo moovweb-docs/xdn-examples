@@ -1,27 +1,27 @@
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import {
   getAvailableFiltersByProduct,
-  getSelectedFiltersByProduct,
+  getSelectedFiltersByProduct
 } from '@vue-storefront/core/modules/catalog/helpers/filters'
 
 export const ProductOption = {
   computed: {
-    getAvailableFilters() {
+    getAvailableFilters () {
       return getAvailableFiltersByProduct(this.product)
     },
-    getSelectedFilters() {
+    getSelectedFilters () {
       return getSelectedFiltersByProduct(this.product, this.configuration)
-    },
+    }
   },
   methods: {
-    isOptionAvailable(option) {
+    isOptionAvailable (option) {
       // check if the option is available
       let currentConfig = Object.assign({}, this.configuration)
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, {
         product: this.product,
-        configuration: currentConfig,
+        configuration: currentConfig
       })
-    },
-  },
+    }
+  }
 }

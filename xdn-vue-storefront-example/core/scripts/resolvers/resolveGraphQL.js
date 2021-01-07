@@ -1,8 +1,7 @@
 import { server, graphql } from 'config'
 import Vue from 'vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { once } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers'
+import { once, isServer } from '@vue-storefront/core/helpers'
 
 export const getApolloProvider = async () => {
   if (server.api === 'graphql') {
@@ -31,7 +30,7 @@ export const getApolloProvider = async () => {
     }
 
     const httpLink = new HttpLink({
-      uri,
+      uri
     })
 
     const ApolloClientModule = await import(/* webpackChunkName: "vsf-graphql" */ 'apollo-client')
@@ -44,27 +43,27 @@ export const getApolloProvider = async () => {
     const apolloClient = new ApolloClient({
       link: httpLink,
       cache: new InMemoryCache(),
-      connectToDevTools: true,
+      connectToDevTools: true
     })
 
     let loading = 0
 
     const apolloProvider = new VueApollo({
       clients: {
-        a: apolloClient,
+        a: apolloClient
       },
       defaultClient: apolloClient,
       defaultOptions: {
         // $loadingKey: 'loading',
       },
-      watchLoading(state, mod) {
+      watchLoading (state, mod) {
         loading += mod
         Logger.log('Global loading', loading, mod)()
       },
-      errorHandler(error) {
+      errorHandler (error) {
         Logger.log('Global error handler')()
         Logger.error(error)()
-      },
+      }
     })
 
     return apolloProvider
@@ -72,5 +71,5 @@ export const getApolloProvider = async () => {
 }
 
 export default {
-  getApolloProvider,
+  getApolloProvider
 }

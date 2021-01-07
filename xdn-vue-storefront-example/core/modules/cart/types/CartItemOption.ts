@@ -1,4 +1,4 @@
 export default interface CartItemOption {
-  label: string
+  label: string,
   value: string
 }

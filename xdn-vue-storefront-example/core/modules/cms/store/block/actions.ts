@@ -5,11 +5,11 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CmsBlockState from '../../types/CmsBlockState'
 import {
   createLoadingBlockQuery,
-  createSingleBlockQuery,
+  createSingleBlockQuery
 } from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
-  async list(
+  async list (
     { getters, commit },
     {
       filterValues = null,
@@ -18,7 +18,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
       start = 0,
       excludeFields = null,
       includeFields = null,
-      skipCache = false,
+      skipCache = false
     }
   ) {
     if (skipCache || !getters.hasItems) {
@@ -28,7 +28,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         size,
         start,
         excludeFields,
-        includeFields,
+        includeFields
       })
 
       commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, blockResponse.items)
@@ -37,7 +37,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
 
     return getters.getCmsBlocks
   },
-  async single(
+  async single (
     { getters, commit },
     { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }
   ) {
@@ -48,7 +48,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         query: createSingleBlockQuery({ key, value }),
         entityType: 'cms_block',
         excludeFields,
-        includeFields,
+        includeFields
       })
 
       if (blockResponse.items.length > 0) {
@@ -59,9 +59,9 @@ const actions: ActionTree<CmsBlockState, RootState> = {
 
     return cmsBlock[0]
   },
-  addItem({ commit }, block) {
+  addItem ({ commit }, block) {
     commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block)
-  },
+  }
 }
 
 export default actions

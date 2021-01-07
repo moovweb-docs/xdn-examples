@@ -9,40 +9,40 @@ export const Payment = {
   props: {
     isActive: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       isFilled: false,
       countries: Countries,
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
-      sendToBillingAddress: false,
+      sendToBillingAddress: false
     }
   },
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state: RootState) => state.checkout.shippingDetails,
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
-      isVirtualCart: 'cart/isVirtualCart',
-    }),
+      isVirtualCart: 'cart/isVirtualCart'
+    })
   },
-  created() {
+  created () {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
       this.payment.paymentMethod =
         this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
   },
-  mounted() {
+  mounted () {
     if (this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
@@ -52,50 +52,50 @@ export const Payment = {
     }
     this.changePaymentMethod()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     shippingDetails: {
-      handler() {
+      handler () {
         if (this.sendToShippingAddress) {
           this.copyShippingToBillingAddress()
         }
       },
-      deep: true,
+      deep: true
     },
     sendToShippingAddress: {
-      handler() {
+      handler () {
         this.useShippingAddress()
-      },
+      }
     },
     sendToBillingAddress: {
-      handler() {
+      handler () {
         this.useBillingAddress()
-      },
+      }
     },
     generateInvoice: {
-      handler() {
+      handler () {
         this.useGenerateInvoice()
-      },
+      }
     },
     paymentMethods: {
       handler: debounce(function () {
         this.changePaymentMethod()
-      }, 500),
-    },
+      }, 500)
+    }
   },
   methods: {
-    sendDataToCheckout() {
+    sendDataToCheckout () {
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
       this.isFilled = true
     },
-    edit() {
+    edit () {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'payment')
       }
     },
-    hasBillingData() {
+    hasBillingData () {
       if (this.currentUser) {
         if (this.currentUser.hasOwnProperty('default_billing')) {
           return true
@@ -103,7 +103,7 @@ export const Payment = {
       }
       return false
     },
-    initializeBillingAddress() {
+    initializeBillingAddress () {
       let initialized = false
       if (this.currentUser) {
         if (this.currentUser.hasOwnProperty('default_billing')) {
@@ -123,7 +123,7 @@ export const Payment = {
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
                 phoneNumber: addresses[i].telephone,
-                paymentMethod: this.paymentMethods[0].code,
+                paymentMethod: this.paymentMethods[0].code
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -146,11 +146,11 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
+          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
         }
       }
     },
-    useShippingAddress() {
+    useShippingAddress () {
       if (this.sendToShippingAddress) {
         this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
@@ -160,7 +160,7 @@ export const Payment = {
         this.payment = this.paymentDetails
       }
     },
-    copyShippingToBillingAddress() {
+    copyShippingToBillingAddress () {
       this.payment = {
         firstName: this.shippingDetails.firstName,
         lastName: this.shippingDetails.lastName,
@@ -171,10 +171,10 @@ export const Payment = {
         apartmentNumber: this.shippingDetails.apartmentNumber,
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
-        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
+        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
       }
     },
-    useBillingAddress() {
+    useBillingAddress () {
       if (this.sendToBillingAddress) {
         let id = this.currentUser.default_billing
         let addresses = this.currentUser.addresses
@@ -192,7 +192,7 @@ export const Payment = {
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
-              paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
+              paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
             }
             this.generateInvoice = true
           }
@@ -205,13 +205,13 @@ export const Payment = {
         this.generateInvoice = false
       }
     },
-    useGenerateInvoice() {
+    useGenerateInvoice () {
       if (!this.generateInvoice) {
         this.payment.company = ''
         this.payment.taxId = ''
       }
     },
-    getCountryName() {
+    getCountryName () {
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].code === this.payment.country) {
           return this.countries[i].name
@@ -219,28 +219,28 @@ export const Payment = {
       }
       return ''
     },
-    getPaymentMethod() {
+    getPaymentMethod () {
       for (let i = 0; i < this.paymentMethods.length; i++) {
         if (this.paymentMethods[i].code === this.payment.paymentMethod) {
           return {
             title: this.paymentMethods[i].title
               ? this.paymentMethods[i].title
-              : this.paymentMethods[i].name,
+              : this.paymentMethods[i].name
           }
         }
       }
       return {
-        name: '',
+        name: ''
       }
     },
-    notInMethods(method) {
+    notInMethods (method) {
       let availableMethods = this.paymentMethods
       if (availableMethods.find(item => item.code === method)) {
         return false
       }
       return true
     },
-    changePaymentMethod() {
+    changePaymentMethod () {
       // reset the additional payment method component container if exists.
       if (document.getElementById('checkout-order-review-additional-container')) {
         document.getElementById('checkout-order-review-additional-container').innerHTML =
@@ -252,12 +252,12 @@ export const Payment = {
         this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
       }
     },
-    changeCountry() {
+    changeCountry () {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },
-    onCheckoutLoad() {
+    onCheckoutLoad () {
       this.payment = this.$store.getters['checkout/getPaymentDetails']
-    },
-  },
+    }
+  }
 }

@@ -6,7 +6,7 @@ import { once } from '@vue-storefront/core/helpers'
 
 once('__VUE_EXTEND_PUSH_RR__', () => {
   const originalPush = VueRouter.prototype.push
-  VueRouter.prototype.push = function push(
+  VueRouter.prototype.push = function push (
     location: RawLocation,
     onComplete: Function = () => {},
     onAbort?: ErrorHandler
@@ -23,7 +23,7 @@ export const createRouter = (): VueRouter => {
     scrollBehavior: (to, from) => {
       if (to.hash) {
         return {
-          selector: to.hash,
+          selector: to.hash
         }
       }
       if (rootStore.getters['url/isBackRoute']) {
@@ -33,7 +33,7 @@ export const createRouter = (): VueRouter => {
         // do not change scroll position when navigating on the same page (ex. change filters)
         return { x: 0, y: 0 }
       }
-    },
+    }
   })
 }
 
@@ -41,7 +41,7 @@ export const createRouterProxy = (router: VueRouter): VueRouter => {
   const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
 
   return new ProxyConstructor(router, {
-    get(target, propKey) {
+    get (target, propKey) {
       const origMethod = target[propKey]
 
       if (propKey === 'addRoutes') {
@@ -51,6 +51,6 @@ export const createRouterProxy = (router: VueRouter): VueRouter => {
       }
 
       return origMethod
-    },
+    }
   })
 }

@@ -4,20 +4,20 @@ import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/
 
 const {
   hook: afterUserAuthorizeHook,
-  executor: afterUserAuthorizeExecutor,
+  executor: afterUserAuthorizeExecutor
 } = createListenerHook<any>()
 
 // Unauthorize
 
 const {
   hook: afterUserUnauthorizeHook,
-  executor: afterUserUnauthorizeExecutor,
+  executor: afterUserUnauthorizeExecutor
 } = createListenerHook()
 
 /** Only for internal usage in this module */
 const userHooksExecutors = {
   afterUserAuthorize: afterUserAuthorizeExecutor,
-  afterUserUnauthorize: afterUserUnauthorizeExecutor,
+  afterUserUnauthorize: afterUserUnauthorizeExecutor
 }
 
 const userHooks = {
@@ -27,7 +27,7 @@ const userHooks = {
   afterUserAuthorize: afterUserAuthorizeHook,
   /** Hook is fired right after user is logged out.
    */
-  afterUserUnauthorize: afterUserUnauthorizeHook,
+  afterUserUnauthorize: afterUserUnauthorizeHook
 }
 
 export { userHooks, userHooksExecutors }

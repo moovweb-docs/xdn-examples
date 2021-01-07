@@ -14,7 +14,7 @@ import transformMetadataToAttributes from '@vue-storefront/core/modules/catalog/
 import filterAttributes from '@vue-storefront/core/modules/catalog/helpers/filterAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
-  async updateAttributes({ commit, getters }, { attributes }) {
+  async updateAttributes ({ commit, getters }, { attributes }) {
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
 
@@ -42,7 +42,7 @@ const actions: ActionTree<AttributeState, RootState> = {
       reduceAttributesLists({ codesList, idsList, attributes })
     )
   },
-  async loadCachedAttributes({ dispatch }, { filterField, filterValues }) {
+  async loadCachedAttributes ({ dispatch }, { filterField, filterValues }) {
     if (!filterValues) {
       return
     }
@@ -53,7 +53,7 @@ const actions: ActionTree<AttributeState, RootState> = {
       await dispatch('updateAttributes', { attributes })
     }
   },
-  updateBlacklist({ commit, getters }, { filterValues, filterField, attributes }) {
+  updateBlacklist ({ commit, getters }, { filterValues, filterField, attributes }) {
     if (attributes && filterValues.length > 0) {
       const foundValues = attributes.map(attr => attr[filterField])
       const toBlackList = filterValues.filter(
@@ -67,7 +67,7 @@ const actions: ActionTree<AttributeState, RootState> = {
    * @param {Object} context
    * @param {Array} attrCodes attribute codes to load
    */
-  async list(
+  async list (
     { getters, dispatch },
     {
       filterValues = null,
@@ -76,7 +76,7 @@ const actions: ActionTree<AttributeState, RootState> = {
       only_visible = false,
       size = 150,
       start = 0,
-      includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null,
+      includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null
     }
   ) {
     const blacklist = getters.getBlacklist
@@ -90,7 +90,7 @@ const actions: ActionTree<AttributeState, RootState> = {
     if (filterValues.length === 0) {
       Logger.info('Skipping attribute load - attributes already loaded', 'attr', {
         orgFilterValues,
-        filterField,
+        filterField
       })()
       return { items: Object.values(codesList) }
     }
@@ -99,14 +99,14 @@ const actions: ActionTree<AttributeState, RootState> = {
       filterValues,
       filterField,
       onlyDefinedByUser: only_user_defined,
-      onlyVisible: only_visible,
+      onlyVisible: only_visible
     })
     const resp = await quickSearchByQuery({
       entityType: 'attribute',
       query,
       includeFields,
       start,
-      size,
+      size
     })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
 
@@ -115,7 +115,7 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     return resp
   },
-  async loadProductAttributes(context, { products, merge = false }) {
+  async loadProductAttributes (context, { products, merge = false }) {
     const attributeMetadata = products
       .filter(product => product.attributes_metadata)
       .map(product => product.attributes_metadata)
@@ -129,12 +129,12 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
   },
-  async loadCategoryAttributes(context, { attributeMetadata }) {
+  async loadCategoryAttributes (context, { attributeMetadata }) {
     if (!attributeMetadata) return
     const attributes = transformMetadataToAttributes([attributeMetadata])
 
     context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
-  },
+  }
 }
 
 export default actions

@@ -14,7 +14,7 @@ import CategoryState from '../../types/CategoryState'
 import {
   currentStoreView,
   localizedDispatcherRoute,
-  localizedDispatcherRouteName,
+  localizedDispatcherRouteName
 } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -30,7 +30,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Reset current category and path
    * @param {Object} context
    */
-  reset(context) {
+  reset (context) {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
     rootStore.dispatch('stock/clearCache')
@@ -41,7 +41,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  async list(
+  async list (
     { commit, state, dispatch },
     {
       parent = null,
@@ -56,7 +56,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       includeFields = config.entities.optimize ? config.entities.category.includeFields : null,
       excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null,
       skipCache = false,
-      updateState = true,
+      updateState = true
     }
   ) {
     const { searchQuery, isCustomizedQuery } = createCategoryListQuery({
@@ -65,7 +65,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       key,
       value,
       onlyActive,
-      onlyNotEmpty,
+      onlyNotEmpty
     })
     const shouldLoadCategories =
       skipCache || !state.list || state.list.length === 0 || isCustomizedQuery
@@ -78,7 +78,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         size,
         start,
         includeFields,
-        excludeFields,
+        excludeFields
       })
 
       if (updateState) {
@@ -99,7 +99,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return list
   },
-  async registerCategoryMapping({ dispatch }, { categories }) {
+  async registerCategoryMapping ({ dispatch }, { categories }) {
     const { storeCode, appendStoreCode } = currentStoreView()
     for (let category of categories) {
       if (category.url_path) {
@@ -107,7 +107,7 @@ const actions: ActionTree<CategoryState, RootState> = {
           'url/registerMapping',
           {
             url: localizedDispatcherRoute(category.url_path, storeCode),
-            routeData: transformCategoryUrl(category),
+            routeData: transformCategoryUrl(category)
           },
           { root: true }
         )
@@ -123,7 +123,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single(
+  single (
     context,
     {
       key,
@@ -131,7 +131,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       setCurrentCategory = true,
       setCurrentCategoryPath = true,
       populateRequestCacheTags = true,
-      skipCache = false,
+      skipCache = false
     }
   ) {
     const state = context.state
@@ -185,7 +185,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                 key: 'id',
                 value: category.parent_id,
                 setCurrentCategory: false,
-                setCurrentCategoryPath: false,
+                setCurrentCategoryPath: false
               })
                 .then(sc => {
                   // TODO: move it to the server side for one requests OR cache in indexedDb
@@ -248,7 +248,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products(
+  products (
     context,
     {
       populateAggregations = false,
@@ -262,7 +262,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration = null,
       append = false,
       skipCache = false,
-      cacheOnly = false,
+      cacheOnly = false
     }
   ) {
     context.dispatch('setSearchOptions', {
@@ -274,7 +274,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields,
       configuration,
       append,
-      sort,
+      sort
     })
 
     let prefetchGroupProducts = true
@@ -318,7 +318,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         append: append,
         sort: sort,
         updateState: !cacheOnly,
-        prefetchGroupProducts: prefetchGroupProducts,
+        prefetchGroupProducts: prefetchGroupProducts
       })
       .then(res => {
         let t1 = new Date().getTime()
@@ -331,7 +331,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             message: i18n.t(
               'No products synchronized for this category. Please come back while online!'
             ),
-            action1: { label: i18n.t('OK') },
+            action1: { label: i18n.t('OK') }
           })
           if (!append) rootStore.dispatch('product/reset')
           rootStore.state.product.list = { items: [] } // no products to show TODO: refactor to rootStore.state.category.reset() and rootStore.state.product.reset()
@@ -350,8 +350,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                 if (
                   prefetchIndex >
                   config.products.configurableChildrenStockPrefetchStaticPrefetchCount
-                )
-                  return
+                ) { return }
               }
               skus.push(i.sku) // main product sku to be checked anyway
               if (
@@ -396,13 +395,13 @@ const actions: ActionTree<CategoryState, RootState> = {
                 uniqueFilterValues.forEach(key => {
                   const label = optionLabel(rootStore.state.attribute, {
                     attributeKey: attrToFilter,
-                    optionId: key,
+                    optionId: key
                   })
                   if (trim(label) !== '') {
                     // is there any situation when label could be empty and we should still support it?
                     filterOptions.push({
                       id: key,
-                      label: label,
+                      label: label
                     })
                   }
                 })
@@ -423,7 +422,7 @@ const actions: ActionTree<CategoryState, RootState> = {
                           ? option.to
                             ? '< ' + currencySign + option.to
                             : '> ' + currencySign + option.from
-                          : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
+                          : currencySign + option.from + (option.to ? ' - ' + option.to : '') // TODO: add better way for formatting, extract currency sign
                     })
                     index++
                   }
@@ -431,7 +430,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               }
               context.dispatch('addAvailableFilter', {
                 key: attrToFilter,
-                options: filterOptions,
+                options: filterOptions
               })
             }
           }
@@ -445,7 +444,7 @@ const actions: ActionTree<CategoryState, RootState> = {
           message: i18n.t(
             'No products synchronized for this category. Please come back while online!'
           ),
-          action1: { label: i18n.t('OK') },
+          action1: { label: i18n.t('OK') }
         })
       })
 
@@ -471,7 +470,7 @@ const actions: ActionTree<CategoryState, RootState> = {
           configuration: configuration,
           sort: sort,
           updateState: false, // not update the product listing - this request is only for caching
-          prefetchGroupProducts: prefetchGroupProducts,
+          prefetchGroupProducts: prefetchGroupProducts
         })
         .catch(err => {
           Logger.info("Problem with second stage caching - couldn't store the data", 'category')()
@@ -495,21 +494,21 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     return productPromise
   },
-  addAvailableFilter({ commit }, { key, options } = {}) {
+  addAvailableFilter ({ commit }, { key, options } = {}) {
     if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, { key, options })
   },
-  resetFilters(context) {
+  resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)
   },
-  searchProductQuery(context, productQuery) {
+  searchProductQuery (context, productQuery) {
     context.commit(types.CATEGORY_UPD_SEARCH_PRODUCT_QUERY, productQuery)
   },
-  setSearchOptions({ commit }, searchOptions) {
+  setSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_SET_SEARCH_OPTIONS, searchOptions)
   },
-  mergeSearchOptions({ commit }, searchOptions) {
+  mergeSearchOptions ({ commit }, searchOptions) {
     commit(types.CATEGORY_MERGE_SEARCH_OPTIONS, searchOptions)
-  },
+  }
 }
 
 export default actions

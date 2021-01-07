@@ -9,9 +9,9 @@ export const wishlistStore: Module<WishlistState, RootState> = {
   namespaced: true,
   state: {
     loaded: false,
-    items: [],
+    items: []
   },
   actions,
   mutations,
-  getters,
+  getters
 }

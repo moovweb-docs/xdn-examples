@@ -3,7 +3,7 @@ import findConfigurableVariant from './findConfigurableVariant'
 /**
  * Returns product based on configuration or if there is no match then return first variant as default.
  */
-export default function getSelectedVariant(
+export default function getSelectedVariant (
   product,
   configuration,
   { fallbackToDefaultWhenNoAvailable }
@@ -14,7 +14,7 @@ export default function getSelectedVariant(
       selectedVariant = findConfigurableVariant({
         product,
         selectDefaultChildren: true,
-        availabilityCheck: true,
+        availabilityCheck: true
       }) // return first available child
     }
   }

@@ -5,7 +5,7 @@ const getCurrentConfigurationFromTotals = product => {
 
   return {
     size: { id: product.size, attribute_code: 'size', label: sizeLabel },
-    color: { id: product.color, attribute_code: 'color', label: colorLabel },
+    color: { id: product.color, attribute_code: 'color', label: colorLabel }
   }
 }
 

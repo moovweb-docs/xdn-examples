@@ -9,7 +9,7 @@ const createCategoryListQuery = ({ parent, level, key, value, onlyActive, onlyNo
   if (parent) {
     searchQuery = searchQuery.applyFilter({
       key: 'parent_id',
-      value: { eq: typeof parent === 'object' ? parent.id : parent },
+      value: { eq: typeof parent === 'object' ? parent.id : parent }
     })
     isCustomizedQuery = true
   }

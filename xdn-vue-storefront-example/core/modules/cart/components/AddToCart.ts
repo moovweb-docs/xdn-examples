@@ -4,23 +4,23 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 // @deprecated moved to store
 export const AddToCart = {
   name: 'AddToCart',
-  data() {
+  data () {
     return {
-      isAddingToCart: false,
+      isAddingToCart: false
     }
   },
   props: {
     product: {
       required: true,
-      type: Object,
+      type: Object
     },
     disabled: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   methods: {
-    async addToCart(product: Product) {
+    async addToCart (product: Product) {
       this.isAddingToCart = true
       try {
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
@@ -36,7 +36,7 @@ export const AddToCart = {
             type: 'success',
             message: this.$t('Product has been added to the cart!'),
             action1: { label: this.$t('OK') },
-            action2: null,
+            action2: null
           })
         }
         return diffLog
@@ -44,12 +44,12 @@ export const AddToCart = {
         this.notifyUser({
           type: 'error',
           message: err,
-          action1: { label: this.$t('OK') },
+          action1: { label: this.$t('OK') }
         })
         return null
       } finally {
         this.isAddingToCart = false
       }
-    },
-  },
+    }
+  }
 }

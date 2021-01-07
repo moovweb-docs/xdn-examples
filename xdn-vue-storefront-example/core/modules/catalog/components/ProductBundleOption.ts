@@ -5,61 +5,61 @@ export const ProductBundleOption = {
   props: {
     option: {
       type: Object,
-      required: true,
+      required: true
     },
     errorMessages: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
-  data() {
+  data () {
     return {
       productOptionId: null,
-      quantity: 1,
+      quantity: 1
     }
   },
   computed: {
-    productBundleOption() {
+    productBundleOption () {
       return `bundleOption_${this.option.option_id}`
     },
-    bundleOptionName() {
+    bundleOptionName () {
       return `bundleOption_${this._uid}_${this.option.option_id}_`
     },
-    quantityName() {
+    quantityName () {
       return `bundleOptionQty_${this.option.option_id}`
     },
-    value() {
+    value () {
       const { product_links } = this.option
       if (Array.isArray(product_links)) {
         return product_links.find(product => product.id === this.productOptionId)
       }
       return product_links
     },
-    errorMessage() {
+    errorMessage () {
       return this.errorMessages ? this.errorMessages[this.quantityName] : ''
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.setDefaultValues()
     if (config.usePriceTiers) {
       this.$bus.$on('product-after-setup-associated', this.setDefaultValues)
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     if (config.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setDefaultValues)
     }
   },
   watch: {
-    productOptionId(value) {
+    productOptionId (value) {
       this.bundleOptionChanged()
     },
-    quantity(value) {
+    quantity (value) {
       this.bundleOptionChanged()
-    },
+    }
   },
   methods: {
-    setDefaultValues() {
+    setDefaultValues () {
       const { product_links } = this.option
 
       if (product_links) {
@@ -71,13 +71,13 @@ export const ProductBundleOption = {
         this.quantity = defaultOption ? defaultOption.qty : 1
       }
     },
-    bundleOptionChanged() {
+    bundleOptionChanged () {
       this.$emit('option-changed', {
         option: this.option,
         fieldName: this.productBundleOption,
         qty: this.quantity,
-        value: this.value,
+        value: this.value
       })
-    },
-  },
+    }
+  }
 }

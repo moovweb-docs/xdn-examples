@@ -12,10 +12,10 @@ const reduceAttributes = (prev, curr) => {
 const reduceAttributesLists = ({
   codesList,
   idsList,
-  attributes,
+  attributes
 }: {
-  codesList: any
-  idsList: any
+  codesList: any,
+  idsList: any,
   attributes: Attribute[]
 }) => {
   return attributes.reduce(reduceAttributes, { attrHashByCode: codesList, attrHashById: idsList })

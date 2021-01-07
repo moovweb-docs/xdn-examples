@@ -14,7 +14,7 @@ export const UserModule: StorefrontModule = async function ({ store }) {
       store.dispatch('user/logout', { silent: false })
       // TODO: Move it to theme
       store.commit('ui/setSubmenu', {
-        depth: 0,
+        depth: 0
       })
     })
 
@@ -23,7 +23,7 @@ export const UserModule: StorefrontModule = async function ({ store }) {
       store.dispatch('checkout/savePersonalDetails', {
         firstName: receivedData.firstname,
         lastName: receivedData.lastname,
-        emailAddress: receivedData.email,
+        emailAddress: receivedData.email
       })
     })
 

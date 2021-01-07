@@ -4,44 +4,44 @@ export default {
   props: {
     content: {
       type: null,
-      default: '',
+      default: ''
     },
     id: {
       type: null,
-      required: true,
+      required: true
     },
     code: {
       type: null,
-      required: true,
+      required: true
     },
     from: {
       type: null,
-      required: true,
+      required: true
     },
     to: {
       type: null,
-      required: true,
+      required: true
     },
     context: {
       type: null,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      active: false,
+      default: ''
     }
   },
-  beforeMount() {
+  data () {
+    return {
+      active: false
+    }
+  },
+  beforeMount () {
     this.$bus.$on('filter-reset', this.filterReset)
     this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('filter-reset', this.filterReset)
     this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
-    filterChanged(filterOption) {
+    filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
           if (this.active) {
@@ -55,16 +55,16 @@ export default {
         // filterOption.id === this.id ? this.active = true : this.active = false
       }
     },
-    filterReset(filterOption) {
+    filterReset (filterOption) {
       this.active = false
     },
-    switchFilter(id, from, to) {
+    switchFilter (id, from, to) {
       this.$bus.$emit('filter-changed-' + this.context, {
         attribute_code: this.code,
         id: id,
         from: from,
-        to: to,
+        to: to
       })
-    },
-  },
+    }
+  }
 }

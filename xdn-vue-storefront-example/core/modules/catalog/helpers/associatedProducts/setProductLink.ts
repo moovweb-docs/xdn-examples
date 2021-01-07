@@ -7,7 +7,7 @@ import { BundleOptionsProductLink } from '@vue-storefront/core/modules/catalog/t
  * Set associated product to product link object
  */
 
-export default async function setProductLink(
+export default async function setProductLink (
   productLink: BundleOptionsProductLink | ProductLink,
   associatedProduct: Product
 ) {

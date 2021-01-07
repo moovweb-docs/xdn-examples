@@ -8,11 +8,11 @@ module.exports = merge(base, {
   target: 'web',
   entry: ['@babel/polyfill', './core/service-worker/index.js'],
   output: {
-    filename: 'core-service-worker.js',
+    filename: 'core-service-worker.js'
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.VUE_ENV': '"client"',
+      'process.env.VUE_ENV': '"client"'
     }),
     // auto generate service worker
     new SWPrecachePlugin({
@@ -26,86 +26,86 @@ module.exports = merge(base, {
         'assets/**.*',
         'assets/ig/**.*',
         'index.html',
-        '/',
+        '/'
       ],
       runtimeCaching: [
         {
           // eslint-disable-next-line no-useless-escape
           urlPattern: '^https://fonts.googleapis.com/' /** cache the html stub  */,
-          handler: 'cacheFirst',
+          handler: 'cacheFirst'
         },
         {
           // eslint-disable-next-line no-useless-escape
           urlPattern: '^https://fonts.gstatic.com/' /** cache the html stub  */,
-          handler: 'cacheFirst',
+          handler: 'cacheFirst'
         },
         {
           // eslint-disable-next-line no-useless-escape
           urlPattern: '^https://unpkg.com/' /** cache the html stub  */,
-          handler: 'cacheFirst',
+          handler: 'cacheFirst'
         },
         {
           urlPattern: '/pwa.html' /** cache the html stub  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/' /** cache the html stub for homepage  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/p/*' /** cache the html stub  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/c/*' /** cache the html stub  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/img/(.*)',
-          handler: 'fastest',
+          handler: 'fastest'
         },
         {
           urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/api/*',
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/assets/logo.svg',
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/index.html',
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/assets/*',
-          handler: 'fastest',
+          handler: 'fastest'
         },
         {
           urlPattern: '/assets/ig/(.*)',
-          handler: 'fastest',
+          handler: 'fastest'
         },
         {
           urlPattern: '/dist/(.*)',
-          handler: 'fastest',
+          handler: 'fastest'
         },
         {
           urlPattern: '/*/*' /** this is new product URL format  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/*/*/*' /** this is new product URL format  */,
-          handler: 'networkFirst',
+          handler: 'networkFirst'
         },
         {
           urlPattern: '/*' /** this is new category URL format  */,
-          handler: 'networkFirst',
-        },
+          handler: 'networkFirst'
+        }
       ],
-      importScripts: ['/dist/core-service-worker.js'] /* custom logic */,
-    }),
-  ],
+      importScripts: ['/dist/core-service-worker.js'] /* custom logic */
+    })
+  ]
 })

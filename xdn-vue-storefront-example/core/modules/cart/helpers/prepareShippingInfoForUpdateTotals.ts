@@ -11,7 +11,7 @@ const applyOptions = (item: Totals) => {
 
 const reduceToObject = (previousValue: any, currentValue: Totals) => ({
   ...previousValue,
-  [currentValue.item_id]: currentValue,
+  [currentValue.item_id]: currentValue
 })
 
 const prepareShippingInfoForUpdateTotals = (totals: Totals[]) =>

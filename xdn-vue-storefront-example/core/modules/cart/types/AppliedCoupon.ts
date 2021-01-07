@@ -1,4 +1,4 @@
 export default interface AppliedCoupon {
-  code: string
+  code: string,
   discount: number
 }

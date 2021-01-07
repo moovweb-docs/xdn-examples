@@ -1,8 +1,8 @@
 /**
  * @returns {string}
  */
-export function guid() {
-  function s4() {
+export function guid () {
+  function s4 () {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
       .substring(1)
@@ -13,7 +13,7 @@ export function guid() {
  * Return unique entity.id
  * @param {Object} entity
  */
-export function uniqueEntityId(entity) {
+export function uniqueEntityId (entity) {
   return new Date().getTime() + '-' + guid()
 }
 
@@ -22,6 +22,6 @@ export function uniqueEntityId(entity) {
  * @param {String} key
  * @param {String} value
  */
-export function entityKeyName(...values) {
+export function entityKeyName (...values) {
   return values.join('$$')
 }

@@ -15,7 +15,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
 import { isServer } from '@vue-storefront/core/helpers'
 
-function getExtendedStoreviewConfig(storeView: StoreView): StoreView {
+function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
@@ -36,7 +36,7 @@ function getExtendedStoreviewConfig(storeView: StoreView): StoreView {
 /**
  * Returns base storeView object that can be created without storeCode
  */
-function buildBaseStoreView(): StoreView {
+function buildBaseStoreView (): StoreView {
   return cloneDeep({
     tax: config.tax,
     i18n: config.i18n,
@@ -46,17 +46,17 @@ function buildBaseStoreView(): StoreView {
       config.defaultStoreCode && config.defaultStoreCode !== ''
         ? config.storeViews[config.defaultStoreCode].storeId
         : 1,
-    seo: config.seo,
+    seo: config.seo
   })
 }
 
-export function currentStoreView(): StoreView {
+export function currentStoreView (): StoreView {
   const serverStoreView = get(global, 'process.storeView', undefined)
   const clientStoreView = get(rootStore, 'state.storeView', undefined)
   return (isServer ? serverStoreView : clientStoreView) || buildBaseStoreView()
 }
 
-export async function prepareStoreView(storeCode: string): Promise<StoreView> {
+export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = buildBaseStoreView() // current, default store
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
@@ -99,7 +99,7 @@ export async function prepareStoreView(storeCode: string): Promise<StoreView> {
   return storeView
 }
 
-export function removeStoreCodeFromRoute(
+export function removeStoreCodeFromRoute (
   matchedRouteOrUrl: LocalizedRoute | string
 ): LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
@@ -111,7 +111,7 @@ export function removeStoreCodeFromRoute(
   }
 }
 
-function removeURLQueryParameter(url, parameter) {
+function removeURLQueryParameter (url, parameter) {
   // prefer to use l.search if you have a location/link object
   var urlparts = url.split('?')
   if (urlparts.length >= 2) {
@@ -119,7 +119,7 @@ function removeURLQueryParameter(url, parameter) {
     var pars = urlparts[1].split(/[&;]/g)
 
     // reverse iteration as may be destructive
-    for (var i = pars.length; i-- > 0; ) {
+    for (var i = pars.length; i-- > 0;) {
       // idiom for string.startsWith
       if (pars[i].lastIndexOf(prefix, 0) !== -1) {
         pars.splice(i, 1)
@@ -131,7 +131,7 @@ function removeURLQueryParameter(url, parameter) {
   return url
 }
 
-export function adjustMultistoreApiUrl(url: string): string {
+export function adjustMultistoreApiUrl (url: string): string {
   const { storeCode } = currentStoreView()
   if (storeCode) {
     url = removeURLQueryParameter(url, 'storeCode')
@@ -141,7 +141,7 @@ export function adjustMultistoreApiUrl(url: string): string {
   return url
 }
 
-export function localizedDispatcherRoute(
+export function localizedDispatcherRoute (
   routeObj: LocalizedRoute | string,
   storeCode?: string
 ): LocalizedRoute | string {
@@ -175,7 +175,7 @@ export function localizedDispatcherRoute(
   return routeObj
 }
 
-export function localizedDispatcherRouteName(
+export function localizedDispatcherRouteName (
   routeName: string,
   storeCode: string,
   appendStoreCode: boolean = false
@@ -191,7 +191,7 @@ export function localizedDispatcherRouteName(
  * @param path - route path
  * @param storeCode - language prefix specified in global config
  */
-export function localizedRoutePath(path: string, storeCode: string): string {
+export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
 
   return `/${storeCode}/${_path}`
@@ -203,7 +203,7 @@ export function localizedRoutePath(path: string, storeCode: string): string {
  * @param storeCode - language prefix specified in global config
  * @param isChildRoute - determines if route config is for child route
  */
-export function localizedRouteConfig(
+export function localizedRouteConfig (
   route: RouteConfig,
   storeCode: string,
   isChildRoute: boolean = false
@@ -228,7 +228,7 @@ export function localizedRouteConfig(
   return _route
 }
 
-export function localizedRoute(
+export function localizedRoute (
   routeObj: LocalizedRoute | string | RouteConfig | RawLocation,
   storeCode: string = null
 ): any {
@@ -261,7 +261,7 @@ export function localizedRoute(
   return routeObj
 }
 
-export function setupMultistoreRoutes(
+export function setupMultistoreRoutes (
   config,
   router: VueRouter,
   routes: RouteConfig[],

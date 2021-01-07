@@ -2,7 +2,7 @@ import camelCase from 'lodash-es/camelCase'
 
 // this is the mirror copy of taxcalc.js from VSF API
 
-function isSpecialPriceActive(fromDate, toDate) {
+function isSpecialPriceActive (fromDate, toDate) {
   if (!fromDate && !toDate) {
     return true
   }
@@ -27,7 +27,7 @@ function isSpecialPriceActive(fromDate, toDate) {
 /**
  * change object keys to camelCase
  */
-function toCamelCase(obj: Record<string, any> = {}): Record<string, any> {
+function toCamelCase (obj: Record<string, any> = {}): Record<string, any> {
   return Object.keys(obj).reduce((accObj, currKey) => {
     accObj[camelCase(currKey)] = obj[currKey]
     return accObj
@@ -40,7 +40,7 @@ function toCamelCase(obj: Record<string, any> = {}): Record<string, any> {
  * @param rateFactor - tax % in decimal
  * @param isPriceInclTax - determines if price already include tax
  */
-function createSinglePrice(price: number, rateFactor: number, isPriceInclTax: boolean) {
+function createSinglePrice (price: number, rateFactor: number, isPriceInclTax: boolean) {
   const _price = isPriceInclTax ? price / (1 + rateFactor) : price
   const tax = _price * rateFactor
 
@@ -48,27 +48,27 @@ function createSinglePrice(price: number, rateFactor: number, isPriceInclTax: bo
 }
 
 interface AssignPriceParams {
-  product: any
-  target: string
-  price: number
-  tax?: number
+  product: any,
+  target: string,
+  price: number,
+  tax?: number,
   deprecatedPriceFieldsSupport?: boolean
 }
 /**
  * assign price and tax to product with proper keys
  * @param AssignPriceParams
  */
-function assignPrice({
+function assignPrice ({
   product,
   target,
   price,
   tax = 0,
-  deprecatedPriceFieldsSupport = true,
+  deprecatedPriceFieldsSupport = true
 }: AssignPriceParams): void {
   let priceUpdate = {
     [target]: price,
     [`${target}_tax`]: tax,
-    [`${target}_incl_tax`]: price + tax,
+    [`${target}_incl_tax`]: price + tax
   }
 
   if (deprecatedPriceFieldsSupport) {
@@ -80,12 +80,12 @@ function assignPrice({
   Object.assign(product, priceUpdate)
 }
 
-export function updateProductPrices({
+export function updateProductPrices ({
   product,
   rate,
   sourcePriceInclTax = false,
   deprecatedPriceFieldsSupport = false,
-  finalPriceInclTax = true,
+  finalPriceInclTax = true
 }) {
   const rate_factor = parseFloat(rate.rate) / 100
   const hasOriginalPrices =
@@ -116,7 +116,7 @@ export function updateProductPrices({
       product,
       target: 'original_price',
       ...priceWithTax,
-      deprecatedPriceFieldsSupport,
+      deprecatedPriceFieldsSupport
     })
 
     if (specialPriceWithTax.price) {
@@ -136,7 +136,7 @@ export function updateProductPrices({
       product,
       target: 'special_price',
       ...specialPriceWithTax,
-      deprecatedPriceFieldsSupport,
+      deprecatedPriceFieldsSupport
     })
   }
   if (finalPriceWithTax.price) {
@@ -144,7 +144,7 @@ export function updateProductPrices({
       product,
       target: 'final_price',
       ...finalPriceWithTax,
-      deprecatedPriceFieldsSupport,
+      deprecatedPriceFieldsSupport
     })
   }
 
@@ -158,20 +158,20 @@ export function updateProductPrices({
           product,
           target: 'price',
           ...specialPriceWithTax,
-          deprecatedPriceFieldsSupport,
+          deprecatedPriceFieldsSupport
         }) // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
         assignPrice({
           product,
           target: 'special_price',
           ...finalPriceWithTax,
-          deprecatedPriceFieldsSupport,
+          deprecatedPriceFieldsSupport
         })
       } else {
         assignPrice({
           product,
           target: 'price',
           ...finalPriceWithTax,
-          deprecatedPriceFieldsSupport,
+          deprecatedPriceFieldsSupport
         })
       }
     }
@@ -185,14 +185,14 @@ export function updateProductPrices({
         target: 'special_price',
         price: 0,
         tax: 0,
-        deprecatedPriceFieldsSupport,
+        deprecatedPriceFieldsSupport
       })
     } else {
       assignPrice({
         product,
         target: 'price',
         ...specialPriceWithTax,
-        deprecatedPriceFieldsSupport,
+        deprecatedPriceFieldsSupport
       })
     }
   } else {
@@ -202,7 +202,7 @@ export function updateProductPrices({
       target: 'special_price',
       price: 0,
       tax: 0,
-      deprecatedPriceFieldsSupport,
+      deprecatedPriceFieldsSupport
     })
   }
 
@@ -220,7 +220,7 @@ export function updateProductPrices({
         rate,
         sourcePriceInclTax,
         deprecatedPriceFieldsSupport,
-        finalPriceInclTax,
+        finalPriceInclTax
       })
 
       if (configurableChild.price_incl_tax <= product.price_incl_tax || product.price === 0) {
@@ -230,21 +230,21 @@ export function updateProductPrices({
           target: 'price',
           price: configurableChild.price,
           tax: configurableChild.price_tax,
-          deprecatedPriceFieldsSupport,
+          deprecatedPriceFieldsSupport
         })
         assignPrice({
           product,
           target: 'special_price',
           price: configurableChild.special_price,
           tax: configurableChild.special_price_tax,
-          deprecatedPriceFieldsSupport,
+          deprecatedPriceFieldsSupport
         })
       }
     }
   }
 }
 
-export function calculateProductTax({
+export function calculateProductTax ({
   product,
   taxClasses,
   taxCountry = 'PL',
@@ -253,7 +253,7 @@ export function calculateProductTax({
   deprecatedPriceFieldsSupport = false,
   finalPriceInclTax = true,
   userGroupId = null,
-  isTaxWithUserGroupIsActive,
+  isTaxWithUserGroupIsActive
 }) {
   let rateFound = false
   let product_tax_class_id = parseInt(product.tax_class_id)
@@ -281,7 +281,7 @@ export function calculateProductTax({
             rate,
             sourcePriceInclTax,
             deprecatedPriceFieldsSupport,
-            finalPriceInclTax,
+            finalPriceInclTax
           })
           rateFound = true
           break
@@ -295,7 +295,7 @@ export function calculateProductTax({
       rate: { rate: 0 },
       sourcePriceInclTax,
       deprecatedPriceFieldsSupport,
-      finalPriceInclTax,
+      finalPriceInclTax
     })
 
     product.price_incl_tax = product.price

@@ -29,10 +29,10 @@ const postcssConfig = {
     plugins: loader => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
-    ],
-  },
+        flexbox: 'no-2009'
+      })
+    ]
+  }
 }
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
@@ -50,7 +50,7 @@ export default {
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
       chunksSortMode: 'none',
-      inject: isProd === false, // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal)
@@ -58,7 +58,7 @@ export default {
         : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
       chunksSortMode: 'none',
-      inject: isProd === false,
+      inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexBasic)
@@ -66,30 +66,30 @@ export default {
         : 'src/index.basic.template.html',
       filename: 'index.basic.html',
       chunksSortMode: 'none',
-      inject: isProd === false,
+      inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
       filename: 'index.amp.html',
       chunksSortMode: 'none',
-      inject: isProd === false,
+      inject: isProd === false
     }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss')),
-    }),
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    })
   ],
   devtool: 'source-map',
   entry: {
-    app: ['@babel/polyfill', './core/client-entry.ts'],
+    app: ['@babel/polyfill', './core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
     publicPath: '/dist/',
-    filename: '[name].[hash].js',
+    filename: '[name].[hash].js'
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, themesRoot)],
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)]
   },
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, themesRoot)],
@@ -118,8 +118,8 @@ export default {
       '@vue-storefront/core/helpers/initCacheStorage': path.resolve(
         __dirname,
         '../lib/storage-manager.ts'
-      ),
-    },
+      )
+    }
   },
   module: {
     rules: [
@@ -127,23 +127,23 @@ export default {
         enforce: 'pre',
         test: /\.(js|vue,ts)$/,
         loader: 'eslint-loader',
-        exclude: [/node_modules/, /test/],
+        exclude: [/node_modules/, /test/]
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()],
-        },
+          postcss: [autoprefixer()]
+        }
       },
       {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/],
+          appendTsSuffixTo: [/\.vue$/]
         },
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
@@ -151,23 +151,23 @@ export default {
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
-          path.resolve(__dirname, '../../core'),
-        ],
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]',
-        },
+          name: '[name].[ext]?[hash]'
+        }
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader', postcssConfig],
+        use: ['vue-style-loader', 'css-loader', postcssConfig]
       },
       {
         test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader'],
+        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader']
       },
       {
         test: /\.sass$/,
@@ -178,24 +178,24 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true,
-            },
-          },
-        ],
+              indentedSyntax: true
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
-        loader: 'url-loader?importLoaders=1&limit=10000',
+        loader: 'url-loader?importLoaders=1&limit=10000'
       },
       {
         test: /\.(graphqls|gql)$/,
         exclude: /node_modules/,
-        loader: ['graphql-tag/loader'],
+        loader: ['graphql-tag/loader']
       },
       {
         test: /core\/build\/config\.json$/,
-        loader: path.resolve('core/build/purge-config.js'),
-      },
-    ],
-  },
+        loader: path.resolve('core/build/purge-config.js')
+      }
+    ]
+  }
 }

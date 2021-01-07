@@ -49,5 +49,5 @@ export const getSearchAdapter = async (adapterName = server.api) => {
 }
 
 export default {
-  getSearchAdapter,
+  getSearchAdapter
 }

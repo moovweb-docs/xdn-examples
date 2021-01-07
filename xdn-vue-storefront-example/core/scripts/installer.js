@@ -41,7 +41,7 @@ class Abstract {
    *
    * Initialize fields
    */
-  constructor(answers) {
+  constructor (answers) {
     this.answers = answers
   }
 }
@@ -55,7 +55,7 @@ class Message {
    *
    * @param text
    */
-  static info(text) {
+  static info (text) {
     text = Array.isArray(text) ? text : [text]
 
     message([...text], { color: 'blue', border: false, marginTop: 1 })
@@ -67,7 +67,7 @@ class Message {
    * @param text
    * @param logFile
    */
-  static error(text, logFile = INSTALL_LOG_FILE) {
+  static error (text, logFile = INSTALL_LOG_FILE) {
     text = Array.isArray(text) ? text : [text]
 
     // show trace if exception occurred
@@ -91,7 +91,7 @@ class Message {
    *
    * @param text
    */
-  static warning(text) {
+  static warning (text) {
     text = Array.isArray(text) ? text : [text]
 
     message(['WARNING:', ...text], { color: 'yellow', border: false, marginTop: 1 })
@@ -103,14 +103,14 @@ class Message {
    * @param text
    * @param isLastMessage
    */
-  static greeting(text, isLastMessage = false) {
+  static greeting (text, isLastMessage = false) {
     text = Array.isArray(text) ? text : [text]
 
     message(
       [...text],
       Object.assign(isLastMessage ? { marginTop: 1 } : {}, {
         borderColor: 'green',
-        marginBottom: 1,
+        marginBottom: 1
       })
     )
   }
@@ -125,7 +125,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneRepository() {
+  cloneRepository () {
     return new Promise((resolve, reject) => {
       const backendDir = path.normalize(this.answers.backend_dir)
       const gitPath = path.normalize(this.answers.git_path)
@@ -149,7 +149,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory(backendDir = null) {
+  goToDirectory (backendDir = null) {
     return new Promise((resolve, reject) => {
       const dir = this.answers ? this.answers.backend_dir : backendDir
 
@@ -170,7 +170,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  depInstall() {
+  depInstall () {
     return new Promise((resolve, reject) => {
       Message.info('Installing backend dep...')
 
@@ -187,7 +187,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  dockerComposeUp() {
+  dockerComposeUp () {
     return new Promise((resolve, reject) => {
       Message.info('Starting Docker in background...')
 
@@ -207,7 +207,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  validateM2Integration() {
+  validateM2Integration () {
     return new Promise((resolve, reject) => {
       const Magento2Client = require('magento2-rest-client').Magento2Client
 
@@ -228,7 +228,7 @@ class Backend extends Abstract {
         consumerKey: this.answers.m2_api_consumer_key,
         consumerSecret: this.answers.m2_api_consumer_secret,
         accessToken: this.answers.m2_api_access_token,
-        accessTokenSecret: this.answers.m2_api_access_token_secret,
+        accessTokenSecret: this.answers.m2_api_access_token_secret
       }
       let client = Magento2Client(options)
 
@@ -248,7 +248,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig() {
+  createConfig () {
     return new Promise((resolve, reject) => {
       let config
 
@@ -292,7 +292,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  restoreElasticSearch() {
+  restoreElasticSearch () {
     return new Promise((resolve, reject) => {
       Message.info('Restoring data for ElasticSearch...')
 
@@ -309,7 +309,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  migrateElasticSearch() {
+  migrateElasticSearch () {
     return new Promise((resolve, reject) => {
       Message.info('Migrating data into ElasticSearch...')
 
@@ -326,7 +326,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  importElasticSearch() {
+  importElasticSearch () {
     return new Promise((resolve, reject) => {
       Message.info('Importing data from Magento into ElasticSearch...')
 
@@ -343,7 +343,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneMagentoSampleData() {
+  cloneMagentoSampleData () {
     return new Promise((resolve, reject) => {
       Message.info(`Cloning Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`)
 
@@ -364,7 +364,7 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment() {
+  runDevEnvironment () {
     return new Promise((resolve, reject) => {
       Message.info('Starting backend server...')
 
@@ -392,7 +392,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory() {
+  goToDirectory () {
     return new Promise((resolve, reject) => {
       if (Abstract.wasLocalBackendInstalled) {
         Message.info(`Trying change directory to '${STOREFRONT_DIRECTORY}'...`)
@@ -413,7 +413,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig() {
+  createConfig () {
     return new Promise((resolve, reject) => {
       let config
 
@@ -522,7 +522,7 @@ class Storefront extends Abstract {
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
-          backend_dir: this.answers.backend_dir || false,
+          backend_dir: this.answers.backend_dir || false
         }
 
         jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, { spaces: 2 })
@@ -539,7 +539,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  depBuild() {
+  depBuild () {
     return new Promise((resolve, reject) => {
       Message.info('Build storefront dep...')
 
@@ -556,7 +556,7 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment(answers) {
+  runDevEnvironment (answers) {
     return new Promise((resolve, reject) => {
       Message.info('Starting storefront server...')
 
@@ -579,7 +579,7 @@ class Storefront extends Abstract {
   /**
    * Handles all tasks needed to make theme installation
    */
-  async themeInstallation() {
+  async themeInstallation () {
     // get theme tasks
     const { installDeps, cloneTheme, configureTheme } = createThemeTasks(
       STOREFRONT_DIRECTORY.toString()
@@ -608,7 +608,7 @@ class Manager extends Abstract {
    *
    * Assign backend and storefront entities
    */
-  constructor(answers) {
+  constructor (answers) {
     super(answers)
 
     this.backend = new Backend(answers)
@@ -621,7 +621,7 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  tryToCreateLogFiles() {
+  tryToCreateLogFiles () {
     return new Promise((resolve, reject) => {
       Message.info('Trying to create log files...')
 
@@ -653,7 +653,7 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initBackend() {
+  initBackend () {
     if (this.answers.is_remote_backend === false) {
       Abstract.wasLocalBackendInstalled = true
       if (this.answers.m2_api_oauth2 === true) {
@@ -688,7 +688,7 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initStorefront() {
+  initStorefront () {
     return this.storefront
       .goToDirectory()
       .then(this.storefront.createConfig.bind(this.storefront))
@@ -700,10 +700,10 @@ class Manager extends Abstract {
   /**
    * Shows message rendered on the very beginning
    */
-  static showWelcomeMessage() {
+  static showWelcomeMessage () {
     Message.greeting([
       'Hi, welcome to the vue-storefront installation.',
-      "Let's configure it together :)",
+      "Let's configure it together :)"
     ])
   }
 
@@ -712,7 +712,7 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  showGoodbyeMessage() {
+  showGoodbyeMessage () {
     return new Promise((resolve, reject) => {
       Message.greeting(
         [
@@ -729,7 +729,7 @@ class Manager extends Abstract {
           '',
           Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : "You don't have log files created.",
           '',
-          'Good Luck!',
+          'Good Luck!'
         ],
         true
       )
@@ -749,7 +749,7 @@ let questions = [
     type: 'confirm',
     name: 'is_remote_backend',
     message: `Would you like to use ${STOREFRONT_REMOTE_BACKEND_URL} as the backend?`,
-    default: true,
+    default: true
   },
   {
     type: 'input',
@@ -765,7 +765,7 @@ let questions = [
       }
 
       return true
-    },
+    }
   },
   {
     type: 'input',
@@ -787,7 +787,7 @@ let questions = [
       }
 
       return true
-    },
+    }
   },
   {
     type: 'list',
@@ -796,7 +796,7 @@ let questions = [
     choices: [`${STOREFRONT_REMOTE_BACKEND_URL}/img/`, 'http://localhost:8080/img/', 'Custom url'],
     when: function (answers) {
       return answers.is_remote_backend === false
-    },
+    }
   },
   {
     type: 'input',
@@ -824,7 +824,7 @@ let questions = [
 
       // add extra slash as suffix if was not set
       return url.slice(-1) === '/' ? url : `${url}/`
-    },
+    }
   },
   {
     type: 'input',
@@ -833,7 +833,7 @@ let questions = [
     default: 'http://demo-magento2.vuestorefront.io',
     when: function (answers) {
       return answers.is_remote_backend === false
-    },
+    }
   },
   {
     type: 'confirm',
@@ -842,7 +842,7 @@ let questions = [
     default: false,
     when: function (answers) {
       return answers.is_remote_backend === false
-    },
+    }
   },
   {
     type: 'input',
@@ -867,7 +867,7 @@ let questions = [
       }
 
       return url
-    },
+    }
   },
   {
     type: 'input',
@@ -876,7 +876,7 @@ let questions = [
     default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    },
+    }
   },
   {
     type: 'input',
@@ -885,7 +885,7 @@ let questions = [
     default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    },
+    }
   },
   {
     type: 'input',
@@ -894,7 +894,7 @@ let questions = [
     default: '040xx3qy7s0j28o3q0exrfop579cy20m',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    },
+    }
   },
   {
     type: 'input',
@@ -903,18 +903,18 @@ let questions = [
     default: '7qunl3p505rubmr7u1ijt7odyialnih9',
     when: function (answers) {
       return answers.m2_api_oauth2 === true
-    },
+    }
   },
   {
     type: 'confirm',
     name: 'ssr_endpoints',
     message: `Would You like to create fields for SSR endpoints?`,
-    default: false,
+    default: false
   },
-  ...createThemePrompt(STOREFRONT_DIRECTORY.toString()),
+  ...createThemePrompt(STOREFRONT_DIRECTORY.toString())
 ]
 
-async function processAnswers(answers) {
+async function processAnswers (answers) {
   let manager = new Manager(answers)
 
   await manager

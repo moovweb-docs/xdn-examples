@@ -9,10 +9,10 @@ export default {
   mixins: [onEscapePress, CompareButton],
   computed: {
     ...mapGetters('category-next', ['getMenuCategories']),
-    getCategories() {
+    getCategories () {
       return this.getMenuCategories
     },
-    categories() {
+    categories () {
       return this.getCategories.filter(op => {
         return (
           op.level ===
@@ -23,21 +23,21 @@ export default {
       })
     },
     ...mapState({
-      isOpen: state => state.ui.sidebar,
+      isOpen: state => state.ui.sidebar
     }),
-    compareIsActive() {
+    compareIsActive () {
       // Computed property renamed to 'isEmpty'
       return !this.isEmpty
-    },
+    }
   },
-  created() {},
+  created () {},
   methods: {
-    onEscapePress() {
+    onEscapePress () {
       this.closeMenu()
     },
-    closeMenu() {
+    closeMenu () {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
-    },
-  },
+    }
+  }
 }

@@ -12,12 +12,12 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 export class SearchAdapter {
   public entities: any
 
-  public constructor() {
+  public constructor () {
     this.entities = []
     this.initBaseTypes()
   }
 
-  protected decompactItem(item, fieldsToCompact) {
+  protected decompactItem (item, fieldsToCompact) {
     for (let key in fieldsToCompact) {
       const value = fieldsToCompact[key]
       if (typeof item[value] !== 'undefined') {
@@ -28,7 +28,7 @@ export class SearchAdapter {
     return item
   }
 
-  public async search(Request) {
+  public async search (Request) {
     const rawQueryObject = Request.searchQuery
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type)
@@ -62,7 +62,7 @@ export class SearchAdapter {
       from: Request.from,
       sort: Request.sort,
       request_format: 'search-query',
-      response_format: 'compact',
+      response_format: 'compact'
     }
 
     if (Request._sourceExclude) {
@@ -96,9 +96,9 @@ export class SearchAdapter {
       mode: 'cors',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(rawQueryObject) : null,
+      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(rawQueryObject) : null
     })
       .then(resp => {
         return resp.json()
@@ -108,7 +108,7 @@ export class SearchAdapter {
       })
   }
 
-  public handleResult(resp, type, start = 0, size = 50): SearchResponse {
+  public handleResult (resp, type, start = 0, size = 50): SearchResponse {
     if (resp === null) {
       throw new Error('Invalid API result - null not exepcted')
     }
@@ -127,10 +127,10 @@ export class SearchAdapter {
             slug: hit.slug
               ? hit.slug
               : hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys
-              ? hit.url_key
-              : hit.hasOwnProperty('name')
-              ? slugify(hit.name) + '-' + hit.id
-              : '',
+                ? hit.url_key
+                : hit.hasOwnProperty('name')
+                  ? slugify(hit.name) + '-' + hit.id
+                  : ''
           }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.total,
@@ -138,7 +138,7 @@ export class SearchAdapter {
         perPage: size,
         aggregations: resp.aggregations,
         attributeMetadata: resp.attribute_metadata,
-        suggestions: resp.suggest,
+        suggestions: resp.suggest
       }
     } else {
       if (resp.error) {
@@ -151,13 +151,13 @@ export class SearchAdapter {
     }
   }
 
-  public registerEntityType(
+  public registerEntityType (
     entityType,
     { url = '', url_ssr = '', queryProcessor, resultProcessor }
   ) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
-      resultProcessor: resultProcessor,
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -168,7 +168,7 @@ export class SearchAdapter {
     return this
   }
 
-  public initBaseTypes() {
+  public initBaseTypes () {
     const baseTypes = [
       'product',
       'attribute',
@@ -177,7 +177,7 @@ export class SearchAdapter {
       'review',
       'cms_page',
       'cms_block',
-      'cms_hierarchy',
+      'cms_hierarchy'
     ]
     baseTypes.forEach(type => {
       this.registerEntityType(type, {
@@ -187,7 +187,7 @@ export class SearchAdapter {
         },
         resultProcessor: (resp, start, size) => {
           return this.handleResult(resp, type, start, size)
-        },
+        }
       })
     })
   }

@@ -12,10 +12,10 @@ const placeOrder = (order: Order): Promise<Task> =>
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify(order),
-    },
+      body: JSON.stringify(order)
+    }
   })
 
 export const OrderService: DataResolver.OrderService = {
-  placeOrder,
+  placeOrder
 }

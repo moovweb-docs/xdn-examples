@@ -13,12 +13,12 @@ const createReview = (review: Review): Promise<boolean> =>
       mode: 'cors',
       headers: {
         Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ review }),
-    },
+      body: JSON.stringify({ review })
+    }
   }).then(({ code }) => code === 200)
 
 export const ReviewsService: DataResolver.ReviewsService = {
-  createReview,
+  createReview
 }

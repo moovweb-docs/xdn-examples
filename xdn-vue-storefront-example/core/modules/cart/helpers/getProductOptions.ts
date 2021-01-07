@@ -5,12 +5,12 @@ const mapValues = current => val => ({
   id: val.value_index,
   label: val.label,
   attribute_code: current.attribute_code,
-  type: current.attribute_code,
+  type: current.attribute_code
 })
 
 const reduceOptions = (prev, curr) => ({
   ...prev,
-  [curr.attribute_code]: curr.values.map(mapValues(curr)),
+  [curr.attribute_code]: curr.values.map(mapValues(curr))
 })
 
 const getProductOptions = (product: CartItem): ProductOption => {

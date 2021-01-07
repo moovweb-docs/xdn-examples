@@ -13,11 +13,11 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
     is_result_cacheable: true,
     product_sku: sku,
-    callback_event: `store:${actionName}`,
+    callback_event: `store:${actionName}`
   })
 
 const check = (sku: string): Promise<Task> =>
@@ -28,10 +28,10 @@ const check = (sku: string): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
     is_result_cacheable: true,
-    product_sku: sku,
+    product_sku: sku
   })
 
 const list = (skuList: string[]): Promise<Task> =>
@@ -44,13 +44,13 @@ const list = (skuList: string[]): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    skus: skuList,
+    skus: skuList
   })
 
 export const StockService: DataResolver.StockService = {
   check,
   list,
-  queueCheck,
+  queueCheck
 }

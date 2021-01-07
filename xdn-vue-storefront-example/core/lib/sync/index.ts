@@ -9,7 +9,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 /** Syncs given task. If user is offline request will be sent to the server after restored connection */
-async function queue(task) {
+async function queue (task) {
   const tasksCollection = StorageManager.get('syncTasks')
   task = _prepareTask(task)
   Logger.info('Sync task queued ' + task.url, 'sync', { task })()
@@ -33,7 +33,7 @@ async function queue(task) {
 }
 
 /** Runs given task. If user is offline request will fail */
-async function execute(task): Promise<Task> {
+async function execute (task): Promise<Task> {
   // not offline task
   task = _prepareTask(task)
   return new Promise((resolve, reject) => {
@@ -60,7 +60,7 @@ async function execute(task): Promise<Task> {
 }
 
 /** Clear sync tasks that were not transmitted yet */
-function clearNotTransmited() {
+function clearNotTransmited () {
   const syncTaskCollection = StorageManager.get('syncTasks')
   syncTaskCollection.iterate((task, id, iterationNumber) => {
     if (!task.transmited) {
@@ -72,5 +72,5 @@ function clearNotTransmited() {
 export const TaskQueue = {
   queue,
   execute,
-  clearNotTransmited,
+  clearNotTransmited
 }

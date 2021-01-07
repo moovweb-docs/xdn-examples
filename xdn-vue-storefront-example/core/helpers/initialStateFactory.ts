@@ -8,7 +8,7 @@ const initialStateFactory = defaultState => {
   const createInitialState = currentState => ({
     ...cloneDeep(currentState),
     ...defaultFields,
-    storeView: { storeCode: currentState.storeView.storeCode },
+    storeView: { storeCode: currentState.storeView.storeCode }
   })
 
   return { createInitialState }

@@ -1,14 +1,14 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 
 interface BaseProductLink {
-  product?: Product
+  product?: Product,
   qty?: number
 }
 
 export const calculateProductLinkPrice = ({ price = 1, priceInclTax = 1, qty = 1 }) => {
   const product = {
     price: 0,
-    priceInclTax: 0,
+    priceInclTax: 0
   }
   const qtyNum = typeof qty === 'string' ? parseInt(qty) : qty
   if (qtyNum >= 0) {
@@ -25,13 +25,13 @@ export const getProductLinkPrice = (productLinks: BaseProductLink[]) =>
       return calculateProductLinkPrice({
         price: product.price,
         priceInclTax: product.price_incl_tax || product.priceInclTax,
-        qty: productLink.qty,
+        qty: productLink.qty
       })
     })
     .reduce(
       (priceDelta, currentPriceDelta) => ({
         price: currentPriceDelta.price + priceDelta.price,
-        priceInclTax: currentPriceDelta.priceInclTax + priceDelta.priceInclTax,
+        priceInclTax: currentPriceDelta.priceInclTax + priceDelta.priceInclTax
       }),
       { price: 0, priceInclTax: 0 }
     )

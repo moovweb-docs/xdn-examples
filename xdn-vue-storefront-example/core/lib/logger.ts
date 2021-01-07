@@ -27,7 +27,7 @@ class Logger {
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  public constructor(
+  public constructor (
     verbosityLevel: string = 'display-everything',
     showErrorOnProduction: boolean = false
   ) {
@@ -40,9 +40,8 @@ class Logger {
    * Convert message to string - as it may be object, array either primitive
    * @param payload
    */
-  public convertToString(payload: any) {
-    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number')
-      return payload
+  public convertToString (payload: any) {
+    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') { return payload }
     if (payload && payload.message) return payload.message
     return JSON.stringify(payload)
   }
@@ -52,7 +51,7 @@ class Logger {
    *
    * @param {string} method
    */
-  public canPrint(method: string) {
+  public canPrint (method: string) {
     const allowedMethods = []
 
     if (this.verbosityLevel === 'display-everything' && this.isProduction === false) {
@@ -75,7 +74,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public debug(message: any, tag: string = null, context: any = null): () => void {
+  public debug (message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('debug')) {
       return () => {}
     }
@@ -85,7 +84,7 @@ class Logger {
       type: 'debug',
       message,
       tag,
-      context,
+      context
     }))
     if (noDefaultOutput === true) {
       return () => {}
@@ -128,7 +127,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public log(message: any, tag: string = null, context: any = null): () => void {
+  public log (message: any, tag: string = null, context: any = null): () => void {
     return this.info(message, tag, context)
   }
 
@@ -140,7 +139,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public info(message: any, tag: string = null, context: any = null): () => void {
+  public info (message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('info')) {
       return () => {}
     }
@@ -150,7 +149,7 @@ class Logger {
       type: 'info',
       message,
       tag,
-      context,
+      context
     }))
     if (noDefaultOutput === true) {
       return () => {}
@@ -193,7 +192,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public warn(message: any, tag: string = null, context: any = null): () => void {
+  public warn (message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('warn')) {
       return () => {}
     }
@@ -203,7 +202,7 @@ class Logger {
       type: 'warn',
       message,
       tag,
-      context,
+      context
     }))
     if (noDefaultOutput === true) {
       return () => {}
@@ -246,13 +245,13 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public error(message: any, tag: string = null, context: any = null): () => void {
+  public error (message: any, tag: string = null, context: any = null): () => void {
     let noDefaultOutput
     ;({ message, tag, context, noDefaultOutput } = coreHooksExecutors.beforeLogRendered({
       type: 'error',
       message,
       tag,
-      context,
+      context
     }))
     if (noDefaultOutput === true) {
       return () => {}

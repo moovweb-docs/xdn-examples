@@ -3,8 +3,8 @@ import { Route } from 'vue-router'
 import { Context } from '@vue-storefront/core/scripts/utils/types'
 
 interface AsyncDataParameter {
-  store: any
-  route: Route
+  store: any,
+  route: Route,
   context?: Context
 }
 

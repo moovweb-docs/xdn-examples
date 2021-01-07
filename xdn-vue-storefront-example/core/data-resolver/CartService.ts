@@ -13,9 +13,9 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({ addressInformation }),
+      body: JSON.stringify({ addressInformation })
     },
-    silent: true,
+    silent: true
   })
 
 const getTotals = async (): Promise<Task> =>
@@ -24,9 +24,9 @@ const getTotals = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: true,
+    silent: true
   })
 
 const getCartToken = async (
@@ -44,10 +44,10 @@ const getCartToken = async (
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
     force_client_state: forceClientState,
-    silent: true,
+    silent: true
   })
 }
 
@@ -61,10 +61,10 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
-          quoteId: cartItem.quoteId || cartServerToken,
-        },
-      }),
-    },
+          quoteId: cartItem.quoteId || cartServerToken
+        }
+      })
+    }
   })
 
 const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
@@ -77,11 +77,11 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
-          quoteId: cartServerToken,
-        },
-      }),
+          quoteId: cartServerToken
+        }
+      })
     },
-    silent: true,
+    silent: true
   })
 
 const getPaymentMethods = async (): Promise<Task> =>
@@ -90,9 +90,9 @@ const getPaymentMethods = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: true,
+    silent: true
   })
 
 const getShippingMethods = async (address: any): Promise<Task> =>
@@ -103,10 +103,10 @@ const getShippingMethods = async (address: any): Promise<Task> =>
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify({
-        address,
-      }),
+        address
+      })
     },
-    silent: true,
+    silent: true
   })
 
 const getItems = async (): Promise<Task> =>
@@ -115,9 +115,9 @@ const getItems = async (): Promise<Task> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: true,
+    silent: true
   })
 
 const applyCoupon = async (couponCode: string): Promise<Task> => {
@@ -130,9 +130,9 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: false,
+    silent: false
   })
 }
 
@@ -142,9 +142,9 @@ const removeCoupon = async (): Promise<Task> =>
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
+      mode: 'cors'
     },
-    silent: false,
+    silent: false
   })
 
 export const CartService: DataResolver.CartService = {
@@ -157,5 +157,5 @@ export const CartService: DataResolver.CartService = {
   getShippingMethods,
   getItems,
   applyCoupon,
-  removeCoupon,
+  removeCoupon
 }

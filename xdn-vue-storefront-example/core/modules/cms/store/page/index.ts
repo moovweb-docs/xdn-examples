@@ -11,9 +11,9 @@ export const cmsPageModule: Module<CmsPageState, RootState> = {
   namespaced: true,
   state: {
     items: [],
-    current: null,
+    current: null
   },
   getters,
   actions,
-  mutations,
+  mutations
 }

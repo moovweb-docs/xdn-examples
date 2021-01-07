@@ -5,15 +5,15 @@ export const CompareProduct = {
   name: 'CompareProduct',
   mixins: [compareMountedMixin],
   computed: {
-    isOnCompare(): boolean {
+    isOnCompare (): boolean {
       return this.$store.getters['compare/isOnCompare'](this.product)
-    },
+    }
   },
   methods: {
-    removeFromCompare(product: Product) {
+    removeFromCompare (product: Product) {
       return this.$store.state['compare']
         ? this.$store.dispatch('compare/removeItem', product)
         : false
-    },
-  },
+    }
+  }
 }

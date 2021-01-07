@@ -9,9 +9,9 @@ export const compareStore: Module<CompareState, RootState> = {
   namespaced: true,
   state: {
     loaded: false,
-    items: [],
+    items: []
   },
   getters,
   actions,
-  mutations,
+  mutations
 }

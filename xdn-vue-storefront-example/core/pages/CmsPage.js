@@ -6,33 +6,33 @@ export default {
   name: 'CmsPage',
   mixins: [Composite],
   computed: {
-    pageTitle() {
+    pageTitle () {
       return this.$store.state.cmsPage.current
         ? this.$store.state.cmsPage.current.meta_title || this.$store.state.cmsPage.current.title
         : ''
     },
-    pageDescription() {
+    pageDescription () {
       return this.$store.state.cmsPage.current
         ? this.$store.state.cmsPage.current.meta_description
         : ''
     },
-    pageKeywords() {
+    pageKeywords () {
       return this.$store.state.cmsPage.current
         ? this.$store.state.cmsPage.current.meta_keywords
         : ''
-    },
+    }
   },
   watch: {
-    $route: 'validateRoute',
+    $route: 'validateRoute'
   },
-  asyncData({ store, route, context }) {
+  asyncData ({ store, route, context }) {
     // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`cmsPage`)
       store
         .dispatch('cmsPage/single', {
           value: route.params.slug,
-          setCurrent: true,
+          setCurrent: true
         })
         .then(page => {
           resolve(page)
@@ -44,7 +44,7 @@ export default {
     })
   },
   methods: {
-    validateRoute() {
+    validateRoute () {
       this.$store
         .dispatch('cmsPage/single', { value: this.$route.params.slug, setCurrent: true })
         .then(cmsPage => {
@@ -52,19 +52,19 @@ export default {
             this.$router.push(this.localizedRoute('/'))
           }
         })
-    },
+    }
   },
-  metaInfo() {
+  metaInfo () {
     return {
       title: htmlDecode(this.pageTitle || this.$route.meta.title),
       meta: [
         {
           vmid: 'description',
           name: 'description',
-          content: htmlDecode(this.pageDescription || this.$route.meta.description),
+          content: htmlDecode(this.pageDescription || this.$route.meta.description)
         },
-        { vmid: 'keywords', name: 'keywords', content: htmlDecode(this.pageKeywords) },
-      ],
+        { vmid: 'keywords', name: 'keywords', content: htmlDecode(this.pageKeywords) }
+      ]
     }
-  },
+  }
 }
