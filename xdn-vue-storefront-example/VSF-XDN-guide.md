@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
 ```js
 import { Router } from "@xdn/core/router";
 import { CACHE_ASSETS, CACHE_PAGES } from "./cache";
-import { BACKENDS } from '@xdn/core/constants';
 
 const DIST_APP = 'dist';
 const DIST_XDN_CLIENT = 'dist-xdn-client';
@@ -333,15 +332,15 @@ router.get(`/api/stock/${SPLAT}`, ({ proxy, cache }) => {
 
 // pages
 pages.forEach(page => {
-  router.get(page, ({ cache, proxy }) => {
+  router.get(page, ({ cache, proxy, renderWithApp }) => {
     cache(CACHE_PAGES);
-    proxy(BACKENDS.js);
+    renderWithApp();
   });
 });
 
 // fallback
-router.fallback(({ proxy }) => {
-  proxy(BACKENDS.js);
+router.fallback(({ proxy, renderWithApp }) => {
+  renderWithApp();
 });
 
 export default router;
