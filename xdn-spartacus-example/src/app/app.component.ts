@@ -1,19 +1,19 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
-import install from '@xdn/prefetch/window/install';
+import { Component, OnInit, Inject } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { PLATFORM_ID } from '@angular/core'
+import install from '@xdn/prefetch/window/install'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  isBrowser: boolean;
-  title = 'xdn-spartacus-example';
+  isBrowser: boolean
+  title = 'xdn-spartacus-example'
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId);
+    this.isBrowser = isPlatformBrowser(platformId)
   }
 
   ngOnInit() {
@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
       if (this.isBrowser) {
         install({
           includeCacheMisses: true,
-        });
+        })
       }
-    });
+    })
   }
 }
