@@ -45,6 +45,13 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-nuxt-example
+      - name: NuxtJS ISG Example - Deploy to XDN
+        run: |
+          npm ci
+          npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_NUXT_ISG_DEPLOY_TOKEN}}
+        working-directory: ./xdn-nuxt-isg-example
       - name: Spartacus Example - Deploy to XDN
         run: |
           npm ci
