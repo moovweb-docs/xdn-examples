@@ -58,14 +58,15 @@
     "xdn:build": "yarn xdn:build:server && yarn xdn:build:assets && yarn xdn:build:client && yarn xdn:build:config && yarn xdn:build:ssr-files",
     "xdn:clean": "rimraf dist-xdn-assets && rimraf dist-xdn-client && rimraf dist-xdn-server && rimraf .xdn",
     "xdn:start:prod": "xdn run --production",
-    "xdn:deploy": "xdn deploy --team=moovweb-docs --site=xdn-vue-storefront-example --skip-build"
+    "xdn:deploy": "xdn deploy --team=moovweb-docs --site=xdn-vue-storefront-example --skip-build",
+    "xdn:update": "yarn add -DW @xdn/cli@latest && yarn add -W @xdn/core@latest @xdn/prefetch@latest @xdn/devtools@latest"
   },
   "dependencies": {
     "@types/webpack": "^4.41",
     "@types/webpack-dev-server": "^3.10",
-    "@xdn/core": "2.30.1",
-    "@xdn/devtools": "2.30.1",
-    "@xdn/prefetch": "2.30.1",
+    "@xdn/core": "^2.39.3",
+    "@xdn/devtools": "^2.39.3",
+    "@xdn/prefetch": "^2.39.3",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
@@ -128,7 +129,7 @@
     "@typescript-eslint/eslint-plugin": "^1.7.1-alpha.17",
     "@typescript-eslint/parser": "^1.7.1-alpha.17",
     "@vue/test-utils": "^1.0.0-beta.29",
-    "@xdn/cli": "2.30.1",
+    "@xdn/cli": "^2.39.3",
     "autoprefixer": "^8.6.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",

@@ -265,14 +265,14 @@ router.get(`/api/stock/${SPLAT}`, ({ proxy, cache }) => {
 
 // pages
 pages.forEach(page => {
-  router.get(page, ({ cache, proxy, renderWithApp }) => {
+  router.get(page, ({ cache, renderWithApp }) => {
     cache(CACHE_PAGES)
     renderWithApp()
   })
 })
 
 // fallback
-router.fallback(({ proxy, renderWithApp }) => {
+router.fallback(({ renderWithApp }) => {
   renderWithApp()
 })
 
