@@ -39,7 +39,6 @@ const isProd = process.env.NODE_ENV === 'production'
 export default {
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
-    new webpack.ProgressPlugin(),
     /* new BundleAnalyzerPlugin({
       generateStatsFile: true
     }), */
