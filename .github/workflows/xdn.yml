@@ -61,3 +61,12 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_VSF_DEPLOY_TOKEN}}
         working-directory: ./xdn-vue-storefront-example
+      - name: AWS Retail Demo Store example - Deploy to XDN
+        run: |
+          npm ci
+          npm run build
+          npm run xdn:build
+          npm run xdn:deploy --skip-build -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_AWS_DEPLOY_TOKEN}}
+        working-directory: ./xdn-aws-store-example/src/web-ui
