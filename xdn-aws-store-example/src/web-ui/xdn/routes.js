@@ -25,10 +25,10 @@ router.get('/main.js', ({ serveStatic, cache }) => {
 // aws services
 router.get('/products-service/:path*', ({ proxy, cache }) => {
   cache(CACHE_PAGES);
-  proxy('services-proxy', { path: '/products-service/:path*' }); // external proxy
+  proxy('products-service', { path: '/:path*' });
 });
 router.match('/recommendations-service/:path*', ({ proxy }) => {
-  proxy('services-proxy', { path: '/recommendations-service/:path*' }); // external proxy
+  proxy('recommendations-service', { path: '/:path*' });
 });
 router.match('/carts-service/:path*', ({ proxy }) => {
   proxy('carts-service', { path: '/:path*' });
