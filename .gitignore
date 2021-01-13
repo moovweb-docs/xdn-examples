@@ -92,6 +92,7 @@ sw.*
 
 # XDN generated build directory
 .xdn
+BUILD_ID
 
 .prettierignore
 
