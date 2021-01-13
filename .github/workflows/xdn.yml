@@ -24,35 +24,49 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Next.js Example - Install modules
-        run: npm ci
-        working-directory: ./xdn-next-example
       - name: Next.js Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        run: |
+          npm ci
+          npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-next-example
-      - name: Sapper Example - Install modules
-        run: npm ci
-        working-directory: ./xdn-sapper-example
       - name: Sapper Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        run: |
+          npm ci
+          npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_SAPPER_DEPLOY_TOKEN}}
         working-directory: ./xdn-sapper-example
-      - name: NuxtJS Example - Install modules
-        run: npm ci
-        working-directory: ./xdn-nuxt-example
       - name: NuxtJS Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        run: |
+          npm ci
+          npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_NUXT_DEPLOY_TOKEN}}
         working-directory: ./xdn-nuxt-example
-      - name: Spartacus Example - Install modules
-        run: npm ci
-        working-directory: ./xdn-spartacus-example
       - name: Spartacus Example - Deploy to XDN
-        run: npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        run: |
+          npm ci
+          npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_SPARTACUS_DEPLOY_TOKEN}}
         working-directory: ./xdn-spartacus-example
+      - name: Vue Storefront Example - Deploy to XDN
+        run: |
+          yarn install
+          yarn build
+          yarn xdn:build
+          yarn xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_VSF_DEPLOY_TOKEN}}
+        working-directory: ./xdn-vue-storefront-example
+      - name: AWS Retail Demo Store example - Deploy to XDN
+        run: |
+          npm ci
+          npm run build
+          npm run xdn:build
+          npm run xdn:deploy --skip-build -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
+        env:
+          xdn_deploy_token: ${{secrets.XDN_AWS_DEPLOY_TOKEN}}
+        working-directory: ./xdn-aws-store-example/src/web-ui

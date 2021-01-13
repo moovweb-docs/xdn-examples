@@ -1,3 +1,8 @@
 node_modules
 .xdn
+**/dist/**/*
 xdn-sapper-example/__sapper__
+xdn-vue-storefront-example/core/**/*
+xdn-vue-storefront-example/packages/**/*
+xdn-vue-storefront-example/test/**/*
+xdn-vue-storefront-example/src/**/*
