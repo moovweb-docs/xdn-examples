@@ -3,7 +3,7 @@ name: Deploy AWS Retail Example to XDN
 on: push
 
 jobs:
-  deploy-examples:
+  deploy-example:
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
