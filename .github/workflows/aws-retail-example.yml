@@ -33,11 +33,3 @@ jobs:
         env:
           xdn_deploy_token: ${{secrets.XDN_AWS_DEPLOY_TOKEN}}
         working-directory: ./xdn-aws-store-example/src/web-ui
-      - name: NX example - Deploy to XDN
-        run: |
-          yarn install --frozen-lockfile
-          yarn xdn:build
-          yarn xdn deploy --skip-build --site=xdn-nx-example -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
-        env:
-          xdn_deploy_token: ${{secrets.XDN_NX_DEPLOY_TOKEN}}
-        working-directory: ./xdn-nx-example
