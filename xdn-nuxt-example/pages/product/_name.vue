@@ -7,13 +7,18 @@ export default {
     Rating,
   },
   async asyncData({ params }: { params: any }) {
-    const product = await getProductById(params.name)
-
-    return { product }
+    let [category, id] = params.name.split('-')
+    id = ((Number(id) - 1) % 10) + 1
+    await sleep(500)
+    return { product: await getProductById(`${category}-${id}`) }
   },
   methods: {
     getApiPath,
   },
+}
+
+function sleep(ms: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms))
 }
 </script>
 
@@ -30,9 +35,7 @@ export default {
         <Rating :value="Number(product.rating)" />
       </div>
       <div class="py-2 m2">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Add To Cart
         </button>
       </div>
