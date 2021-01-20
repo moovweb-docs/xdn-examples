@@ -22,7 +22,7 @@ const preprocess = sveltePreprocess({
 })
 
 const BUILD_ID = new Date().getTime()
-fs.writeFileSync(join('__sapper__', 'build', 'BUILD_ID'), BUILD_ID)
+fs.writeFileSync('BUILD_ID', BUILD_ID)
 
 module.exports = {
   client: {

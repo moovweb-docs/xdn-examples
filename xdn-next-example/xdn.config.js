@@ -4,7 +4,7 @@ require('dotenv').config()
 const { join } = require('path')
 
 module.exports = {
-  routes: './routes.ts',
+  connector: '@xdn/next',
   includeFiles: {
     [join('.next', 'BUILD_ID')]: true,
   },
