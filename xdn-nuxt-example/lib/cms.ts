@@ -1,6 +1,6 @@
 import fetch from 'axios'
 // @ts-ignore
-import BUILD_ID from '!raw-loader!../.xdn/BUILD_ID'
+import BUILD_ID from '!raw-loader!../BUILD_ID'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 

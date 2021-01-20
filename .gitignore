@@ -92,5 +92,10 @@ sw.*
 
 # XDN generated build directory
 .xdn
+BUILD_ID
 
 .prettierignore
+
+# yalc
+.yalc
+yalc.lock
