@@ -1,30 +1,43 @@
 # XDN
 
-## Development: run NX app
+## Getting Started
+
+To run this Nx example:
 
 ```sh
+yarn install
 yarn start
 ```
 
-## Build
+and navigate to [http://127.0.0.1:4200](http://127.0.0.1:4200) with your browser to see the result.
+
+## Building for Deployment
+
+To prepare the project for the XDN and deployment, build the project using:
 
 ```sh
 yarn xdn:build
 ```
 
-## Production: run XDN app
+## Simulating a Production Build
+
+To simulate the project on the XDN environment:
 
 ```sh
 yarn xdn:run
 ```
 
-## Deployment: XDN
+and navigate to [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
+
+## Deployment to the XDN
+
+To deploy the project to the XDN:
 
 ```sh
 yarn xdn:deploy
 ```
 
-# XDN: creating NX app connector guide
+# XDN: Creating Nx Connector Guide
 
 In the example, we consider the default NX project uses [NextJS](https://nextjs.org/) framework
 
