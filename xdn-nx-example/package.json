@@ -3,7 +3,7 @@
     "xdn": "xdn",
     "xdn:dev": "xdn dev",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
