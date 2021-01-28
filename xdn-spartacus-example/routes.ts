@@ -62,6 +62,8 @@ export default new Router()
     proxy('commerce')
   })
   // Main app pages:
+  .get('/', ({ redirect }) => redirect('/electronics-spa/'))
+  .get('/electronics-spa', ssrPageCacheHandler)
   .get('/electronics-spa/open-Catalogue/:path*', ssrPageCacheHandler)
   .get('/electronics-spa/product/:path*', ssrPageCacheHandler)
   .get('/electronics-spa/Brands/:path*', ssrPageCacheHandler)
