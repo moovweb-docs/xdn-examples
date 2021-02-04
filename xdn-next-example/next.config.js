@@ -3,4 +3,4 @@
 
 const { withXDN, withServiceWorker } = require('@xdn/next/config')
 
-module.exports = withXDN(withServiceWorker())
+module.exports = withXDN(withServiceWorker({ future: { webpack5: true } }))
