@@ -1,9 +1,10 @@
 {
   "scripts": {
     "xdn": "xdn",
-    "xdn:start": "xdn run",
+    "xdn:dev": "xdn dev",
     "xdn:build": "xdn build",
     "xdn:deploy": "xdn deploy moovweb-docs",
+    "xdn:start": "xdn run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "name": "xdn-generic-client-example",
