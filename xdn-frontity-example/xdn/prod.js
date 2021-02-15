@@ -1,3 +1,12 @@
-module.exports = async function prod(port) {
-  await require("@frontity/core").serve({ isHttps: false, port });
+const { createServer } = require("http");
+const { join, resolve } = require("path");
+
+module.exports = function prod(port) {
+  const server = require(join(process.cwd(), "build", "server.js")).default;
+
+  return new Promise((resolve) => {
+    createServer(server).listen(port, () => {
+      resolve();
+    });
+  });
 };
