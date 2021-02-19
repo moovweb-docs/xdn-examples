@@ -1,0 +1,39 @@
+{
+  "name": "xdn-frontity-example",
+  "scripts": {
+    "xdn": "xdn",
+    "xdn:dev": "xdn dev",
+    "xdn:build": "xdn build",
+    "xdn:deploy": "xdn deploy moovweb-docs",
+    "dev": "frontity dev",
+    "build": "frontity build",
+    "serve": "frontity serve"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontity project",
+  "keywords": [
+    "frontity"
+  ],
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "prettier": {},
+  "dependencies": {
+    "@frontity/core": "^1.10.1",
+    "@frontity/html2react": "^1.6.1",
+    "@frontity/mars-theme": "./packages/mars-theme",
+    "@frontity/tiny-router": "^1.3.2",
+    "@frontity/wp-source": "^1.11.1",
+    "@xdn/core": "^2.46.0",
+    "@xdn/devtools": "^2.46.0",
+    "@xdn/frontity": "^2.46.0",
+    "@xdn/prefetch": "^2.46.0",
+    "@xdn/react": "^2.46.0",
+    "frontity": "^1.14.1"
+  },
+  "devDependencies": {
+    "@xdn/cli": "^2.46.0"
+  }
+}
