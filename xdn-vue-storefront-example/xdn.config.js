@@ -11,6 +11,6 @@ module.exports = {
   includeFiles: {
     './dist-xdn-server/server.js': true,
     './dist': true,
-    './config': true,
+    './config/default.json': 'config/production.json',
   },
 }
