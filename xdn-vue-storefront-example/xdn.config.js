@@ -13,5 +13,7 @@ module.exports = {
   includeNodeModules: true,
   includeFiles: {
     './dist-xdn-server/server.js': true,
+    './dist': true,
+    './config': true,
   },
 }
