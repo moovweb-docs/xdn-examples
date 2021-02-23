@@ -82,7 +82,7 @@
     "@types/node": "^14.11.2",
     "@types/react": "^16.9.49",
     "@xdn/cli": "^2.35.0",
-    "@xdn/core": "^2.35.0",
+    "@xdn/core": "file:.yalc/@xdn/core",
     "@xdn/devtools": "^2.35.0",
     "@xdn/next": "^2.35.0",
     "@xdn/prefetch": "^2.35.0",
