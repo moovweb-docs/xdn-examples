@@ -11,7 +11,7 @@ npm run xdn:start
 
 and navigate to [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
 
-To view this example live, visit https://moovweb-docs-xdn-generic-client-example-default.moovweb-edge.io/.
+To view this example live, visit https://moovweb-docs-static-backbonejs-example-default.moovweb-edge.io/.
 
 ## Deploy on XDN
 

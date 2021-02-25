@@ -3,7 +3,7 @@
     "xdn": "xdn",
     "xdn:dev": "xdn dev",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "start": "concurrently --kill-others \"npm run server\" \"npm run dev\"",
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",

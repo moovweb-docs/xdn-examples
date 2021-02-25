@@ -1,4 +1,4 @@
-name: Deploy Generic Example to XDN
+name: Deploy Static Backbone.js Example to XDN
 
 on: push
 
@@ -24,10 +24,10 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Generic Example - Deploy to XDN
+      - name: Static Backbone.js Example - Deploy to XDN
         run: |
           npm ci
           npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
-          xdn_deploy_token: ${{secrets.XDN_GENERIC_DEPLOY_TOKEN}}
+          xdn_deploy_token: ${{secrets.XDN_STATIC_BACKBONE_DEPLOY_TOKEN}}
         working-directory: ./static-backbonejs-example

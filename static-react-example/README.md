@@ -1,12 +1,18 @@
-# react-router-4-example
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and it's the sample project of a beginners guide to [React Router DOM](https://reacttraining.com/react-router/web/guides/philosophy).
+## Getting Started
 
-You can read the guide on [LogRocket's blog](https://blog.logrocket.com/) (not yet published).
+This example is built with React to demonstrate the use and configuration of XDN serving a client-side-rendered application. We utilize the caching and speed optimizations provided by the XDN to serve static resources that are rendered on the client.
 
-## Instructions 
-1. Clone this project.
-2. Install the dependencies with `npm install`.
-3. Execute `npm start` to run the application.
+To get started with this example, run:
 
-## License
-MIT
+```
+npm i
+npm run xdn:start
+```
+
+and navigate to [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
+
+To view this example live, visit https://moovweb-docs-static-react-example-default.moovweb-edge.io/.
+
+## Deploy on XDN
+
+For more information on deploying to the XDN, visit https://developer.moovweb.com/guides/deploying

@@ -3,7 +3,7 @@
     "xdn": "xdn",
     "xdn:dev": "xdn dev",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

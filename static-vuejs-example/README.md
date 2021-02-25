@@ -1,14 +1,18 @@
-# vue-routing
+## Getting Started
 
-> A sample project to accompany [a blog post](http://j.mp/2m7IauQ) about using [vue-router](https://router.vuejs.org).
+This example is built with Vue.js to demonstrate the use and configuration of XDN serving a client-side-rendered application. We utilize the caching and speed optimizations provided by the XDN to serve static resources that are rendered on the client.
 
-![Example image](http://cfshare.s3-eu-west-1.amazonaws.com/2017-03-03_13-06-53.png)
+To get started with this example, run:
 
-## Running the example project
+```
+npm i
+npm run xdn:start
+```
 
-1. git clone https://github.com/colinf/vue-routing.git
-2. cd vue-routing
-3. npm install
-4. npm run server (to start the dummy json-server backend)
-5. npm run dev (to serve this app)
-6. Visit [http://localhost:8080](http://localhost:8080)
+and navigate to [http://127.0.0.1:3000](http://127.0.0.1:3000) with your browser to see the result.
+
+To view this example live, visit https://moovweb-docs-xdn-vuejs-example-default.moovweb-edge.io/.
+
+## Deploy on XDN
+
+For more information on deploying to the XDN, visit https://developer.moovweb.com/guides/deploying
