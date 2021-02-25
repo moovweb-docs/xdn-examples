@@ -9,7 +9,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "name": "react-router-4-example",
+  "name": "static-react-example",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

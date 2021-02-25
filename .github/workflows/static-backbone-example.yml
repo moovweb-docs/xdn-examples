@@ -30,4 +30,4 @@ jobs:
           npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
           xdn_deploy_token: ${{secrets.XDN_GENERIC_DEPLOY_TOKEN}}
-        working-directory: ./xdn-generic-client-example
+        working-directory: ./static-backbonejs-example

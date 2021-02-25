@@ -7,7 +7,7 @@
     "xdn:start": "xdn run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "name": "xdn-generic-client-example",
+  "name": "static-backbonejs-example",
   "version": "1.0.0",
   "description": "",
   "author": "Tristan Lee",
