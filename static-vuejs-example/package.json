@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "server": "json-server --watch db.json"
   },
-  "name": "vue-routing",
+  "name": "static-vuejs-example",
   "version": "1.0.0",
   "description": "A sample project to accompany a blog post about using the vuejs router",
   "author": "Colin Fallon <colinf@mac.com>",

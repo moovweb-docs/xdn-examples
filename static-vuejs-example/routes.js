@@ -18,6 +18,8 @@ const edgeAndBrowser = {
 }
 
 module.exports = new Router()
+  .prerender([{ path: '/' }])
+
   .match('/:path*', ({ setResponseHeader }) => {
     setResponseHeader('Access-Control-Allow-Origin', '*')
   })

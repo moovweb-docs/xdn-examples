@@ -3,6 +3,8 @@ import { Router } from '@xdn/core/router'
 import { STATIC_ASSET_CACHE } from './cache'
 
 export default new Router()
+  .prerender([{ path: '/' }])
+
   // client-rendered appshell
   .get('/', ({ serveStatic, cache }) => {
     cache(STATIC_ASSET_CACHE)
