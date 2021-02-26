@@ -6,8 +6,11 @@ module.exports = {
       hostHeader: 'demo.vuestorefront.io',
     },
   },
-  server: {
-    path: './dist-xdn-server/server.js',
-  },
+  connector: './xdn',
   includeNodeModules: true,
+  includeFiles: {
+    './dist-xdn-server/server.js': true,
+    './dist': true,
+    './config/default.json': 'config/production.json',
+  },
 }
