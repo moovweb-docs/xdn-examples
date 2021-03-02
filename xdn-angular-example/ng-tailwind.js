@@ -5,7 +5,7 @@ module.exports = {
   outputCSS: 'src/styles.css',
   watchRelatedFiles: [],
   // Sass
-  sass: false,
+  sass: true,
   // PurgeCSS Settings
   purge: false,
   keyframes: false,
@@ -14,11 +14,7 @@ module.exports = {
   whitelist: [],
   whitelistPatterns: [],
   whitelistPatternsChildren: [],
-  extensions: [
-    '.ts',
-    '.html',
-    '.js'
-  ],
+  extensions: ['.ts', '.html', '.js'],
   extractors: [],
-  content: []
+  content: [],
 }
