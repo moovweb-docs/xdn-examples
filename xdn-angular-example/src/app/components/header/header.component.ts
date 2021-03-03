@@ -1,29 +1,22 @@
 import { Component, OnInit } from '@angular/core'
-
-interface Category {
-  name: string
-  href: string
-}
+import { CMSService } from '../../service/cms.service'
+import { ICategory } from '../../service/cms.service'
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  providers: [CMSService],
 })
 export class HeaderComponent implements OnInit {
-  categories: Array<Category>
-  constructor() {
-    this.categories = [
-      {
-        name: 'Hats',
-        href: 'category/hats',
-      },
-      {
-        name: 'Shoes',
-        href: '/category/shoes',
-      },
-    ]
-  }
+  categories: Array<ICategory> = []
 
-  ngOnInit(): void {}
+  constructor(private cmsService: CMSService) {}
+
+  ngOnInit(): void {
+    this.cmsService.getCategories().subscribe((data: any) => {
+      console.log(data)
+      this.categories = data
+    })
+  }
 }

@@ -9,7 +9,9 @@
     <div class="flex-container mx-auto">
       <ul>
         <li *ngFor="let category of categories">
-          <a routerLink="{{ category.href }}" routerLinkActive="active">{{ category.name }}</a>
+          <a routerLink="{{ category.href }}" routerLinkActive="active">{{
+            category.categoryName
+          }}</a>
         </li>
         <!-- <li v-for="category in categories" :key="category.name">
           <Prefetch :url="getApiPath(category.href)">

@@ -1,7 +1,7 @@
 {
   "scripts": {
     "xdn": "xdn",
-    "xdn:dev": "xdn dev",
+    "xdn:dev": "npm run build:ssr && xdn dev",
     "xdn:build": "xdn build",
     "xdn:deploy": "xdn deploy",
     "ng": "ng",

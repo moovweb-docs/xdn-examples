@@ -8,9 +8,17 @@ import { HeaderComponent } from './components/header/header.component'
 import { CategoryComponent } from './components/category/category.component'
 import { ProductComponent } from './components/product/product.component'
 import { HomeComponent } from './components/home/home.component'
+import { RatingComponent } from './components/rating/rating.component'
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, CategoryComponent, ProductComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    CategoryComponent,
+    ProductComponent,
+    HomeComponent,
+    RatingComponent,
+  ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
