@@ -68,4 +68,13 @@ export class CMSService {
       })
     )
   }
+
+  getProductById(productId: string) {
+    return this.http.get(this.getApiUrl(`/product/${productId}`)).pipe(
+      map((data: any) => {
+        data.picture = this.getOptimizedImageUrl(data.picture)
+        return data
+      })
+    )
+  }
 }

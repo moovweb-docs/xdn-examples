@@ -20,7 +20,7 @@ a {
   display: inline-block;
 }
 
-[aria-current]::after {
+a.active::after {
   position: absolute;
   content: '';
   width: calc(100% - 1em);

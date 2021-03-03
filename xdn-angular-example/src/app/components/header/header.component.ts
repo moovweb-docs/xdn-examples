@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { CMSService } from '../../service/cms.service'
 import { ICategory } from '../../service/cms.service'
 
@@ -10,13 +11,14 @@ import { ICategory } from '../../service/cms.service'
 })
 export class HeaderComponent implements OnInit {
   categories: Array<ICategory> = []
+  activeCategory: string = ''
 
-  constructor(private cmsService: CMSService) {}
+  constructor(private cmsService: CMSService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.cmsService.getCategories().subscribe((data: any) => {
-      console.log(data)
-      this.categories = data
+    this.route.params.subscribe(params => {
+      this.activeCategory = params.name
     })
+    this.cmsService.getCategories().subscribe((data: any) => (this.categories = data))
   }
 }

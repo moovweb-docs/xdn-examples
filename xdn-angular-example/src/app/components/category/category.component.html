@@ -1,13 +1,12 @@
-<div class="container mx-auto">
+<div class="container mx-auto" *ngIf="products">
   <div class="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <div *ngFor="let product of products">
-      <!-- <Prefetch :url="getApiPath(product.href)">
-          <NuxtLink :to="product.href"> -->
-      <div class="relative">
-        <div
-          class="pb-2/3 bg-contain bg-center bg-no-repeat h-48"
-          [style.background-image]="'url(' + product.picture + ')'"
-        >
+      <a routerLink="{{ product.href }}" routerLinkActive="active">
+        <div class="relative">
+          <div
+            class="pb-2/3 bg-contain bg-center bg-no-repeat h-48"
+            [style.background-image]="'url(' + product.picture + ')'"
+          ></div>
           <div class="w-full text-left lowercase font-bold">
             {{ product.name }}
           </div>
@@ -15,10 +14,8 @@
             <app-rating [rating]="product.rating"></app-rating>
           </div>
           <div class="w-full text-left">${{ product.price }}</div>
-          <!-- </NuxtLink>
-        </Prefetch> -->
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <nav>
   <header class="bg-white rounded-lg p-2 justify-center">
     <div class="container mx-auto logoContainer">
-      <a href="/">
+      <a routerLink="/">
         <img src="/assets/moovweb.svg" alt="Moovweb Logo" />
         <div class="text-center text-gray-700">Angular Example</div>
       </a>
@@ -9,9 +9,12 @@
     <div class="flex-container mx-auto">
       <ul>
         <li *ngFor="let category of categories">
-          <a routerLink="{{ category.href }}" routerLinkActive="active">{{
-            category.categoryName
-          }}</a>
+          <a
+            routerLink="{{ category.href }}"
+            routerLinkActive="active"
+            aria-current="activeCategory == category.categoryName"
+            >{{ category.categoryName }}</a
+          >
         </li>
         <!-- <li v-for="category in categories" :key="category.name">
           <Prefetch :url="getApiPath(category.href)">

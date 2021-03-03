@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { CMSService } from '../../service/cms.service'
-import { IProduct } from '../../service/cms.service'
+
+import { ActivatedRoute } from '@angular/router'
+import { CMSService, IProduct } from '../../service/cms.service'
 
 @Component({
   selector: 'app-category',
@@ -11,9 +12,13 @@ import { IProduct } from '../../service/cms.service'
 export class CategoryComponent implements OnInit {
   products?: IProduct[]
 
-  constructor(private cmsService: CMSService) {}
+  constructor(private cmsService: CMSService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.cmsService.getProductsByCategory('hats').subscribe((data: any) => (this.products = data))
+    this.route.params.subscribe(params => {
+      this.cmsService
+        .getProductsByCategory(params.name)
+        .subscribe((data: any) => (this.products = data))
+    })
   }
 }
