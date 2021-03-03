@@ -8,13 +8,16 @@
     "prestart": "ngtw build",
     "start": "ng serve && ngtw watch",
     "build": "ngtw build && ng build",
+    "build-prod": "ng build --prod",
+    "postbuild-prod": "npm run sw-prod-webpack",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run xdn-angular-example:serve-ssr",
     "serve:ssr": "node dist/xdn-angular-example/server/main.js",
     "build:ssr": "ng build --prod && ng run xdn-angular-example:server:production",
-    "prerender": "ng run xdn-angular-example:prerender"
+    "prerender": "ng run xdn-angular-example:prerender",
+    "sw-prod-webpack": "rimraf ./dist/ngworkbox/service-worker.js && webpack --config ./sw-prod-webpack.config.js --progress && workbox injectManifest ./workbox-config.js"
   },
   "name": "xdn-angular-example",
   "version": "0.0.0",
@@ -34,6 +37,11 @@
     "express": "^4.15.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "workbox-core": "^6.1.1",
+    "workbox-precaching": "^6.1.1",
+    "workbox-routing": "^6.1.1",
+    "workbox-strategies": "^6.1.1",
+    "workbox-window": "^6.1.1",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
@@ -59,9 +67,14 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.3",
+    "ts-loader": "^8.0.17",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.1.2"
+    "typescript": "~4.1.2",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.5.0",
+    "workbox-cli": "^6.1.1"
   }
 }
