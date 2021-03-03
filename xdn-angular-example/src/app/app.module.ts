@@ -9,6 +9,8 @@ import { CategoryComponent } from './components/category/category.component'
 import { ProductComponent } from './components/product/product.component'
 import { HomeComponent } from './components/home/home.component'
 import { RatingComponent } from './components/rating/rating.component'
+import { ServiceWorkerModule } from '@angular/service-worker'
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { RatingComponent } from './components/rating/rating.component'
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
+    ServiceWorkerModule.register('service-worker.js', { enabled: true }),
   ],
   providers: [],
   bootstrap: [AppComponent],

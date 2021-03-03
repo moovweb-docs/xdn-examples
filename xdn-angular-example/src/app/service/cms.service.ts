@@ -54,7 +54,6 @@ export class CMSService {
   }
 
   getCategories() {
-    console.log('get categories')
     return this.http.get(this.getApiUrl('/category'))
   }
 
