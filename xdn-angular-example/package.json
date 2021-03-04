@@ -1,9 +1,9 @@
 {
   "scripts": {
     "xdn": "xdn",
-    "xdn:dev": "npm run build:ssr && xdn dev",
+    "xdn:dev": "npm run build && xdn dev",
     "xdn:build": "xdn build",
-    "xdn:deploy": "xdn deploy",
+    "xdn:deploy": "xdn deploy moovweb-docs",
     "ng": "ng",
     "prestart": "ngtw build",
     "start": "ng serve && ngtw watch",
@@ -68,6 +68,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.3",
     "ts-loader": "^8.0.17",

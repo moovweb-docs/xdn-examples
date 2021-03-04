@@ -11,6 +11,7 @@ export const SSR_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache }) => {
 
 export const API_CACHE_HANDLER = ({ removeUpstreamResponseHeader, cache, proxy }) => {
   removeUpstreamResponseHeader('cache-control')
+  removeUpstreamResponseHeader('set-cookie')
   cache({
     browser: {
       maxAgeSeconds: 0,

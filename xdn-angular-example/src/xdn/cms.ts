@@ -1,7 +1,6 @@
 import fetch from 'axios'
 // @ts-ignore
-// import BUILD_ID from '!raw-loader!../BUILD_ID'
-const BUILD_ID = 'dev'
+import BUILD_ID from '!raw-loader!../../BUILD_ID'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
@@ -36,13 +35,13 @@ export function getApiUrl(path: string) {
 }
 
 export function getOptimizedImageUrl(path: string) {
-  return `https://opt.moovweb.net?quality=30&height=250&width=250&img=${encodeURIComponent(
-    origin + path
-  )}`
+  return `https://opt.moovweb.net?quality=30&height=250&width=250&app=angular-${
+    BUILD_ID || 'dev'
+  }&img=${encodeURIComponent(origin + path)}`
 }
 
 export function getApiPath(path: string) {
-  return `/api/${BUILD_ID}/${cleanPath(path)}`
+  return `/api/${BUILD_ID || 'dev'}/${cleanPath(path)}`
 }
 
 /**
