@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { CMSService } from '../../service/cms.service'
-import { ICategory } from '../../service/cms.service'
+import { ICategory } from '../../../xdn/cms'
 
 @Component({
   selector: 'app-header',

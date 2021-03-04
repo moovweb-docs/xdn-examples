@@ -1,6 +1,7 @@
 import fetch from 'axios'
 // @ts-ignore
-import BUILD_ID from '!raw-loader!../BUILD_ID'
+// import BUILD_ID from '!raw-loader!../BUILD_ID'
+const BUILD_ID = 'dev'
 
 const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
@@ -8,7 +9,25 @@ function cleanPath(path: string) {
   return path.replace(/^\//, '')
 }
 
-function getApiUrl(path: string) {
+export interface ICategory {
+  category: string
+  categoryName: string
+  href: string
+  items: Array<IProduct>
+}
+
+export interface IProduct {
+  _id: string
+  description: string
+  href: string
+  name: string
+  picture: string
+  price: string
+  rating: string
+  reviews: number
+}
+
+export function getApiUrl(path: string) {
   if (typeof window === 'undefined') {
     return `${origin}/${cleanPath(path)}`
   }

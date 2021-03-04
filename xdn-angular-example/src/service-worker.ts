@@ -4,7 +4,7 @@ import { precacheAndRoute } from 'workbox-precaching'
 import { clientsClaim, skipWaiting } from 'workbox-core'
 import { Prefetcher } from '@xdn/prefetch/sw'
 import DeepFetchPlugin from '@xdn/prefetch/sw/DeepFetchPlugin'
-import { getOptimizedImageUrl } from './app/service/cms.service'
+import { getOptimizedImageUrl } from './xdn/cms'
 
 declare const self: ServiceWorkerGlobalScope
 

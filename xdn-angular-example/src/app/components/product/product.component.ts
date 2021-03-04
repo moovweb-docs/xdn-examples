@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { CMSService, IProduct } from '../../service/cms.service'
+import { CMSService } from '../../service/cms.service'
+import { IProduct } from '../../../xdn/cms'
 
 @Component({
   selector: 'app-product',
