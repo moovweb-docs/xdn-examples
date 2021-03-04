@@ -9,12 +9,15 @@
     <div class="flex-container mx-auto">
       <ul>
         <li *ngFor="let category of categories">
-          <a
-            routerLink="{{ category.href }}"
-            routerLinkActive="active"
-            aria-current="activeCategory == category.categoryName"
-            >{{ category.categoryName }}</a
-          >
+          <app-prefetch href="{{ this.cmsService.getApiPath(category.href) }}">
+            <a
+              routerLink="{{ category.href }}"
+              routerLinkActive="active"
+              aria-current="activeCategory == category.categoryName"
+            >
+              {{ category.categoryName }}
+            </a>
+          </app-prefetch>
         </li>
       </ul>
     </div>

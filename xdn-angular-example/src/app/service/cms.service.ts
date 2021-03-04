@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
-import { catchError, retry, map } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 
 const BUILD_ID = 'dev'
+
+const origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
 
 function cleanPath(path: string) {
   return path.replace(/^\//, '')
@@ -31,49 +33,51 @@ export interface IProduct {
   providedIn: 'root',
 })
 export class CMSService {
-  private origin = 'https://moovweb-docs-xdn-examples-api-default.moovweb-edge.io'
-
   constructor(private http: HttpClient) {}
 
-  getApiUrl(path: string) {
-    if (typeof window === 'undefined') {
-      return `${this.origin}/${cleanPath(path)}`
-    }
-
-    return location.protocol + '//' + location.host + this.getApiPath(path)
-  }
-
-  getApiPath(path: string) {
-    return `/api/${BUILD_ID}/${cleanPath(path)}`
-  }
-
-  getOptimizedImageUrl(path: string) {
-    return `https://opt.moovweb.net?quality=30&height=250&width=250&app=angular&img=${encodeURIComponent(
-      this.origin + path
-    )}`
-  }
-
   getCategories() {
-    return this.http.get(this.getApiUrl('/category'))
+    return this.http.get(getApiUrl('/category'))
   }
 
   getProductsByCategory(categoryName: string) {
-    return this.http.get(this.getApiUrl(`/category/${categoryName}`)).pipe(
+    return this.http.get(getApiUrl(`/category/${categoryName}`)).pipe(
       map((data: any) => {
         return data.map((item: IProduct) => ({
           ...item,
-          picture: this.getOptimizedImageUrl(item.picture),
+          picture: getOptimizedImageUrl(item.picture),
         }))
       })
     )
   }
 
   getProductById(productId: string) {
-    return this.http.get(this.getApiUrl(`/product/${productId}`)).pipe(
+    return this.http.get(getApiUrl(`/product/${productId}`)).pipe(
       map((data: any) => {
-        data.picture = this.getOptimizedImageUrl(data.picture)
+        data.picture = getOptimizedImageUrl(data.picture)
         return data
       })
     )
   }
+
+  getApiUrl = getApiUrl
+  getApiPath = getApiPath
+  getOptimizedImageUrl = getOptimizedImageUrl
+}
+
+export function getApiUrl(path: string) {
+  if (typeof window === 'undefined') {
+    return `${origin}/${cleanPath(path)}`
+  }
+
+  return location.protocol + '//' + location.host + getApiPath(path)
+}
+
+export function getApiPath(path: string) {
+  return `/api/${BUILD_ID}/${cleanPath(path)}`
+}
+
+export function getOptimizedImageUrl(path: string) {
+  return `https://opt.moovweb.net?quality=30&height=250&width=250&app=angular&img=${encodeURIComponent(
+    origin + path
+  )}`
 }

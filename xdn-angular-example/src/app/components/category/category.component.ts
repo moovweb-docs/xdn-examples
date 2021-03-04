@@ -12,7 +12,7 @@ import { CMSService, IProduct } from '../../service/cms.service'
 export class CategoryComponent implements OnInit {
   products?: IProduct[]
 
-  constructor(private cmsService: CMSService, private route: ActivatedRoute) {}
+  constructor(public cmsService: CMSService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

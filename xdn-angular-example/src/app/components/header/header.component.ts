@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   categories: Array<ICategory> = []
   activeCategory: string = ''
 
-  constructor(private cmsService: CMSService, private route: ActivatedRoute) {}
+  constructor(public cmsService: CMSService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

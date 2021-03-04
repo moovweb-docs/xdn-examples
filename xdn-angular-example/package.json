@@ -15,7 +15,7 @@
     "e2e": "ng e2e",
     "dev:ssr": "ng run xdn-angular-example:serve-ssr",
     "serve:ssr": "node dist/xdn-angular-example/server/main.js",
-    "build:ssr": "ng build --prod && ng run xdn-angular-example:server:production",
+    "build:ssr": "npm run sw-prod-webpack && ng build --prod && ng run xdn-angular-example:server:production",
     "prerender": "ng run xdn-angular-example:prerender",
     "sw-prod-webpack": "rimraf ./dist/ngworkbox/service-worker.js && webpack --config ./sw-prod-webpack.config.js --progress && workbox injectManifest ./workbox-config.js"
   },

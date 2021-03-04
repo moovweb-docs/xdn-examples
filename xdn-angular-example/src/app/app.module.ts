@@ -9,8 +9,7 @@ import { CategoryComponent } from './components/category/category.component'
 import { ProductComponent } from './components/product/product.component'
 import { HomeComponent } from './components/home/home.component'
 import { RatingComponent } from './components/rating/rating.component'
-import { ServiceWorkerModule } from '@angular/service-worker'
-import { environment } from '../environments/environment'
+import { PrefetchComponent } from './components/prefetch/prefetch.component'
 
 @NgModule({
   declarations: [
@@ -20,12 +19,12 @@ import { environment } from '../environments/environment'
     ProductComponent,
     HomeComponent,
     RatingComponent,
+    PrefetchComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register('service-worker.js', { enabled: true }),
   ],
   providers: [],
   bootstrap: [AppComponent],
