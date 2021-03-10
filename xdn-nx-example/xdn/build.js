@@ -1,4 +1,4 @@
-const createBuilder = require('@xdn/next/build/createBuilder').default;
+const createBuilder = require('@xdn/next/build/createBuildEntryPoint').default;
 const { join } = require('path');
 const srcDir = require('./nextSrcDir');
 
