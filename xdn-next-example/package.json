@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@xdn/react": "^2.42.1",
+    "@xdn/rum": "0.0.2-alpha.4",
     "next": "^10.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"

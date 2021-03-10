@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { prefetch } from '@xdn/prefetch/window/prefetch'
+import { Metrics } from '@xdn/rum'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -23,6 +24,10 @@ function MyApp({ Component, pageProps }) {
         }
       })
     }
+
+    new Metrics({
+      token: '1bb4495f-626b-407c-a1aa-48451d42a02f',
+    })
   }, [])
 
   return (
