@@ -1,0 +1,25 @@
+<nav>
+  <header class="bg-white rounded-lg p-2 justify-center">
+    <div class="container mx-auto logoContainer">
+      <a routerLink="/">
+        <img src="/assets/moovweb.svg" alt="Moovweb Logo" />
+        <div class="text-center text-gray-700">Angular Example</div>
+      </a>
+    </div>
+    <div class="flex-container mx-auto">
+      <ul>
+        <li *ngFor="let category of categories">
+          <app-prefetch href="{{ this.cmsService.getApiPath(category.href) }}">
+            <a
+              routerLink="{{ category.href }}"
+              routerLinkActive="active"
+              aria-current="activeCategory == category.categoryName"
+            >
+              {{ category.categoryName }}
+            </a>
+          </app-prefetch>
+        </li>
+      </ul>
+    </div>
+  </header>
+</nav>
