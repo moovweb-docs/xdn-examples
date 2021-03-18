@@ -1,0 +1,94 @@
+/**
+ * Copyright © 2019 Elastic Path Software Inc. All rights reserved.
+ *
+ * This is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this license. If not, see
+ *
+ *     https://www.gnu.org/licenses/
+ *
+ *
+ */
+
+@import './../../../theme/common.scss';
+
+.product-list-pagination-component {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: normal;
+  color: $mainColor;
+
+  .pagination-navigation-container {
+    text-align: center;
+    padding-top: 40px;
+  }
+
+  .total-results {
+    font-size: small;
+    margin-bottom: 20px;
+    text-align: center;
+    color: $firstComplimentTextColor;
+  }
+
+  .btn-pagination {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    color: $secondComplimentTextColor;
+    padding: 5px 10px;
+    text-decoration: none;
+    position: relative;
+    text-align: center;
+
+    .arrow-icon {
+      height: 25px;
+      width: 25px;
+      fill: $firstComplimentColor;
+      position: relative;
+      top: -1px;
+    }
+
+    &.prev {
+      float: left;
+      margin-right: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: $firstComplimentColor;
+    }
+
+    &.next {
+      float: right;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: $firstComplimentColor;
+
+      .arrow-icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:hover, &:focus {
+      color: $mainTextColor;
+
+      .arrow-icon {
+        fill: $mainTextColor;
+      }
+    }
+
+    &.hide {
+      width: 113px;
+      visibility: hidden;
+    }
+  }
+
+}
