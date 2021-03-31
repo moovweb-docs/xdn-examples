@@ -34,7 +34,7 @@
     "@ember/optional-features": "^1.3.0",
     "@glimmer/component": "^1.0.0",
     "@glimmer/tracking": "^1.0.0",
-    "@xdn/cli": "file:.yalc/@xdn/cli",
+    "@xdn/cli": "^2.49.0",
     "@xdn/core": "^2.49.0",
     "@xdn/devtools": "^2.49.0",
     "@xdn/prefetch": "^2.49.0",
