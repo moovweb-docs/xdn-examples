@@ -12,6 +12,6 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-if (typeof window != 'undefined') {
+if (typeof navigator != 'undefined') {
   install()
 }
