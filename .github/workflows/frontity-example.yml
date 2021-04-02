@@ -24,10 +24,10 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Next.js Example - Deploy to XDN
+      - name: Frontity Example - Deploy to XDN
         run: |
           npm ci
           npm run xdn:deploy -- ${{'--branch=$BRANCH_NAME' || ''}} --token=$xdn_deploy_token ${{env.BRANCH_NAME != 'main' && '--environment=staging' || ''}}
         env:
-          xdn_deploy_token: ${{secrets.XDN_NEXT_DEPLOY_TOKEN}}
+          xdn_deploy_token: ${{secrets.XDN_FRONTITY_DEPLOY_TOKEN}}
         working-directory: ./xdn-frontity-example
